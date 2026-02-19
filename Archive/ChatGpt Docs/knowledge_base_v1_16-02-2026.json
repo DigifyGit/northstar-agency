@@ -1,0 +1,189 @@
+{
+  "version": "1.0",
+  "date": "16-02-2026",
+  "user_profile": {
+    "name": "Maestro",
+    "role_targets": [
+      "Junior IT Support",
+      "Helpdesk",
+      "Service Desk",
+      "Desktop Support"
+    ],
+    "location_focus": [
+      "Portugal",
+      "Lisbon"
+    ],
+    "languages": [
+      "en",
+      "pt"
+    ],
+    "workplace_preferences": [
+      "hybrid",
+      "on-site",
+      "remote_bonus"
+    ],
+    "job_types": [
+      "full-time",
+      "contract"
+    ],
+    "excluded_roles": [
+      "pure call center",
+      "sales",
+      "senior devops",
+      "java developer",
+      "senior system administrator"
+    ]
+  },
+  "skills_weighted": {
+    "high_value": [
+      {
+        "term": "windows 10",
+        "weight": 5
+      },
+      {
+        "term": "windows 11",
+        "weight": 5
+      },
+      {
+        "term": "microsoft 365",
+        "weight": 5
+      },
+      {
+        "term": "office 365",
+        "weight": 4
+      },
+      {
+        "term": "active directory",
+        "weight": 5
+      },
+      {
+        "term": "troubleshooting",
+        "weight": 4
+      },
+      {
+        "term": "hardware support",
+        "weight": 3
+      },
+      {
+        "term": "ticketing systems",
+        "weight": 4
+      },
+      {
+        "term": "jira",
+        "weight": 3
+      },
+      {
+        "term": "servicenow",
+        "weight": 3
+      }
+    ],
+    "medium_value": [
+      {
+        "term": "customer service",
+        "weight": 2
+      },
+      {
+        "term": "remote desktop",
+        "weight": 2
+      },
+      {
+        "term": "tcp/ip",
+        "weight": 1
+      },
+      {
+        "term": "dns",
+        "weight": 1
+      },
+      {
+        "term": "wifi",
+        "weight": 1
+      }
+    ],
+    "role_family_anchors": [
+      {
+        "term": "help desk",
+        "weight": 8
+      },
+      {
+        "term": "helpdesk",
+        "weight": 8
+      },
+      {
+        "term": "service desk",
+        "weight": 8
+      },
+      {
+        "term": "desktop support",
+        "weight": 7
+      },
+      {
+        "term": "it support",
+        "weight": 6
+      },
+      {
+        "term": "support technician",
+        "weight": 6
+      }
+    ]
+  },
+  "hard_disqualifiers": {
+    "seniority_terms": [
+      "senior",
+      "lead",
+      "principal",
+      "manager",
+      "head of"
+    ],
+    "min_years_required": 4,
+    "role_terms": [
+      "devops",
+      "java developer",
+      "software engineer",
+      "sales"
+    ],
+    "language_required_not_in": [
+      "de",
+      "fr",
+      "nl",
+      "it",
+      "es"
+    ]
+  },
+  "tiers": {
+    "S": {
+      "min_score": 80
+    },
+    "A": {
+      "min_score": 65
+    },
+    "B": {
+      "min_score": 50
+    },
+    "C": {
+      "min_score": 35
+    },
+    "D": {
+      "min_score": 0
+    }
+  },
+  "planner_policy": {
+    "keep": {
+      "signal_rate_min": 0.1,
+      "overlap_rate_max": 0.6
+    },
+    "retire": {
+      "signal_rate_max": 0.0,
+      "overlap_rate_min": 0.8,
+      "min_runs": 2
+    },
+    "next_keyword_pool": [
+      "Service Desk Analyst",
+      "Help Desk Technician",
+      "IT Support Technician",
+      "Desktop Support",
+      "Technical Support Specialist",
+      "Suporte Técnico",
+      "Técnico de Informática"
+    ]
+  }
+}

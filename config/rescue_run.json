@@ -1,0 +1,20 @@
+[
+    {
+        "link_id": "RESCUE-001",
+        "keyword": "Técnico de Informática",
+        "location_scope": "Portugal",
+        "filters_summary": "Entry+Associate, Past Week",
+        "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=T%C3%A9cnico%20de%20Inform%C3%A1tica&location=Portugal&f_TPR=r604800&f_E=2%2C3&sortBy=DD",
+        "created_date": "16-02-2026",
+        "notes": "Native Keyword Test - Broad Scope"
+    },
+    {
+        "link_id": "RESCUE-002",
+        "keyword": "Service Desk Analyst",
+        "location_scope": "Portugal",
+        "filters_summary": "Entry+Associate, Past Week",
+        "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=Service%20Desk%20Analyst&location=Portugal&f_TPR=r604800&f_E=2%2C3&sortBy=DD",
+        "created_date": "16-02-2026",
+        "notes": "Specific L1 English Term"
+    }
+]

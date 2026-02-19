@@ -1,0 +1,286 @@
+{
+  "version": "1.0",
+  "date": "16-02-2026",
+  "user_profile": {
+    "name": "José",
+    "role_targets": [
+      "Junior IT Support",
+      "Helpdesk",
+      "Service Desk",
+      "Desktop Support"
+    ],
+    "location_focus": [
+      "Portugal",
+      "Lisbon"
+    ],
+    "languages": [
+      "en",
+      "pt"
+    ],
+    "workplace_preferences": [
+      "hybrid",
+      "on-site",
+      "remote_bonus"
+    ],
+    "job_types": [
+      "full-time",
+      "contract"
+    ],
+    "excluded_roles": [
+      "pure call center",
+      "sales",
+      "senior devops",
+      "java developer",
+      "senior system administrator"
+    ]
+  },
+  "skills_weighted": {
+    "high_value": [
+      {
+        "term": "windows 10",
+        "weight": 5
+      },
+      {
+        "term": "windows 11",
+        "weight": 5
+      },
+      {
+        "term": "microsoft 365",
+        "weight": 5
+      },
+      {
+        "term": "office 365",
+        "weight": 4
+      },
+      {
+        "term": "active directory",
+        "weight": 5
+      },
+      {
+        "term": "troubleshooting",
+        "weight": 4
+      },
+      {
+        "term": "hardware support",
+        "weight": 3
+      },
+      {
+        "term": "ticketing systems",
+        "weight": 4
+      },
+      {
+        "term": "jira",
+        "weight": 3
+      },
+      {
+        "term": "servicenow",
+        "weight": 3
+      }
+    ],
+    "medium_value": [
+      {
+        "term": "customer service",
+        "weight": 2
+      },
+      {
+        "term": "remote desktop",
+        "weight": 2
+      },
+      {
+        "term": "tcp/ip",
+        "weight": 1
+      },
+      {
+        "term": "dns",
+        "weight": 1
+      },
+      {
+        "term": "wifi",
+        "weight": 1
+      }
+    ],
+    "role_family_anchors": [
+      {
+        "term": "help desk",
+        "weight": 8
+      },
+      {
+        "term": "helpdesk",
+        "weight": 8
+      },
+      {
+        "term": "service desk",
+        "weight": 8
+      },
+      {
+        "term": "desktop support",
+        "weight": 7
+      },
+      {
+        "term": "it support",
+        "weight": 6
+      },
+      {
+        "term": "support technician",
+        "weight": 6
+      }
+    ]
+  },
+  "hard_disqualifiers": {
+    "seniority_terms": [
+      "senior",
+      "lead",
+      "principal",
+      "manager",
+      "head of"
+    ],
+    "min_years_required": 4,
+    "role_terms": [
+      "devops",
+      "java developer",
+      "software engineer",
+      "sales"
+    ],
+    "language_required_not_in": [
+      "de",
+      "fr",
+      "nl",
+      "it",
+      "es"
+    ]
+  },
+  "tiers": {
+    "S": {
+      "min_score": 20
+    },
+    "A": {
+      "min_score": 15
+    },
+    "B": {
+      "min_score": 5
+    },
+    "C": {
+      "min_score": 0
+    },
+    "D": {
+      "min_score": -999
+    }
+  },
+  "runtime_scoring": {
+    "drop_keywords": [
+      "sales",
+      "account executive",
+      "business development",
+      "devops",
+      "cloud architect",
+      "security engineer",
+      "project manager",
+      "scrum master",
+      "senior",
+      "lead",
+      "manager",
+      "head of",
+      "director",
+      "principal",
+      "cctv",
+      "telecom",
+      "medical device",
+      "embedded"
+    ],
+    "forbidden_language_terms": [
+      "german",
+      "french",
+      "dutch",
+      "italian",
+      "spanish"
+    ],
+    "language_plus_markers": [
+      "plus",
+      "nice to have",
+      "is a plus",
+      "as a plus"
+    ],
+    "heavy_penalty_title_terms": [
+      {
+        "term": "support engineer",
+        "penalty": 10
+      },
+      {
+        "term": "application support",
+        "penalty": 10
+      },
+      {
+        "term": "technical support",
+        "penalty": 10
+      }
+    ],
+    "tech_heavy_terms": [
+      {
+        "term": "azure infrastructure",
+        "penalty": 5
+      },
+      {
+        "term": "sql",
+        "penalty": 5
+      },
+      {
+        "term": "api",
+        "penalty": 5
+      },
+      {
+        "term": "citrix",
+        "penalty": 5
+      },
+      {
+        "term": "linux admin",
+        "penalty": 5
+      },
+      {
+        "term": "switch configuration",
+        "penalty": 5
+      }
+    ],
+    "role_anchor_bonus": 10,
+    "skill_weights": {
+      "high_hit": 3,
+      "medium_hit": 1
+    },
+    "experience": {
+      "drop_min_years": 5,
+      "mid_penalty_min_years": 3,
+      "mid_penalty": 5,
+      "entry_bonus": 5,
+      "regex_patterns": [
+        "(\\\\d+)\\\\s*(?:\\\\+|-\\\\s*\\\\d+)?\\\\s*(?:years?|anos?|de experiência|d['']expérience)"
+      ]
+    },
+    "practicality": {
+      "easy_apply_bonus": 2,
+      "remote_bonus": 5,
+      "hybrid_bonus": 2
+    },
+    "tier_rules": {
+      "require_core_role_for_s": true
+    }
+  },
+  "planner_policy": {
+    "keep": {
+      "signal_rate_min": 0.1,
+      "overlap_rate_max": 0.6
+    },
+    "retire": {
+      "signal_rate_max": 0.0,
+      "overlap_rate_min": 0.8,
+      "min_runs": 2
+    },
+    "next_keyword_pool": [
+      "Service Desk Analyst",
+      "Help Desk Technician",
+      "IT Support Technician",
+      "Desktop Support",
+      "Technical Support Specialist",
+      "Suporte Técnico",
+      "Técnico de Informática"
+    ]
+  }
+}

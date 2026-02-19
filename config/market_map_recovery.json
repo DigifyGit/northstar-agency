@@ -1,0 +1,38 @@
+[
+    {
+        "link_id": "MAP-004R",
+        "keyword": "Desktop Support",
+        "location_scope": "Portugal",
+        "filters_summary": "Past Month, Sort Date",
+        "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=Desktop%20Support&location=Portugal&f_TPR=r2592000&sortBy=DD",
+        "created_date": "16-02-2026",
+        "notes": "Market Map Recovery - Core Title 4"
+    },
+    {
+        "link_id": "MAP-005",
+        "keyword": "IT Support Technician",
+        "location_scope": "Portugal",
+        "filters_summary": "Past Month, Sort Date",
+        "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=IT%20Support%20Technician&location=Portugal&f_TPR=r2592000&sortBy=DD",
+        "created_date": "16-02-2026",
+        "notes": "Market Map - Core Title 5"
+    },
+    {
+        "link_id": "MAP-006",
+        "keyword": "Técnico de Suporte",
+        "location_scope": "Portugal",
+        "filters_summary": "Past Month, Sort Date",
+        "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=T%C3%A9cnico%20de%20Suporte&location=Portugal&f_TPR=r2592000&sortBy=DD",
+        "created_date": "16-02-2026",
+        "notes": "Market Map - Core Title 6"
+    },
+    {
+        "link_id": "MAP-007",
+        "keyword": "Técnico de Informática",
+        "location_scope": "Portugal",
+        "filters_summary": "Past Month, Sort Date",
+        "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=T%C3%A9cnico%20de%20Inform%C3%A1tica&location=Portugal&f_TPR=r2592000&sortBy=DD",
+        "created_date": "16-02-2026",
+        "notes": "Market Map - Core Title 7"
+    }
+]

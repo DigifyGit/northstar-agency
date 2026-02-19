@@ -1,0 +1,171 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-02-18",
+  "client": "José",
+  "evidence_sources": {
+    "self_assessment": "Client self-reported skills and experience levels",
+    "questionnaire": "Structured questionnaire responses",
+    "hands_on_test": "Practical assessment results",
+    "cv_evidence": "Verified from CV/resume",
+    "project_evidence": "Demonstrated in project work",
+    "certification": "Formal certification or training"
+  },
+  "skills": [
+    {
+      "skill": "Windows 10/11 Support",
+      "category": "high_value",
+      "confidence": "probable",
+      "evidence_type": "hands_on_test",
+      "evidence_detail": "Test responses show workable Windows troubleshooting baseline with missing depth on advanced flows",
+      "evidence_source": "test-results-2026-01-30-windows-ad-v1.md",
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "Confirmed as usable baseline; still needs deeper structured flow practice"
+    },
+    {
+      "skill": "Active Directory Basics",
+      "category": "high_value",
+      "confidence": "probable",
+      "evidence_type": "hands_on_test",
+      "evidence_detail": "Test shows AD lockout/reset concept and basic account actions, but exact enterprise steps remain incomplete",
+      "evidence_source": "test-results-2026-01-30-windows-ad-v1.md",
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "Keep as probable until exact step sequence and permission boundaries are validated"
+    },
+    {
+      "skill": "Microsoft 365 Admin",
+      "category": "high_value",
+      "confidence": "probable",
+      "evidence_type": "hands_on_test",
+      "evidence_detail": "Test includes Outlook-related incident handling but does not demonstrate modern-auth/WAM-depth troubleshooting",
+      "evidence_source": "test-results-2026-01-30-windows-ad-v1.md",
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "Keep as probable; modern-auth loop resolution remains a gap area"
+    },
+    {
+      "skill": "Troubleshooting Methodology",
+      "category": "high_value",
+      "confidence": "probable",
+      "evidence_type": "questionnaire",
+      "evidence_detail": "From imported questionnaire responses",
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "Previously assessed in different project context"
+    },
+    {
+      "skill": "VPN Troubleshooting",
+      "category": "high_value",
+      "confidence": "gap",
+      "evidence_type": "hands_on_test",
+      "evidence_detail": "Ticket T6 response shows partial checks only; missing full no-internal-access diagnostic flow",
+      "evidence_source": "test-results-2026-01-30-windows-ad-v1.md",
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "Tested and below expected L1 troubleshooting standard for connected-but-unusable VPN scenarios"
+    },
+    {
+      "skill": "Password Resets / MFA",
+      "category": "high_value",
+      "confidence": "unknown",
+      "evidence_type": null,
+      "evidence_detail": null,
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "No evidence collected yet"
+    },
+    {
+      "skill": "Remote Desktop Support",
+      "category": "medium_value",
+      "confidence": "probable",
+      "evidence_type": "cv_evidence",
+      "evidence_detail": "CV and LinkedIn profile history repeatedly reference RDP/remote support tools in active support work",
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "CV-backed capability; not directly validated in the 2026-01-30 test"
+    },
+    {
+      "skill": "Basic Networking (Wi-Fi, DNS, IP)",
+      "category": "medium_value",
+      "confidence": "gap",
+      "evidence_type": "hands_on_test",
+      "evidence_detail": "Rapid-fire answers show unresolved TCP vs UDP and share/NTFS fundamentals despite basic DNS/DHCP understanding",
+      "evidence_source": "test-results-2026-01-30-windows-ad-v1.md",
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "Tested and below hiring-safe baseline for core TCP/IP practical explanation"
+    },
+    {
+      "skill": "TCP/IP Networking Fundamentals",
+      "category": "medium_value",
+      "confidence": "gap",
+      "evidence_type": "hands_on_test",
+      "evidence_detail": "Rapid-fire R5 answer was 'I don't know' for TCP vs UDP practical distinction",
+      "evidence_source": "test-results-2026-01-30-windows-ad-v1.md",
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "Explicit networking gap requiring immediate interview-readiness remediation"
+    },
+    {
+      "skill": "Ticketing / ITSM Response Structure",
+      "category": "medium_value",
+      "confidence": "gap",
+      "evidence_type": "hands_on_test",
+      "evidence_detail": "Ticket responses contain useful intent but inconsistent employer-format structure and escalation criteria",
+      "evidence_source": "test-results-2026-01-30-windows-ad-v1.md",
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "Tested and below target for production-ready L1 ticket documentation quality"
+    },
+    {
+      "skill": "Printer Triage",
+      "category": "medium_value",
+      "confidence": "unknown",
+      "evidence_type": null,
+      "evidence_detail": null,
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "No evidence collected yet"
+    },
+    {
+      "skill": "English Communication",
+      "category": "language",
+      "confidence": "confirmed",
+      "evidence_type": "project_evidence",
+      "evidence_detail": "Client communicates fluently in English throughout project",
+      "verified_date": "2026-02-15",
+      "assessment_score": null,
+      "notes": "Confirmed through project interactions"
+    },
+    {
+      "skill": "Portuguese Communication",
+      "category": "language",
+      "confidence": "unknown",
+      "evidence_type": null,
+      "evidence_detail": null,
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "Needs language readiness check"
+    },
+    {
+      "skill": "Customer Empathy & Patience",
+      "category": "behavioral",
+      "confidence": "unknown",
+      "evidence_type": null,
+      "evidence_detail": null,
+      "verified_date": null,
+      "assessment_score": null,
+      "notes": "Needs behavioral assessment"
+    }
+  ],
+  "confidence_levels": {
+    "confirmed": "Verified by hands-on test, certification, or direct evidence",
+    "probable": "Likely based on self-report or indirect evidence; needs verification",
+    "unknown": "No evidence collected yet",
+    "gap": "Tested and found insufficient; improvement plan needed"
+  },
+  "overall_readiness_score": null,
+  "last_assessment_date": null,
+  "next_assessment_due": "2026-02-20"
+}

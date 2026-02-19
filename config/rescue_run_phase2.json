@@ -1,0 +1,38 @@
+[
+    {
+        "link_id": "RES2-001",
+        "keyword": "IT Support",
+        "location_scope": "Portugal",
+        "filters_summary": "All Experience, Past Month, Sort Date",
+        "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=IT%20Support&location=Portugal&f_TPR=r2592000&sortBy=DD",
+        "created_date": "16-02-2026",
+        "notes": "Testing removal of f_E experience filter"
+    },
+    {
+        "link_id": "RES2-002",
+        "keyword": "Helpdesk",
+        "location_scope": "Portugal",
+        "filters_summary": "All Experience, Past Month, Sort Date",
+        "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=Helpdesk&location=Portugal&f_TPR=r2592000&sortBy=DD",
+        "created_date": "16-02-2026",
+        "notes": "Testing removal of f_E experience filter"
+    },
+    {
+        "link_id": "RES2-003",
+        "keyword": "Service Desk",
+        "location_scope": "Portugal",
+        "filters_summary": "All Experience, Past Month, Sort Date",
+        "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=Service%20Desk&location=Portugal&f_TPR=r2592000&sortBy=DD",
+        "created_date": "16-02-2026",
+        "notes": "Testing removal of f_E experience filter"
+    },
+    {
+        "link_id": "RES2-004",
+        "keyword": "Técnico de Informática",
+        "location_scope": "Portugal",
+        "filters_summary": "All Experience, Past Month, Sort Date",
+        "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=T%C3%A9cnico%20de%20Inform%C3%A1tica&location=Portugal&f_TPR=r2592000&sortBy=DD",
+        "created_date": "16-02-2026",
+        "notes": "Testing removal of f_E experience filter"
+    }
+]

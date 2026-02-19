@@ -1,0 +1,12 @@
+{
+  "client_name": "José",
+  "full_name": "Joseph Ginsberg",
+  "languages": [
+    "English",
+    "Portuguese",
+    "Hebrew"
+  ],
+  "agency_agent_name": "Mark",
+  "agency_name": "NorthStar Agency",
+  "notes": "Per-project identity. Set these values per client project to keep profiles separated."
+}

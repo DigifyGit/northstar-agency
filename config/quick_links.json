@@ -1,0 +1,82 @@
+[
+  {
+    "link_id": "LNK-001",
+    "keyword": "Junior IT Support",
+    "location_scope": "Portugal",
+    "filters_summary": "Entry+Associate, On-site+Hybrid, Sort Date",
+    "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=Junior%20IT%20Support&location=Portugal&f_E=2%2C3&f_WT=1%2C2&sortBy=DD&f_TPR=r604800&origin=JOB_SEARCH_PAGE_JOB_FILTER&refresh=true",
+    "created_date": "14-02-2026",
+    "last_verified_date": "14-02-2026",
+    "notes": "Tier A - High Signal"
+  },
+  {
+    "link_id": "LNK-002",
+    "keyword": "Junior Helpdesk",
+    "location_scope": "Portugal",
+    "filters_summary": "Entry+Associate, On-site+Hybrid, Sort Date",
+    "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=Junior%20Helpdesk&location=Portugal&f_E=2%2C3&f_WT=1%2C2&sortBy=DD&f_TPR=r604800&origin=JOB_SEARCH_PAGE_JOB_FILTER&refresh=true",
+    "created_date": "14-02-2026",
+    "last_verified_date": "14-02-2026",
+    "notes": "Tier S - Best L1 match"
+  },
+  {
+    "link_id": "LNK-003",
+    "keyword": "Service Desk",
+    "location_scope": "Portugal",
+    "filters_summary": "Entry+Associate, On-site+Hybrid, Sort Date",
+    "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=Service%20Desk&location=Portugal&f_E=2%2C3&f_WT=1%2C2&sortBy=DD&f_TPR=r604800&origin=JOB_SEARCH_PAGE_JOB_FILTER&refresh=true",
+    "created_date": "14-02-2026",
+    "last_verified_date": "14-02-2026",
+    "notes": "Tier B - High Volume"
+  },
+  {
+    "link_id": "LNK-004",
+    "keyword": "Desktop Support",
+    "location_scope": "Portugal",
+    "filters_summary": "Entry+Associate, On-site+Hybrid, Sort Date",
+    "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=Desktop%20Support&location=Portugal&f_E=2%2C3&f_WT=1%2C2&sortBy=DD&f_TPR=r604800&origin=JOB_SEARCH_PAGE_JOB_FILTER&refresh=true",
+    "created_date": "14-02-2026",
+    "last_verified_date": "14-02-2026",
+    "notes": "Specific L1 Signal"
+  },
+  {
+    "link_id": "LNK-005",
+    "keyword": "IT Support Technician",
+    "location_scope": "Portugal",
+    "filters_summary": "Entry+Associate, On-site+Hybrid, Sort Date",
+    "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=IT%20Support%20Technician&location=Portugal&f_E=2%2C3&f_WT=1%2C2&sortBy=DD&f_TPR=r604800&origin=JOB_SEARCH_PAGE_JOB_FILTER&refresh=true",
+    "created_date": "14-02-2026",
+    "last_verified_date": "14-02-2026",
+    "notes": "Experiments - Phrase Variant"
+  },
+  {
+    "link_id": "LNK-006",
+    "keyword": "Técnico de Suporte",
+    "location_scope": "Portugal",
+    "filters_summary": "Entry+Associate, On-site+Hybrid, Sort Date",
+    "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=T%C3%A9cnico%20de%20Suporte&location=Portugal&f_E=2%2C3&f_WT=1%2C2&sortBy=DD&f_TPR=r604800&origin=JOB_SEARCH_PAGE_JOB_FILTER&refresh=true",
+    "created_date": "14-02-2026",
+    "last_verified_date": "14-02-2026",
+    "notes": "Experiments - Portuguese Variant"
+  },
+  {
+    "link_id": "LNK-007",
+    "keyword": "Helpdesk L1",
+    "location_scope": "Portugal",
+    "filters_summary": "Entry+Associate, On-site+Hybrid, Sort Date",
+    "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=Helpdesk%20L1&location=Portugal&f_E=2%2C3&f_WT=1%2C2&sortBy=DD&f_TPR=r604800&origin=JOB_SEARCH_PAGE_JOB_FILTER&refresh=true",
+    "created_date": "14-02-2026",
+    "last_verified_date": "14-02-2026",
+    "notes": "Experiments - Precision Narrowing"
+  },
+  {
+    "link_id": "LNK-008",
+    "keyword": "End User Support",
+    "location_scope": "Portugal",
+    "filters_summary": "Entry+Associate, On-site+Hybrid, Sort Date",
+    "linkedin_url": "https://www.linkedin.com/jobs/search/?keywords=End%20User%20Support&location=Portugal&f_E=2%2C3&f_WT=1%2C2&sortBy=DD&f_TPR=r604800&origin=JOB_SEARCH_PAGE_JOB_FILTER&refresh=true",
+    "created_date": "14-02-2026",
+    "last_verified_date": "14-02-2026",
+    "notes": "Experiments - Phrase Variant"
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "backup_date": "2026-02-17",
+  "project_name": "LinkedIn IT Job Finder",
+  "mission": "Find real, applyable L1 IT jobs fast with winner-first reporting",
+  "status": "IDLE",
+  "latest_outcome": {
+    "winners_sa": 2,
+    "backup_b": 11,
+    "cycle_rows": 62,
+    "unique_jobs": 29
+  },
+  "top_winners": [
+    {
+      "company": "CodeWin",
+      "job_title": "Service Desk Specialist",
+      "tier": "A",
+      "score": 18,
+      "url": "https://www.linkedin.com/jobs/view/4372570740/"
+    },
+    {
+      "company": "Real Hotels Group",
+      "job_title": "Service Desk",
+      "tier": "A",
+      "score": 18,
+      "url": "https://www.linkedin.com/jobs/view/4373810342/"
+    }
+  ],
+  "runtime_wiring": {
+    "brain_reader": "src/utils/brainReader.js -> brain/CLIENT_BRIEF.md",
+    "scoring": "src/scoring.js -> brain/knowledge_base.json",
+    "brain_writer": "src/utils/brainWriter.js -> brain/CASE_LOG.md",
+    "legacy_alias_files_removed": [
+      "brain/SOUL.md",
+      "brain/USER.md",
+      "brain/MEMORY.md"
+    ]
+  },
+  "restore_files": [
+    "brain/AGENTS.md",
+    "brain/AGENCY.md",
+    "brain/STYLE_GUIDE.md",
+    "brain/CLIENT_BRIEF.md",
+    "brain/CASE_LOG.md",
+    "brain/knowledge_base.json",
+    "reports/WINNER_REPORT_TODAY.md",
+    "reports/WINNER_REPORT_TODAY.json"
+  ],
+  "session_isolation": {
+    "antigravity": {
+      "SESSION_METHOD": "legacy_shared_profile",
+      "USER_DATA_DIR": "$PROJECT_ROOT/user_data"
+    },
+    "codex": {
+      "SESSION_METHOD": "isolated_profile",
+      "AGENT_ID": "codex",
+      "USER_DATA_DIR": "$PROJECT_ROOT/user_data_codex"
+    }
+  },
+  "recovery_steps": [
+    "Open project folder",
+    "Read AGENTS.md, AGENCY.md, CLIENT_BRIEF.md, CASE_LOG.md, WINNER_REPORT_TODAY.md",
+    "Run npm run winner:today",
+    "Apply A-tier winners first"
+  ],
+  "known_risks": [
+    "CSV schema shift may occur in appended MAP rows (mitigated in src/winner_report.js)"
+  ]
+}
