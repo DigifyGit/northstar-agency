@@ -12,7 +12,8 @@
     "track": "node src/application_tracker.js",
     "daily": "node daily_routine.js",
     "ci:smoke": "node src/ops/ci_smoke_check.js",
-    "nightly:update": "node src/ops/nightly_mark_update.js"
+    "nightly:update": "node src/ops/nightly_mark_update.js",
+    "sync": "./scripts/sync.sh"
   },
   "keywords": [],
   "author": "",

@@ -55,3 +55,25 @@ git push -u origin feature/my-change
 ```
 
 Open PR to `main` and merge only after CI passes.
+
+## 6) One-Command Sync Helper
+Use this for quick local backup to GitHub on your current branch:
+
+```bash
+npm run sync
+```
+
+Behavior:
+- runs `npm run ci:smoke` first (if present),
+- stages changes (`git add -A`),
+- creates an auto timestamp commit if needed,
+- pulls with rebase,
+- pushes to remote.
+
+Options:
+
+```bash
+./scripts/sync.sh --dry-run
+./scripts/sync.sh --skip-smoke
+./scripts/sync.sh -m "feat: update sourcing rules"
+```
