@@ -104,6 +104,14 @@ function nowIsoDate() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function normalizeUserId(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase();
+}
+
 function requireAuth(req, res, next) {
   if (req.session && req.session.authenticated) return next();
   if (req.path.startsWith('/api/')) return res.status(401).json({ ok: false, error: 'Authentication required.' });
@@ -369,7 +377,8 @@ app.post('/api/login', guardLoginAttempts, (req, res) => {
     });
   }
 
-  if (username === AUTH_USERNAME && password === AUTH_PASSWORD) {
+  const usernameMatches = normalizeUserId(username) === normalizeUserId(AUTH_USERNAME);
+  if (usernameMatches && password === AUTH_PASSWORD) {
     req.session.authenticated = true;
     req.session.username = username;
     req.session.markHistory = [];
