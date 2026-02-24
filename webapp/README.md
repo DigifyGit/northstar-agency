@@ -1,8 +1,8 @@
 # NorthStar Agency Web App
 
-Promo + login gateway + protected NorthStar AI job sourcing dashboard with server-side Gemini integration for Mark.
+Premium agency website + login + protected Mark AI portal.
 
-## 1) Local run
+## Local run
 
 ```bash
 cd webapp
@@ -13,38 +13,41 @@ npm start
 
 Open: `http://localhost:4311`
 
-## 2) Required environment variables
+## Required env vars
 
-Set these in `webapp/.env` (local) or your hosting provider's Secrets panel (production):
+- `MARK_AUTH_USERNAME`
+- `MARK_AUTH_PASSWORD`
+- `SESSION_SECRET`
+- `GEMINI_API_KEY` (server only)
+- `GEMINI_MODEL`
 
-- `SESSION_SECRET`: long random secret string
-- `MARK_AUTH_USERNAME`: login username (default local demo: `Jusé`)
-- `MARK_AUTH_PASSWORD`: login password (default local demo: `findmeajob`)
-- `GEMINI_API_KEY`: Gemini API key (server-only)
-- `GEMINI_MODEL`: model id (example: `gemini-3-flash-preview` or the flash model available in your account)
-- `NODE_ENV`: `development` or `production`
+## Security model
 
-## 3) Security model
+- No API keys in frontend.
+- Frontend calls only backend endpoints.
+- Mark calls Gemini server-side.
+- Session cookie is `httpOnly`.
 
-- Browser never receives Gemini API key.
-- Frontend only calls `POST /api/mark/chat`.
-- Server calls Gemini directly using `GEMINI_API_KEY` from env vars.
-- Session cookies are `httpOnly` and `sameSite=lax`.
-- API has rate limiting and security headers enabled.
+## Abuse protection
 
-## 4) Routes
+- IP limiter on Mark endpoint.
+- Per-user burst limiter.
+- Per-user daily quota limiter.
+- Login lockout after repeated failed attempts.
 
-- `/` promo landing page
+## Project context + memory
+
+- Mark loads context from project files in `brain/` and `reports/`.
+- Endpoint: `GET /api/mark/context` returns loaded source count and history count.
+- Session conversation history is reused in subsequent messages.
+
+## Routes
+
+- `/` premium website
 - `/login` login page
-- `/app` protected web app
-- `/api/login` login API
-- `/api/logout` logout API
-- `/api/session` session status
-- `/api/mark/chat` protected Mark -> Gemini endpoint
-
-## 5) Deploy live safely
-
-1. Deploy this `webapp` folder to your host (Render, Railway, Fly.io, Cloud Run, etc).
-2. Set all env vars in hosting secrets.
-3. Do not commit `.env`.
-4. Rotate any previously exposed API key.
+- `/app` protected portal
+- `/api/login`
+- `/api/logout`
+- `/api/session`
+- `/api/mark/context`
+- `/api/mark/chat`

@@ -615,6 +615,7 @@
           </div>
 
           <p class="hint">Backend endpoint: <code>/api/mark/chat</code>. Local fallback works when backend is not yet deployed.</p>
+          <p class="hint" id="contextStatus">Context status: loading…</p>
         </section>
       </aside>
     </section>
@@ -697,6 +698,7 @@
     const modeEl = document.getElementById("mode");
     const messagesEl = document.getElementById("messages");
     const promptEl = document.getElementById("prompt");
+    const contextStatusEl = document.getElementById("contextStatus");
 
     function renderJobs() {
       jobsEl.innerHTML = jobs.map((j) => {
@@ -793,9 +795,23 @@
           addMessage("mark", data.error || "Mark is unavailable right now.");
           return;
         }
+        if (data.meta) {
+          contextStatusEl.textContent = `Context status: provider=${data.meta.provider}, sources=${data.meta.sourceCount}, history=${data.meta.historyCount}, daily remaining=${data.meta.dailyRemaining}`;
+        }
         addMessage("mark", data.reply || "No reply payload.");
       } catch (_e) {
         addMessage("mark", fallbackReply(text));
+      }
+    }
+
+    async function loadContextStatus() {
+      try {
+        const res = await fetch("/api/mark/context");
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error("context error");
+        contextStatusEl.textContent = `Context status: provider=${data.providerReady}, sources=${data.sourceCount}, history=${data.historyCount}, built=${data.contextBuiltAt}`;
+      } catch (_err) {
+        contextStatusEl.textContent = "Context status: unavailable";
       }
     }
 
@@ -835,6 +851,7 @@
     renderTracker();
     renderMap();
     renderModes();
+    loadContextStatus();
     addMessage("mark", "I am Mark. Tell me your role target, location, and urgency. I will run your job search in structured phases.");
   </script>
 </body>
