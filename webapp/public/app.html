@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NorthStar Agency | Real Job Sourcing Web App</title>
+  <style>
+    :root {
+      --bg-0: #080d1a;
+      --bg-1: #0e1528;
+      --bg-2: #131d33;
+      --surface: rgba(18, 27, 46, 0.64);
+      --surface-strong: rgba(20, 31, 52, 0.84);
+      --line: rgba(199, 218, 248, 0.16);
+      --line-soft: rgba(199, 218, 248, 0.1);
+      --text: #e8f1ff;
+      --muted: #9eb1cf;
+      --cyan: #65d6ff;
+      --teal: #4de3c3;
+      --amber: #ffc98a;
+      --red: #ff8d96;
+      --bluegray: #9caec8;
+      --radius: 18px;
+      --shadow: 0 22px 52px rgba(2, 7, 20, 0.52);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      background:
+        radial-gradient(850px 560px at -8% -10%, rgba(103, 158, 255, 0.25) 0%, transparent 60%),
+        radial-gradient(900px 560px at 110% 0%, rgba(92, 208, 239, 0.18) 0%, transparent 56%),
+        linear-gradient(150deg, var(--bg-0), var(--bg-1) 44%, var(--bg-2));
+      color: var(--text);
+      font-family: "Sora", "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: radial-gradient(circle at 52% 36%, rgba(0,0,0,0.92), transparent 84%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .app {
+      width: min(1360px, 94vw);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      padding-bottom: 30px;
+    }
+
+    .glass {
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, var(--surface), rgba(30, 43, 69, 0.42));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 38%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), transparent);
+      pointer-events: none;
+    }
+
+    .topbar {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 70;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, rgba(9, 14, 28, 0.88), rgba(20, 31, 54, 0.68));
+      border: 1px solid rgba(210, 228, 255, 0.14);
+      backdrop-filter: blur(13px);
+      -webkit-backdrop-filter: blur(13px);
+    }
+
+    .brand {
+      font-size: 1.52rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      color: #f4f8ff;
+    }
+
+    .brand span { color: var(--cyan); }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .chip {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 11px;
+      border: 1px solid rgba(213, 230, 255, 0.2);
+      background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.03));
+      color: #dbe8ff;
+      padding: 8px 11px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      transition: 150ms ease;
+    }
+
+    .chip:hover {
+      border-color: rgba(101, 214, 255, 0.56);
+      box-shadow: 0 0 0 1px rgba(101, 214, 255, 0.15) inset;
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      margin-top: 14px;
+      padding: 24px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #80defd;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(1.65rem, 2.9vw, 3.05rem);
+      line-height: 1.06;
+      letter-spacing: 0.01em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.62;
+      max-width: 106ch;
+      font-size: 1rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .btn {
+      min-height: 44px;
+      border-radius: 13px;
+      border: 1px solid rgba(215, 232, 255, 0.26);
+      background: linear-gradient(145deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05));
+      color: #eef6ff;
+      padding: 10px 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 10px 24px rgba(14, 39, 86, 0.22);
+      transition: 170ms ease;
+    }
+
+    .btn:hover {
+      border-color: rgba(101,214,255,0.54);
+      transform: translateY(-1px);
+    }
+
+    .btn.alt {
+      background: linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 10px 20px rgba(9, 23, 52, 0.21);
+    }
+
+    .pill {
+      min-height: 38px;
+      border-radius: 999px;
+      border: 1px solid rgba(77, 227, 195, 0.42);
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      font-size: 0.81rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: #95f6df;
+      background: rgba(16, 53, 50, 0.36);
+    }
+
+    .layout {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 14px;
+    }
+
+    .panel { padding: 16px; }
+
+    .title {
+      margin: 0;
+      font-size: 1.08rem;
+      letter-spacing: 0.01em;
+    }
+
+    .sub {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.54;
+      font-size: 0.9rem;
+    }
+
+    .searchbar {
+      margin-top: 11px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr .8fr .8fr auto;
+      gap: 8px;
+    }
+
+    .searchbar input,
+    .searchbar select {
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      min-height: 42px;
+      background: rgba(8, 13, 28, 0.6);
+      color: var(--text);
+      padding: 9px 10px;
+      font: inherit;
+    }
+
+    .searchbar input:focus,
+    .searchbar select:focus {
+      outline: 1px solid rgba(101,214,255,0.5);
+      border-color: rgba(101,214,255,0.56);
+    }
+
+    .jobs {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .job-card {
+      border: 1px solid var(--line-soft);
+      border-radius: 13px;
+      background: rgba(8, 14, 30, 0.58);
+      padding: 11px;
+      display: grid;
+      gap: 7px;
+      transition: 160ms ease;
+    }
+
+    .job-card:hover {
+      border-color: rgba(101,214,255,0.48);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(17, 56, 125, 0.2);
+    }
+
+    .job-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 9px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .job-top h3 {
+      margin: 0;
+      font-size: 0.97rem;
+      line-height: 1.3;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 4px 8px;
+      border: 1px solid var(--line);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #d8e7ff;
+      background: rgba(8, 13, 28, 0.5);
+    }
+
+    .badge.ok { border-color: rgba(77,227,195,0.4); color: #9cf4df; }
+    .badge.risk { border-color: rgba(255,141,150,0.45); color: #ffbcc2; }
+    .badge.fit { border-color: rgba(255,201,138,0.4); color: #ffd9aa; }
+
+    .row-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .mini {
+      min-height: 36px;
+      padding: 7px 9px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+      color: #e7f2ff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .right {
+      display: grid;
+      gap: 14px;
+    }
+
+    .tracker {
+      display: grid;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .stage {
+      border: 1px solid var(--line-soft);
+      border-radius: 11px;
+      padding: 10px;
+      background: rgba(7, 12, 25, 0.55);
+      display: grid;
+      gap: 4px;
+    }
+
+    .stage strong { font-size: 0.9rem; }
+    .stage span { font-size: 0.82rem; color: var(--muted); }
+
+    .chat {
+      padding: 15px;
+      display: grid;
+      gap: 10px;
+      background: linear-gradient(155deg, var(--surface-strong), rgba(26, 39, 65, 0.6));
+    }
+
+    .chat-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 9px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .agent {
+      border: 1px solid rgba(101,214,255,0.4);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #9ce7ff;
+      background: rgba(15, 43, 61, 0.38);
+    }
+
+    .mode {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .mode button {
+      min-height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(205,225,252,0.22);
+      background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+      color: #deebff;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 6px 8px;
+      cursor: pointer;
+    }
+
+    .mode button.active {
+      border-color: rgba(77,227,195,0.56);
+      color: #ccfff1;
+      box-shadow: inset 0 0 0 1px rgba(77,227,195,0.2);
+    }
+
+    .messages {
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: rgba(7, 11, 22, 0.62);
+      min-height: 230px;
+      max-height: 330px;
+      overflow: auto;
+      padding: 10px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .msg {
+      max-width: 92%;
+      border-radius: 11px;
+      padding: 9px;
+      font-size: 0.87rem;
+      line-height: 1.45;
+    }
+
+    .msg.user {
+      margin-left: auto;
+      background: rgba(101,214,255,0.14);
+      border: 1px solid rgba(101,214,255,0.25);
+    }
+
+    .msg.mark {
+      margin-right: auto;
+      background: rgba(156,174,200,0.17);
+      border: 1px solid rgba(156,174,200,0.26);
+    }
+
+    .composer {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr auto;
+    }
+
+    .composer textarea {
+      min-height: 76px;
+      border-radius: 11px;
+      border: 1px solid var(--line);
+      background: rgba(7, 11, 23, 0.6);
+      color: var(--text);
+      padding: 10px;
+      font: inherit;
+      resize: vertical;
+    }
+
+    .composer button { min-height: 76px; min-width: 120px; }
+
+    .hint {
+      margin: 0;
+      color: #97abca;
+      font-size: 0.76rem;
+      line-height: 1.45;
+    }
+
+    .map {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .phase {
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: rgba(8, 13, 28, 0.58);
+      padding: 10px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .phase .tag {
+      color: #81defc;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-weight: 800;
+    }
+
+    .phase h4 {
+      margin: 0;
+      font-size: 0.92rem;
+    }
+
+    .phase p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.44;
+    }
+
+    .foot {
+      margin-top: 14px;
+      text-align: center;
+      color: #92a7c7;
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 1240px) {
+      .layout { grid-template-columns: 1fr; }
+      .map { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 960px) {
+      .searchbar { grid-template-columns: 1fr 1fr; }
+      .searchbar .btn { grid-column: span 2; }
+    }
+
+    @media (max-width: 760px) {
+      .app { width: min(96vw, 96vw); }
+      .topbar { padding: 10px; }
+      .brand { font-size: 1.3rem; }
+      .hero { padding: 16px; }
+      .panel, .chat { padding: 14px; }
+      .searchbar { grid-template-columns: 1fr; }
+      .searchbar .btn { grid-column: auto; }
+      .composer { grid-template-columns: 1fr; }
+      .composer button { min-height: 44px; min-width: 100%; }
+      .map { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar glass">
+      <div class="brand">North<span>Star</span> Agency</div>
+      <nav class="nav" aria-label="Main navigation">
+        <span class="chip">Pipeline</span>
+        <span class="chip">Verification</span>
+        <span class="chip">Applications</span>
+        <span class="chip">Interviews</span>
+        <span class="chip">Mark AI</span>
+        <button class="chip" id="logoutBtn" type="button">Logout</button>
+      </nav>
+    </header>
+
+    <section class="hero glass">
+      <p class="eyebrow">Real Job Sourcing Platform</p>
+      <h1>Professional AI Job Sourcing Web App With Evidence-First Verification</h1>
+      <p>
+        Built using patterns from real recruitment platforms: strong search/filter controls, saved pipeline, clear application status, and trusted company validation.
+        This interface is designed for serious operations: dark corporate visual language, liquid glass surfaces, and simple phase guidance for both new workers and executive buyers.
+      </p>
+      <div class="actions">
+        <div>
+          <button class="btn" id="loadSample">Load Live Sample Pipeline</button>
+          <button class="btn alt" id="focusChat">Open Mark Copilot</button>
+        </div>
+        <div class="pill">GATE LOCK: NO EVIDENCE TABLE, NO VERDICT</div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <article class="glass panel">
+        <h2 class="title">Smart Job Search + Pipeline</h2>
+        <p class="sub">Search like a sourcing platform, then route every result into verification and fit-check workflows before applying.</p>
+
+        <div class="searchbar">
+          <input id="q" value="IT Support, Service Desk, Helpdesk" aria-label="Role keywords">
+          <input id="location" value="Lisbon, Portugal" aria-label="Location">
+          <select id="workType" aria-label="Work type">
+            <option>Hybrid</option>
+            <option>Remote</option>
+            <option>On-site</option>
+          </select>
+          <select id="seniority" aria-label="Seniority">
+            <option>Junior</option>
+            <option>Mid</option>
+            <option>Any</option>
+          </select>
+          <button class="btn" id="runSearch">Search</button>
+        </div>
+
+        <div class="jobs" id="jobs"></div>
+      </article>
+
+      <aside class="right">
+        <section class="glass panel">
+          <h2 class="title">Application Tracker</h2>
+          <p class="sub">Track candidates through stages similar to ATS pipelines.</p>
+          <div class="tracker" id="tracker"></div>
+        </section>
+
+        <section class="glass chat" id="chatCard">
+          <div class="chat-head">
+            <div>
+              <h2 class="title" style="margin:0;">Mark AI Copilot</h2>
+              <p class="sub" style="margin-top:4px;">One assistant across sourcing, verification, CV, interviews, and offers.</p>
+            </div>
+            <span class="agent">Agent MARK</span>
+          </div>
+
+          <div class="mode" id="mode"></div>
+
+          <div class="messages" id="messages"></div>
+
+          <div class="composer">
+            <textarea id="prompt" placeholder="Ask Mark: Validate these companies and rank opportunities by hiring signal."></textarea>
+            <button class="btn" id="send">Send</button>
+          </div>
+
+          <p class="hint">Backend endpoint: <code>/api/mark/chat</code>. Local fallback works when backend is not yet deployed.</p>
+        </section>
+      </aside>
+    </section>
+
+    <section class="glass panel" style="margin-top:14px;">
+      <h2 class="title">Full NorthStar Phase Map (Start to End)</h2>
+      <p class="sub">Users can enter at any phase, but the recommended journey follows this order.</p>
+      <div class="map" id="map"></div>
+    </section>
+
+    <p class="foot">NorthStar Agency | Corporate Dark Tech UI | Mark AI Integrated</p>
+  </div>
+
+  <script>
+    const jobs = [
+      {
+        role: "IT Support Technician",
+        company: "Hemmersbach",
+        location: "Lisbon - Hybrid",
+        type: "Full-time",
+        verified: "VERIFIED_LEGIT",
+        fit: "82%",
+        action: "Tailor CV + Apply"
+      },
+      {
+        role: "Service Desk Analyst",
+        company: "ManpowerGroup",
+        location: "Lisbon - On-site",
+        type: "Contract",
+        verified: "VERIFIED_LEGIT",
+        fit: "79%",
+        action: "Prepare Application"
+      },
+      {
+        role: "Junior Helpdesk Engineer",
+        company: "FILIPA Family",
+        location: "Portugal - Hybrid",
+        type: "Full-time",
+        verified: "VERIFIED_LEGIT",
+        fit: "76%",
+        action: "Interview Prep"
+      },
+      {
+        role: "Desktop Support L1",
+        company: "Unknown Listing",
+        location: "Remote",
+        type: "Full-time",
+        verified: "UNKNOWN",
+        fit: "68%",
+        action: "Run Verification Gate"
+      }
+    ];
+
+    const stages = [
+      ["Intake", "Profile locked. Role target and constraints defined."],
+      ["Sourcing", "18 opportunities collected. 9 above fit threshold."],
+      ["Verification", "7 legitimate. 1 risk. 1 insufficient evidence."],
+      ["Application", "4 tailored packets sent. 2 awaiting recruiter response."],
+      ["Interview", "1 interview confirmed. Prep script ready."],
+      ["Offer Decision", "No open offers yet. Monitoring active pipeline."]
+    ];
+
+    const phaseMap = [
+      ["Phase 0", "Intake", "Clarify role target, salary floor, and constraints."],
+      ["Phase 1", "Sourcing", "Generate high-fit opportunities from trusted channels."],
+      ["Phase 2.5", "Company Verification", "Primary-source legitimacy checks + evidence table."],
+      ["Phase 3.5", "Fit Validation", "Map candidate strengths/gaps against requirements."],
+      ["Phase 4", "Application Enablement", "Create tailored CV bullets and outreach messages."],
+      ["Phase 6", "Follow-Up", "Run cadence so opportunities do not go cold."],
+      ["Phase 7", "Interview Prep", "Prepare likely questions and structured answers."],
+      ["Phase 8", "Offer Decision", "Evaluate compensation, growth, and role risk."],
+    ];
+
+    const modes = ["Job Search", "Verification", "CV Tailoring", "Interview", "Offer Strategy"];
+    let activeMode = modes[0];
+
+    const jobsEl = document.getElementById("jobs");
+    const trackerEl = document.getElementById("tracker");
+    const mapEl = document.getElementById("map");
+    const modeEl = document.getElementById("mode");
+    const messagesEl = document.getElementById("messages");
+    const promptEl = document.getElementById("prompt");
+
+    function renderJobs() {
+      jobsEl.innerHTML = jobs.map((j) => {
+        const isRisk = j.verified !== "VERIFIED_LEGIT";
+        return `
+          <article class="job-card">
+            <div class="job-top">
+              <div>
+                <h3>${j.role}</h3>
+                <div class="meta">${j.company} • ${j.location} • ${j.type}</div>
+              </div>
+              <div class="badges">
+                <span class="badge ${isRisk ? 'risk' : 'ok'}">${j.verified}</span>
+                <span class="badge fit">Fit ${j.fit}</span>
+              </div>
+            </div>
+            <div class="row-actions">
+              <button class="mini">${j.action}</button>
+              <button class="mini">View Evidence</button>
+              <button class="mini">Save</button>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderTracker() {
+      trackerEl.innerHTML = stages.map(([name, text]) => `
+        <article class="stage">
+          <strong>${name}</strong>
+          <span>${text}</span>
+        </article>
+      `).join("");
+    }
+
+    function renderMap() {
+      mapEl.innerHTML = phaseMap.map(([tag, title, text]) => `
+        <article class="phase">
+          <div class="tag">${tag}</div>
+          <h4>${title}</h4>
+          <p>${text}</p>
+        </article>
+      `).join("");
+    }
+
+    function renderModes() {
+      modeEl.innerHTML = "";
+      modes.forEach((m) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = m;
+        if (m === activeMode) b.classList.add("active");
+        b.addEventListener("click", () => {
+          activeMode = m;
+          renderModes();
+        });
+        modeEl.appendChild(b);
+      });
+    }
+
+    function addMessage(role, text) {
+      const n = document.createElement("div");
+      n.className = `msg ${role}`;
+      n.textContent = text;
+      messagesEl.appendChild(n);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function fallbackReply(message) {
+      const replies = {
+        "Job Search": "I will rank current opportunities by fit, response probability, and urgency.",
+        "Verification": "I will verify each company with primary sources and output evidence-backed verdict labels.",
+        "CV Tailoring": "I will rewrite your experience into role-specific bullets and a concise recruiter message.",
+        "Interview": "I will create a role-specific interview prep drill and answer structure.",
+        "Offer Strategy": "I will compare total compensation and growth risk before recommendation."
+      };
+      return `${replies[activeMode]} Request captured: ${message.slice(0, 130)}${message.length > 130 ? "..." : ""}`;
+    }
+
+    async function sendToMark() {
+      const text = promptEl.value.trim();
+      if (!text) return;
+      addMessage("user", text);
+      promptEl.value = "";
+
+      try {
+        const res = await fetch("/api/mark/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: activeMode, message: text })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          addMessage("mark", data.error || "Mark is unavailable right now.");
+          return;
+        }
+        addMessage("mark", data.reply || "No reply payload.");
+      } catch (_e) {
+        addMessage("mark", fallbackReply(text));
+      }
+    }
+
+    document.getElementById("send").addEventListener("click", sendToMark);
+    promptEl.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") sendToMark();
+    });
+
+    document.getElementById("focusChat").addEventListener("click", () => {
+      document.getElementById("chatCard").scrollIntoView({ behavior: "smooth", block: "start" });
+      promptEl.focus();
+    });
+
+    document.getElementById("loadSample").addEventListener("click", () => {
+      addMessage("mark", "Pipeline sample loaded. Start with Verification mode to eliminate weak listings before application.");
+      activeMode = "Verification";
+      renderModes();
+      promptEl.value = "Verify all pipeline companies and mark each as VERIFIED_LEGIT, VERIFIED_RISK, or UNKNOWN with evidence.";
+      document.getElementById("jobs").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    document.getElementById("runSearch").addEventListener("click", () => {
+      const q = document.getElementById("q").value.trim();
+      const location = document.getElementById("location").value.trim();
+      const workType = document.getElementById("workType").value;
+      addMessage("mark", `Search received: ${q} in ${location} (${workType}). I will rank by fit and verification confidence.`);
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      try {
+        await fetch("/api/logout", { method: "POST" });
+      } catch (_err) {}
+      window.location.href = "/login";
+    });
+
+    renderJobs();
+    renderTracker();
+    renderMap();
+    renderModes();
+    addMessage("mark", "I am Mark. Tell me your role target, location, and urgency. I will run your job search in structured phases.");
+  </script>
+</body>
+</html>

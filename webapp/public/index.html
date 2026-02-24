@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NorthStar Agency | Premium Job Sourcing</title>
+  <meta name="description" content="NorthStar Agency is a premium job sourcing partner combining expert recruiters and AI operations to accelerate candidate outcomes with evidence-first verification.">
+  <style>
+    :root {
+      --bg0: #070d1a;
+      --bg1: #0f172a;
+      --bg2: #16233d;
+      --surface: rgba(18, 28, 50, 0.72);
+      --surface-2: rgba(14, 22, 40, 0.82);
+      --line: rgba(205, 224, 255, 0.16);
+      --line-soft: rgba(205, 224, 255, 0.1);
+      --text: #eaf2ff;
+      --muted: #9eb3d8;
+      --cyan: #65d6ff;
+      --teal: #50e5c8;
+      --amber: #ffcb8f;
+      --danger: #ff9ca5;
+      --radius: 18px;
+      --shadow: 0 24px 56px rgba(2, 8, 23, 0.52);
+      --maxw: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Sora", "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(900px 560px at 2% -10%, rgba(93, 141, 255, 0.24), transparent 58%),
+        radial-gradient(900px 560px at 96% 0%, rgba(88, 225, 200, 0.15), transparent 56%),
+        linear-gradient(150deg, var(--bg0), var(--bg1) 44%, var(--bg2));
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at 50% 34%, rgba(0,0,0,0.9), transparent 82%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      width: min(var(--maxw), 94vw);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .glass {
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, var(--surface), rgba(31, 45, 73, 0.42));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 36%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), transparent);
+      pointer-events: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 80;
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(212,230,255,0.16);
+      background: linear-gradient(135deg, rgba(8, 13, 26, 0.88), rgba(18, 29, 52, 0.68));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 14px;
+    }
+
+    .brand {
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: .01em;
+      color: #f4f9ff;
+      white-space: nowrap;
+    }
+
+    .brand span { color: var(--cyan); }
+
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-link {
+      color: #d9e8ff;
+      text-decoration: none;
+      font-size: .84rem;
+      font-weight: 700;
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 11px;
+      border-radius: 11px;
+      border: 1px solid rgba(215,233,255,0.2);
+      background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.03));
+      transition: 160ms ease;
+    }
+
+    .nav-link:hover {
+      border-color: rgba(101,214,255,0.56);
+      transform: translateY(-1px);
+    }
+
+    .nav-link.cta {
+      border-color: rgba(80,229,200,0.46);
+      color: #c9fff3;
+      background: linear-gradient(145deg, rgba(80,229,200,0.18), rgba(255,255,255,0.06));
+    }
+
+    .hero {
+      margin-top: 14px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1.25fr .95fr;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: .75rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #85dfff;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 8px 0 12px;
+      font-size: clamp(1.75rem, 3vw, 3.15rem);
+      line-height: 1.05;
+      letter-spacing: .01em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.62;
+      max-width: 70ch;
+      font-size: 1rem;
+    }
+
+    .hero-actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      min-height: 46px;
+      border-radius: 13px;
+      border: 1px solid rgba(214,232,255,0.26);
+      background: linear-gradient(145deg, rgba(255,255,255,0.17), rgba(255,255,255,0.05));
+      color: #ecf5ff;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: .9rem;
+      display: inline-flex;
+      align-items: center;
+      padding: 11px 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 10px 24px rgba(13, 40, 90, 0.23);
+    }
+
+    .btn.primary {
+      border-color: rgba(80,229,200,0.5);
+      background: linear-gradient(145deg, rgba(80,229,200,0.18), rgba(255,255,255,0.07));
+      color: #d7fff6;
+    }
+
+    .kpis {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .kpi {
+      border: 1px solid var(--line-soft);
+      border-radius: 13px;
+      padding: 12px;
+      background: rgba(10, 16, 31, 0.56);
+    }
+
+    .kpi .n {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #eaf4ff;
+      display: block;
+    }
+
+    .kpi .t {
+      font-size: .84rem;
+      color: var(--muted);
+      line-height: 1.45;
+      margin-top: 3px;
+      display: block;
+    }
+
+    .proof {
+      margin-top: 14px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .proof div {
+      border: 1px solid var(--line-soft);
+      border-radius: 11px;
+      min-height: 54px;
+      padding: 9px;
+      background: rgba(9, 14, 28, 0.5);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: #bdd2f4;
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    section {
+      margin-top: 14px;
+    }
+
+    .section-head {
+      margin: 0 0 8px;
+      font-size: 1.25rem;
+      letter-spacing: .01em;
+    }
+
+    .section-sub {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: .92rem;
+      max-width: 94ch;
+    }
+
+    .services {
+      padding: 18px;
+    }
+
+    .cards {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .card {
+      border: 1px solid var(--line-soft);
+      border-radius: 13px;
+      background: rgba(9, 15, 31, 0.58);
+      padding: 12px;
+      display: grid;
+      gap: 7px;
+      transition: 170ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(101,214,255,0.5);
+      box-shadow: 0 12px 24px rgba(14, 53, 118, 0.2);
+    }
+
+    .tag {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .11em;
+      color: #89e4ff;
+      font-weight: 800;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: .98rem;
+      line-height: 1.35;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.5;
+    }
+
+    .process {
+      padding: 18px;
+    }
+
+    .steps {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .step {
+      border: 1px solid var(--line-soft);
+      border-radius: 13px;
+      padding: 11px;
+      background: rgba(8, 13, 28, 0.58);
+    }
+
+    .step strong { font-size: .9rem; display: block; margin-bottom: 5px; }
+    .step span { color: var(--muted); font-size: .82rem; line-height: 1.45; }
+
+    .compare {
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .panel {
+      border: 1px solid var(--line-soft);
+      border-radius: 13px;
+      background: rgba(8, 14, 30, 0.58);
+      padding: 12px;
+    }
+
+    .panel h3 {
+      margin: 0 0 6px;
+      font-size: .96rem;
+    }
+
+    .panel ul {
+      margin: 0;
+      padding-left: 17px;
+      color: var(--muted);
+      font-size: .85rem;
+      line-height: 1.55;
+    }
+
+    .panel.good { border-color: rgba(80,229,200,0.36); }
+    .panel.risk { border-color: rgba(255,156,165,0.4); }
+
+    .security {
+      padding: 18px;
+      border: 1px solid rgba(255,156,165,0.33);
+      background: linear-gradient(145deg, rgba(40, 20, 27, 0.46), rgba(24, 18, 34, 0.48));
+    }
+
+    .security ul {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: #e7c7cd;
+      font-size: .88rem;
+      line-height: 1.6;
+    }
+
+    .testimonials {
+      padding: 18px;
+    }
+
+    .quotes {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    blockquote {
+      margin: 0;
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: rgba(8, 13, 28, 0.58);
+      padding: 12px;
+      color: #d8e8ff;
+      font-size: .85rem;
+      line-height: 1.58;
+    }
+
+    blockquote footer {
+      margin-top: 8px;
+      color: #9fb4d6;
+      font-size: .78rem;
+    }
+
+    .faq {
+      padding: 18px;
+    }
+
+    details {
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: rgba(8, 13, 29, 0.58);
+      padding: 10px 12px;
+      margin-top: 8px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: #def0ff;
+      list-style: none;
+      position: relative;
+      padding-right: 18px;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: "+";
+      position: absolute;
+      right: 0;
+      top: 0;
+      color: #8fdfff;
+      font-weight: 800;
+    }
+
+    details[open] summary::after { content: "−"; }
+
+    details p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.55;
+    }
+
+    .final {
+      padding: 22px;
+      text-align: center;
+    }
+
+    .final p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: .92rem;
+      max-width: 82ch;
+      margin-inline: auto;
+    }
+
+    .final .actions {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      margin: 14px 0 20px;
+      color: #8ea6cb;
+      font-size: .78rem;
+      text-align: center;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 1150px) {
+      .hero { grid-template-columns: 1fr; padding: 20px; }
+      .proof { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .quotes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 780px) {
+      .wrap { width: min(96vw, 96vw); }
+      .nav { height: auto; padding: 10px; flex-direction: column; align-items: stretch; }
+      .links { justify-content: flex-start; }
+      .proof { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cards { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .compare { grid-template-columns: 1fr; }
+      .quotes { grid-template-columns: 1fr; }
+      .hero { padding: 16px; }
+      .services, .process, .testimonials, .faq, .security, .final { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <nav class="nav" aria-label="Main">
+        <div class="brand">North<span>Star</span> Agency</div>
+        <div class="links">
+          <a class="nav-link" href="#services">Services</a>
+          <a class="nav-link" href="#process">Process</a>
+          <a class="nav-link" href="#security">Fraud Protection</a>
+          <a class="nav-link" href="#faq">FAQ</a>
+          <a class="nav-link cta" href="/login">Client Login</a>
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero glass" id="top">
+      <div>
+        <p class="eyebrow">Premium Job Sourcing Agency</p>
+        <h1>Land Better Interviews Faster With a Full-Service Job Search Team + Mark AI</h1>
+        <p>
+          NorthStar combines recruiter-level guidance, structured sourcing operations, and evidence-first company validation.
+          We run your search as an operating system, not a random application routine.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="/login">Login to Candidate Portal</a>
+          <a class="btn" href="#services">Explore Services</a>
+        </div>
+      </div>
+      <aside class="kpis" aria-label="Highlights">
+        <article class="kpi"><span class="n">8-Phase</span><span class="t">Structured candidate journey from intake to offer decision.</span></article>
+        <article class="kpi"><span class="n">Evidence-First</span><span class="t">No evidence table, no verdict. No primary source check, no analysis.</span></article>
+        <article class="kpi"><span class="n">Dual Support</span><span class="t">Human strategy + Mark AI execution across sourcing, CV, and interviews.</span></article>
+        <article class="kpi"><span class="n">Tracked Pipeline</span><span class="t">Search, save, apply, follow-up and interview progress in one dashboard.</span></article>
+      </aside>
+    </section>
+
+    <section class="proof glass" aria-label="Agency style map">
+      <div>Candidate Hub</div>
+      <div>Resume & Profile</div>
+      <div>Job Matching</div>
+      <div>Interview Prep</div>
+      <div>Client Portal</div>
+    </section>
+
+    <section class="services glass" id="services">
+      <h2 class="section-head">Service Architecture</h2>
+      <p class="section-sub">Built like premium agencies: candidate intake, curated role matching, recruiter guidance, interview support, and continuous career resources.</p>
+      <div class="cards">
+        <article class="card">
+          <div class="tag">Track 01</div>
+          <h3>Strategic Intake & Positioning</h3>
+          <p>Define role targets, geography, constraints, and market narrative before starting outreach.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Track 02</div>
+          <h3>Targeted Sourcing & Matching</h3>
+          <p>Build shortlist by relevance and hiring signal, not by keyword spam.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Track 03</div>
+          <h3>Company Legitimacy Verification</h3>
+          <p>Primary-source checks, artifact logging, and controlled risk verdicts.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Track 04</div>
+          <h3>Application Execution</h3>
+          <p>Tailored CV bullets and role-specific recruiter messaging per opportunity.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Track 05</div>
+          <h3>Interview & Offer Advisory</h3>
+          <p>Preparation drills, salary framing, and offer risk analysis before decision.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Track 06</div>
+          <h3>Career Insights & Upskilling</h3>
+          <p>Market feedback loops, role-gap planning, and next-step capability development.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="process glass" id="process">
+      <h2 class="section-head">How Engagement Works</h2>
+      <p class="section-sub">Aligned with leading agency workflows: onboarding, matching, interview advocacy, tracking, and outcome optimization.</p>
+      <div class="steps">
+        <article class="step"><strong>1. Discovery</strong><span>Capture objectives, target roles, salary and location constraints.</span></article>
+        <article class="step"><strong>2. Market Scan</strong><span>Map openings, demand clusters, and likely response channels.</span></article>
+        <article class="step"><strong>3. Validation Gate</strong><span>Run authenticity checks before any candidate submission.</span></article>
+        <article class="step"><strong>4. Submission Engine</strong><span>Apply with tailored assets and track recruiter interactions.</span></article>
+        <article class="step"><strong>5. Interview to Offer</strong><span>Prepare interviews, negotiate confidently, and decide with data.</span></article>
+      </div>
+    </section>
+
+    <section class="compare glass" aria-label="With vs without agency">
+      <article class="panel good">
+        <h3>With NorthStar Agency</h3>
+        <ul>
+          <li>Organized pipeline with clear stage ownership.</li>
+          <li>Verified-company applications only.</li>
+          <li>Consistent follow-up and recruiter cadence.</li>
+          <li>Interview and offer strategy support.</li>
+        </ul>
+      </article>
+      <article class="panel risk">
+        <h3>Without Structured Agency Support</h3>
+        <ul>
+          <li>Random applications and low-fit noise.</li>
+          <li>Higher scam and low-trust listing exposure.</li>
+          <li>No process telemetry for improvement.</li>
+          <li>Weak negotiation and offer evaluation posture.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="security glass" id="security">
+      <h2 class="section-head">Fraud & Scam Protection Policy</h2>
+      <p class="section-sub">Inspired by global recruitment scam warnings from top firms: we hard-gate risk decisions and do not allow assumption-based labels.</p>
+      <ul>
+        <li>We never classify a company as scam without source-backed evidence.</li>
+        <li>No evidence table -> no verdict. No primary source check -> no analysis.</li>
+        <li>Risk alerts are documented with links, artifacts, and confidence labels.</li>
+        <li>Candidates receive verification status before application actions.</li>
+      </ul>
+    </section>
+
+    <section class="testimonials glass">
+      <h2 class="section-head">What Clients Value</h2>
+      <p class="section-sub">Consistent themes from premium agency models: faster matching, recruiter advocacy, and confidence in decisions.</p>
+      <div class="quotes">
+        <blockquote>
+          “I stopped wasting time on low-quality listings. The verified shortlist alone changed my search velocity.”
+          <footer>Candidate — IT Support Transition</footer>
+        </blockquote>
+        <blockquote>
+          “The process feels like a real operating system. Every step has an owner and output.”
+          <footer>Candidate — Service Desk Track</footer>
+        </blockquote>
+        <blockquote>
+          “Interview prep and offer framing gave me leverage I did not have before.”
+          <footer>Candidate — Desktop Support</footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="faq glass" id="faq">
+      <h2 class="section-head">Frequently Asked Questions</h2>
+      <details>
+        <summary>How is NorthStar different from a normal staffing board?</summary>
+        <p>We operate as an end-to-end job search partner: sourcing, verification, fit validation, tailored applications, follow-up, interview prep, and offer decision.</p>
+      </details>
+      <details>
+        <summary>Do you charge job seekers?</summary>
+        <p>Service structure depends on engagement model. For internal operations, the platform supports both direct candidate plans and employer-sponsored workflows.</p>
+      </details>
+      <details>
+        <summary>How do I start?</summary>
+        <p>Click <strong>Client Login</strong>, authenticate, then complete intake in the portal. Mark AI and agency workflows activate from there.</p>
+      </details>
+      <details>
+        <summary>How do you protect against fake offers?</summary>
+        <p>Verification gate is mandatory. We do not proceed to recommendation or “scam” labels without hard artifacts and primary source checks.</p>
+      </details>
+    </section>
+
+    <section class="final glass">
+      <h2 class="section-head">Ready to Run Your Search Like a Professional Operation?</h2>
+      <p>Move from random applications to a managed, verified, and measurable pipeline with NorthStar Agency + Mark AI.</p>
+      <div class="actions">
+        <a class="btn primary" href="/login">Login to System</a>
+        <a class="btn" href="#top">Back to Top</a>
+      </div>
+    </section>
+
+    <footer>
+      NorthStar Agency • Premium Job Sourcing Platform • Login-gated candidate system<br>
+      Reference patterns analyzed from major recruitment providers (candidate hubs, staffing workflows, and scam prevention practices).
+    </footer>
+  </div>
+</body>
+</html>
