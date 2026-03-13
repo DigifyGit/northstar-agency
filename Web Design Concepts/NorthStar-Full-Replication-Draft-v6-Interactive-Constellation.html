@@ -1,0 +1,1700 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NorthStar Agency | AI Talent Intelligence and Verified Hiring Infrastructure</title>
+  <meta name="description" content="NorthStar is a talent intelligence infrastructure layer for recruiting and staffing. We source specialized talent, verify identity and risk signals, and deliver evidence based shortlists that reduce hiring fraud and accelerate time to hire." />
+  <style>
+    :root {
+      --bg-0: #040817;
+      --bg-1: #0b1330;
+      --bg-2: #162449;
+      --surface-glass: rgba(16, 28, 59, 0.62);
+      --surface-glass-strong: rgba(16, 28, 59, 0.8);
+      --text-strong: #edf4ff;
+      --text-body: #bad0f0;
+      --text-dim: #8ea9cf;
+      --accent-indigo: #6d66ff;
+      --accent-cyan: #58deff;
+      --accent-teal: #43dfbe;
+      --accent-violet-soft: #a37fff;
+      --accent-rose: #ff6ea8;
+      --accent-gold: #ffd166;
+      --ok: #34d399;
+      --warn: #f59e0b;
+      --risk: #fb7185;
+      --line-soft: rgba(163, 214, 255, 0.22);
+      --line-strong: rgba(163, 214, 255, 0.42);
+      --glow-cyan: rgba(88, 222, 255, 0.42);
+      --container-max: 1320px;
+      --gutter: 24px;
+      --section-y: 72px;
+      --radius-sm: 16px;
+      --radius-md: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      color: var(--text-body);
+      background:
+        radial-gradient(850px 520px at 8% 8%, rgba(163, 127, 255, 0.18), transparent 62%),
+        radial-gradient(760px 460px at 92% 14%, rgba(88, 222, 255, 0.19), transparent 60%),
+        radial-gradient(980px 620px at 62% 86%, rgba(255, 110, 168, 0.12), transparent 70%),
+        radial-gradient(520px 320px at 50% 42%, rgba(67, 223, 190, 0.08), transparent 75%),
+        linear-gradient(180deg, var(--bg-0), var(--bg-1) 50%, var(--bg-0));
+      font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.09;
+      background-image: radial-gradient(2px 2px at 20px 40px, rgba(255, 255, 255, 0.24), transparent 40%),
+        radial-gradient(2px 2px at 120px 80px, rgba(99, 217, 255, 0.22), transparent 44%),
+        radial-gradient(2px 2px at 240px 160px, rgba(255, 255, 255, 0.16), transparent 40%);
+      background-size: 320px 220px;
+      mix-blend-mode: screen;
+      z-index: -1;
+    }
+
+    .container {
+      width: min(100%, var(--container-max));
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    .section {
+      position: relative;
+      padding: var(--section-y) 0;
+      scroll-margin-top: 90px;
+    }
+
+    .section::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(88, 222, 255, 0.35), rgba(163, 127, 255, 0.35), transparent);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .ns-glass {
+      background: var(--surface-glass);
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius-md);
+      backdrop-filter: blur(14px) saturate(115%);
+      -webkit-backdrop-filter: blur(14px) saturate(115%);
+      box-shadow: 0 14px 40px rgba(4, 10, 28, 0.55), inset 0 1px 0 rgba(160, 220, 255, 0.1);
+    }
+
+    .ns-hover {
+      transition: transform 220ms cubic-bezier(.2, .8, .2, 1),
+        box-shadow 220ms cubic-bezier(.2, .8, .2, 1),
+        border-color 220ms cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .ns-hover:hover {
+      transform: translateY(-3px);
+      border-color: var(--line-strong);
+      box-shadow: 0 18px 52px rgba(4, 10, 28, 0.62), 0 0 24px rgba(88, 222, 255, 0.15);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #9ae9ff;
+      background: linear-gradient(90deg, rgba(88, 222, 255, 0.18), rgba(163, 127, 255, 0.18));
+      border: 1px solid rgba(145, 221, 255, 0.35);
+      border-radius: 999px;
+      padding: 5px 10px;
+      margin-bottom: 12px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: var(--text-strong);
+      margin: 0 0 12px;
+      font-family: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+    }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 64px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(30px, 3.6vw, 42px);
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0 0 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 72px;
+      border-bottom: 1px solid var(--line-soft);
+      background: rgba(5, 9, 24, 0.84);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: height 220ms cubic-bezier(.2, .8, .2, 1), background 220ms cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .navbar.scrolled {
+      height: 60px;
+      background: rgba(5, 9, 24, 0.93);
+      box-shadow: inset 0 -1px 0 rgba(173, 206, 255, 0.18);
+    }
+
+    .navbar .inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-strong);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .brand-mark {
+      width: 14px;
+      height: 14px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+      clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+      box-shadow: 0 0 16px rgba(99, 217, 255, .45);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-link {
+      color: var(--text-body);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 10px;
+      padding: 8px 10px;
+      position: relative;
+      transition: color 180ms cubic-bezier(.2, .8, .2, 1), background 180ms cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .nav-link:hover {
+      color: var(--text-strong);
+      background: rgba(17, 30, 53, 0.35);
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 5px;
+      height: 1px;
+      opacity: 0;
+      transition: opacity 180ms cubic-bezier(.2, .8, .2, 1);
+      background: linear-gradient(90deg, transparent, rgba(99, 217, 255, 0.55), transparent);
+    }
+
+    .nav-link:hover::after {
+      opacity: 1;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      border-radius: 10px;
+      padding: 0 16px;
+      border: 1px solid var(--line-soft);
+      color: var(--text-strong);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 200ms cubic-bezier(.2, .8, .2, 1), filter 200ms cubic-bezier(.2, .8, .2, 1), border-color 200ms cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--line-strong);
+    }
+
+    .btn.primary {
+      color: #f6fcff;
+      border-color: rgba(255, 255, 255, 0.22);
+      background: linear-gradient(135deg, #4a7bff 0%, #53d8ff 48%, #42dfbe 100%);
+      box-shadow: 0 0 28px rgba(83, 216, 255, .24);
+    }
+
+    .btn.primary:hover {
+      filter: brightness(1.08);
+    }
+
+    .btn.ghost {
+      background: linear-gradient(135deg, rgba(163, 127, 255, 0.14), rgba(88, 222, 255, 0.12));
+      border-color: rgba(163, 214, 255, 0.36);
+    }
+
+    .hero {
+      padding-top: 34px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .grad {
+      background: linear-gradient(90deg, var(--accent-cyan) 0%, var(--accent-indigo) 55%, var(--accent-teal) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-panel {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+      min-height: 340px;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .kpi {
+      padding: 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: linear-gradient(160deg, rgba(20, 36, 75, 0.72), rgba(8, 16, 33, 0.72));
+    }
+
+    .kpi:nth-child(1) { border-color: rgba(88, 222, 255, 0.4); }
+    .kpi:nth-child(2) { border-color: rgba(163, 127, 255, 0.42); }
+    .kpi:nth-child(3) { border-color: rgba(67, 223, 190, 0.4); }
+
+    .kpi strong {
+      color: var(--text-strong);
+      font-size: 26px;
+      line-height: 1;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .mini-table {
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 12px;
+      background: rgba(9, 18, 40, 0.65);
+    }
+
+    .mini-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(173, 206, 255, 0.09);
+      text-align: left;
+    }
+
+    .mini-table th {
+      color: var(--text-dim);
+      font-weight: 600;
+      background: linear-gradient(90deg, rgba(90, 107, 250, 0.23), rgba(88, 222, 255, 0.2));
+    }
+
+    .proof-chip-list,
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      background: linear-gradient(140deg, rgba(88, 222, 255, 0.14), rgba(163, 127, 255, 0.14));
+      color: var(--text-body);
+      font-size: 13px;
+    }
+
+    .showcase {
+      margin-top: 32px;
+    }
+
+    .showcase h2 {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .screen-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .screen {
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid var(--line-soft);
+      background: linear-gradient(180deg, rgba(17, 30, 53, .72), rgba(5, 9, 24, .72));
+    }
+
+    .screen:nth-child(6n+1) { border-color: rgba(88, 222, 255, 0.45); }
+    .screen:nth-child(6n+2) { border-color: rgba(163, 127, 255, 0.45); }
+    .screen:nth-child(6n+3) { border-color: rgba(67, 223, 190, 0.42); }
+    .screen:nth-child(6n+4) { border-color: rgba(255, 110, 168, 0.36); }
+    .screen:nth-child(6n+5) { border-color: rgba(255, 209, 102, 0.42); }
+    .screen:nth-child(6n+6) { border-color: rgba(109, 102, 255, 0.45); }
+
+    .screen-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      color: var(--text-strong);
+    }
+
+    .screen-ui {
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(5, 9, 24, .75);
+    }
+
+    .screen-top {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line-soft);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      background: linear-gradient(90deg, rgba(88, 222, 255, 0.1), rgba(163, 127, 255, 0.1));
+    }
+
+    .screen-body {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      min-height: 230px;
+    }
+
+    .screen-nav {
+      border-right: 1px solid var(--line-soft);
+      padding: 10px;
+      font-size: 12px;
+      color: var(--text-dim);
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .screen-main {
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .screen-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .screen-block {
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      background: linear-gradient(140deg, rgba(22, 41, 86, 0.6), rgba(17, 30, 53, 0.5));
+      min-height: 46px;
+      padding: 8px;
+      font-size: 11px;
+    }
+
+    .timeline {
+      border-left: 2px solid rgba(99, 217, 255, .25);
+      margin-left: 8px;
+      padding-left: 26px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-card {
+      position: relative;
+      padding: 14px;
+    }
+
+    .timeline-card::before {
+      content: "";
+      position: absolute;
+      left: -34px;
+      top: 16px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 0 4px rgba(99, 217, 255, .2), 0 0 16px rgba(99, 217, 255, .45);
+    }
+
+    .pillars {
+      display: grid;
+      gap: 10px;
+    }
+
+    .pillar-btn {
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      color: var(--text-strong);
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: linear-gradient(130deg, rgba(22, 36, 71, 0.72), rgba(8, 16, 33, 0.72));
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .pillar-btn.active {
+      border-color: rgba(88, 222, 255, .58);
+      box-shadow: 0 0 20px rgba(88, 222, 255, .22), inset 0 0 26px rgba(163, 127, 255, .14);
+    }
+
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .step {
+      padding: 12px;
+      min-height: 180px;
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: linear-gradient(160deg, rgba(8, 16, 33, .75), rgba(20, 34, 68, .68));
+    }
+
+    .step:nth-child(1) { border-color: rgba(88, 222, 255, 0.5); }
+    .step:nth-child(2) { border-color: rgba(163, 127, 255, 0.5); }
+    .step:nth-child(3) { border-color: rgba(255, 110, 168, 0.42); }
+    .step:nth-child(4) { border-color: rgba(67, 223, 190, 0.48); }
+    .step:nth-child(5) { border-color: rgba(255, 209, 102, 0.52); }
+
+    .step h4 {
+      font-size: 17px;
+    }
+
+    .step small {
+      color: var(--text-dim);
+      display: block;
+    }
+
+    .testimonial-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .tab {
+      background: linear-gradient(140deg, rgba(8, 16, 33, .7), rgba(22, 36, 71, .65));
+      color: var(--text-body);
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .tab.active {
+      color: var(--text-strong);
+      border-color: rgba(88, 222, 255, .62);
+      box-shadow: 0 0 16px rgba(88, 222, 255, .2);
+    }
+
+    .quote {
+      font-size: clamp(20px, 2.2vw, 26px);
+      font-family: "Space Grotesk", "Avenir Next", sans-serif;
+      color: var(--text-strong);
+      line-height: 1.35;
+    }
+
+    .metric-card {
+      padding: 16px;
+      min-height: 140px;
+      background: linear-gradient(160deg, rgba(8, 16, 33, .7), rgba(18, 34, 70, .7));
+    }
+
+    .metric-card:nth-child(1) { border-color: rgba(88, 222, 255, 0.52); }
+    .metric-card:nth-child(2) { border-color: rgba(163, 127, 255, 0.55); }
+    .metric-card:nth-child(3) { border-color: rgba(255, 110, 168, 0.48); }
+    .metric-card:nth-child(4) { border-color: rgba(67, 223, 190, 0.52); }
+
+    .metric-card strong {
+      display: block;
+      color: var(--text-strong);
+      font-size: 36px;
+      line-height: 1;
+      margin: 10px 0 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      border: 1px solid var(--line-soft);
+      background: linear-gradient(130deg, rgba(88, 222, 255, 0.15), rgba(163, 127, 255, 0.14));
+    }
+
+    .risk {
+      color: #ffc6d0;
+      border-color: rgba(251, 113, 133, .4);
+      background: rgba(251, 113, 133, .1);
+    }
+
+    .ok {
+      color: #b7ffe9;
+      border-color: rgba(52, 211, 153, .4);
+      background: rgba(52, 211, 153, .1);
+    }
+
+    .faq-item {
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: linear-gradient(150deg, rgba(8, 16, 33, .72), rgba(24, 36, 69, .68));
+      overflow: hidden;
+    }
+
+    .faq-q {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: 0;
+      color: var(--text-strong);
+      cursor: pointer;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 14px 14px;
+      font-size: 15px;
+    }
+
+    .faq-item.open .faq-a {
+      display: block;
+    }
+
+    .cta-banner {
+      border: 1px solid rgba(88, 222, 255, .45);
+      background: linear-gradient(140deg, rgba(20, 38, 79, .82), rgba(17, 30, 53, .8), rgba(82, 53, 133, .38));
+      box-shadow: 0 0 40px rgba(88, 222, 255, .14);
+      padding: 28px;
+      border-radius: 20px;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 30px;
+      padding: 34px 0 56px;
+      border-top: 1px solid var(--line-soft);
+      background: rgba(5, 9, 24, 0.72);
+    }
+
+    #trust-strip .ns-glass { border-color: rgba(88, 222, 255, 0.42); }
+    #platform .screen-grid { position: relative; }
+    #signal-noise .ns-glass:first-child { border-color: rgba(255, 110, 168, 0.36); }
+    #services #pillar-panel { border-color: rgba(163, 127, 255, 0.5); }
+    #testimonials .ns-glass:first-child { border-color: rgba(255, 209, 102, 0.45); }
+    #fraud-protection .ns-glass:last-child { border-color: rgba(251, 113, 133, 0.45); }
+    #ecosystem .chip:nth-child(odd) { border-color: rgba(88, 222, 255, 0.48); }
+    #ecosystem .chip:nth-child(even) { border-color: rgba(163, 127, 255, 0.48); }
+
+    footer h4 {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    footer a:hover {
+      color: var(--text-strong);
+    }
+
+    .signal-lab-wrap {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(163, 214, 255, 0.34);
+      border-radius: 24px;
+      background:
+        radial-gradient(520px 320px at 20% 20%, rgba(88, 222, 255, 0.2), transparent 70%),
+        radial-gradient(560px 320px at 90% 90%, rgba(255, 110, 168, 0.16), transparent 72%),
+        linear-gradient(160deg, rgba(8, 16, 33, 0.8), rgba(15, 28, 58, 0.85));
+      box-shadow: 0 24px 70px rgba(5, 10, 32, 0.58), inset 0 1px 0 rgba(208, 236, 255, 0.16);
+    }
+
+    .signal-lab-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      padding: 26px;
+      align-items: center;
+    }
+
+    .orbit-stage {
+      position: relative;
+      min-height: 430px;
+      border-radius: 20px;
+      border: 1px solid rgba(163, 214, 255, 0.28);
+      background:
+        radial-gradient(circle at center, rgba(88, 222, 255, 0.16), rgba(12, 20, 44, 0.15) 52%, rgba(12, 20, 44, 0.8) 76%),
+        linear-gradient(180deg, rgba(16, 28, 59, 0.66), rgba(8, 16, 33, 0.7));
+      overflow: hidden;
+    }
+
+    .orbit-ring {
+      position: absolute;
+      inset: 54px;
+      border-radius: 50%;
+      border: 1px dashed rgba(163, 214, 255, 0.34);
+      animation: ring-rotate 40s linear infinite;
+    }
+
+    .orbit-ring::before,
+    .orbit-ring::after {
+      content: "";
+      position: absolute;
+      inset: 36px;
+      border: 1px dashed rgba(88, 222, 255, 0.24);
+      border-radius: 50%;
+    }
+
+    .orbit-ring::after {
+      inset: 72px;
+      border-color: rgba(255, 110, 168, 0.18);
+    }
+
+    .core-node {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.7), transparent 32%),
+        radial-gradient(circle at 55% 60%, rgba(88, 222, 255, 0.7), rgba(109, 102, 255, 0.76));
+      border: 1px solid rgba(232, 248, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #e7f4ff;
+      letter-spacing: 0.06em;
+      box-shadow: 0 0 40px rgba(88, 222, 255, 0.35), 0 0 70px rgba(109, 102, 255, 0.25);
+    }
+
+    .stage-node {
+      position: absolute;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      border: 1px solid rgba(198, 232, 255, 0.4);
+      background: linear-gradient(150deg, rgba(19, 34, 69, 0.95), rgba(11, 23, 49, 0.95));
+      color: #d6ecff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 220ms cubic-bezier(.2, .8, .2, 1), box-shadow 220ms cubic-bezier(.2, .8, .2, 1), border-color 220ms cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .stage-node:hover,
+    .stage-node.active {
+      transform: scale(1.09);
+      border-color: rgba(88, 222, 255, 0.7);
+      box-shadow: 0 0 22px rgba(88, 222, 255, 0.3), 0 0 28px rgba(163, 127, 255, 0.2);
+    }
+
+    .stage-node[data-tone="teal"].active { border-color: rgba(67, 223, 190, 0.72); box-shadow: 0 0 24px rgba(67, 223, 190, 0.36); }
+    .stage-node[data-tone="pink"].active { border-color: rgba(255, 110, 168, 0.72); box-shadow: 0 0 24px rgba(255, 110, 168, 0.34); }
+    .stage-node[data-tone="gold"].active { border-color: rgba(255, 209, 102, 0.74); box-shadow: 0 0 24px rgba(255, 209, 102, 0.36); }
+
+    .beam {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 0;
+      height: 2px;
+      transform-origin: left center;
+      background: linear-gradient(90deg, rgba(88, 222, 255, 0.86), rgba(163, 127, 255, 0.2));
+      opacity: 0;
+      transition: width 320ms cubic-bezier(.2, .8, .2, 1), transform 320ms cubic-bezier(.2, .8, .2, 1), opacity 280ms cubic-bezier(.2, .8, .2, 1);
+      box-shadow: 0 0 10px rgba(88, 222, 255, 0.4);
+      pointer-events: none;
+    }
+
+    .story-panel {
+      min-height: 430px;
+      border-radius: 20px;
+      border: 1px solid rgba(163, 214, 255, 0.32);
+      background: linear-gradient(160deg, rgba(16, 28, 59, 0.8), rgba(8, 16, 33, 0.78));
+      padding: 24px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .story-kpis {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .story-kpi {
+      border-radius: 12px;
+      border: 1px solid rgba(163, 214, 255, 0.36);
+      background: linear-gradient(160deg, rgba(22, 36, 71, 0.85), rgba(8, 16, 33, 0.75));
+      padding: 10px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .story-kpi strong {
+      display: block;
+      font-size: 26px;
+      color: var(--text-strong);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .story-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .story-tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(163, 214, 255, 0.3);
+      background: rgba(163, 127, 255, 0.16);
+      font-size: 12px;
+      color: #e4f2ff;
+    }
+
+    @keyframes ring-rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 380ms cubic-bezier(.2, .8, .2, 1), transform 380ms cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1100px) {
+      :root {
+        --section-y: 54px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-grid,
+      .grid-3,
+      .grid-2,
+      .screen-grid,
+      .signal-lab-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stepper {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .stepper,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar .inner {
+        gap: 8px;
+      }
+
+      .brand {
+        font-size: 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Deprecated baseline applied: this is a fresh rebuild draft from screenshots + research specs -->
+  <header class="navbar" id="navbar">
+    <div class="container inner">
+      <a href="#hero" class="brand">
+        <span class="brand-mark"></span>
+        NORTHSTAR
+      </a>
+      <nav class="nav-links">
+        <a class="nav-link" href="#platform">Platform</a>
+        <a class="nav-link" href="#services">Services</a>
+        <a class="nav-link" href="#process">Process</a>
+        <a class="nav-link" href="#industries">Industries</a>
+        <a class="nav-link" href="#insights">Insights</a>
+        <a class="nav-link" href="#fraud-protection">Fraud Protection</a>
+        <a class="nav-link" href="#pricing">Pricing</a>
+        <a class="nav-link" href="#contact">Contact</a>
+      </nav>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <a class="btn ghost" href="#client-login">Client Login</a>
+        <a class="btn primary" href="#request-access">Request Access</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section hero" id="hero">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <span class="eyebrow">Section 2: Hero</span>
+          <h1>Architecting the <span class="grad">Future of Workforce</span></h1>
+          <p>NorthStar is a talent intelligence infrastructure layer for recruiting and staffing teams. We combine AI sourcing with evidence based verification so every shortlist is built on signal, not noise.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 12px;">
+            <a class="btn primary" id="request-access" href="#contact">Request Access</a>
+            <a class="btn ghost" href="#process">View the Process</a>
+          </div>
+          <p style="color:var(--text-dim);font-size:14px;">Verified sourcing. Risk aware screening. Audit ready reporting.</p>
+        </div>
+        <aside class="hero-panel ns-glass ns-hover reveal">
+          <div class="screen-head">
+            <strong>Dashboard</strong>
+            <span class="badge">Realtime Snapshot</span>
+          </div>
+          <div class="kpi-row">
+            <div class="kpi"><strong>58</strong>Readiness Score</div>
+            <div class="kpi"><strong>31%</strong>AI Confidence</div>
+            <div class="kpi"><strong>54</strong>Risk Days</div>
+          </div>
+          <div class="mini-table">
+            <table>
+              <thead>
+                <tr><th>Pipeline</th><th>Status</th><th>Score</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Sourcing</td><td><span class="badge ok">Active</span></td><td>83</td></tr>
+                <tr><td>Verification</td><td><span class="badge risk">Flagged</span></td><td>52</td></tr>
+                <tr><td>Interview</td><td><span class="badge">Queued</span></td><td>64</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="chip-list">
+            <span class="chip">Mission Control</span>
+            <span class="chip">Case Pipeline</span>
+            <span class="chip">Audit Trail</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="trust-strip">
+      <div class="container ns-glass" style="padding:22px;">
+        <span class="eyebrow">Section 3: Trust Strip</span>
+        <h2>Trusted by teams that cannot afford a bad hire</h2>
+        <div class="proof-chip-list">
+          <span class="chip">Evidence first verification</span>
+          <span class="chip">Fraud risk signals surfaced</span>
+          <span class="chip">Clear decision trails</span>
+          <span class="chip">Built for engineering, security, and high impact hiring</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="signal-lab">
+      <div class="container signal-lab-wrap reveal">
+        <div class="signal-lab-grid">
+          <div class="orbit-stage">
+            <span class="eyebrow" style="position:absolute;left:18px;top:16px;">Interactive Experience</span>
+            <div class="orbit-ring"></div>
+            <div class="core-node">NorthStar<br/>Core</div>
+            <div class="beam" id="orbit-beam"></div>
+
+            <button class="stage-node active" data-stage="intake" data-tone="teal" style="left:10%;top:38%;">Intake</button>
+            <button class="stage-node" data-stage="sourcing" data-tone="cyan" style="left:24%;top:12%;">Sourcing</button>
+            <button class="stage-node" data-stage="verify" data-tone="pink" style="left:66%;top:8%;">Verify</button>
+            <button class="stage-node" data-stage="interview" data-tone="violet" style="left:84%;top:35%;">Interview</button>
+            <button class="stage-node" data-stage="offer" data-tone="gold" style="left:64%;top:72%;">Offer</button>
+            <button class="stage-node" data-stage="outcome" data-tone="teal" style="left:22%;top:72%;">Outcome</button>
+          </div>
+
+          <aside class="story-panel" id="signal-story">
+            <span class="eyebrow">Signal Constellation Lab</span>
+            <h2 id="stage-title">Intake Lock</h2>
+            <p id="stage-copy">Define role targets, constraints, and outcome metrics. The system locks role truth before volume enters the pipeline.</p>
+            <div class="story-kpis">
+              <div class="story-kpi"><strong id="kpi-a">72%</strong>Signal Quality</div>
+              <div class="story-kpi"><strong id="kpi-b">1.8x</strong>Cycle Speed</div>
+              <div class="story-kpi"><strong id="kpi-c">-41%</strong>Noise Load</div>
+            </div>
+            <div class="story-tags" id="story-tags">
+              <span class="story-tag">Role Blueprint</span>
+              <span class="story-tag">Constraint Match</span>
+              <span class="story-tag">Spec Confidence</span>
+            </div>
+            <p style="margin-top:8px;color:var(--text-dim);">Click each orbital node to run a different stage simulation. This is a creative system view, not a static card block.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section showcase" id="platform">
+      <div class="container">
+        <span class="eyebrow">Screenshot Replication Showcase</span>
+        <h2>Application Stage Replication Panels</h2>
+        <div class="screen-grid">
+          <article class="screen reveal">
+            <div class="screen-head"><strong>Whitelist / Black list</strong><span class="badge">Case Status</span></div>
+            <div class="screen-ui">
+              <div class="screen-top"><span>NORTHSTAR</span><span>Dashboard</span></div>
+              <div class="screen-body">
+                <div class="screen-nav"><span>Dashboard</span><span>Case Log</span><span>Sent Notes</span><span>Applications</span><span>Mark AI</span></div>
+                <div class="screen-main">
+                  <div class="screen-row"><div class="screen-block">Sourcing</div><div class="screen-block">Fit Review</div><div class="screen-block">Ready to Apply</div></div>
+                  <div class="screen-block">Applicant Matrix + status routing + owner controls</div>
+                  <div class="screen-block">Policy engine and verification statuses</div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="screen reveal">
+            <div class="screen-head"><strong>Application Stage</strong><span class="badge">Sourcing Flow</span></div>
+            <div class="screen-ui">
+              <div class="screen-top"><span>NORTHSTAR</span><span>Jose</span></div>
+              <div class="screen-body">
+                <div class="screen-nav"><span>Dashboard</span><span>Case Log</span><span>Sent Notes</span><span>Applications</span><span>Mark AI</span></div>
+                <div class="screen-main">
+                  <div class="screen-block">Candidate list with ranked opportunities</div>
+                  <div class="screen-row"><div class="screen-block">Applied</div><div class="screen-block">Estimated</div><div class="screen-block">Score</div></div>
+                  <div class="screen-block">Decision controls and reviewer assignments</div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="screen reveal">
+            <div class="screen-head"><strong>Verification Stage</strong><span class="badge">Skill Matrix</span></div>
+            <div class="screen-ui">
+              <div class="screen-top"><span>NORTHSTAR</span><span>Skills Review</span></div>
+              <div class="screen-body">
+                <div class="screen-nav"><span>Dashboard</span><span>Case Log</span><span>Sent Notes</span><span>Applications</span><span>Mark AI</span></div>
+                <div class="screen-main">
+                  <div class="screen-row"><div class="screen-block">Sourcing</div><div class="screen-block">Fit Review</div><div class="screen-block">Ready to Apply</div></div>
+                  <div class="screen-block">Hard Gate Verification table and evidence pointers</div>
+                  <div class="screen-block">Reasoning and confidence chips</div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="screen reveal">
+            <div class="screen-head"><strong>Verification Stage</strong><span class="badge">Skill Board</span></div>
+            <div class="screen-ui">
+              <div class="screen-top"><span>NORTHSTAR</span><span>Graph View</span></div>
+              <div class="screen-body">
+                <div class="screen-nav"><span>Dashboard</span><span>Case Log</span><span>Sent Notes</span><span>Applications</span><span>Mark AI</span></div>
+                <div class="screen-main">
+                  <div class="screen-block">Performance graph + trend review</div>
+                  <div class="screen-block">Grade table with confidence and alignment</div>
+                  <div class="screen-block">Execution metrics and outcomes</div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="screen reveal">
+            <div class="screen-head"><strong>App Lakepage</strong><span class="badge">Core Capabilities</span></div>
+            <div class="screen-ui">
+              <div class="screen-top"><span>NORTHSTAR</span><span>Jose</span></div>
+              <div class="screen-body">
+                <div class="screen-nav"><span>Dashboard</span><span>Case Log</span><span>Sent Notes</span><span>Applications</span><span>Mark AI</span></div>
+                <div class="screen-main">
+                  <div class="screen-block">User profile card with quality KPIs</div>
+                  <div class="screen-row"><div class="screen-block">500+</div><div class="screen-block">1%</div><div class="screen-block">Cycle Time</div></div>
+                  <div class="screen-block">Status ledger and candidate blocks</div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="screen reveal">
+            <div class="screen-head"><strong>Case Log and Timeline</strong><span class="badge">System Learnings</span></div>
+            <div class="screen-ui">
+              <div class="screen-top"><span>NORTHSTAR</span><span>Ops View</span></div>
+              <div class="screen-body">
+                <div class="screen-nav"><span>Dashboard</span><span>Case Log</span><span>Sent Notes</span><span>Applications</span><span>Mark AI</span></div>
+                <div class="screen-main">
+                  <div class="screen-block">Case log with event history and ownership</div>
+                  <div class="screen-block">Application tracker with source and progression</div>
+                  <div class="screen-block">Interview stream and metrics table</div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="signal-noise">
+      <div class="container grid-2">
+        <article class="ns-glass ns-hover reveal" style="padding:20px;">
+          <span class="eyebrow">Section 4: Signal vs Noise Interactive</span>
+          <h2>Turn the hiring market into signal</h2>
+          <p>Job boards produce volume. Real hiring outcomes require clarity. NorthStar filters the market through verification, fit evidence, and risk scoring so you stop wasting cycles on low quality leads.</p>
+          <div class="chip-list">
+            <span class="chip">Noise: duplicated listings, weak fit, unclear identity</span>
+            <span class="chip">Signal: verified profile, role alignment, evidence trail</span>
+          </div>
+        </article>
+        <article class="ns-glass ns-hover reveal" style="padding:20px;">
+          <h3>Live Signal Board</h3>
+          <div class="mini-table">
+            <table>
+              <thead><tr><th>Candidate</th><th>Noise</th><th>Signal</th></tr></thead>
+              <tbody>
+                <tr><td>Candidate A</td><td>73%</td><td>27%</td></tr>
+                <tr><td>Candidate B</td><td>31%</td><td>69%</td></tr>
+                <tr><td>Candidate C</td><td>44%</td><td>56%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container grid-2">
+        <div class="reveal">
+          <span class="eyebrow">Section 5: Core Value Pillars</span>
+          <h2>What NorthStar delivers</h2>
+          <div class="pillars">
+            <button class="pillar-btn active" data-pillar="p1">Elite Talent Sourcing</button>
+            <button class="pillar-btn" data-pillar="p2">Hard Gate Verification</button>
+            <button class="pillar-btn" data-pillar="p3">Secure Infrastructure</button>
+            <button class="pillar-btn" data-pillar="p4">Talent Intelligence Reporting</button>
+          </div>
+        </div>
+        <aside class="ns-glass ns-hover reveal" style="padding:22px;" id="pillar-panel">
+          <h3 id="pillar-title">Elite Talent Sourcing</h3>
+          <p id="pillar-copy">We identify specialized talent across channels, not just applications. Your pipeline is built for quality, not volume.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="process">
+      <div class="container">
+        <span class="eyebrow">Section 6: Process Preview</span>
+        <h2>A clear system from intake to offer</h2>
+        <div class="stepper">
+          <article class="step ns-hover reveal"><h4>1. Intake</h4><p>Define role targets, constraints, and success metrics.</p><small>Output: target profile and sourcing spec.</small></article>
+          <article class="step ns-hover reveal"><h4>2. Sourcing</h4><p>Build a curated pipeline of qualified prospects.</p><small>Output: ranked opportunities and candidate set.</small></article>
+          <article class="step ns-hover reveal"><h4>3. Verification</h4><p>Validate identity, evidence, and risk signals.</p><small>Output: verification status with reasoning.</small></article>
+          <article class="step ns-hover reveal"><h4>4. Interview</h4><p>Prepare and calibrate to reduce false positives.</p><small>Output: interview pack and scorecard framing.</small></article>
+          <article class="step ns-hover reveal"><h4>5. Offer</h4><p>Compare tradeoffs with evidence, not guesswork.</p><small>Output: decision support and next actions.</small></article>
+        </div>
+        <div style="margin-top:18px;">
+          <a class="btn ghost" href="#timeline">See the full process</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="timeline">
+      <div class="container">
+        <span class="eyebrow">Section 7: Timeline of Success</span>
+        <h2>The success timeline inside NorthStar</h2>
+        <p>Every phase produces an artifact you can audit.</p>
+        <div class="timeline">
+          <article class="timeline-card ns-glass reveal"><h3>Discovery</h3><p>We map the role and constraints into a sourcing spec.</p></article>
+          <article class="timeline-card ns-glass reveal"><h3>Fit Validation</h3><p>We connect requirements to evidence, not assumptions.</p></article>
+          <article class="timeline-card ns-glass reveal"><h3>Verification</h3><p>We surface risk, identity signals, and confidence.</p></article>
+          <article class="timeline-card ns-glass reveal"><h3>Presentation</h3><p>You see a clean shortlist with rationale.</p></article>
+          <article class="timeline-card ns-glass reveal"><h3>Interview Control</h3><p>We reduce noise and improve signal through structured prep.</p></article>
+          <article class="timeline-card ns-glass reveal"><h3>Offer Decision</h3><p>We compare options with documented tradeoffs.</p></article>
+        </div>
+        <p style="margin-top:16px;">This is how recruiting becomes an operating system.</p>
+      </div>
+    </section>
+
+    <section class="section" id="industries">
+      <div class="container grid-2">
+        <article class="ns-glass ns-hover reveal" style="padding:20px;">
+          <span class="eyebrow">Section 8: Hard Gate System</span>
+          <h2>Verification that is explainable</h2>
+          <p>Most recruiting fails at the same point. A profile looks good until the interview collapses. NorthStar enforces verification gates so pipeline movement reflects proof, not optimism.</p>
+          <ul>
+            <li>Identity and consistency checks</li>
+            <li>Skill evidence mapping</li>
+            <li>Risk signals and anomalies</li>
+            <li>Confidence scoring</li>
+            <li>Decision trail logging</li>
+          </ul>
+          <p><strong>No evidence table. No verdict.</strong></p>
+        </article>
+        <article class="ns-glass ns-hover reveal" style="padding:20px;">
+          <h3>Verification Console</h3>
+          <div class="mini-table">
+            <table>
+              <thead><tr><th>Gate</th><th>Status</th><th>Evidence</th></tr></thead>
+              <tbody>
+                <tr><td>Identity</td><td><span class="badge ok">Passed</span></td><td>Verified docs</td></tr>
+                <tr><td>Skill Mapping</td><td><span class="badge">Pending</span></td><td>Portfolio diff</td></tr>
+                <tr><td>Risk Scan</td><td><span class="badge risk">Flagged</span></td><td>Anomaly score high</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="testimonials">
+      <div class="container grid-2">
+        <article class="ns-glass reveal" style="padding:20px;">
+          <span class="eyebrow">Section 9: Testimonials Proof Wall</span>
+          <h2>What leaders say after switching to NorthStar</h2>
+          <div class="testimonial-tabs">
+            <button class="tab active" data-quote-group="all">Enterprise</button>
+            <button class="tab" data-quote-group="startup">Startups</button>
+            <button class="tab" data-quote-group="ops">Talent Ops</button>
+          </div>
+          <p class="quote" id="quote-text">"We stopped chasing volume and started hiring with confidence. The verification logic changed the quality of every conversation."</p>
+          <p id="quote-meta" style="color:var(--text-dim);">VP Engineering, B2B SaaS, United States</p>
+        </article>
+        <article class="ns-glass reveal" style="padding:20px;">
+          <h3>Verified Outcome Wall</h3>
+          <ul>
+            <li>"NorthStar gave our hiring team a shared language. Evidence, risk, and readiness became visible." - Head of Talent, Series C, United States</li>
+            <li>"The shortlist quality improved, but the bigger win was clarity. We knew exactly why a candidate was recommended." - CTO, Fintech, United States</li>
+            <li>"Fraud risk is real. We needed a system that treats verification as infrastructure, not a promise." - Security Lead, Enterprise, United States</li>
+            <li>"Time to shortlist dropped. Interview conversion went up. We finally had a process we could trust." - Recruiting Manager, Healthcare Tech, United States</li>
+            <li>"The reporting made leadership calm. We could see progress, blockers, and next actions without guessing." - People Ops Director, Remote first, United States</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="insights">
+      <div class="container">
+        <span class="eyebrow">Section 10: Case Study Dossier Carousel</span>
+        <h2>Proof you can open</h2>
+        <p>Each case is presented as a dossier. Not a story. A structured record of role context, screening decisions, and outcomes.</p>
+        <div class="grid-4">
+          <article class="ns-glass ns-hover reveal" style="padding:16px;"><h3>Engineering leadership shortlist in 12 days</h3><p>Curated shortlist with role context, evidence links, and verification summary.</p></article>
+          <article class="ns-glass ns-hover reveal" style="padding:16px;"><h3>Fraud risk blocked before interview</h3><p>Identity anomalies surfaced pre-interview to protect cycle integrity.</p></article>
+          <article class="ns-glass ns-hover reveal" style="padding:16px;"><h3>Role scope corrected before sourcing wasted time</h3><p>Intake clarification prevented low-signal candidate flow.</p></article>
+          <article class="ns-glass ns-hover reveal" style="padding:16px;"><h3>Candidate readiness improved through evidence tracking</h3><p>Readiness deltas and confidence matrix improved interview conversion.</p></article>
+        </div>
+        <div style="margin-top:16px;"><a class="btn ghost" href="#contact">View case studies</a></div>
+      </div>
+    </section>
+
+    <section class="section" id="dashboard-preview">
+      <div class="container grid-2">
+        <article class="ns-glass reveal" style="padding:22px;">
+          <span class="eyebrow">Section 11: Dashboard Preview Teaser</span>
+          <h2>A command center for recruiting outcomes</h2>
+          <p>NorthStar is not a spreadsheet. It is a workspace that shows what is true right now, what is blocked, and what to do next.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="tab active" data-mode="client">Client View</button>
+            <button class="tab" data-mode="exec">Executive View</button>
+          </div>
+          <p id="mode-desc" style="margin-top:12px;">Client View: next actions, coaching, execution.</p>
+        </article>
+        <article class="ns-glass reveal" style="padding:18px;">
+          <div class="mini-table">
+            <table>
+              <thead><tr><th>Mode</th><th>Primary Focus</th><th>Visibility</th></tr></thead>
+              <tbody>
+                <tr><td>Client View</td><td>Next actions, coaching, execution</td><td>Operational detail</td></tr>
+                <tr><td>Executive View</td><td>Risk, conversion, cycle performance</td><td>Portfolio outcomes</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="fraud-protection">
+      <div class="container grid-2">
+        <article class="ns-glass reveal" style="padding:20px;">
+          <span class="eyebrow">Section 12: Fraud Protection</span>
+          <h2>Fraud protection built into the workflow</h2>
+          <p>Hiring fraud is evolving fast. NorthStar treats verification as a first class system. Risk signals are surfaced early, backed by evidence, and reflected in every decision.</p>
+          <ul>
+            <li>Reduce exposure to identity fraud</li>
+            <li>Prevent weak evidence progression</li>
+            <li>Keep every decision explainable</li>
+          </ul>
+          <a class="btn ghost" href="#contact">Explore fraud protection</a>
+        </article>
+        <article class="ns-glass reveal" style="padding:20px;">
+          <h3>Risk Simulation</h3>
+          <p id="risk-output">Current simulation: <span class="badge risk">Anomaly Detected</span></p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn ghost" id="simulate-risk">Simulate risk</button>
+            <button class="btn ghost" id="resolve-risk">Resolve verification</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="ecosystem">
+      <div class="container">
+        <span class="eyebrow">Section 13: Integrations and Workflow Ecosystem</span>
+        <h2>Fits into your hiring stack</h2>
+        <p>NorthStar is designed to plug into modern recruiting workflows. Sourcing, verification, and reporting should integrate with how teams actually operate.</p>
+        <div class="chip-list">
+          <span class="chip">ATS and pipeline tools</span>
+          <span class="chip">Calendars and interview scheduling</span>
+          <span class="chip">Reporting exports for stakeholders</span>
+          <span class="chip">Secure artifact storage</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="metrics-wall">
+      <div class="container">
+        <span class="eyebrow">Section 14: Metrics Wall</span>
+        <h2>Metrics that executives actually trust</h2>
+        <div class="grid-4">
+          <article class="ns-glass metric-card reveal">
+            <span class="badge">Time to shortlist</span>
+            <strong data-counter="12">0</strong>
+            <p>Days to decision-ready shortlist.</p>
+          </article>
+          <article class="ns-glass metric-card reveal">
+            <span class="badge">Interview conversion</span>
+            <strong data-counter="500">0</strong>
+            <p>Qualified progression events tracked.</p>
+          </article>
+          <article class="ns-glass metric-card reveal">
+            <span class="badge">Risk surfaced early</span>
+            <strong data-counter="1">0</strong>
+            <p>Percent high risk unseen until late stage.</p>
+          </article>
+          <article class="ns-glass metric-card reveal">
+            <span class="badge">Cycle time by phase</span>
+            <strong data-counter="37">0</strong>
+            <p>Average cycle compression over baseline.</p>
+          </article>
+        </div>
+        <p style="margin-top:12px;">Outcomes improve when the system tells the truth.</p>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="container">
+        <span class="eyebrow">Section 15: Pricing and Engagement Model</span>
+        <h2>Choose the engagement level</h2>
+        <div class="grid-3">
+          <article class="ns-glass ns-hover reveal" style="padding:20px;">
+            <h3>Pilot</h3>
+            <p>Best for teams testing a verified pipeline workflow.</p>
+            <a class="btn ghost" href="#contact">Request access</a>
+          </article>
+          <article class="ns-glass ns-hover reveal" style="padding:20px;">
+            <h3>Partner</h3>
+            <p>Best for ongoing roles with repeatable sourcing and reporting.</p>
+            <a class="btn ghost" href="#contact">Book a consult</a>
+          </article>
+          <article class="ns-glass ns-hover reveal" style="padding:20px;">
+            <h3>Enterprise</h3>
+            <p>Best for multi team hiring with governance and advanced reporting.</p>
+            <a class="btn ghost" href="#contact">Contact sales</a>
+          </article>
+        </div>
+        <p style="margin-top:14px;">Final pricing can live on the Pricing page. This section is an anchor for conversion intent.</p>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <span class="eyebrow">Section 16: FAQ Teaser</span>
+        <h2>Questions, answered clearly</h2>
+        <div class="faq-item reveal">
+          <button class="faq-q">Is NorthStar a staffing agency?</button>
+          <div class="faq-a">NorthStar is a talent intelligence infrastructure layer. It can support recruiting and staffing workflows, but the product is built around verification, transparency, and decision support.</div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">Do you work with technical roles?</button>
+          <div class="faq-a">Yes. NorthStar is optimized for technical and high trust hiring environments.</div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">How do you handle verification?</button>
+          <div class="faq-a">Verification is evidence first. If evidence is insufficient, the system marks that reality.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="cta-banner reveal">
+          <span class="eyebrow">Section 17: Final CTA</span>
+          <h2>Upgrade your hiring infrastructure</h2>
+          <p>If you hire for impact, you need more than sourcing volume. You need verified signal, clear reasoning, and decision ready reporting.</p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:12px;">
+            <a class="btn primary" href="#request-access">Request Access</a>
+            <a class="btn ghost" href="#process">View the Process</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="client-login">
+    <div class="container">
+      <span class="eyebrow">Section 18: Footer Sitemap</span>
+      <div class="grid-4">
+        <div>
+          <h4>Company</h4>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Careers</a>
+          <a href="#">Press</a>
+        </div>
+        <div>
+          <h4>Platform</h4>
+          <a href="#">Client Login</a>
+          <a href="#">Sign Up</a>
+          <a href="#">Dashboard</a>
+        </div>
+        <div>
+          <h4>Solutions</h4>
+          <a href="#">Services</a>
+          <a href="#">Industries</a>
+          <a href="#">Process</a>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <a href="#">Insights</a>
+          <a href="#">FAQ</a>
+          <a href="#">Fraud Protection</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Security</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById("navbar");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 24) navbar.classList.add("scrolled");
+      else navbar.classList.remove("scrolled");
+    });
+
+    const pillarData = {
+      p1: {
+        title: "Elite Talent Sourcing",
+        copy: "We identify specialized talent across channels, not just applications. Your pipeline is built for quality, not volume."
+      },
+      p2: {
+        title: "Hard Gate Verification",
+        copy: "Verification is not a checkbox. We require evidence, surface risk signals, and prevent blind progression through the pipeline."
+      },
+      p3: {
+        title: "Secure Infrastructure",
+        copy: "Workflows are designed for governance. Clear roles, controlled visibility, and audit ready outputs."
+      },
+      p4: {
+        title: "Talent Intelligence Reporting",
+        copy: "Decision making improves when the system explains itself. NorthStar produces transparent reporting on progress, blockers, and outcomes."
+      }
+    };
+
+    document.querySelectorAll(".pillar-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".pillar-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const data = pillarData[btn.dataset.pillar];
+        document.getElementById("pillar-title").textContent = data.title;
+        document.getElementById("pillar-copy").textContent = data.copy;
+      });
+    });
+
+    const quotes = [
+      {
+        text: "\"We stopped chasing volume and started hiring with confidence. The verification logic changed the quality of every conversation.\"",
+        meta: "VP Engineering, B2B SaaS, United States"
+      },
+      {
+        text: "\"NorthStar gave our hiring team a shared language. Evidence, risk, and readiness became visible.\"",
+        meta: "Head of Talent, Series C, United States"
+      },
+      {
+        text: "\"The shortlist quality improved, but the bigger win was clarity. We knew exactly why a candidate was recommended.\"",
+        meta: "CTO, Fintech, United States"
+      }
+    ];
+
+    let quoteIndex = 0;
+    const quoteText = document.getElementById("quote-text");
+    const quoteMeta = document.getElementById("quote-meta");
+    setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      quoteText.textContent = quotes[quoteIndex].text;
+      quoteMeta.textContent = quotes[quoteIndex].meta;
+    }, 7000);
+
+    const modeDesc = document.getElementById("mode-desc");
+    document.querySelectorAll("[data-mode]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-mode]").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        modeDesc.textContent = btn.dataset.mode === "client"
+          ? "Client View: next actions, coaching, execution."
+          : "Executive View: risk, conversion, cycle performance.";
+      });
+    });
+
+    const stageData = {
+      intake: {
+        title: "Intake Lock",
+        copy: "Define role targets, constraints, and outcome metrics. The system locks role truth before volume enters the pipeline.",
+        kpis: ["72%", "1.8x", "-41%"],
+        tags: ["Role Blueprint", "Constraint Match", "Spec Confidence"]
+      },
+      sourcing: {
+        title: "Sourcing Sweep",
+        copy: "NorthStar scans high-fit channels and suppresses low-trust pools. You get signal concentration instead of candidate clutter.",
+        kpis: ["84%", "2.2x", "-53%"],
+        tags: ["Channel Rank", "Fit Layer", "Signal Compression"]
+      },
+      verify: {
+        title: "Verification Prism",
+        copy: "Identity, evidence, and anomalies are fused into an explainable risk view. No evidence table means no progression.",
+        kpis: ["91%", "0.7x", "-68%"],
+        tags: ["Identity Trace", "Evidence Gate", "Risk Prism"]
+      },
+      interview: {
+        title: "Interview Calibration",
+        copy: "Interview flows adapt to risk and readiness. Teams stop improvising and start comparing structured outcomes.",
+        kpis: ["77%", "1.6x", "-37%"],
+        tags: ["Prep Packs", "Calibration", "Bias Dampening"]
+      },
+      offer: {
+        title: "Offer Gravity",
+        copy: "Tradeoffs are surfaced before commitment: compensation, risk, and fit durability appear in one decision view.",
+        kpis: ["88%", "1.4x", "-29%"],
+        tags: ["Decision Matrix", "Tradeoff Lens", "Offer Confidence"]
+      },
+      outcome: {
+        title: "Outcome Intelligence",
+        copy: "Closed loops feed future sourcing and verification models, raising long-term precision across the entire talent system.",
+        kpis: ["94%", "2.5x", "-61%"],
+        tags: ["Learning Loop", "Model Drift Guard", "Outcome Memory"]
+      }
+    };
+
+    const stageNodes = document.querySelectorAll(".stage-node");
+    const stageTitle = document.getElementById("stage-title");
+    const stageCopy = document.getElementById("stage-copy");
+    const kpiA = document.getElementById("kpi-a");
+    const kpiB = document.getElementById("kpi-b");
+    const kpiC = document.getElementById("kpi-c");
+    const storyTags = document.getElementById("story-tags");
+    const orbitBeam = document.getElementById("orbit-beam");
+    const orbitStage = document.querySelector(".orbit-stage");
+
+    const updateBeam = (node) => {
+      if (!orbitBeam || !orbitStage || !node) return;
+      const stageRect = orbitStage.getBoundingClientRect();
+      const nodeRect = node.getBoundingClientRect();
+      const cx = stageRect.left + stageRect.width / 2;
+      const cy = stageRect.top + stageRect.height / 2;
+      const nx = nodeRect.left + nodeRect.width / 2;
+      const ny = nodeRect.top + nodeRect.height / 2;
+      const dx = nx - cx;
+      const dy = ny - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+      orbitBeam.style.width = `${dist}px`;
+      orbitBeam.style.transform = `rotate(${angle}deg)`;
+      orbitBeam.style.opacity = "1";
+    };
+
+    const activateStage = (node) => {
+      const key = node.dataset.stage;
+      const data = stageData[key];
+      if (!data) return;
+      stageNodes.forEach((n) => n.classList.remove("active"));
+      node.classList.add("active");
+      stageTitle.textContent = data.title;
+      stageCopy.textContent = data.copy;
+      kpiA.textContent = data.kpis[0];
+      kpiB.textContent = data.kpis[1];
+      kpiC.textContent = data.kpis[2];
+      storyTags.innerHTML = data.tags.map((tag) => `<span class="story-tag">${tag}</span>`).join("");
+      updateBeam(node);
+    };
+
+    stageNodes.forEach((node) => {
+      node.addEventListener("click", () => activateStage(node));
+      node.addEventListener("mouseenter", () => updateBeam(node));
+    });
+    if (stageNodes.length) activateStage(stageNodes[0]);
+    window.addEventListener("resize", () => {
+      const active = document.querySelector(".stage-node.active");
+      if (active) updateBeam(active);
+    });
+
+    const riskOutput = document.getElementById("risk-output");
+    document.getElementById("simulate-risk").addEventListener("click", () => {
+      riskOutput.innerHTML = "Current simulation: <span class=\"badge risk\">Anomaly Detected</span>";
+    });
+    document.getElementById("resolve-risk").addEventListener("click", () => {
+      riskOutput.innerHTML = "Current simulation: <span class=\"badge ok\">Verification Passed</span>";
+    });
+
+    document.querySelectorAll(".faq-q").forEach((q) => {
+      q.addEventListener("click", () => {
+        q.closest(".faq-item").classList.toggle("open");
+      });
+    });
+
+    const counters = document.querySelectorAll("[data-counter]");
+    const animateCounters = () => {
+      counters.forEach((counter) => {
+        const target = Number(counter.dataset.counter);
+        let current = 0;
+        const duration = 1200;
+        const start = performance.now();
+        const step = (t) => {
+          const progress = Math.min((t - start) / duration, 1);
+          current = Math.floor(target * progress);
+          counter.textContent = target === 1 ? `${current}%` : target === 12 ? `${current} days` : `${current}+`;
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.18 });
+
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    const metrics = document.getElementById("metrics-wall");
+    const metricObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          metricObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    metricObserver.observe(metrics);
+  </script>
+</body>
+</html>

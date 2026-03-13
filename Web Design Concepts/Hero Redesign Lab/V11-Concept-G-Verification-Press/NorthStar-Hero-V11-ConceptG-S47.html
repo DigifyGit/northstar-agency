@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NorthStar Hero V11 - Concept G Verification Press</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;700&amp;family=Sora:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050914;
+  --line: rgba(163, 200, 246, 0.22);
+  --line-soft: rgba(163, 200, 246, 0.12);
+  --text: #edf4ff;
+  --muted: #9eb4d0;
+  --accent: #7bc0d7;
+  --accent2: #6e82cb;
+  --ok: #2fd0a1;
+  --risk: #fb7185;
+  --unknown: #f2b96b;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: "IBM Plex Sans", sans-serif; }
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 640px at 34% 48%, #0d1830 0%, #070e1c 52%, #03060f 100%);
+}
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 72px;
+  background: rgba(5,9,20,0.76);
+  border-bottom: 1px solid var(--line-soft);
+  backdrop-filter: blur(10px);
+  z-index: 30;
+}
+.nav-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 42px;
+}
+.logo { font-family: "Sora", sans-serif; font-size: 0.96rem; text-transform: uppercase; letter-spacing: 0.11em; font-weight: 700; }
+.links { display: flex; gap: 20px; color: var(--muted); font-size: 0.84rem; }
+.hero {
+  max-width: 1700px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(620px, 1.1fr) minmax(520px, 0.9fr);
+  gap: 44px;
+  align-items: center;
+  padding: 102px 42px 30px;
+}
+.press-zone {
+  min-height: 640px;
+  display: grid;
+  place-items: center;
+}
+.press {
+  width: min(95%, 760px);
+  min-height: 540px;
+  position: relative;
+  border-radius: 26px;
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(17,30,54,0.96), rgba(8,15,28,0.98));
+  box-shadow: 0 38px 74px rgba(0,0,0,0.58);
+  padding: 36px 30px 30px;
+}
+.block {
+  width: 58%;
+  margin: 0 auto;
+  height: 118px;
+  border-radius: 16px;
+  border: 1px solid rgba(173,206,255,0.32);
+  background: linear-gradient(165deg, rgba(167,201,240,0.2), rgba(37,67,103,0.16));
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 12px 24px rgba(0,0,0,0.26);
+  transform: translateY(0);
+  transition: transform 260ms ease;
+}
+.press.active .block { transform: translateY(54px); }
+.die {
+  margin: 34px auto 0;
+  width: 66%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: radial-gradient(circle at 42% 30%, rgba(184,214,255,0.24), rgba(12,22,38,0.94) 56%);
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.die::after {
+  content: attr(data-stamp);
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: #89a6c4;
+  opacity: 0.75;
+}
+.star { width: 46%; }
+.star polygon.main { fill: rgba(228,240,255,0.82); }
+.star polygon.sub { fill: rgba(133,181,225,0.62); }
+.tokens {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+.token {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(20,34,61,0.95), rgba(10,18,34,0.98));
+  color: var(--text);
+  padding: 11px 9px;
+  min-height: 82px;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 200ms ease, border-color 200ms ease;
+}
+.token:hover { transform: translateY(-3px); border-color: rgba(190,222,255,0.48); }
+.token.active { border-color: rgba(123,192,215,0.74); box-shadow: 0 0 22px rgba(123,192,215,0.18); }
+.token .n { font-family: "Sora", sans-serif; font-size: 0.62rem; line-height: 1.35; text-transform: uppercase; letter-spacing: 0.09em; }
+.token .g { font-family: "JetBrains Mono", monospace; font-size: 0.56rem; opacity: 0.86; }
+.copy {
+  display: grid;
+  gap: 18px;
+}
+.eyebrow { font-family: "JetBrains Mono", monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
+h1 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(2.5rem, 4vw, 4.3rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+.grad { background: linear-gradient(95deg, var(--accent), var(--accent2)); -webkit-background-clip: text; color: transparent; }
+.sub { margin: 0; color: var(--muted); font-size: 1.12rem; line-height: 1.56; max-width: 56ch; }
+.cta { display: flex; gap: 14px; }
+.cta button {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  padding: 12px 20px;
+  font-family: "Sora", sans-serif;
+  cursor: pointer;
+}
+.cta .main { background: linear-gradient(130deg, #4a87ab, #294e74); color: #e9f7ff; border-color: rgba(123,192,215,0.3); }
+.cta .ghost { background: transparent; color: var(--text); }
+.audit {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(165deg, rgba(17,29,53,0.95), rgba(9,16,31,0.96));
+  padding: 16px;
+  display: grid;
+  gap: 8px;
+}
+.audit .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: #93a8c4; }
+.audit .title { font-family: "Sora", sans-serif; font-size: 1.08rem; }
+.audit .body { color: var(--muted); line-height: 1.5; min-height: 46px; }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.stat {
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  background: rgba(8,14,28,0.84);
+  padding: 12px;
+}
+.stat .v { font-family: "Sora", sans-serif; font-size: 1.18rem; }
+.stat .l { margin-top: 4px; font-size: 0.67rem; letter-spacing: 0.08em; text-transform: uppercase; color: #8ea5c3; }
+@media (max-width: 1340px) {
+  .hero { grid-template-columns: 1fr; gap: 22px; }
+  .press-zone { min-height: 520px; }
+}
+@media (max-width: 760px) {
+  .hero { padding: 96px 18px 28px; }
+  .links { display: none; }
+  .tokens { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .block { width: 74%; }
+  .die { width: 82%; }
+  .stats { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="logo">NORTHSTAR</div>
+      <div class="links"><span>Platform</span><span>Methodology</span><span>Enterprise Solutions</span><span>Intelligence</span><span>Log In</span></div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <section class="press-zone">
+      <div class="press" id="press">
+        <div class="block" aria-hidden="true"></div>
+        <div class="die" id="die" data-stamp="AUDITABLE EVIDENCE">
+          <svg class="star" viewBox="0 0 100 100" aria-hidden="true">
+            <polygon class="main" points="50,5 57,34 95,50 57,66 50,95 43,66 5,50 43,34"></polygon>
+            <polygon class="sub" points="50,16 54,37 84,50 54,63 50,84 46,63 16,50 46,37"></polygon>
+          </svg>
+        </div>
+
+        <div class="tokens">
+          <button class="token active" data-title="Mission Control" data-gate="VERIFIED_LEGIT" data-copy="Defines role boundaries and placement criteria before outreach, reducing wasted interviews and revision loops." data-stamp="AUDITABLE BRIEF" data-time="12d" data-risk="17%" data-pass="91%">
+            <div class="n">Mission Control</div><div class="g">VERIFIED_LEGIT</div>
+          </button>
+          <button class="token" data-title="Skill Recovery Lab" data-gate="UNKNOWN_INSUFFICIENT_EVIDENCE" data-copy="Recovers overlooked talent by converting weak profile signals into validated proof before client submission." data-stamp="EVIDENCE BUILD" data-time="9d" data-risk="24%" data-pass="88%">
+            <div class="n">Skill Recovery Lab</div><div class="g">UNKNOWN_INSUFFICIENT_EVIDENCE</div>
+          </button>
+          <button class="token" data-title="Case Command" data-gate="VERIFIED_RISK" data-copy="Applies verification pressure to isolate mismatch, fraud risk, and relevance gaps early in the workflow." data-stamp="RISK CONTROL" data-time="7d" data-risk="9%" data-pass="95%">
+            <div class="n">Case Command</div><div class="g">VERIFIED_RISK</div>
+          </button>
+          <button class="token" data-title="Strategic Roadmap" data-gate="VERIFIED_LEGIT" data-copy="Converts placement outcomes into strategic hiring direction so leadership can prioritize high-conversion roles." data-stamp="ROADMAP LOCK" data-time="14d" data-risk="13%" data-pass="90%">
+            <div class="n">Strategic Roadmap</div><div class="g">VERIFIED_LEGIT</div>
+          </button>
+          <button class="token" data-title="Next 7 Days" data-gate="VERIFIED_LEGIT" data-copy="Delivers an immediate execution board with interview-ready candidates, blockers, and daily decision priorities." data-stamp="LIVE EXECUTION" data-time="5d" data-risk="7%" data-pass="97%">
+            <div class="n">Next 7 Days</div><div class="g">VERIFIED_LEGIT</div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="copy">
+      <div class="eyebrow">Verification Press</div>
+      <h1>Architecting the <span class="grad">Future of Workforce</span></h1>
+      <p class="sub">Precision Talent Intelligence. Verified Execution. NorthStar applies controlled verification pressure so clients receive higher-confidence shortlists with less noise and less risk.</p>
+      <div class="cta"><button class="main">Start Sourcing</button><button class="ghost">Request Consultation</button></div>
+
+      <article class="audit">
+        <div class="label" id="activeLabel">Mission Control · VERIFIED_LEGIT</div>
+        <div class="title" id="activeTitle">Press outcome: clean intake and calibrated briefing.</div>
+        <div class="body" id="activeBody">Defines role boundaries and placement criteria before outreach, reducing wasted interviews and revision loops.</div>
+      </article>
+
+      <div class="stats">
+        <div class="stat"><div class="v" id="vTime">12d</div><div class="l">Time to shortlist</div></div>
+        <div class="stat"><div class="v" id="vRisk">17%</div><div class="l">Residual risk</div></div>
+        <div class="stat"><div class="v" id="vPass">91%</div><div class="l">Verification pass</div></div>
+      </div>
+    </section>
+  </main>
+
+<script>
+const press = document.getElementById('press');
+const die = document.getElementById('die');
+const tokens = [...document.querySelectorAll('.token')];
+const activeLabel = document.getElementById('activeLabel');
+const activeTitle = document.getElementById('activeTitle');
+const activeBody = document.getElementById('activeBody');
+const vTime = document.getElementById('vTime');
+const vRisk = document.getElementById('vRisk');
+const vPass = document.getElementById('vPass');
+
+function triggerPress(token) {
+  tokens.forEach(t => t.classList.remove('active'));
+  token.classList.add('active');
+  press.classList.remove('active');
+  void press.offsetWidth;
+  press.classList.add('active');
+
+  activeLabel.textContent = `${token.dataset.title} · ${token.dataset.gate}`;
+  activeTitle.textContent = `Press outcome: ${token.dataset.stamp.toLowerCase().replace('_', ' ')}.`;
+  activeBody.textContent = token.dataset.copy;
+  die.dataset.stamp = token.dataset.stamp;
+  vTime.textContent = token.dataset.time;
+  vRisk.textContent = token.dataset.risk;
+  vPass.textContent = token.dataset.pass;
+
+  setTimeout(() => press.classList.remove('active'), 340);
+}
+
+tokens.forEach(token => {
+  token.addEventListener('click', () => triggerPress(token));
+  token.addEventListener('mouseenter', () => triggerPress(token));
+});
+</script>
+</body>
+</html>

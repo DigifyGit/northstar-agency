@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NorthStar — V1 Precision Command</title>
+    <meta name="description"
+        content="NorthStar is a talent intelligence infrastructure layer. Precision sourcing, hard gate verification, and evidence-based shortlists.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════════════
+   V1 — PRECISION COMMAND
+   Split-screen executive terminal with expandable
+   module rows and live verification status.
+   Built by: Antigravity (Google DeepMind)
+   ═══════════════════════════════════════════════════ */
+
+        :root {
+            --bg-0: #050914;
+            --bg-1: #0A1224;
+            --bg-2: #111E35;
+            --surface-glass: rgba(17, 30, 53, 0.58);
+            --surface-glass-strong: rgba(17, 30, 53, 0.74);
+            --text-strong: #E8F0FF;
+            --text-body: #A6B8D6;
+            --text-dim: #7E93B7;
+            --accent-indigo: #5F6AD9;
+            --accent-cyan: #63D9FF;
+            --accent-teal: #3FC8B4;
+            --ok: #34D399;
+            --warn: #F59E0B;
+            --risk: #FB7185;
+            --line-soft: rgba(173, 206, 255, 0.16);
+            --line-strong: rgba(173, 206, 255, 0.30);
+            --glow-cyan: rgba(99, 217, 255, 0.35);
+            --radius: 16px;
+            --ease: cubic-bezier(.2, .8, .2, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-0);
+            color: var(--text-body);
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ─── BG GRADIENT (no cosmic, no nebula) ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(900px 500px at 10% 20%, rgba(95, 106, 217, 0.07), transparent 60%),
+                radial-gradient(800px 500px at 85% 70%, rgba(63, 200, 180, 0.05), transparent 60%),
+                radial-gradient(600px 400px at 50% 50%, rgba(99, 217, 255, 0.03), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── FILM GRAIN ─── */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+            background-size: 128px 128px;
+            pointer-events: none;
+            z-index: 0;
+            mix-blend-mode: overlay;
+        }
+
+        /* ─── NAVBAR ─── */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 72px;
+            z-index: 100;
+            background: rgba(5, 9, 20, 0.84);
+            border-bottom: 1px solid var(--line-soft);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .nav-inner {
+            max-width: 1360px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.88rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-strong);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-links a {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: color 180ms var(--ease), background 180ms var(--ease);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-strong);
+            background: rgba(17, 30, 53, 0.35);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 4px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(99, 217, 255, 0.5), transparent);
+            opacity: 0;
+            transition: opacity 180ms var(--ease);
+        }
+
+        .nav-links a:hover::after {
+            opacity: 1;
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 10px 18px;
+            transition: filter 200ms var(--ease), transform 200ms var(--ease), border-color 200ms var(--ease);
+        }
+
+        .btn-primary {
+            color: #F6FCFF;
+            background: linear-gradient(135deg, #3A7BD5 0%, #3FC8B4 100%);
+            border: 1px solid rgba(173, 206, 255, 0.18);
+            box-shadow: 0 0 28px rgba(99, 217, 255, 0.14);
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            color: var(--text-strong);
+            background: rgba(17, 30, 53, 0.35);
+            border: 1px solid var(--line-soft);
+            backdrop-filter: blur(12px);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--line-strong);
+        }
+
+        /* ─── HERO SECTION ─── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            max-width: 1360px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: 120px 32px 60px;
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 56px;
+            align-items: center;
+        }
+
+        /* ─── LEFT: EDITORIAL ─── */
+        .hero-editorial {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent-teal);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--accent-teal);
+        }
+
+        .hero-h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.8rem, 4.4vw, 4rem);
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            color: var(--text-strong);
+        }
+
+        .hero-h1 .grad {
+            background: linear-gradient(95deg, var(--accent-cyan) 0%, var(--accent-indigo) 55%, var(--accent-teal) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-sub {
+            font-size: 1.08rem;
+            line-height: 1.65;
+            color: var(--text-body);
+            max-width: 52ch;
+        }
+
+        .hero-proof {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .proof-chip {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.66rem;
+            letter-spacing: 0.06em;
+            padding: 5px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--line-soft);
+            background: rgba(17, 30, 53, 0.4);
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .proof-chip .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-teal);
+            box-shadow: 0 0 6px var(--accent-teal);
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 14px;
+            margin-top: 8px;
+        }
+
+        /* ─── RIGHT: COMMAND TERMINAL ─── */
+        .command-panel {
+            background: var(--surface-glass);
+            border: 1px solid var(--line-soft);
+            border-radius: 20px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 24px 60px rgba(4, 10, 28, 0.6);
+            overflow: hidden;
+        }
+
+        .command-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--line-soft);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .command-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .command-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            color: var(--ok);
+            letter-spacing: 0.06em;
+        }
+
+        .command-status .pulse {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--ok);
+            box-shadow: 0 0 8px var(--ok);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+
+        /* ─── MODULE ROWS ─── */
+        .module-list {
+            list-style: none;
+        }
+
+        .module-row {
+            border-bottom: 1px solid var(--line-soft);
+            cursor: pointer;
+            transition: background 200ms var(--ease);
+        }
+
+        .module-row:last-child {
+            border-bottom: none;
+        }
+
+        .module-row:hover,
+        .module-row.active {
+            background: rgba(17, 30, 53, 0.6);
+        }
+
+        .module-row.active {
+            background: rgba(95, 106, 217, 0.06);
+        }
+
+        .module-summary {
+            padding: 14px 20px;
+            display: grid;
+            grid-template-columns: 32px 1fr auto auto;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .module-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            color: var(--text-dim);
+            letter-spacing: 0.06em;
+        }
+
+        .module-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-strong);
+            letter-spacing: 0.02em;
+        }
+
+        .module-gate {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.06em;
+            padding: 3px 10px;
+            border-radius: 999px;
+            border: 1px solid;
+            white-space: nowrap;
+        }
+
+        .gate-legit {
+            color: var(--ok);
+            border-color: rgba(52, 211, 153, 0.4);
+            background: rgba(52, 211, 153, 0.08);
+        }
+
+        .gate-risk {
+            color: var(--risk);
+            border-color: rgba(251, 113, 133, 0.4);
+            background: rgba(251, 113, 133, 0.08);
+        }
+
+        .gate-unknown {
+            color: var(--warn);
+            border-color: rgba(245, 158, 11, 0.4);
+            background: rgba(245, 158, 11, 0.08);
+        }
+
+        .module-chevron {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 260ms var(--ease);
+        }
+
+        .module-chevron svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--text-dim);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .module-row.active .module-chevron {
+            transform: rotate(180deg);
+        }
+
+        /* ─── EXPANDED DETAIL ─── */
+        .module-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 320ms var(--ease), padding 260ms var(--ease);
+        }
+
+        .module-row.active .module-detail {
+            max-height: 260px;
+        }
+
+        .module-detail-inner {
+            padding: 0 20px 16px 66px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .module-desc {
+            font-size: 0.86rem;
+            line-height: 1.55;
+            color: var(--text-body);
+            max-width: 48ch;
+        }
+
+        .module-metrics {
+            display: flex;
+            gap: 16px;
+        }
+
+        .metric-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--line-soft);
+            background: rgba(5, 9, 20, 0.7);
+        }
+
+        .metric-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-strong);
+        }
+
+        .metric-label {
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        /* ─── BOTTOM STATUS BAR ─── */
+        .command-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--line-soft);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 9, 20, 0.4);
+        }
+
+        .footer-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.06em;
+            color: var(--text-dim);
+        }
+
+        .footer-stat .val {
+            color: var(--text-strong);
+        }
+
+        .footer-ts {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            color: var(--text-dim);
+            letter-spacing: 0.04em;
+        }
+
+        /* ─── 16-POINT STAR (small emblem) ─── */
+        .star-emblem {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+        .star-emblem polygon {
+            fill: rgba(224, 239, 255, 0.7);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                padding-top: 100px;
+                min-height: auto;
+            }
+
+            .command-panel {
+                max-width: 640px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 96px 18px 40px;
+            }
+
+            .hero-h1 {
+                font-size: 2.2rem;
+            }
+
+            .module-summary {
+                grid-template-columns: 28px 1fr auto;
+                gap: 10px;
+            }
+
+            .module-chevron {
+                display: none;
+            }
+
+            .module-detail-inner {
+                padding-left: 48px;
+            }
+
+            .module-metrics {
+                flex-direction: column;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ─── NAVBAR ─── -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-logo">
+                <svg class="star-emblem" viewBox="0 0 100 100" aria-hidden="true"
+                    style="display:inline-block;vertical-align:middle;margin-right:8px;">
+                    <polygon points="50,2 55,36 98,50 55,64 50,98 45,64 2,50 45,36" />
+                    <polygon points="50,12 53,38 88,50 53,62 50,88 47,62 12,50 47,38" opacity="0.5" />
+                </svg>
+                NORTHSTAR
+            </div>
+            <div class="nav-links">
+                <a href="#">Platform</a>
+                <a href="#">Methodology</a>
+                <a href="#">Enterprise Solutions</a>
+                <a href="#">Intelligence</a>
+            </div>
+            <div class="nav-cta">
+                <button class="btn btn-secondary">Log In</button>
+                <button class="btn btn-primary">Request Access</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ─── HERO ─── -->
+    <main class="hero">
+
+        <!-- LEFT: EDITORIAL PITCH -->
+        <section class="hero-editorial">
+            <div class="hero-eyebrow">Talent Intelligence Infrastructure</div>
+            <h1 class="hero-h1">
+                Architecting the<br>
+                <span class="grad">Future of Workforce</span>
+            </h1>
+            <p class="hero-sub">
+                Precision Talent Intelligence. Verified Execution. NorthStar combines AI sourcing with evidence-based
+                verification so every shortlist is built on signal, not noise.
+            </p>
+            <div class="hero-proof">
+                <span class="proof-chip"><span class="dot"></span> Verified sourcing</span>
+                <span class="proof-chip"><span class="dot"></span> Risk-aware screening</span>
+                <span class="proof-chip"><span class="dot"></span> Audit-ready reporting</span>
+            </div>
+            <div class="hero-cta">
+                <button class="btn btn-primary">Request Access</button>
+                <button class="btn btn-secondary">View the Process</button>
+            </div>
+        </section>
+
+        <!-- RIGHT: COMMAND TERMINAL -->
+        <div class="command-panel">
+            <div class="command-header">
+                <span class="command-title">NorthStar Command · Active Modules</span>
+                <span class="command-status"><span class="pulse"></span> SYSTEM ONLINE</span>
+            </div>
+
+            <ul class="module-list" id="moduleList">
+                <li class="module-row active"
+                    data-desc="Launch every search with calibrated role scope, compensation boundaries, and outcome thresholds. The system maps client constraints into a sourcing specification before any outreach begins."
+                    data-time="12d" data-fit="92%" data-cost="41%">
+                    <div class="module-summary">
+                        <span class="module-num">01</span>
+                        <span class="module-name">Mission Control</span>
+                        <span class="module-gate gate-legit">VERIFIED_LEGIT</span>
+                        <span class="module-chevron"><svg viewBox="0 0 24 24">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg></span>
+                    </div>
+                    <div class="module-detail">
+                        <div class="module-detail-inner">
+                            <p class="module-desc">Launch every search with calibrated role scope, compensation
+                                boundaries, and outcome thresholds. The system maps client constraints into a sourcing
+                                specification before any outreach begins.</p>
+                            <div class="module-metrics">
+                                <div class="metric-item"><span class="metric-value">12d</span><span
+                                        class="metric-label">Avg. to shortlist</span></div>
+                                <div class="metric-item"><span class="metric-value">92%</span><span
+                                        class="metric-label">Fit confidence</span></div>
+                                <div class="metric-item"><span class="metric-value">41%</span><span
+                                        class="metric-label">Cost saved</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="module-row"
+                    data-desc="Rescue strong profiles buried by weak formatting, then enrich with measurable evidence before client exposure. Converts raw talent signals into structured, verifiable candidate stories."
+                    data-time="9d" data-fit="88%" data-cost="36%">
+                    <div class="module-summary">
+                        <span class="module-num">02</span>
+                        <span class="module-name">Skill Recovery Lab</span>
+                        <span class="module-gate gate-unknown">UNKNOWN_INSUFFICIENT_EVIDENCE</span>
+                        <span class="module-chevron"><svg viewBox="0 0 24 24">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg></span>
+                    </div>
+                    <div class="module-detail">
+                        <div class="module-detail-inner">
+                            <p class="module-desc">Rescue strong profiles buried by weak formatting, then enrich with
+                                measurable evidence before client exposure. Converts raw talent signals into structured,
+                                verifiable candidate stories.</p>
+                            <div class="module-metrics">
+                                <div class="metric-item"><span class="metric-value">9d</span><span
+                                        class="metric-label">Avg. to shortlist</span></div>
+                                <div class="metric-item"><span class="metric-value">88%</span><span
+                                        class="metric-label">Fit confidence</span></div>
+                                <div class="metric-item"><span class="metric-value">36%</span><span
+                                        class="metric-label">Cost saved</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="module-row"
+                    data-desc="Block mismatch and fraud vectors early with identity chain verification, history checks, and role-fit anomaly detection. Prevents bad submissions before they reach the client."
+                    data-time="7d" data-fit="95%" data-cost="48%">
+                    <div class="module-summary">
+                        <span class="module-num">03</span>
+                        <span class="module-name">Case Command</span>
+                        <span class="module-gate gate-risk">VERIFIED_RISK</span>
+                        <span class="module-chevron"><svg viewBox="0 0 24 24">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg></span>
+                    </div>
+                    <div class="module-detail">
+                        <div class="module-detail-inner">
+                            <p class="module-desc">Block mismatch and fraud vectors early with identity chain
+                                verification, history checks, and role-fit anomaly detection. Prevents bad submissions
+                                before they reach the client.</p>
+                            <div class="module-metrics">
+                                <div class="metric-item"><span class="metric-value">7d</span><span
+                                        class="metric-label">Avg. to shortlist</span></div>
+                                <div class="metric-item"><span class="metric-value">95%</span><span
+                                        class="metric-label">Fit confidence</span></div>
+                                <div class="metric-item"><span class="metric-value">48%</span><span
+                                        class="metric-label">Cost saved</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="module-row"
+                    data-desc="Turn weekly hiring signals into a quarterly roadmap so clients know which positions convert fastest and where to allocate sourcing budget for maximum ROI."
+                    data-time="14d" data-fit="90%" data-cost="33%">
+                    <div class="module-summary">
+                        <span class="module-num">04</span>
+                        <span class="module-name">Strategic Roadmap</span>
+                        <span class="module-gate gate-legit">VERIFIED_LEGIT</span>
+                        <span class="module-chevron"><svg viewBox="0 0 24 24">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg></span>
+                    </div>
+                    <div class="module-detail">
+                        <div class="module-detail-inner">
+                            <p class="module-desc">Turn weekly hiring signals into a quarterly roadmap so clients know
+                                which positions convert fastest and where to allocate sourcing budget for maximum ROI.
+                            </p>
+                            <div class="module-metrics">
+                                <div class="metric-item"><span class="metric-value">14d</span><span
+                                        class="metric-label">Avg. to shortlist</span></div>
+                                <div class="metric-item"><span class="metric-value">90%</span><span
+                                        class="metric-label">Fit confidence</span></div>
+                                <div class="metric-item"><span class="metric-value">33%</span><span
+                                        class="metric-label">Cost saved</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="module-row"
+                    data-desc="Daily action board with interview-ready shortlists, blocked issues, and immediate placement priorities. Every stakeholder sees the same execution timeline."
+                    data-time="5d" data-fit="97%" data-cost="52%">
+                    <div class="module-summary">
+                        <span class="module-num">05</span>
+                        <span class="module-name">Next 7 Days</span>
+                        <span class="module-gate gate-legit">VERIFIED_LEGIT</span>
+                        <span class="module-chevron"><svg viewBox="0 0 24 24">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg></span>
+                    </div>
+                    <div class="module-detail">
+                        <div class="module-detail-inner">
+                            <p class="module-desc">Daily action board with interview-ready shortlists, blocked issues,
+                                and immediate placement priorities. Every stakeholder sees the same execution timeline.
+                            </p>
+                            <div class="module-metrics">
+                                <div class="metric-item"><span class="metric-value">5d</span><span
+                                        class="metric-label">Avg. to shortlist</span></div>
+                                <div class="metric-item"><span class="metric-value">97%</span><span
+                                        class="metric-label">Fit confidence</span></div>
+                                <div class="metric-item"><span class="metric-value">52%</span><span
+                                        class="metric-label">Cost saved</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="command-footer">
+                <div style="display:flex;gap:20px;">
+                    <span class="footer-stat">MODULES <span class="val">5</span></span>
+                    <span class="footer-stat">ACTIVE <span class="val" style="color:var(--ok)">4</span></span>
+                    <span class="footer-stat">RISK <span class="val" style="color:var(--risk)">1</span></span>
+                </div>
+                <span class="footer-ts" id="timestamp"></span>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // ─── MODULE ROW EXPAND/COLLAPSE ───
+        const rows = document.querySelectorAll('.module-row');
+        rows.forEach(row => {
+            row.addEventListener('click', () => {
+                const wasActive = row.classList.contains('active');
+                rows.forEach(r => r.classList.remove('active'));
+                if (!wasActive) row.classList.add('active');
+            });
+        });
+
+        // ─── LIVE TIMESTAMP ───
+        const tsEl = document.getElementById('timestamp');
+        function updateTime() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            tsEl.textContent = `${h}:${m}:${s} UTC`;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+
+</html>

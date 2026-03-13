@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NorthStar Case Command Operations</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#13c8ec",
+                        "primary-dark": "#0ea5c3",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#111f22",
+                        "surface-dark": "#1a2c30",
+                        "surface-light": "#ffffff",
+                        "border-dark": "#234248",
+                    },
+                    fontFamily: {
+                        display: ["Space Grotesk", "sans-serif"],
+                        body: ["Space Grotesk", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for command center feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111f22;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #234248;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #13c8ec;
+        }
+        .glass-panel {
+            background: rgba(26, 44, 48, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(35, 66, 72, 0.6);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark bg-surface-dark/90 px-8 py-3 sticky top-0 z-50 backdrop-blur-md">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-100">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z"></path>
+</svg>
+</div>
+<h2 class="text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em]">NorthStar Agency</h2>
+</div>
+<nav class="flex items-center gap-6 hidden md:flex">
+<a class="text-primary text-sm font-medium leading-normal border-b-2 border-primary pb-0.5" href="#">Case Command</a>
+<a class="text-slate-400 hover:text-slate-200 text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-slate-400 hover:text-slate-200 text-sm font-medium leading-normal transition-colors" href="#">Agency Ops</a>
+<a class="text-slate-400 hover:text-slate-200 text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="flex flex-col min-w-40 !h-10 max-w-64 hidden sm:flex">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-background-dark border border-border-dark group focus-within:border-primary/50 transition-colors">
+<div class="text-slate-400 flex items-center justify-center pl-3">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="flex w-full min-w-0 flex-1 bg-transparent border-none text-slate-100 focus:ring-0 placeholder:text-slate-500 px-3 text-sm" placeholder="Search cases..."/>
+</div>
+</label>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg size-10 bg-surface-dark hover:bg-border-dark text-slate-100 transition-colors border border-border-dark">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg size-10 bg-surface-dark hover:bg-border-dark text-slate-100 transition-colors border border-border-dark">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+</div>
+<div class="size-10 rounded-full bg-cover bg-center border-2 border-primary/30" data-alt="User profile picture showing a professional man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDI_ViYw2SzNO6KBa86DUlfA2HI9_TQQonLbRWDdXwWUzP-o6yAH7urnZhQltsDUXIq9iQ0DLttqavljb-GYd-Cfwy_DG9KUIwbC8DL-85IyhVO5m5OexUMkeKcQyC7qqWcCyQPodKJXuY0F46etLA6Os2AbfO_3fUvLiW3G_KGxyLoGupnhnIp8b4kmCld14-BKCONcmXNVnXcEyWggYa6Hvq8wRWJbL-kGbyQCdg18dSufTi2H7SM5LcR2fIf26FpH0r8OfAvaEk');"></div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-y-auto bg-background-dark p-6 gap-6 scroll-smooth">
+<!-- Executive Summary -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="glass-panel rounded-xl p-5 relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">folder_open</span>
+</div>
+<p class="text-slate-400 text-sm font-medium mb-1">Total Applications</p>
+<div class="flex items-end gap-2">
+<span class="text-3xl font-bold text-slate-100">142</span>
+<span class="text-primary text-sm font-medium mb-1 flex items-center">
+<span class="material-symbols-outlined text-sm mr-0.5">trending_up</span> 12%
+                        </span>
+</div>
+<div class="w-full bg-border-dark h-1 mt-4 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[70%]"></div>
+</div>
+</div>
+<div class="glass-panel rounded-xl p-5 relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">filter_alt</span>
+</div>
+<p class="text-slate-400 text-sm font-medium mb-1">Active Pipeline</p>
+<div class="flex items-end gap-2">
+<span class="text-3xl font-bold text-slate-100">28</span>
+<span class="text-emerald-400 text-sm font-medium mb-1 flex items-center">
+<span class="material-symbols-outlined text-sm mr-0.5">arrow_upward</span> 5%
+                        </span>
+</div>
+<div class="w-full bg-border-dark h-1 mt-4 rounded-full overflow-hidden">
+<div class="bg-emerald-400 h-full w-[45%]"></div>
+</div>
+</div>
+<div class="glass-panel rounded-xl p-5 relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">handshake</span>
+</div>
+<p class="text-slate-400 text-sm font-medium mb-1">Projected Offers</p>
+<div class="flex items-end gap-2">
+<span class="text-3xl font-bold text-slate-100">3</span>
+<span class="text-amber-400 text-sm font-medium mb-1 flex items-center">
+<span class="material-symbols-outlined text-sm mr-0.5">remove</span> 0%
+                        </span>
+</div>
+<div class="w-full bg-border-dark h-1 mt-4 rounded-full overflow-hidden">
+<div class="bg-amber-400 h-full w-[20%]"></div>
+</div>
+</div>
+<div class="glass-panel rounded-xl p-5 relative overflow-hidden group hover:border-primary/50 transition-colors border-l-4 border-l-primary">
+<div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">psychology</span>
+</div>
+<p class="text-slate-400 text-sm font-medium mb-1">Confidence Score</p>
+<div class="flex items-end gap-2">
+<span class="text-3xl font-bold text-primary">88%</span>
+<span class="text-emerald-400 text-sm font-medium mb-1 flex items-center">
+<span class="material-symbols-outlined text-sm mr-0.5">trending_up</span> +2%
+                        </span>
+</div>
+<p class="text-xs text-slate-500 mt-3">AI Forecast based on market response</p>
+</div>
+</section>
+<div class="grid grid-cols-12 gap-6 flex-1 min-h-0">
+<!-- Kanban Board (Center-Left) -->
+<div class="col-span-12 lg:col-span-8 flex flex-col min-h-[500px]">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">view_kanban</span>
+                            Application Pipeline
+                        </h3>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-xs font-medium bg-border-dark hover:bg-primary/20 text-slate-300 rounded transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">filter_list</span> Filter
+                            </button>
+<button class="px-3 py-1.5 text-xs font-medium bg-primary hover:bg-primary-dark text-slate-900 rounded transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">add</span> New App
+                            </button>
+</div>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 h-full">
+<!-- Column: Sourced -->
+<div class="min-w-[240px] flex-1 flex flex-col gap-3">
+<div class="flex items-center justify-between pb-2 border-b border-border-dark">
+<span class="text-sm font-semibold text-slate-400">Sourced</span>
+<span class="bg-surface-dark px-2 py-0.5 rounded text-xs text-slate-500">12</span>
+</div>
+<!-- Card -->
+<div class="glass-panel p-3 rounded-lg border-l-2 border-l-slate-600 hover:bg-surface-dark transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-sm text-slate-200">Senior DevOps Eng.</h4>
+<span class="material-symbols-outlined text-slate-500 text-[16px] opacity-0 group-hover:opacity-100">more_horiz</span>
+</div>
+<p class="text-xs text-slate-400 mb-2">TechFlow Systems</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2 py-0.5 bg-slate-800 text-slate-400 text-[10px] rounded border border-slate-700">Remote</span>
+<span class="text-[10px] text-slate-500 ml-auto">2h ago</span>
+</div>
+</div>
+<!-- Card -->
+<div class="glass-panel p-3 rounded-lg border-l-2 border-l-slate-600 hover:bg-surface-dark transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-sm text-slate-200">Cloud Architect</h4>
+<span class="material-symbols-outlined text-slate-500 text-[16px] opacity-0 group-hover:opacity-100">more_horiz</span>
+</div>
+<p class="text-xs text-slate-400 mb-2">Nebula Corp</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2 py-0.5 bg-slate-800 text-slate-400 text-[10px] rounded border border-slate-700">Hybrid</span>
+<span class="text-[10px] text-slate-500 ml-auto">5h ago</span>
+</div>
+</div>
+</div>
+<!-- Column: Verified -->
+<div class="min-w-[240px] flex-1 flex flex-col gap-3">
+<div class="flex items-center justify-between pb-2 border-b border-border-dark">
+<span class="text-sm font-semibold text-sky-400">Verified</span>
+<span class="bg-surface-dark px-2 py-0.5 rounded text-xs text-slate-500">5</span>
+</div>
+<!-- Card -->
+<div class="glass-panel p-3 rounded-lg border-l-2 border-l-sky-500 hover:bg-surface-dark transition-colors cursor-pointer group relative overflow-hidden">
+<div class="absolute top-0 right-0 w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-sky-500/20 text-[40px] rotate-12">verified</span>
+</div>
+<div class="flex justify-between items-start mb-2 relative z-10">
+<h4 class="font-bold text-sm text-slate-200">Site Reliability Eng.</h4>
+</div>
+<p class="text-xs text-slate-400 mb-2 relative z-10">Apex Global</p>
+<div class="flex items-center gap-2 mt-2 relative z-10">
+<span class="px-2 py-0.5 bg-sky-900/30 text-sky-300 text-[10px] rounded border border-sky-800/50">High Match</span>
+<span class="text-[10px] text-slate-500 ml-auto">1d ago</span>
+</div>
+</div>
+</div>
+<!-- Column: Applied -->
+<div class="min-w-[240px] flex-1 flex flex-col gap-3">
+<div class="flex items-center justify-between pb-2 border-b border-border-dark">
+<span class="text-sm font-semibold text-primary">Applied</span>
+<span class="bg-surface-dark px-2 py-0.5 rounded text-xs text-slate-500">8</span>
+</div>
+<!-- Card -->
+<div class="glass-panel p-3 rounded-lg border-l-2 border-l-primary hover:bg-surface-dark transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-sm text-slate-200">Platform Engineer</h4>
+</div>
+<p class="text-xs text-slate-400 mb-2">Stryker Inc.</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2 py-0.5 bg-primary/20 text-primary text-[10px] rounded border border-primary/30">Auto-Apply</span>
+</div>
+</div>
+<!-- Card -->
+<div class="glass-panel p-3 rounded-lg border-l-2 border-l-primary hover:bg-surface-dark transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-sm text-slate-200">DevOps Lead</h4>
+</div>
+<p class="text-xs text-slate-400 mb-2">FinTech Sol.</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2 py-0.5 bg-primary/20 text-primary text-[10px] rounded border border-primary/30">Manual</span>
+</div>
+</div>
+</div>
+<!-- Column: Interview -->
+<div class="min-w-[240px] flex-1 flex flex-col gap-3">
+<div class="flex items-center justify-between pb-2 border-b border-border-dark">
+<span class="text-sm font-semibold text-amber-400">Interview</span>
+<span class="bg-surface-dark px-2 py-0.5 rounded text-xs text-slate-500">2</span>
+</div>
+<!-- Card -->
+<div class="glass-panel p-3 rounded-lg border-l-2 border-l-amber-400 bg-amber-900/10 hover:bg-surface-dark transition-colors cursor-pointer group shadow-[0_0_15px_-5px_rgba(251,191,36,0.2)]">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-sm text-slate-100">Senior SRE</h4>
+<span class="material-symbols-outlined text-amber-400 text-[18px]">calendar_clock</span>
+</div>
+<p class="text-xs text-slate-300 mb-2">MegaCorp Ltd.</p>
+<div class="flex flex-col gap-1 mt-2">
+<span class="text-[10px] text-amber-200 font-medium">Tomorrow, 10:00 AM</span>
+<div class="w-full bg-surface-dark h-1 rounded overflow-hidden">
+<div class="bg-amber-400 h-full w-[60%]"></div>
+</div>
+<span class="text-[9px] text-slate-500 text-right">Round 2/3</span>
+</div>
+</div>
+</div>
+<!-- Column: Offer -->
+<div class="min-w-[240px] flex-1 flex flex-col gap-3">
+<div class="flex items-center justify-between pb-2 border-b border-border-dark">
+<span class="text-sm font-semibold text-emerald-400">Offer</span>
+<span class="bg-surface-dark px-2 py-0.5 rounded text-xs text-slate-500">1</span>
+</div>
+<!-- Card -->
+<div class="glass-panel p-3 rounded-lg border-l-2 border-l-emerald-400 bg-emerald-900/10 hover:bg-surface-dark transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-sm text-emerald-100">Systems Eng.</h4>
+<span class="material-symbols-outlined text-emerald-400 text-[18px]">paid</span>
+</div>
+<p class="text-xs text-emerald-200/70 mb-2">StartUp IO</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2 py-0.5 bg-emerald-900/40 text-emerald-300 text-[10px] rounded border border-emerald-700/50">Negotiating</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Company Verification & Stats (Center-Right) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<!-- Verification Panel -->
+<div class="glass-panel p-5 rounded-xl h-auto">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-md font-bold text-slate-100 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">domain_verification</span>
+                                Target Verification
+                            </h3>
+<button class="text-xs text-primary hover:text-primary-dark">View All</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-2 rounded hover:bg-surface-dark/50 transition-colors border border-transparent hover:border-border-dark">
+<div class="size-8 rounded bg-emerald-900/20 text-emerald-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">shield</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-slate-200">TechFlow Systems</p>
+<p class="text-xs text-emerald-400">Verified Legit (A+)</p>
+</div>
+<span class="material-symbols-outlined text-slate-600 text-[18px]">chevron_right</span>
+</div>
+<div class="flex items-center gap-3 p-2 rounded hover:bg-surface-dark/50 transition-colors border border-transparent hover:border-border-dark">
+<div class="size-8 rounded bg-amber-900/20 text-amber-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">warning</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-slate-200">Unknown Startups Inc.</p>
+<p class="text-xs text-amber-400">Risk: Low Funding</p>
+</div>
+<span class="material-symbols-outlined text-slate-600 text-[18px]">chevron_right</span>
+</div>
+<div class="flex items-center gap-3 p-2 rounded hover:bg-surface-dark/50 transition-colors border border-transparent hover:border-border-dark">
+<div class="size-8 rounded bg-red-900/20 text-red-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">block</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-slate-200">Sketchy Co.</p>
+<p class="text-xs text-red-400">Blacklisted: Ghosting</p>
+</div>
+<span class="material-symbols-outlined text-slate-600 text-[18px]">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Performance Chart (Simplified Representation) -->
+<div class="glass-panel p-5 rounded-xl flex-1 min-h-[250px] relative overflow-hidden">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-md font-bold text-slate-100">14-Day Performance</h3>
+<select class="bg-surface-dark text-xs text-slate-300 border-none rounded px-2 py-1 outline-none">
+<option>Applications</option>
+<option>Responses</option>
+</select>
+</div>
+<div class="h-[180px] w-full flex items-end justify-between gap-2 px-2">
+<!-- Bars -->
+<div class="w-full bg-primary/20 hover:bg-primary/40 rounded-t h-[30%] transition-all relative group" title="Day 1"></div>
+<div class="w-full bg-primary/20 hover:bg-primary/40 rounded-t h-[45%] transition-all relative group" title="Day 2"></div>
+<div class="w-full bg-primary/20 hover:bg-primary/40 rounded-t h-[20%] transition-all relative group" title="Day 3"></div>
+<div class="w-full bg-primary/20 hover:bg-primary/40 rounded-t h-[60%] transition-all relative group" title="Day 4"></div>
+<div class="w-full bg-primary/20 hover:bg-primary/40 rounded-t h-[75%] transition-all relative group" title="Day 5"></div>
+<div class="w-full bg-primary hover:bg-primary-dark rounded-t h-[90%] transition-all relative group shadow-[0_0_15px_-5px_#13c8ec]" title="Day 6 (Today)"></div>
+<div class="w-full bg-slate-700/20 rounded-t h-[10%] border-t border-dashed border-slate-600" title="Forecast"></div>
+</div>
+<div class="flex justify-between text-[10px] text-slate-500 px-2 mt-2">
+<span>14 Days Ago</span>
+<span>Today</span>
+<span>Forecast</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom: Joint Action Board -->
+<section class="mt-2">
+<h3 class="text-xl font-bold text-slate-100 flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">hub</span>
+                    Joint Action Board
+                </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Agency Tasks -->
+<div class="glass-panel p-5 rounded-xl border-t-2 border-t-primary">
+<h4 class="text-sm font-bold text-primary mb-4 flex justify-between">
+                            AGENCY ACTIONS (NorthStar)
+                            <span class="text-xs font-normal text-slate-400 bg-surface-dark px-2 py-0.5 rounded">SLA: 4h remaining</span>
+</h4>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 text-sm">
+<div class="mt-0.5">
+<span class="material-symbols-outlined text-amber-400 text-[18px]">pending</span>
+</div>
+<div class="flex-1">
+<span class="text-slate-200">Negotiate base salary for StartUp IO offer</span>
+<div class="flex gap-2 mt-1">
+<span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">Agent: Sarah M.</span>
+</div>
+</div>
+</li>
+<li class="flex items-start gap-3 text-sm">
+<div class="mt-0.5">
+<span class="material-symbols-outlined text-slate-600 text-[18px]">circle</span>
+</div>
+<div class="flex-1 opacity-60">
+<span class="text-slate-300">Verify 3 new lead sources</span>
+</div>
+</li>
+</ul>
+</div>
+<!-- Client Tasks -->
+<div class="glass-panel p-5 rounded-xl border-t-2 border-t-slate-500">
+<h4 class="text-sm font-bold text-slate-100 mb-4 flex justify-between">
+                            YOUR ACTIONS
+                            <span class="text-xs font-normal text-slate-400 bg-surface-dark px-2 py-0.5 rounded">2 Pending</span>
+</h4>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 text-sm group cursor-pointer">
+<div class="mt-0.5 text-primary group-hover:text-primary-dark transition-colors">
+<span class="material-symbols-outlined text-[18px]">check_box_outline_blank</span>
+</div>
+<div class="flex-1">
+<span class="text-slate-200 group-hover:text-white transition-colors">Review MegaCorp Interview Prep Guide</span>
+<div class="flex gap-2 mt-1">
+<span class="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded font-medium">High Priority</span>
+</div>
+</div>
+<button class="opacity-0 group-hover:opacity-100 bg-primary text-slate-900 text-xs px-2 py-1 rounded font-bold transition-all">Start</button>
+</li>
+<li class="flex items-start gap-3 text-sm group cursor-pointer">
+<div class="mt-0.5 text-slate-500 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">check_box_outline_blank</span>
+</div>
+<div class="flex-1">
+<span class="text-slate-200 group-hover:text-white transition-colors">Update GitHub portfolio link</span>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</main>
+<!-- Right Sticky Panel: Next 7 Days Plan -->
+<aside class="w-80 border-l border-border-dark bg-surface-dark/40 backdrop-blur-sm hidden xl:flex flex-col p-6 overflow-y-auto">
+<div class="mb-6">
+<h3 class="text-slate-100 text-lg font-bold mb-1">Next 7 Days</h3>
+<p class="text-primary text-sm">Strategic Roadmap</p>
+</div>
+<div class="space-y-4 relative">
+<!-- Vertical Line -->
+<div class="absolute left-[15px] top-2 bottom-2 w-0.5 bg-border-dark -z-10"></div>
+<!-- Today -->
+<div class="flex gap-4">
+<div class="flex flex-col items-center gap-1 min-w-[32px]">
+<div class="size-8 rounded-full bg-primary flex items-center justify-center text-slate-900 font-bold text-xs z-10 shadow-[0_0_10px_rgba(19,200,236,0.4)]">
+                            TD
+                        </div>
+</div>
+<div class="flex-1 pb-4 border-b border-border-dark/50">
+<span class="text-primary text-xs font-bold uppercase tracking-wider">Today</span>
+<div class="bg-surface-dark p-3 rounded-lg border border-border-dark mt-2 shadow-lg">
+<p class="text-slate-200 text-sm font-medium">MegaCorp Prep</p>
+<div class="flex items-center gap-2 mt-2 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[14px]">videocam</span> 4:00 PM
+                            </div>
+</div>
+</div>
+</div>
+<!-- Tomorrow -->
+<div class="flex gap-4">
+<div class="flex flex-col items-center gap-1 min-w-[32px]">
+<div class="size-8 rounded-full bg-surface-dark border-2 border-slate-600 flex items-center justify-center text-slate-400 font-bold text-xs z-10">
+                            TM
+                        </div>
+</div>
+<div class="flex-1 pb-4 border-b border-border-dark/50">
+<span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Tomorrow</span>
+<div class="bg-surface-dark/50 p-3 rounded-lg border border-border-dark/50 mt-2 hover:border-primary/30 transition-colors cursor-pointer">
+<p class="text-slate-300 text-sm">Tech Interview</p>
+<p class="text-xs text-slate-500 mt-1">MegaCorp Round 2</p>
+</div>
+</div>
+</div>
+<!-- Day 3 -->
+<div class="flex gap-4">
+<div class="flex flex-col items-center gap-1 min-w-[32px]">
+<div class="size-2 rounded-full bg-slate-700 mt-3 z-10"></div>
+</div>
+<div class="flex-1 pb-2">
+<span class="text-slate-500 text-xs font-bold uppercase tracking-wider">Wed, Oct 25</span>
+<p class="text-slate-400 text-sm mt-1">Application Batch 3 (Auto)</p>
+</div>
+</div>
+<!-- Day 4 -->
+<div class="flex gap-4">
+<div class="flex flex-col items-center gap-1 min-w-[32px]">
+<div class="size-2 rounded-full bg-slate-700 mt-3 z-10"></div>
+</div>
+<div class="flex-1 pb-2">
+<span class="text-slate-500 text-xs font-bold uppercase tracking-wider">Thu, Oct 26</span>
+<p class="text-slate-400 text-sm mt-1">Offer Expiry: StartUp IO</p>
+</div>
+</div>
+<!-- Day 5 -->
+<div class="flex gap-4">
+<div class="flex flex-col items-center gap-1 min-w-[32px]">
+<div class="size-2 rounded-full bg-slate-700 mt-3 z-10"></div>
+</div>
+<div class="flex-1 pb-2">
+<span class="text-slate-500 text-xs font-bold uppercase tracking-wider">Fri, Oct 27</span>
+<p class="text-slate-400 text-sm mt-1">Weekly Sync w/ Agent</p>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-6">
+<div class="p-4 rounded-xl bg-gradient-to-br from-primary/20 to-transparent border border-primary/20">
+<div class="flex items-center gap-2 mb-2 text-primary">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="text-sm font-bold">Pro Tip</span>
+</div>
+<p class="text-xs text-slate-300 leading-relaxed">
+                        Adding a project link to your profile increases verification score by ~15%.
+                    </p>
+<button class="w-full mt-3 py-1.5 text-xs font-medium bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30 rounded transition-colors">
+                        Add Project
+                    </button>
+</div>
+</div>
+</aside>
+</div>
+</body></html>

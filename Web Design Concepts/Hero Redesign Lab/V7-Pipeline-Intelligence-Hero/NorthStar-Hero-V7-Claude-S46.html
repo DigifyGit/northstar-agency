@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NorthStar Agency | AI Talent Intelligence — Hero V7 by Claude Sonnet 4.6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ─────────────────────────────────────────────────────────
+   NORTHSTAR HERO V7 — PIPELINE INTELLIGENCE
+   Claude Sonnet 4.6 / 2026
+   
+   Concept: The right side shows the ACTUAL product in action:
+   A live talent pipeline with candidates being AI-sourced,
+   verified, risk-scored, and shortlisted in real time.
+   This SHOWS what NorthStar does — not abstract animations.
+───────────────────────────────────────────────────────── */
+:root {
+  --bg-0: #050918;
+  --bg-1: #0A1224;
+  --bg-2: #111E35;
+  --glass: rgba(17,30,53,0.62);
+  --glass-s: rgba(17,30,53,0.85);
+  --text-h: #E8F0FF;
+  --text-b: #A6B8D6;
+  --text-d: #6378a0;
+  --cyan:   #63D9FF;
+  --teal:   #3FC8B4;
+  --indigo: #5F6AD9;
+  --violet: #8B7DFF;
+  --ok:     #34D399;
+  --warn:   #F59E0B;
+  --risk:   #FB7185;
+  --ls:     rgba(173,206,255,0.13);
+  --lm:     rgba(173,206,255,0.22);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg-0);
+  color:var(--text-b);
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ── STARFIELD BG ─────────────────────────────────────── */
+.bg-layer{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 1000px 700px at 5% 15%,  rgba(95,106,217,0.10), transparent 60%),
+    radial-gradient(ellipse 800px  600px at 95% 80%,  rgba(63,200,180,0.08), transparent 60%),
+    radial-gradient(ellipse 600px  500px at 50% 55%,  rgba(99,217,255,0.05), transparent 65%),
+    #050918;
+}
+.star-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ── NAV ──────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:72px;
+  background:rgba(5,9,24,0.85);
+  border-bottom:1px solid var(--ls);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  display:flex;align-items:center;
+  padding:0 40px;
+  gap:0;
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;max-width:1380px;margin:0 auto;
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.2rem;font-weight:700;
+  color:var(--text-h);letter-spacing:-0.02em;text-decoration:none;
+}
+.logo-mark{
+  position:relative;width:32px;height:32px;
+}
+.logo-mark svg{width:100%;height:100%}
+.nav-links{
+  display:flex;gap:4px;list-style:none;
+}
+.nav-links a{
+  font-size:0.875rem;font-weight:500;color:var(--text-b);
+  padding:8px 14px;border-radius:8px;text-decoration:none;
+  transition:color 180ms,background 180ms;
+  position:relative;
+}
+.nav-links a:hover{color:var(--text-h);background:rgba(17,30,53,0.5)}
+.nav-right{display:flex;gap:10px;align-items:center}
+.btn-ghost{
+  background:transparent;border:1px solid var(--ls);
+  color:var(--text-b);padding:8px 18px;border-radius:8px;
+  font-size:0.875rem;font-weight:500;font-family:inherit;
+  cursor:pointer;transition:all 200ms;
+}
+.btn-ghost:hover{border-color:var(--lm);color:var(--text-h)}
+.btn-prim{
+  background:linear-gradient(135deg,#3A7BD5,#3FC8B4);
+  border:1px solid rgba(173,206,255,0.18);
+  color:#F6FCFF;padding:9px 20px;border-radius:8px;
+  font-size:0.875rem;font-weight:600;font-family:inherit;
+  cursor:pointer;transition:all 200ms;
+  box-shadow:0 0 24px rgba(99,217,255,0.15);
+}
+.btn-prim:hover{filter:brightness(1.1);transform:translateY(-1px)}
+
+/* ── HERO LAYOUT ──────────────────────────────────────── */
+#hero{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1.05fr;
+  align-items:center;
+  max-width:1380px;
+  margin:0 auto;
+  padding:72px 40px 40px;
+  gap:48px;
+}
+
+/* ── LEFT: EDITORIAL ──────────────────────────────────── */
+.hero-left{
+  display:flex;flex-direction:column;gap:0;
+  padding-top:20px;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.6875rem;font-weight:600;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--cyan);
+  margin-bottom:24px;
+  opacity:0;transform:translateY(16px);
+  animation:up 0.6s 0.05s forwards;
+}
+.eyebrow::before{
+  content:'';width:20px;height:1px;background:var(--cyan);
+  box-shadow:0 0 8px var(--cyan);
+}
+.hero-h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2.6rem,4vw,4.25rem);
+  font-weight:800;line-height:1.06;
+  letter-spacing:-0.03em;
+  color:var(--text-h);
+  margin-bottom:24px;
+  opacity:0;transform:translateY(20px);
+  animation:up 0.65s 0.15s forwards;
+}
+.grad{
+  background:linear-gradient(90deg, var(--cyan) 0%, var(--indigo) 55%, var(--teal) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;
+}
+.hero-sub{
+  font-size:1.0625rem;line-height:1.7;
+  color:var(--text-b);max-width:500px;
+  margin-bottom:40px;
+  opacity:0;transform:translateY(16px);
+  animation:up 0.65s 0.28s forwards;
+}
+
+/* ── BENEFIT PILLS ────────────────────────────────────── */
+.benefits{
+  display:flex;flex-direction:column;gap:14px;
+  margin-bottom:44px;
+  opacity:0;transform:translateY(16px);
+  animation:up 0.65s 0.38s forwards;
+}
+.benefit-row{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 18px;
+  background:var(--glass);
+  border:1px solid var(--ls);
+  border-radius:12px;
+  backdrop-filter:blur(12px);
+  transition:border-color 220ms,transform 220ms,box-shadow 220ms;
+  cursor:default;
+}
+.benefit-row:hover{
+  border-color:var(--lm);
+  transform:translateX(4px);
+  box-shadow:0 4px 24px rgba(4,10,28,0.4);
+}
+.ben-icon{
+  width:36px;height:36px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:1.125rem;
+}
+.ben-icon.cyan{background:rgba(99,217,255,0.12);color:var(--cyan)}
+.ben-icon.teal{background:rgba(63,200,180,0.12);color:var(--teal)}
+.ben-icon.violet{background:rgba(139,125,255,0.12);color:var(--violet)}
+.ben-text{flex:1}
+.ben-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.9375rem;font-weight:600;
+  color:var(--text-h);margin-bottom:3px;
+}
+.ben-desc{font-size:0.8125rem;color:var(--text-d);line-height:1.5}
+.ben-stat{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.875rem;font-weight:500;
+  color:var(--ok);white-space:nowrap;align-self:center;
+}
+
+/* ── CTA ROW ──────────────────────────────────────────── */
+.cta-row{
+  display:flex;align-items:center;gap:18px;
+  margin-bottom:36px;
+  opacity:0;transform:translateY(16px);
+  animation:up 0.65s 0.5s forwards;
+}
+.cta-a{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#3A7BD5,#3FC8B4);
+  border:1px solid rgba(173,206,255,0.2);
+  color:#F6FCFF;padding:13px 28px;border-radius:10px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.9375rem;font-weight:600;
+  text-decoration:none;cursor:pointer;
+  box-shadow:0 0 32px rgba(99,217,255,0.18);
+  transition:all 220ms cubic-bezier(.2,.8,.2,1);
+}
+.cta-a:hover{filter:brightness(1.1);transform:translateY(-2px);
+  box-shadow:0 8px 36px rgba(99,217,255,0.28)}
+.cta-a svg{transition:transform 220ms}
+.cta-a:hover svg{transform:translateX(3px)}
+.cta-b{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--text-b);font-size:0.875rem;
+  text-decoration:none;
+  transition:color 200ms;
+}
+.cta-b:hover{color:var(--text-h)}
+
+.proof-strip{
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  opacity:0;animation:fadeIn 0.7s 0.7s forwards;
+}
+.proof-chip{
+  font-size:0.75rem;color:var(--text-d);
+  display:flex;align-items:center;gap:6px;
+}
+.proof-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--teal);box-shadow:0 0 8px var(--teal);
+}
+.proof-sep{width:1px;height:14px;background:var(--ls)}
+
+/* ── RIGHT: PIPELINE VISUALIZATION ───────────────────── */
+.hero-right{
+  position:relative;
+  height:calc(100vh - 120px);
+  min-height:560px;max-height:780px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.pipeline-frame{
+  position:relative;width:100%;max-width:620px;
+  padding:20px;
+  background:var(--glass);
+  border:1px solid var(--ls);
+  border-radius:20px;
+  backdrop-filter:blur(18px);
+  box-shadow:
+    0 32px 80px rgba(4,10,28,0.55),
+    inset 0 1px 0 rgba(173,206,255,0.08);
+}
+
+/* Frame title bar */
+.frame-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--ls);
+  margin-bottom:16px;
+}
+.frame-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.8125rem;font-weight:600;
+  color:var(--text-h);
+  display:flex;align-items:center;gap:8px;
+}
+.live-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--ok);box-shadow:0 0 8px var(--ok);
+  animation:livePulse 2s ease-in-out infinite;
+}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.frame-meta{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6875rem;color:var(--text-d);
+}
+
+/* Pipeline columns */
+.pipeline-cols{
+  display:grid;
+  grid-template-columns:1fr 1px 1fr 1px 1fr;
+  gap:0;min-height:360px;
+}
+.pipe-col-sep{background:var(--ls)}
+.pipe-col{padding:0 10px;display:flex;flex-direction:column;gap:8px}
+.pipe-col-title{
+  font-size:0.6875rem;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--text-d);margin-bottom:8px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.col-count{
+  font-family:'JetBrains Mono',monospace;
+  background:rgba(17,30,53,0.7);
+  border:1px solid var(--ls);
+  border-radius:10px;padding:1px 6px;
+  font-size:0.6875rem;color:var(--text-b);
+}
+
+/* Candidate Cards */
+.cand-card{
+  background:rgba(10,18,36,0.7);
+  border:1px solid var(--ls);
+  border-radius:10px;padding:10px 12px;
+  transition:border-color 200ms,transform 200ms;
+  cursor:default;position:relative;overflow:hidden;
+}
+.cand-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  border-radius:2px 2px 0 0;
+  opacity:0.7;
+}
+.cand-card.sourced::before{background:linear-gradient(90deg,var(--indigo),var(--violet))}
+.cand-card.verifying::before{background:linear-gradient(90deg,var(--warn),#fb923c)}
+.cand-card.cleared::before{background:linear-gradient(90deg,var(--teal),var(--ok))}
+.cand-card:hover{border-color:var(--lm);transform:translateY(-2px)}
+
+.cand-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.8rem;font-weight:600;color:var(--text-h);
+  margin-bottom:3px;
+}
+.cand-role{font-size:0.6875rem;color:var(--text-d);margin-bottom:8px}
+
+/* Fit bar */
+.fit-bar-wrap{margin-bottom:6px}
+.fit-label{
+  display:flex;justify-content:space-between;
+  font-size:0.625rem;color:var(--text-d);margin-bottom:3px;
+}
+.fit-track{
+  height:3px;background:rgba(173,206,255,0.08);border-radius:2px;
+  overflow:hidden;
+}
+.fit-fill{
+  height:100%;border-radius:2px;
+  animation:grow 1.2s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes grow{from{width:0}}
+.fit-fill.high{background:linear-gradient(90deg,var(--teal),var(--ok))}
+.fit-fill.med{background:linear-gradient(90deg,var(--indigo),var(--cyan))}
+.fit-fill.low{background:linear-gradient(90deg,#6b7280,var(--text-d))}
+
+/* Status badges */
+.badge-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.badge{
+  font-size:0.5625rem;font-weight:600;letter-spacing:0.06em;
+  text-transform:uppercase;padding:2px 7px;border-radius:20px;
+}
+.badge.ok{background:rgba(52,211,153,0.12);color:var(--ok);border:1px solid rgba(52,211,153,0.2)}
+.badge.warn{background:rgba(245,158,11,0.12);color:var(--warn);border:1px solid rgba(245,158,11,0.2)}
+.badge.risk{background:rgba(251,113,133,0.12);color:var(--risk);border:1px solid rgba(251,113,133,0.2)}
+.badge.info{background:rgba(96,165,250,0.12);color:var(--info);border:1px solid rgba(96,165,250,0.2)}
+.badge.dim{background:rgba(173,206,255,0.06);color:var(--text-d);border:1px solid var(--ls)}
+
+/* Risk score */
+.risk-score{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.625rem;color:var(--text-d);
+  margin-top:5px;display:flex;align-items:center;gap:5px;
+}
+.rs-dot{width:5px;height:5px;border-radius:50%}
+.rs-dot.low{background:var(--ok)}
+.rs-dot.med{background:var(--warn)}
+.rs-dot.high{background:var(--risk)}
+
+/* ── BOTTOM STATS BAR ─────────────────────────────────── */
+.frame-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;margin-top:16px;
+  padding-top:14px;border-top:1px solid var(--ls);
+}
+.stat-cell{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:0 6px;
+  border-right:1px solid var(--ls);
+}
+.stat-cell:last-child{border-right:none}
+.stat-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.1rem;font-weight:500;color:var(--text-h);
+}
+.stat-lbl{font-size:0.625rem;color:var(--text-d);text-align:center;line-height:1.4}
+
+/* Animated entry cards */
+.cand-card{opacity:0;transform:translateY(8px)}
+.cand-card.visible{
+  animation:cardIn 0.5s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes cardIn{
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* New candidate sliding in */
+.new-entry{
+  position:absolute;
+  background:rgba(10,18,36,0.95);
+  border:1px solid rgba(99,217,255,0.3);
+  border-radius:10px;padding:10px 12px;
+  left:14px;right:14px;
+  opacity:0;
+  transform:translateY(-20px);
+  pointer-events:none;
+  z-index:10;
+  box-shadow:0 8px 32px rgba(99,217,255,0.12);
+}
+.new-entry.animating{
+  animation:slideEntry 0.8s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes slideEntry{
+  0%{opacity:0;transform:translateY(-20px)}
+  30%{opacity:1;transform:translateY(0)}
+  80%{opacity:1;transform:translateY(0)}
+  100%{opacity:0;transform:translateY(0)}
+}
+.new-label{
+  font-size:0.6rem;font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--cyan);margin-bottom:4px;
+}
+
+/* ── KEYFRAMES ────────────────────────────────────────── */
+@keyframes up{to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{to{opacity:1}}
+
+/* ── MOBILE ───────────────────────────────────────────── */
+@media(max-width:900px){
+  #hero{
+    grid-template-columns:1fr;
+    padding:88px 20px 40px;
+    gap:32px;min-height:auto;
+  }
+  .hero-right{height:auto;min-height:0}
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .pipeline-frame{max-width:100%}
+  .pipeline-cols{grid-template-columns:1fr 1px 1fr}
+  .pipe-col:last-child{display:none}
+  .pipe-col-sep:last-of-type{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer" aria-hidden="true"></div>
+<canvas class="star-canvas" id="starCanvas" aria-hidden="true"></canvas>
+
+<!-- ── NAV ── -->
+<nav role="navigation" aria-label="Main">
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 32 32" fill="none">
+          <!-- 8-point star -->
+          <path d="M16 2 L17.6 12 L27 7 L20.8 15.2 L30 16 L20.8 16.8 L27 25 L17.6 20 L16 30 L14.4 20 L5 25 L11.2 16.8 L2 16 L11.2 15.2 L5 7 L14.4 12 Z"
+            fill="none" stroke="#63D9FF" stroke-width="1.2"
+            stroke-linejoin="round" opacity="0.9"/>
+          <circle cx="16" cy="16" r="3" fill="#63D9FF" opacity="0.7"/>
+        </svg>
+      </div>
+      NorthStar
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#platform">Platform</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#fraud">Fraud Protection</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#insights">Insights</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="btn-ghost">Client Login</button>
+      <button class="btn-prim">Request Access</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero" aria-label="Hero">
+
+  <!-- LEFT SIDE: EDITORIAL -->
+  <div class="hero-left">
+
+    <span class="eyebrow">AI Talent Intelligence Platform</span>
+
+    <h1 class="hero-h1">
+      Hire Smarter.<br>
+      <span class="grad">Verify Everything.</span><br>
+      Risk Nothing.
+    </h1>
+
+    <p class="hero-sub">
+      NorthStar sources specialized talent, verifies identity and evidence,
+      and delivers risk-scored shortlists — so every hire is built on
+      signal, not assumption.
+    </p>
+
+    <!-- 3 BENEFIT ROWS WITH REAL STATS -->
+    <div class="benefits" role="list">
+      <div class="benefit-row" role="listitem">
+        <div class="ben-icon cyan">⚡</div>
+        <div class="ben-text">
+          <div class="ben-title">Shortlist in 48 Hours</div>
+          <div class="ben-desc">AI-sourced, ranked, and pre-verified — faster than any traditional pipeline</div>
+        </div>
+        <div class="ben-stat">73% faster</div>
+      </div>
+      <div class="benefit-row" role="listitem">
+        <div class="ben-icon teal">🛡</div>
+        <div class="ben-text">
+          <div class="ben-title">Hard Gate Verification</div>
+          <div class="ben-desc">Identity checks, skill evidence, and fraud signals — before anyone reaches you</div>
+        </div>
+        <div class="ben-stat">0 fraud slips</div>
+      </div>
+      <div class="benefit-row" role="listitem">
+        <div class="ben-icon violet">📊</div>
+        <div class="ben-text">
+          <div class="ben-title">Evidence-Based Decisions</div>
+          <div class="ben-desc">Every recommendation backed by a documented audit trail and risk score</div>
+        </div>
+        <div class="ben-stat">4.8× conversion</div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="#request" class="cta-a">
+        Request Access
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="#process" class="cta-b">
+        See how it works
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" stroke-width="1.2"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="proof-strip">
+      <div class="proof-chip"><div class="proof-dot"></div>Verified Sourcing</div>
+      <div class="proof-sep"></div>
+      <div class="proof-chip"><div class="proof-dot"></div>Risk-Aware Screening</div>
+      <div class="proof-sep"></div>
+      <div class="proof-chip"><div class="proof-dot"></div>Audit-Ready Reporting</div>
+    </div>
+
+  </div><!-- /hero-left -->
+
+  <!-- RIGHT SIDE: LIVE PIPELINE UI -->
+  <div class="hero-right" aria-label="Live talent pipeline visualization" aria-hidden="true">
+
+    <div class="pipeline-frame" id="pipelineFrame">
+
+      <!-- Title bar -->
+      <div class="frame-bar">
+        <div class="frame-title">
+          <div class="live-dot"></div>
+          NorthStar Pipeline · Live View
+        </div>
+        <div class="frame-meta">Updated 2s ago</div>
+      </div>
+
+      <!-- Pipeline Kanban -->
+      <div class="pipeline-cols">
+
+        <!-- COL 1: SOURCED -->
+        <div class="pipe-col">
+          <div class="pipe-col-title">
+            Sourced
+            <span class="col-count" id="cnt1">4</span>
+          </div>
+
+          <div class="cand-card sourced" id="c1">
+            <div class="cand-name">A. Richardson</div>
+            <div class="cand-role">Sr. ML Engineer · Remote</div>
+            <div class="fit-bar-wrap">
+              <div class="fit-label"><span>AI Fit</span><span>87%</span></div>
+              <div class="fit-track"><div class="fit-fill high" style="width:87%"></div></div>
+            </div>
+            <div class="badge-row">
+              <span class="badge info">AI-Matched</span>
+              <span class="badge dim">Pending ID</span>
+            </div>
+          </div>
+
+          <div class="cand-card sourced" id="c2">
+            <div class="cand-name">M. Okafor</div>
+            <div class="cand-role">Head of Product · NYC</div>
+            <div class="fit-bar-wrap">
+              <div class="fit-label"><span>AI Fit</span><span>79%</span></div>
+              <div class="fit-track"><div class="fit-fill med" style="width:79%"></div></div>
+            </div>
+            <div class="badge-row">
+              <span class="badge info">AI-Matched</span>
+              <span class="badge dim">Pending ID</span>
+            </div>
+          </div>
+
+          <div class="cand-card sourced" id="c3">
+            <div class="cand-name">S. Fernandez</div>
+            <div class="cand-role">DevOps Lead · Austin</div>
+            <div class="fit-bar-wrap">
+              <div class="fit-label"><span>AI Fit</span><span>71%</span></div>
+              <div class="fit-track"><div class="fit-fill med" style="width:71%"></div></div>
+            </div>
+            <div class="badge-row">
+              <span class="badge info">AI-Matched</span>
+              <span class="badge dim">Queued</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pipe-col-sep"></div>
+
+        <!-- COL 2: VERIFYING -->
+        <div class="pipe-col">
+          <div class="pipe-col-title">
+            Verifying
+            <span class="col-count" id="cnt2">3</span>
+          </div>
+
+          <div class="cand-card verifying" id="c4">
+            <div class="cand-name">J. Nakamura</div>
+            <div class="cand-role">Principal Engineer · SF</div>
+            <div class="fit-bar-wrap">
+              <div class="fit-label"><span>AI Fit</span><span>93%</span></div>
+              <div class="fit-track"><div class="fit-fill high" style="width:93%"></div></div>
+            </div>
+            <div class="badge-row">
+              <span class="badge warn">ID Check</span>
+              <span class="badge warn">Evidence</span>
+            </div>
+            <div class="risk-score">
+              <div class="rs-dot low"></div>Risk Score: 12 / 100 — Low
+            </div>
+          </div>
+
+          <div class="cand-card verifying" id="c5">
+            <div class="cand-name">T. Adeyemi</div>
+            <div class="cand-role">Data Scientist · Chicago</div>
+            <div class="fit-bar-wrap">
+              <div class="fit-label"><span>AI Fit</span><span>84%</span></div>
+              <div class="fit-track"><div class="fit-fill high" style="width:84%"></div></div>
+            </div>
+            <div class="badge-row">
+              <span class="badge warn">Skill Proof</span>
+            </div>
+            <div class="risk-score">
+              <div class="rs-dot med"></div>Risk Score: 34 / 100 — Review
+            </div>
+          </div>
+
+          <div class="cand-card verifying" id="c6">
+            <div class="cand-name">K. Müller</div>
+            <div class="cand-role">Security Architect · Remote</div>
+            <div class="fit-bar-wrap">
+              <div class="fit-label"><span>AI Fit</span><span>78%</span></div>
+              <div class="fit-track"><div class="fit-fill med" style="width:78%"></div></div>
+            </div>
+            <div class="badge-row">
+              <span class="badge risk">Flag ⚠</span>
+              <span class="badge risk">High Risk</span>
+            </div>
+            <div class="risk-score">
+              <div class="rs-dot high"></div>Risk Score: 71 / 100 — Blocked
+            </div>
+          </div>
+        </div>
+
+        <div class="pipe-col-sep"></div>
+
+        <!-- COL 3: CLEARED -->
+        <div class="pipe-col">
+          <div class="pipe-col-title">
+            Shortlisted ✓
+            <span class="col-count" id="cnt3">2</span>
+          </div>
+
+          <div class="cand-card cleared" id="c7">
+            <div class="cand-name">P. Osei-Bonsu</div>
+            <div class="cand-role">VP Engineering · Boston</div>
+            <div class="fit-bar-wrap">
+              <div class="fit-label"><span>AI Fit</span><span>96%</span></div>
+              <div class="fit-track"><div class="fit-fill high" style="width:96%"></div></div>
+            </div>
+            <div class="badge-row">
+              <span class="badge ok">Verified ✓</span>
+              <span class="badge ok">Cleared</span>
+            </div>
+            <div class="risk-score">
+              <div class="rs-dot low"></div>Risk Score: 4 / 100 — Safe
+            </div>
+          </div>
+
+          <div class="cand-card cleared" id="c8">
+            <div class="cand-name">L. Tremblay</div>
+            <div class="cand-role">CTO Fractional · Remote</div>
+            <div class="fit-bar-wrap">
+              <div class="fit-label"><span>AI Fit</span><span>91%</span></div>
+              <div class="fit-track"><div class="fit-fill high" style="width:91%"></div></div>
+            </div>
+            <div class="badge-row">
+              <span class="badge ok">Verified ✓</span>
+              <span class="badge ok">Ready</span>
+            </div>
+            <div class="risk-score">
+              <div class="rs-dot low"></div>Risk Score: 8 / 100 — Safe
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /pipeline-cols -->
+
+      <!-- Bottom stats bar -->
+      <div class="frame-stats">
+        <div class="stat-cell">
+          <div class="stat-num" id="sn1">9</div>
+          <div class="stat-lbl">Total in pipeline</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num" style="color:var(--ok)">1</div>
+          <div class="stat-lbl">Fraud blocked</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num" style="color:var(--cyan)" id="sn3">48h</div>
+          <div class="stat-lbl">Avg. shortlist time</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num" style="color:var(--teal)">2</div>
+          <div class="stat-lbl">Ready for client</div>
+        </div>
+      </div>
+
+    </div><!-- /pipeline-frame -->
+
+    <!-- Floating "new candidate" entry notification -->
+    <div class="new-entry" id="newEntry" role="status" aria-live="polite">
+      <div class="new-label">⚡ New AI Match</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:0.8125rem;font-weight:600;color:var(--text-h)">R. Silveira — Staff Eng.</div>
+      <div style="font-size:0.6875rem;color:var(--text-d);margin-top:2px">Fit Score 88% · Entering verification</div>
+    </div>
+
+  </div><!-- /hero-right -->
+
+</section><!-- /hero -->
+
+<script>
+/* ── STAR FIELD ─────────────────────────────────────── */
+(function(){
+  const c=document.getElementById('starCanvas');
+  const ctx=c.getContext('2d');
+  const stars=[];
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<180;i++){
+    stars.push({
+      x:Math.random()*window.innerWidth,
+      y:Math.random()*window.innerHeight,
+      r:Math.random()*1.1+0.2,
+      a:Math.random(),
+      s:Math.random()*0.004+0.001,
+      dir:Math.random()>0.5?1:-1
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    stars.forEach(s=>{
+      s.a+=s.s*s.dir;
+      if(s.a>0.9||s.a<0.1)s.dir*=-1;
+      ctx.save();
+      ctx.globalAlpha=s.a*0.7;
+      ctx.fillStyle='#fff';
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── ANIMATE CARDS IN SEQUENCE ─────────────────────── */
+(function(){
+  const cards=document.querySelectorAll('.cand-card');
+  cards.forEach((card,i)=>{
+    setTimeout(()=>card.classList.add('visible'),300+i*120);
+  });
+})();
+
+/* ── NEW CANDIDATE ENTRY ANIMATION ─────────────────── */
+(function(){
+  const entry=document.getElementById('newEntry');
+  const names=[
+    {n:'R. Silveira',r:'Staff Eng.',s:'88%'},
+    {n:'C. Okonkwo',r:'Data Lead',s:'82%'},
+    {n:'H. Yamamoto',r:'Product Dir.',s:'91%'},
+    {n:'B. Mensah',r:'SRE Lead',s:'76%'},
+    {n:'E. Sorensen',r:'ML Researcher',s:'95%'}
+  ];
+  let idx=0;
+  function showEntry(){
+    const d=names[idx%names.length];idx++;
+    entry.querySelector('div:nth-child(2)').textContent=d.n+' — '+d.r;
+    entry.querySelector('div:nth-child(3)').textContent='Fit Score '+d.s+' · Entering verification';
+    entry.classList.remove('animating');
+    void entry.offsetWidth; // reflow
+    entry.classList.add('animating');
+  }
+  setTimeout(()=>{
+    showEntry();
+    setInterval(showEntry,5000);
+  },2500);
+})();
+
+/* ── COUNTER DRIFT (live feel) ──────────────────────── */
+(function(){
+  const s1=document.getElementById('sn1');
+  const s3=document.getElementById('sn3');
+  let total=9;
+  setInterval(()=>{
+    // Occasionally bump total (simulating new entries)
+    if(Math.random()<0.3){total++;s1.textContent=total;}
+  },5200);
+  // Clock update
+  const times=['48h','46h','51h','44h','48h'];
+  let ti=0;
+  setInterval(()=>{ti=(ti+1)%times.length;s3.textContent=times[ti]},7000);
+})();
+
+/* ── PIPELINE LIVE UPDATE TIMESTAMP ────────────────── */
+(function(){
+  const meta=document.querySelector('.frame-meta');
+  let sec=2;
+  setInterval(()=>{
+    sec=Math.floor(Math.random()*8)+1;
+    meta.textContent='Updated '+sec+'s ago';
+  },3000);
+})();
+</script>
+
+</body>
+</html>

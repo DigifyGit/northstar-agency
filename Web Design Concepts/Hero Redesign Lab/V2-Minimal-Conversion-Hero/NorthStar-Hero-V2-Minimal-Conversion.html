@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NorthStar Hero V2 | Minimal Conversion</title>
+  <meta name="description" content="Minimal conversion-focused NorthStar hero concept with one clear visual interaction." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-0: #060916;
+      --bg-1: #0b1534;
+      --panel: rgba(12, 21, 48, 0.78);
+      --line: rgba(154, 213, 255, 0.28);
+      --line-strong: rgba(154, 213, 255, 0.58);
+      --text-1: #f1f8ff;
+      --text-2: #cbdff8;
+      --text-3: #92aed4;
+      --cyan: #56ddff;
+      --mint: #41ecbe;
+      --amber: #ffcf73;
+      --ok: #9dffd6;
+      --warn: #ffd8a0;
+      --radius: 18px;
+      --shadow: 0 24px 50px rgba(5, 9, 26, 0.55);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+      color: var(--text-2);
+      background:
+        radial-gradient(860px 600px at 10% 10%, rgba(86, 221, 255, 0.14), transparent 70%),
+        radial-gradient(900px 620px at 88% 18%, rgba(65, 236, 190, 0.11), transparent 72%),
+        linear-gradient(180deg, var(--bg-0), var(--bg-1), var(--bg-0));
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 48px 0;
+    }
+
+    .wrap {
+      width: min(1240px, calc(100% - 40px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .left,
+    .right {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(155deg, rgba(10, 19, 44, 0.86), rgba(8, 15, 35, 0.82));
+      box-shadow: var(--shadow);
+    }
+
+    .left {
+      padding: 34px 30px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .badge {
+      width: fit-content;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #def4ff;
+      background: linear-gradient(120deg, rgba(86, 221, 255, 0.18), rgba(65, 236, 190, 0.16));
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--text-1);
+      font-family: "Space Grotesk", Manrope, sans-serif;
+      font-size: clamp(36px, 5vw, 62px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .grad {
+      background: linear-gradient(92deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      margin: 0;
+      font-size: clamp(16px, 1.7vw, 19px);
+      line-height: 1.6;
+      max-width: 54ch;
+    }
+
+    .bullets {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 9px;
+    }
+
+    .bullets li {
+      color: var(--text-2);
+      font-size: 15px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .bullets li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(140deg, var(--cyan), var(--mint));
+      box-shadow: 0 0 12px rgba(86, 221, 255, 0.65);
+      margin-top: 7px;
+      flex: 0 0 auto;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .btn {
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      color: var(--text-1);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      background: rgba(13, 24, 54, 0.7);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      box-shadow: 0 0 16px rgba(86, 221, 255, 0.18);
+    }
+
+    .btn.primary {
+      color: #04131f;
+      border-color: rgba(255,255,255,.45);
+      background: linear-gradient(130deg, var(--mint), var(--cyan));
+    }
+
+    .proof {
+      color: var(--text-3);
+      font-size: 13px;
+      padding-top: 4px;
+    }
+
+    .right {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .scenarios {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .scenario {
+      border: 1px solid var(--line);
+      background: rgba(12, 22, 48, 0.72);
+      color: #e4f5ff;
+      border-radius: 10px;
+      padding: 7px 10px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color .18s ease, transform .18s ease;
+    }
+
+    .scenario.active,
+    .scenario:hover {
+      border-color: rgba(65, 236, 190, 0.72);
+      transform: translateY(-1px);
+    }
+
+    .mini-kpis {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 8px;
+    }
+
+    .k {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(10, 19, 41, 0.72);
+      padding: 10px;
+    }
+
+    .k .l {
+      color: var(--text-3);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 3px;
+    }
+
+    .k .v {
+      color: var(--text-1);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(19px, 2vw, 28px);
+      line-height: 1.1;
+    }
+
+    .journey {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: linear-gradient(160deg, rgba(9, 16, 35, 0.9), rgba(12, 22, 47, 0.86));
+      display: grid;
+      gap: 10px;
+    }
+
+    .journey-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .journey-title {
+      color: var(--text-1);
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .journey-note {
+      color: #defef2;
+      font-size: 12px;
+      border: 1px solid rgba(65, 236, 190, 0.42);
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: rgba(19, 57, 49, 0.45);
+    }
+
+    .rail {
+      position: relative;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(154, 213, 255, 0.2);
+      overflow: hidden;
+    }
+
+    .rail-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: var(--progress, 75%);
+      background: linear-gradient(90deg, var(--cyan), var(--mint));
+      border-radius: 999px;
+      transition: width .45s ease;
+    }
+
+    .rail-dot {
+      position: absolute;
+      top: 50%;
+      left: var(--progress, 75%);
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #e7fbff;
+      box-shadow: 0 0 18px rgba(86, 221, 255, 0.75);
+      transition: left .45s ease;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 8px;
+    }
+
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px;
+      background: rgba(12, 22, 46, 0.68);
+      min-height: 68px;
+    }
+
+    .step .s1 {
+      color: #ecf8ff;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .step .s2 {
+      color: var(--text-3);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .outcome {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px;
+      background: rgba(10, 20, 44, 0.74);
+    }
+
+    .metric .m1 {
+      color: var(--text-3);
+      font-size: 11px;
+      margin-bottom: 2px;
+    }
+
+    .metric .m2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 20px;
+      line-height: 1.1;
+    }
+
+    .metric.ok .m2 { color: var(--ok); }
+    .metric.warn .m2 { color: var(--warn); }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 3px rgba(86, 221, 255, 0.2);
+    }
+
+    @media (max-width: 1080px) {
+      .wrap { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .hero { min-height: auto; padding: 30px 0; }
+      .wrap { width: min(1240px, calc(100% - 24px)); }
+      .left { padding: 24px 18px; }
+      .mini-kpis { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .outcome { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" id="northstar-hero-v2">
+    <div class="wrap">
+      <article class="left">
+        <div class="badge">Hero V2 | Minimal Direction</div>
+        <h1>Verified Shortlists, <span class="grad">Faster Hiring Decisions</span></h1>
+        <p class="lead">
+          NorthStar helps staffing and recruiting teams move from candidate volume to interview-ready talent with proof-based verification.
+        </p>
+
+        <ul class="bullets">
+          <li>Cut time-to-shortlist with prioritized sourcing streams.</li>
+          <li>Block risky profiles before interview spend.</li>
+          <li>Give leadership clear, evidence-backed hiring decisions.</li>
+        </ul>
+
+        <div class="cta-row">
+          <a href="#" class="btn primary">Request Access</a>
+          <a href="#" class="btn">See How It Works</a>
+        </div>
+
+        <div class="proof">Trusted by teams hiring for high-stakes roles in tech, operations, and healthcare.</div>
+      </article>
+
+      <aside class="right" aria-label="NorthStar proof journey visual">
+        <div class="scenarios" role="tablist" aria-label="Scenario">
+          <button class="scenario active" data-key="tech">Tech</button>
+          <button class="scenario" data-key="health">Healthcare</button>
+          <button class="scenario" data-key="exec">Executive</button>
+        </div>
+
+        <div class="mini-kpis">
+          <div class="k"><div class="l">Time to shortlist</div><div class="v" id="k-time">7d</div></div>
+          <div class="k"><div class="l">Fit confidence</div><div class="v" id="k-fit">94%</div></div>
+          <div class="k"><div class="l">Risk blocked</div><div class="v" id="k-risk">63%</div></div>
+        </div>
+
+        <div class="journey">
+          <div class="journey-head">
+            <div class="journey-title" id="j-title">Candidate Journey | Tech</div>
+            <div class="journey-note" id="j-note">Verification active</div>
+          </div>
+
+          <div class="rail" id="rail">
+            <div class="rail-fill"></div>
+            <div class="rail-dot"></div>
+          </div>
+
+          <div class="steps">
+            <div class="step"><div class="s1">Source</div><div class="s2" id="s-source">Priority pipeline pulled</div></div>
+            <div class="step"><div class="s1">Verify</div><div class="s2" id="s-verify">Identity + portfolio checks</div></div>
+            <div class="step"><div class="s1">Shortlist</div><div class="s2" id="s-short">Only validated talent passes</div></div>
+            <div class="step"><div class="s1">Interview</div><div class="s2" id="s-int">Decision notes attached</div></div>
+          </div>
+
+          <div class="outcome">
+            <div class="metric ok"><div class="m1">Interview-ready now</div><div class="m2" id="m-ready">18</div></div>
+            <div class="metric warn"><div class="m1">Issues blocked early</div><div class="m2" id="m-block">11</div></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <script>
+    const DATA = {
+      tech: {
+        time: '7d',
+        fit: '94%',
+        risk: '63%',
+        title: 'Candidate Journey | Tech',
+        note: 'Verification active',
+        progress: '78%',
+        source: 'Priority pipeline pulled',
+        verify: 'Identity + portfolio checks',
+        short: 'Only validated talent passes',
+        int: 'Decision notes attached',
+        ready: 18,
+        block: 11
+      },
+      health: {
+        time: '6d',
+        fit: '96%',
+        risk: '71%',
+        title: 'Candidate Journey | Healthcare',
+        note: 'License screening active',
+        progress: '84%',
+        source: 'Credential-first sourcing stream',
+        verify: 'License + sanctions checks',
+        short: 'Compliance-safe shortlist only',
+        int: 'Clinical panel packet prepared',
+        ready: 22,
+        block: 15
+      },
+      exec: {
+        time: '12d',
+        fit: '92%',
+        risk: '57%',
+        title: 'Candidate Journey | Executive',
+        note: 'Board-fit review active',
+        progress: '66%',
+        source: 'Targeted market mapping',
+        verify: 'Track record + identity chain',
+        short: 'Leadership-fit ranking',
+        int: 'Board-ready memo attached',
+        ready: 9,
+        block: 6
+      }
+    };
+
+    const refs = {
+      btns: [...document.querySelectorAll('.scenario')],
+      time: document.getElementById('k-time'),
+      fit: document.getElementById('k-fit'),
+      risk: document.getElementById('k-risk'),
+      title: document.getElementById('j-title'),
+      note: document.getElementById('j-note'),
+      rail: document.getElementById('rail'),
+      source: document.getElementById('s-source'),
+      verify: document.getElementById('s-verify'),
+      short: document.getElementById('s-short'),
+      int: document.getElementById('s-int'),
+      ready: document.getElementById('m-ready'),
+      block: document.getElementById('m-block')
+    };
+
+    function animateInt(el, next) {
+      const start = Number(el.textContent.replace(/[^\d]/g, '')) || 0;
+      const end = Number(next);
+      const t0 = performance.now();
+      const dur = 420;
+      function f(t) {
+        const p = Math.min(1, (t - t0) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = String(Math.round(start + (end - start) * eased));
+        if (p < 1) requestAnimationFrame(f);
+      }
+      requestAnimationFrame(f);
+    }
+
+    function apply(key) {
+      const d = DATA[key];
+      if (!d) return;
+      refs.btns.forEach((b) => b.classList.toggle('active', b.dataset.key === key));
+
+      refs.time.textContent = d.time;
+      refs.fit.textContent = d.fit;
+      refs.risk.textContent = d.risk;
+      refs.title.textContent = d.title;
+      refs.note.textContent = d.note;
+      refs.rail.style.setProperty('--progress', d.progress);
+      refs.source.textContent = d.source;
+      refs.verify.textContent = d.verify;
+      refs.short.textContent = d.short;
+      refs.int.textContent = d.int;
+      animateInt(refs.ready, d.ready);
+      animateInt(refs.block, d.block);
+    }
+
+    refs.btns.forEach((b) => b.addEventListener('click', () => apply(b.dataset.key)));
+
+    apply('tech');
+  </script>
+</body>
+</html>

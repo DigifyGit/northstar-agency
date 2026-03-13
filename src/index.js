@@ -9,16 +9,13 @@ const fs = require('fs-extra');
 const { scrapeJobCards, saveResults, checkFilters } = require('./scraper');
 const { getUserContext } = require('./utils/brainReader');
 const { updateMemory } = require('./utils/brainWriter');
+const { resolveBrowserConfig, launchBrowserWithSingleProfile } = require('./utils/browserSession');
 
 const CONFIG_PATH = process.argv[2] ? path.resolve(process.argv[2]) : path.join(process.cwd(), 'config', 'quick_links.json');
 const MAX_ATTEMPTS_PER_LINK = 3;
 const AGENT_ID = (process.env.AGENT_ID || 'codex').toLowerCase();
 const SESSION_METHOD = (process.env.SESSION_METHOD || 'isolated_profile').toLowerCase();
-const USER_DATA_DIR = process.env.USER_DATA_DIR
-    ? path.resolve(process.env.USER_DATA_DIR)
-    : path.join(process.cwd(), `user_data_${AGENT_ID}`);
-const BROWSER_CHANNEL = process.env.BROWSER_CHANNEL;
-const BROWSER_EXECUTABLE_PATH = process.env.BROWSER_EXECUTABLE_PATH;
+const BROWSER_CONFIG = resolveBrowserConfig(AGENT_ID);
 
 const delay = (min, max) => new Promise(resolve =>
     setTimeout(resolve, Math.floor(Math.random() * (max - min + 1) + min))
@@ -40,23 +37,17 @@ async function createVerifiedPage(browser) {
 
 async function main() {
     console.log(`Launching browser with persistent profile...`);
-    console.log(`Agent Session: agent=${AGENT_ID}, method=${SESSION_METHOD}, profile=${USER_DATA_DIR}`);
+    console.log(`Agent Session: agent=${AGENT_ID}, method=${SESSION_METHOD}, profile=${BROWSER_CONFIG.userDataDir}`);
+    if (BROWSER_CONFIG.executablePath) {
+        console.log(`Browser Binary: ${BROWSER_CONFIG.executablePath}`);
+    }
     const userContext = await getUserContext();
     if (!userContext) {
         console.error('CRITICAL: Failed to load CLIENT_BRIEF.md context.');
         return;
     }
 
-    const launchOptions = {
-        headless: false,
-        userDataDir: USER_DATA_DIR,
-        defaultViewport: null,
-        args: ['--start-maximized']
-    };
-    if (BROWSER_CHANNEL) launchOptions.channel = BROWSER_CHANNEL;
-    if (BROWSER_EXECUTABLE_PATH) launchOptions.executablePath = BROWSER_EXECUTABLE_PATH;
-
-    const browser = await puppeteer.launch(launchOptions);
+    const browser = await launchBrowserWithSingleProfile(puppeteer, BROWSER_CONFIG);
 
     let activePage;
     try {

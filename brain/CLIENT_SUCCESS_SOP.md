@@ -12,7 +12,9 @@
 | 0 | Intake | Client opens case | Intake profile + exclusions + target map | OPUS |
 | 1 | Profiling & Capability Proof | After intake | Skills Evidence Ledger + confidence score | ALL |
 | 2 | Sourcing | Daily | Ranked queue (S/A/B/C/D) | CODEX |
-| 3 | Fit Validation | A-tier surfaced | A-Tier Fit Validation Dossier | OPUS |
+| 2.5 | Company Validation | Viable Targets Surfaced | Target Identity Security Clearance | OPUS |
+| 3 | Fit Validation | Targets Surfaced | Fit Validation Dossier per target | OPUS |
+| 3.5 | Executive Comparison | Multiple Dossiers | Comparison Portfolio (Ranked 1-N) | OPUS |
 | 4 | Application Enablement | Dossier = GO | Role-tailored CV bullets + application message | OPUS |
 | 5 | Application Execution | Client approves | Application submitted + logged in CASE_LOG | CLIENT |
 | 6 | Follow-up Management | 48h after apply | Follow-up message sent | CLIENT + OPUS |
@@ -33,7 +35,7 @@
 3. Define first sourcing keyword map and geography scope.
 - Mandatory outputs / deliverables: intake profile, exclusions list, target keyword map.
 - Quality gate: no unresolved hard constraints remain.
-- Agent owner: OPUS.
+- Agent owner: CODEX (investigation + evidence) + MARK (client-facing delivery).
 - Templates to use: `brain/CLIENT_BRIEF.md`.
 
 ### Phase 1 - Profiling & Capability Proof
@@ -60,18 +62,47 @@
 - Agent owner: CODEX.
 - Templates to use: `brain/SCRAPER_SPEC.md`, `brain/knowledge_base.json`, `brain/STYLE_GUIDE.md`.
 
+### Phase 2.5 - Company Security & Validation
+- Trigger condition: viable targets (S/A/B tier) surfaced from Sourcing.
+- Required inputs: winner report, company name, target link.
+- Step-by-step playbook:
+1. Resolve identity first using primary sources (LinkedIn company page/job page + official domain).
+2. Capture evidence artifacts with timestamp for each major claim (URL, what was found, confidence).
+3. Verify LinkedIn legitimacy markers (employee band, follower count, recent post activity, company metadata consistency).
+4. Run open-web corroboration (global + local + domain queries) and record discrepancies without forcing conclusions.
+5. Run risk checks (domain mismatch, impersonation pattern, payment/PII red flags, aggregator-only trails).
+6. Execute one controlled status only: `VERIFIED_LEGIT`, `VERIFIED_RISK`, or `UNKNOWN_INSUFFICIENT_EVIDENCE`.
+- Mandatory outputs / deliverables: `COMPANY_VALIDATION-[Company Name].md`
+- Quality gate:
+  - No application proceeds without a completed evidence table.
+  - No "scam/fraud" language without hard artifact evidence.
+  - If evidence is mixed/incomplete, status must be `UNKNOWN_INSUFFICIENT_EVIDENCE`.
+- Agent owner: OPUS.
+- Templates to use: `brain/COMPANY_VALIDATION_TEMPLATE.md`.
+
 ### Phase 3 - Fit Validation
-- Trigger condition: at least one A-tier role surfaced.
+- Trigger condition: target clears Phase 2.5 Security Validation.
 - Required inputs: winner report, full job description, skills ledger.
 - Step-by-step playbook:
 1. Extract explicit requirements from job text.
 2. Map each requirement to client evidence and confidence.
-3. Compute fit score and risk penalties.
+3. Compute fit score on a normalized 1-10 scale.
 4. Issue gate decision (`GO`, `CONDITIONAL GO`, `HOLD`).
-- Mandatory outputs / deliverables: one fit dossier per A-tier role.
+- Mandatory outputs / deliverables: one fit dossier per target role.
 - Quality gate: complete requirement-to-evidence matrix with provenance.
 - Agent owner: OPUS.
 - Templates to use: `brain/A_TIER_FIT_DOSSIER_TEMPLATE.md`, `src/fit_dossier.js`.
+
+### Phase 3.5 - Executive Comparison Portfolio
+- Trigger condition: multiple dossiers generated in Phase 3.
+- Required inputs: all Fit Validation Dossiers from current run.
+- Step-by-step playbook:
+1. Extract scores, friction points (Easy Apply vs Manual), and vibes.
+2. Rank dossiers from "Palace" (highest value) to "Cage" (highest friction).
+3. Generate a single Comparison Report so the client can decide which dossiers to actually read.
+- Mandatory outputs / deliverables: `COMPARISON_REPORT_YYYY-MM-DD.md`.
+- Quality gate: clearly ranks target options so client saves time reading.
+- Agent owner: OPUS.
 
 ### Phase 4 - Application Enablement
 - Trigger condition: dossier decision is `GO` or approved `CONDITIONAL GO`.

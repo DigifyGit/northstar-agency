@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NorthStar | Concept E — Lifecycle Engine Dial · V9</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/*
+  CONCEPT E — LIFECYCLE ENGINE DIAL
+  Precision mechanical rotary dial. Star at center.
+  5 engraved module segments around it.
+  Studio product photography aesthetic.
+  NO SPACE. NO PARTICLES. NO NEBULA.
+*/
+:root {
+  --bg:      #050914;
+  --bg2:     #07111f;
+  --metal:   #1a2540;
+  --metal2:  #0e1a2e;
+  --plate:   rgba(20,32,58,0.95);
+  --indigo:  #5F6AD9;
+  --teal:    #3FC8B4;
+  --cyan:    #7BC0D7;
+  --text-h:  #E8F0FF;
+  --text-b:  #8899b8;
+  --text-d:  #3d5270;
+  --ok:      #34D399;
+  --risk:    #FB7185;
+  --warn:    #F59E0B;
+  --ls:      rgba(99,140,200,0.12);
+  --lm:      rgba(99,140,200,0.22);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text-b);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* Background: studio vignette only */
+.bg-studio{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 120% 80% at 35% 50%, #07111f 30%, #050914 100%);
+}
+.bg-vignette{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 60% at 50% 50%, transparent 40%, rgba(2,5,12,0.85) 100%);
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:68px;
+  background:rgba(5,9,20,0.90);
+  border-bottom:1px solid var(--ls);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  display:flex;align-items:center;
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;max-width:1440px;margin:0 auto;padding:0 48px;
+}
+.logo{
+  display:flex;align-items:center;gap:9px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.0625rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:var(--text-h);text-decoration:none;
+}
+.logo-star-sm{width:22px;height:22px}
+.nav-links{display:flex;gap:2px;list-style:none}
+.nav-links a{
+  font-size:0.8125rem;font-weight:500;
+  color:var(--text-b);padding:7px 12px;
+  border-radius:6px;text-decoration:none;
+  letter-spacing:0.01em;
+  transition:color 160ms,background 160ms;
+}
+.nav-links a:hover{color:var(--text-h);background:rgba(17,30,53,0.4)}
+.nav-right{display:flex;gap:9px;align-items:center}
+.btn-ghost{
+  background:transparent;border:1px solid var(--ls);color:var(--text-b);
+  padding:7px 16px;border-radius:7px;font-size:0.8125rem;font-weight:500;
+  font-family:inherit;cursor:pointer;transition:all 180ms;letter-spacing:0.01em;
+}
+.btn-ghost:hover{border-color:var(--lm);color:var(--text-h)}
+.btn-prim{
+  background:linear-gradient(135deg,#4A87AB,#294E74);
+  border:1px solid rgba(123,192,215,0.20);color:#E8F4FC;
+  padding:8px 18px;border-radius:7px;font-size:0.8125rem;font-weight:600;
+  font-family:inherit;cursor:pointer;transition:all 200ms;letter-spacing:0.01em;
+  box-shadow:0 0 20px rgba(74,135,171,0.25);
+}
+.btn-prim:hover{filter:brightness(1.1);transform:translateY(-1px)}
+
+/* ── HERO LAYOUT ── */
+#hero{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  max-width:1440px;margin:0 auto;
+  padding:68px 48px 0;
+}
+
+/* ─────────────────────────────────────
+   LEFT: LIFECYCLE ENGINE DIAL
+───────────────────────────────────── */
+.dial-stage{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  height:calc(100vh - 68px);
+  min-height:620px;
+}
+
+/* Outer housing ring */
+.dial-housing{
+  position:relative;
+  width:540px;height:540px;
+  flex-shrink:0;
+}
+
+/* Main rotating dial ring - CSS only */
+.dial-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:2px solid rgba(99,140,200,0.15);
+  background:
+    conic-gradient(
+      from 0deg,
+      rgba(15,25,48,0.95) 0deg 68deg,
+      rgba(20,30,55,0.95) 68deg 72deg,
+      rgba(15,25,48,0.95) 72deg 140deg,
+      rgba(20,30,55,0.95) 140deg 144deg,
+      rgba(15,25,48,0.95) 144deg 212deg,
+      rgba(20,30,55,0.95) 212deg 216deg,
+      rgba(15,25,48,0.95) 216deg 284deg,
+      rgba(20,30,55,0.95) 284deg 288deg,
+      rgba(15,25,48,0.95) 288deg 356deg,
+      rgba(20,30,55,0.95) 356deg 360deg
+    );
+  box-shadow:
+    0 0 0 1px rgba(99,140,200,0.08),
+    inset 0 2px 8px rgba(0,0,0,0.6),
+    0 8px 64px rgba(0,0,0,0.7),
+    0 0 120px rgba(74,135,171,0.06);
+}
+
+/* Inner cutout for star */
+.dial-inner-mask{
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:240px;height:240px;
+  border-radius:50%;
+  background:var(--bg2);
+  border:1px solid rgba(99,140,200,0.12);
+  box-shadow:
+    inset 0 4px 24px rgba(0,0,0,0.8),
+    0 0 0 8px rgba(5,9,20,0.6);
+}
+
+/* Dial tick marks - outer ring */
+.dial-ring::before{
+  content:'';
+  position:absolute;inset:4px;border-radius:50%;
+  border:1px solid rgba(99,140,200,0.08);
+}
+.dial-ring::after{
+  content:'';
+  position:absolute;inset:12px;border-radius:50%;
+  border:1px dashed rgba(99,140,200,0.06);
+}
+
+/* 5 MODULE PLATES - positioned around the ring */
+.module-plate{
+  position:absolute;
+  left:50%;top:50%;
+  width:132px;
+  padding:10px 14px 10px 12px;
+  background:linear-gradient(145deg, rgba(22,34,62,0.98), rgba(14,22,42,0.98));
+  border:1px solid rgba(99,140,200,0.16);
+  border-radius:6px;
+  box-shadow:
+    0 4px 24px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(173,206,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.4);
+  transform-origin: 0 0;
+  cursor:default;
+  transition:border-color 250ms,box-shadow 250ms;
+}
+.module-plate:hover{
+  border-color:rgba(99,140,200,0.30);
+  box-shadow:0 6px 32px rgba(0,0,0,0.7),inset 0 1px 0 rgba(173,206,255,0.10);
+}
+/* Engraved top edge line */
+.module-plate::before{
+  content:'';position:absolute;top:0;left:10%;right:10%;
+  height:1px;background:linear-gradient(90deg,transparent,rgba(173,206,255,0.12),transparent);
+}
+.mp-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;font-weight:500;letter-spacing:0.12em;
+  color:var(--text-d);margin-bottom:5px;
+}
+.mp-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.625rem;font-weight:700;letter-spacing:0.10em;
+  text-transform:uppercase;color:var(--text-b);
+  line-height:1.3;margin-bottom:6px;
+}
+.mp-stamp{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;padding:2px 6px;border-radius:2px;
+  border:1px solid;
+}
+.mp-stamp.ok  {color:var(--ok); border-color:rgba(52,211,153,0.25);background:rgba(52,211,153,0.06)}
+.mp-stamp.risk{color:var(--risk);border-color:rgba(251,113,133,0.25);background:rgba(251,113,133,0.06)}
+.mp-stamp.warn{color:var(--warn);border-color:rgba(245,158,11,0.20);background:rgba(245,158,11,0.04)}
+.mp-stamp.dim {color:var(--text-d);border-color:var(--ls);background:transparent}
+
+/* Position each plate around the dial */
+/* Angles: 306, 18, 90, 162, 234 degrees (evenly spaced, offset so top plate is prominent) */
+.mp1{ transform: translate(-50%,-50%) rotate(306deg) translateX(210px) rotate(-306deg); }
+.mp2{ transform: translate(-50%,-50%) rotate(18deg)  translateX(210px) rotate(-18deg); }
+.mp3{ transform: translate(-50%,-50%) rotate(90deg)  translateX(210px) rotate(-90deg); }
+.mp4{ transform: translate(-50%,-50%) rotate(162deg) translateX(210px) rotate(-162deg); }
+.mp5{ transform: translate(-50%,-50%) rotate(234deg) translateX(210px) rotate(-234deg); }
+
+/* Connector lines from center to plates */
+.connector{
+  position:absolute;left:50%;top:50%;
+  width:1px;height:86px;
+  transform-origin:top center;
+  background:linear-gradient(180deg,rgba(99,140,200,0.15),transparent);
+  pointer-events:none;
+}
+
+/* Indicator needle - points to active module */
+.needle{
+  position:absolute;left:50%;top:50%;
+  width:100px;height:2px;
+  transform-origin:left center;
+  transform:translate(0,-50%) rotate(18deg);
+  background:linear-gradient(90deg,var(--teal),transparent);
+  border-radius:1px;
+  box-shadow:0 0 8px rgba(63,200,180,0.4);
+  pointer-events:none;
+}
+.needle::after{
+  content:'';
+  position:absolute;right:-2px;top:-3px;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--teal);
+  box-shadow:0 0 12px rgba(63,200,180,0.6);
+}
+
+/* Center STAR */
+.center-star{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:180px;height:180px;
+  display:flex;align-items:center;justify-content:center;
+  z-index:5;
+}
+.center-star svg{
+  width:100%;height:100%;
+  filter:drop-shadow(0 0 12px rgba(99,217,255,0.18)) drop-shadow(0 0 40px rgba(95,106,217,0.12));
+  animation:starBreathe 5s ease-in-out infinite;
+}
+@keyframes starBreathe{
+  0%,100%{filter:drop-shadow(0 0 10px rgba(99,217,255,0.15)) drop-shadow(0 0 32px rgba(95,106,217,0.10))}
+  50%    {filter:drop-shadow(0 0 20px rgba(99,217,255,0.30)) drop-shadow(0 0 60px rgba(95,106,217,0.20))}
+}
+
+/* Slow rotation on the entire dial */
+.dial-rotate{
+  animation:dialSpin 80s linear infinite;
+}
+@keyframes dialSpin{
+  from{transform:rotate(0deg)}
+  to  {transform:rotate(360deg)}
+}
+/* Counter-rotate plates so text stays upright */
+.mp1,.mp2,.mp3,.mp4,.mp5{
+  animation:counterSpin 80s linear infinite;
+}
+@keyframes counterSpin{
+  from{transform-origin:inherit; /* handled per-plate via individual rotation below */ }
+}
+/* Actually we handle this inline per plate */
+
+/* Scale & entry animation */
+.dial-housing{
+  opacity:0;transform:scale(0.94);
+  animation:dialIn 1s cubic-bezier(.2,.8,.2,1) 0.1s forwards;
+}
+@keyframes dialIn{to{opacity:1;transform:scale(1)}}
+
+/* ─────────────────────────────────────
+   RIGHT: EDITORIAL TEXT
+───────────────────────────────────── */
+.hero-right{
+  padding: 0 0 0 48px;
+  display:flex;flex-direction:column;gap:0;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.6875rem;font-weight:600;letter-spacing:0.14em;
+  text-transform:uppercase;color:rgba(123,192,215,0.7);
+  margin-bottom:28px;
+  opacity:0;animation:up 0.6s 0.3s forwards;
+}
+.eyebrow::before{content:'';width:22px;height:1px;background:currentColor}
+h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2.5rem,3.8vw,4.25rem);
+  font-weight:800;line-height:1.06;
+  letter-spacing:-0.03em;color:var(--text-h);
+  margin-bottom:24px;
+  opacity:0;animation:up 0.65s 0.4s forwards;
+}
+.grad-word{
+  background:linear-gradient(90deg, #7BC0D7 0%, #6E82CB 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{
+  font-size:1rem;line-height:1.75;color:var(--text-b);
+  max-width:420px;margin-bottom:40px;
+  opacity:0;animation:up 0.65s 0.52s forwards;
+}
+
+/* Lifecycle indicator strip */
+.lifecycle-strip{
+  display:flex;flex-direction:column;gap:8px;
+  margin-bottom:44px;
+  opacity:0;animation:up 0.65s 0.62s forwards;
+}
+.lc-item{
+  display:flex;align-items:center;gap:14px;
+  padding:10px 16px;
+  background:rgba(14,22,42,0.85);
+  border:1px solid var(--ls);
+  border-radius:8px;
+  transition:border-color 220ms,transform 220ms;
+  cursor:default;
+}
+.lc-item:hover{border-color:var(--lm);transform:translateX(4px)}
+.lc-dot{
+  width:7px;height:7px;border-radius:50%;flex-shrink:0;
+}
+.lc-dot.active{background:var(--teal);box-shadow:0 0 8px var(--teal)}
+.lc-dot.done  {background:var(--ok); box-shadow:0 0 6px var(--ok)}
+.lc-dot.idle  {background:var(--text-d)}
+.lc-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.75rem;font-weight:700;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--text-b);flex:1;
+}
+.lc-status{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5625rem;font-weight:600;letter-spacing:0.10em;
+  text-transform:uppercase;padding:2px 8px;border-radius:2px;
+  white-space:nowrap;
+}
+.lc-status.ok  {background:rgba(52,211,153,0.08);color:var(--ok); border:1px solid rgba(52,211,153,0.18)}
+.lc-status.act {background:rgba(63,200,180,0.08);color:var(--teal);border:1px solid rgba(63,200,180,0.18)}
+.lc-status.dim {background:transparent;color:var(--text-d);border:1px solid var(--ls)}
+
+.cta-row{
+  display:flex;align-items:center;gap:16px;margin-bottom:32px;
+  opacity:0;animation:up 0.65s 0.74s forwards;
+}
+.cta-a{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#4A87AB,#294E74);
+  border:1px solid rgba(123,192,215,0.22);color:#E8F4FC;
+  padding:12px 26px;border-radius:8px;
+  font-family:'Space Grotesk',sans-serif;font-size:0.9375rem;font-weight:600;
+  text-decoration:none;cursor:pointer;letter-spacing:0.01em;
+  box-shadow:0 0 28px rgba(74,135,171,0.22);
+  transition:all 220ms;
+}
+.cta-a:hover{filter:brightness(1.12);transform:translateY(-2px)}
+.cta-a svg{transition:transform 220ms}
+.cta-a:hover svg{transform:translateX(3px)}
+.cta-b{
+  display:inline-flex;align-items:center;gap:7px;
+  color:var(--text-b);font-size:0.875rem;text-decoration:none;
+  border:1px solid var(--ls);padding:11px 20px;border-radius:8px;
+  transition:all 200ms;
+}
+.cta-b:hover{color:var(--text-h);border-color:var(--lm)}
+.precision-line{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6875rem;letter-spacing:0.12em;color:var(--text-d);
+  text-transform:uppercase;
+  opacity:0;animation:up 0.5s 0.9s forwards;
+}
+.precision-line span{color:rgba(123,192,215,0.4);margin:0 12px}
+
+@keyframes up   {to{opacity:1;transform:translateY(0)}}
+@keyframes fadeI{to{opacity:1}}
+
+/* Mobile */
+@media(max-width:960px){
+  #hero{grid-template-columns:1fr;padding:80px 20px 40px;gap:32px}
+  .dial-stage{height:60vw;min-height:320px}
+  .dial-housing{width:320px;height:320px}
+  .center-star{width:110px;height:110px}
+  .dial-inner-mask{width:142px;height:142px}
+  .mp1,.mp2,.mp3,.mp4,.mp5{width:90px;padding:7px 9px}
+  .mp1{ transform: translate(-50%,-50%) rotate(306deg) translateX(130px) rotate(-306deg) }
+  .mp2{ transform: translate(-50%,-50%) rotate(18deg)  translateX(130px) rotate(-18deg) }
+  .mp3{ transform: translate(-50%,-50%) rotate(90deg)  translateX(130px) rotate(-90deg) }
+  .mp4{ transform: translate(-50%,-50%) rotate(162deg) translateX(130px) rotate(-162deg) }
+  .mp5{ transform: translate(-50%,-50%) rotate(234deg) translateX(130px) rotate(-234deg) }
+  .hero-right{padding:0}
+  .nav-links{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+</style>
+</head>
+<body>
+<div class="bg-studio" aria-hidden="true"></div>
+<div class="bg-vignette" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <svg class="logo-star-sm" viewBox="0 0 22 22" fill="none">
+        <path d="M11 1L12.1 8.6L18.5 5L14.3 10.5L21 11L14.3 11.5L18.5 17L12.1 13.4L11 21L9.9 13.4L3.5 17L7.7 11.5L1 11L7.7 10.5L3.5 5L9.9 8.6Z"
+          stroke="#7BC0D7" stroke-width="1" stroke-linejoin="round" fill="none"/>
+        <circle cx="11" cy="11" r="2.2" fill="#7BC0D7" opacity="0.6"/>
+      </svg>
+      NorthStar
+    </a>
+    <ul class="nav-links">
+      <li><a href="#platform">Platform</a></li>
+      <li><a href="#methodology">Methodology</a></li>
+      <li><a href="#enterprise">Enterprise Solutions</a></li>
+      <li><a href="#intelligence">Intelligence</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="btn-ghost">Log In</button>
+      <button class="btn-prim">Request Access</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+
+  <!-- LEFT: ENGINE DIAL -->
+  <div class="dial-stage" aria-label="Lifecycle Engine Dial visualization" aria-hidden="true">
+    <div class="dial-housing" id="dialHousing">
+
+      <!-- Outer ring -->
+      <div class="dial-ring dial-rotate" id="dialRing">
+
+        <!-- Connector lines (inside ring, rotate with it) -->
+        <div class="connector" style="transform:rotate(306deg)translateX(-0.5px)"></div>
+        <div class="connector" style="transform:rotate(18deg) translateX(-0.5px)"></div>
+        <div class="connector" style="transform:rotate(90deg) translateX(-0.5px)"></div>
+        <div class="connector" style="transform:rotate(162deg)translateX(-0.5px)"></div>
+        <div class="connector" style="transform:rotate(234deg)translateX(-0.5px)"></div>
+
+      </div><!-- /dial-ring -->
+
+      <!-- Center mask -->
+      <div class="dial-inner-mask"></div>
+
+      <!-- Needle (outside rotation) -->
+      <div class="needle"></div>
+
+      <!-- Module plates (outside rotation, counter-positioned) -->
+      <div class="module-plate mp1">
+        <div class="mp-num">MODULE · 01</div>
+        <div class="mp-title">Mission<br>Control</div>
+        <span class="mp-stamp ok">Verified</span>
+      </div>
+      <div class="module-plate mp2">
+        <div class="mp-num">MODULE · 02</div>
+        <div class="mp-title">Skill<br>Recovery Lab</div>
+        <span class="mp-stamp act" style="color:var(--teal);border-color:rgba(63,200,180,0.25);background:rgba(63,200,180,0.06)">Active</span>
+      </div>
+      <div class="module-plate mp3">
+        <div class="mp-num">MODULE · 03</div>
+        <div class="mp-title">Case<br>Command</div>
+        <span class="mp-stamp warn">In Review</span>
+      </div>
+      <div class="module-plate mp4">
+        <div class="mp-num">MODULE · 04</div>
+        <div class="mp-title">Strategic<br>Roadmap</div>
+        <span class="mp-stamp ok">Verified</span>
+      </div>
+      <div class="module-plate mp5">
+        <div class="mp-num">MODULE · 05</div>
+        <div class="mp-title">Next<br>7 Days</div>
+        <span class="mp-stamp risk">Risk</span>
+      </div>
+
+      <!-- Center star (non-rotating) -->
+      <div class="center-star">
+        <svg viewBox="0 0 180 180" fill="none">
+          <!-- Outer precision ring -->
+          <circle cx="90" cy="90" r="82" stroke="rgba(99,140,200,0.10)" stroke-width="1" stroke-dasharray="4 6"/>
+          <!-- Ring tick marks (16 of them) -->
+          <g stroke="rgba(99,140,200,0.20)" stroke-width="1.5">
+            <line x1="90" y1="10" x2="90" y2="18"/>
+            <line x1="90" y1="162" x2="90" y2="170"/>
+            <line x1="10" y1="90" x2="18" y2="90"/>
+            <line x1="162" y1="90" x2="170" y2="90"/>
+            <line x1="32" y1="32" x2="38" y2="38"/>
+            <line x1="142" y1="32" x2="148" y2="38"/>
+            <line x1="32" y1="148" x2="38" y2="142"/>
+            <line x1="142" y1="148" x2="148" y2="142"/>
+          </g>
+          <!-- Second ring ticks (smaller) -->
+          <g stroke="rgba(99,140,200,0.10)" stroke-width="1">
+            <line x1="90" y1="12" x2="90" y2="16"/>
+            <line x1="90" y1="164" x2="90" y2="168"/>
+            <line x1="12" y1="90" x2="16" y2="90"/>
+            <line x1="164" y1="90" x2="168" y2="90"/>
+          </g>
+          <!-- 16-point star body -->
+          <!-- 8 long points -->
+          <path d="M90 14 L93.5 74 L120 36 L101.5 76 L142 56 L98 82 L166 90 L98 98 L142 124 L101.5 104 L120 144 L93.5 106 L90 166 L86.5 106 L60 144 L78.5 104 L38 124 L82 98 L14 90 L82 82 L38 56 L78.5 76 L60 36 L86.5 74 Z"
+            fill="rgba(95,106,217,0.04)"
+            stroke="rgba(99,140,200,0.35)"
+            stroke-width="0.8"
+            stroke-linejoin="round"/>
+          <!-- 8 small intercardinal points -->
+          <path d="M90 14 L92 74" stroke="rgba(99,140,200,0.15)" stroke-width="0.5"/>
+          <!-- Indigo north tip accent -->
+          <path d="M90 14 L92.5 56 L90 52 L87.5 56 Z"
+            fill="rgba(95,106,217,0.30)"
+            stroke="#5F6AD9" stroke-width="0.8"/>
+          <!-- Inner geometric rings -->
+          <circle cx="90" cy="90" r="28" stroke="rgba(99,140,200,0.12)" stroke-width="0.75" fill="none"/>
+          <circle cx="90" cy="90" r="16" stroke="rgba(99,140,200,0.08)" stroke-width="0.5" fill="none"/>
+          <!-- Core -->
+          <circle cx="90" cy="90" r="7" fill="rgba(95,106,217,0.25)"/>
+          <circle cx="90" cy="90" r="3.5" fill="#6E82CB"/>
+          <!-- Teal micro accent on east tip -->
+          <path d="M166 90 L126 87.5 L126 92.5 Z"
+            fill="rgba(63,200,180,0.20)" stroke="none"/>
+        </svg>
+      </div>
+
+    </div><!-- /dial-housing -->
+  </div><!-- /dial-stage -->
+
+  <!-- RIGHT: TEXT -->
+  <div class="hero-right">
+    <span class="eyebrow">Talent Intelligence Infrastructure</span>
+
+    <h1>
+      Architecting the<br>
+      <span class="grad-word">Future of Workforce</span>
+    </h1>
+
+    <p class="hero-sub">
+      Precision talent intelligence. Verified execution.
+      NorthStar transforms hiring infrastructure from
+      fragmented process into a governed, auditable system.
+    </p>
+
+    <!-- Lifecycle status strip -->
+    <div class="lifecycle-strip" role="list">
+      <div class="lc-item">
+        <div class="lc-dot done"></div>
+        <div class="lc-name">Mission Control</div>
+        <span class="lc-status ok">Verified</span>
+      </div>
+      <div class="lc-item">
+        <div class="lc-dot active"></div>
+        <div class="lc-name">Skill Recovery Lab</div>
+        <span class="lc-status act">Active Now</span>
+      </div>
+      <div class="lc-item">
+        <div class="lc-dot idle"></div>
+        <div class="lc-name">Case Command</div>
+        <span class="lc-status dim">In Review</span>
+      </div>
+      <div class="lc-item">
+        <div class="lc-dot idle"></div>
+        <div class="lc-name">Strategic Roadmap</div>
+        <span class="lc-status dim">Queued</span>
+      </div>
+      <div class="lc-item">
+        <div class="lc-dot idle"></div>
+        <div class="lc-name">Next 7 Days</div>
+        <span class="lc-status dim">Pending</span>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="#request" class="cta-a">
+        Request Access
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+          <path d="M2.5 7.5h10M8 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="#methodology" class="cta-b">
+        View Methodology
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <path d="M2 6.5h9M7.5 3l3.5 3.5L7.5 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="precision-line">
+      Precision Talent Intelligence<span>·</span>Verified Execution<span>·</span>Auditable
+    </div>
+  </div>
+
+</section>
+
+<script>
+// Animate the dial ring slowly, plates counter-rotate to stay upright
+const ring = document.getElementById('dialRing');
+let angle = 0;
+function animateDial() {
+  angle += 0.008; // very slow
+  ring.style.transform = `rotate(${angle}deg)`;
+  // Counter-rotate each plate
+  const plates = document.querySelectorAll('.module-plate');
+  const baseAngles = [306, 18, 90, 162, 234];
+  const R = window.innerWidth < 960 ? 130 : 210;
+  plates.forEach((p, i) => {
+    const baseA = baseAngles[i];
+    const rad = (baseA + angle) * Math.PI / 180;
+    const x = Math.cos(rad) * R;
+    const y = Math.sin(rad) * R;
+    p.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+  });
+  requestAnimationFrame(animateDial);
+}
+animateDial();
+
+// Active plate highlight cycling
+const plates = document.querySelectorAll('.module-plate');
+let activeIdx = 1;
+setInterval(() => {
+  plates.forEach(p => p.style.borderColor = '');
+  activeIdx = (activeIdx + 1) % 5;
+  plates[activeIdx].style.borderColor = 'rgba(63,200,180,0.35)';
+  // Move needle
+  const baseAngles = [306, 18, 90, 162, 234];
+  document.querySelector('.needle').style.transform =
+    `translate(0,-50%) rotate(${baseAngles[activeIdx]}deg)`;
+}, 3500);
+</script>
+</body>
+</html>

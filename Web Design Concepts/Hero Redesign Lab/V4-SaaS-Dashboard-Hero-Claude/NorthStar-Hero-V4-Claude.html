@@ -1,0 +1,1339 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NorthStar Agency | Elite Talent. Verified Results.</title>
+  <meta name="description" content="NorthStar delivers pre-verified, interview-ready candidates 3× faster. Evidence-based hiring with fraud protection built in." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════════════════
+       DESIGN SYSTEM - NorthStar Hero V4 (Claude)
+       Inspired by: Dribbble SaaS dashboard heroes, 
+       glassmorphic floating cards, animated data viz
+    ═══════════════════════════════════════════════════════ */
+    :root {
+      --bg-deep: #06080f;
+      --bg-card: rgba(12, 16, 28, 0.72);
+      --bg-glass: rgba(255, 255, 255, 0.04);
+      --border: rgba(255, 255, 255, 0.07);
+      --border-hover: rgba(255, 255, 255, 0.14);
+      --text-primary: #f0f2f7;
+      --text-secondary: #8b95ad;
+      --text-muted: #5a6480;
+      --accent-blue: #4f8cff;
+      --accent-purple: #a855f7;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --glow-blue: rgba(79, 140, 255, 0.25);
+      --glow-purple: rgba(168, 85, 247, 0.2);
+      --glow-emerald: rgba(52, 211, 153, 0.2);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-secondary);
+      overflow-x: hidden;
+    }
+
+    /* ─── Ambient Background ─── */
+    .hero-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      width: 900px;
+      height: 900px;
+      border-radius: 50%;
+      top: -30%;
+      left: -10%;
+      background: radial-gradient(circle, rgba(79, 140, 255, 0.12) 0%, transparent 70%);
+      animation: breathe 8s ease-in-out infinite;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      border-radius: 50%;
+      bottom: -40%;
+      right: -5%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+      animation: breathe 10s ease-in-out infinite 3s;
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.03;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 70%);
+    }
+
+    /* ─── Sticky Navigation ─── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(6, 8, 15, 0.7);
+      backdrop-filter: blur(20px) saturate(1.4);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo svg { flex-shrink: 0; }
+
+    .nav-logo span {
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+
+    .nav-cta {
+      background: var(--accent-blue);
+      color: #fff !important;
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-weight: 600 !important;
+      transition: transform 0.2s, box-shadow 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px var(--glow-blue);
+    }
+
+    /* ─── Hero Container ─── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 40px 60px;
+    }
+
+    .hero-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    /* ─── Left: Copy Side ─── */
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 6px 16px 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(79, 140, 255, 0.25);
+      background: rgba(79, 140, 255, 0.08);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--accent-blue);
+      letter-spacing: 0.01em;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      box-shadow: 0 0 10px var(--glow-blue);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .hero-title {
+      font-size: clamp(38px, 4.8vw, 62px);
+      font-weight: 900;
+      line-height: 1.06;
+      letter-spacing: -0.035em;
+      color: var(--text-primary);
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(16px, 1.6vw, 18px);
+      line-height: 1.65;
+      color: var(--text-secondary);
+      max-width: 52ch;
+    }
+
+    /* ─── Benefit Pills ─── */
+    .benefits-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .benefit-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg-glass);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: border-color 0.3s, transform 0.2s, box-shadow 0.3s;
+      cursor: default;
+    }
+
+    .benefit-pill:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .benefit-pill .icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .benefit-pill .icon.blue { background: rgba(79, 140, 255, 0.15); color: var(--accent-blue); }
+    .benefit-pill .icon.emerald { background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald); }
+    .benefit-pill .icon.purple { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+    .benefit-pill .icon.amber { background: rgba(251, 191, 36, 0.15); color: var(--accent-amber); }
+
+    /* ─── CTAs ─── */
+    .cta-group {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent-blue), #6c5ce7);
+      color: #fff;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+      transform: translateX(-120%);
+      transition: transform 0.6s;
+    }
+
+    .btn-primary:hover::after { transform: translateX(120%); }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--glow-blue), 0 0 60px var(--glow-purple);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 14px;
+      border: 1px solid var(--border-hover);
+      background: var(--bg-glass);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.3s, background 0.3s;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* ─── Trust Bar ─── */
+    .trust-bar {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding-top: 8px;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .trust-item svg { opacity: 0.5; }
+    .trust-item strong { color: var(--text-secondary); font-weight: 600; }
+
+    /* ─── Right: Dashboard Mockup ─── */
+    .hero-visual {
+      position: relative;
+      perspective: 1200px;
+    }
+
+    /* Floating Cards Container */
+    .dashboard-scene {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1.15;
+      transform: rotateY(-4deg) rotateX(2deg);
+      transform-style: preserve-3d;
+      transition: transform 0.4s ease-out;
+    }
+
+    .dashboard-scene:hover {
+      transform: rotateY(-1deg) rotateX(0deg);
+    }
+
+    /* ─── Main Dashboard Card ─── */
+    .dash-main {
+      position: absolute;
+      inset: 8% 0 8% 5%;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: linear-gradient(165deg, rgba(14, 18, 32, 0.92), rgba(10, 14, 24, 0.96));
+      backdrop-filter: blur(20px);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.5),
+        0 0 0 1px rgba(255,255,255,0.03) inset;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .dash-main::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(79, 140, 255, 0.4), rgba(168, 85, 247, 0.3), transparent);
+    }
+
+    .dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dash-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dash-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .dash-title-group h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .dash-title-group span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .dash-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      background: rgba(52, 211, 153, 0.08);
+      color: var(--accent-emerald);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      animation: pulse-dot 1.8s ease-in-out infinite;
+    }
+
+    /* ─── Stats Row in Dashboard ─── */
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .dash-stat {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      background: rgba(255,255,255,0.02);
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .dash-stat:hover {
+      border-color: var(--border-hover);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .dash-stat-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+
+    .dash-stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .dash-stat-delta {
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .delta-up { color: var(--accent-emerald); }
+    .delta-neutral { color: var(--accent-blue); }
+
+    /* ─── Mini Chart in Dashboard ─── */
+    .dash-chart-area {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      background: rgba(255,255,255,0.015);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 140px;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chart-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .chart-tabs {
+      display: flex;
+      gap: 2px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .chart-tab {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 4px 10px;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .chart-tab.active {
+      color: var(--text-primary);
+      background: rgba(79, 140, 255, 0.15);
+    }
+
+    .chart-canvas {
+      flex: 1;
+      position: relative;
+    }
+
+    .chart-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ─── Pipeline Mini Row ─── */
+    .dash-pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .pipe-stage {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pipe-stage::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--fill, 0%);
+      background: var(--fill-color, rgba(79, 140, 255, 0.1));
+      transition: height 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .pipe-label {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pipe-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      position: relative;
+      z-index: 1;
+      margin-top: 2px;
+    }
+
+    /* ─── Floating Card: Top-Right ─── */
+    .float-card {
+      position: absolute;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: linear-gradient(165deg, rgba(14, 18, 32, 0.94), rgba(8, 12, 22, 0.97));
+      backdrop-filter: blur(24px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      padding: 16px;
+      z-index: 5;
+      transition: transform 0.3s ease-out;
+    }
+
+    .float-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+    }
+
+    /* Card: Candidate Match */
+    .float-match {
+      top: -2%;
+      right: -8%;
+      width: 200px;
+      animation: float-y 6s ease-in-out infinite;
+    }
+
+    .float-match::before {
+      background: linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.5), transparent);
+    }
+
+    .float-match:hover { transform: translateY(-6px) scale(1.03); }
+
+    .match-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .match-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .match-info h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .match-info span {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .match-score {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .match-score-label {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .match-score-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent-emerald);
+    }
+
+    .match-bar {
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .match-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-emerald), var(--accent-blue));
+      width: 0%;
+      transition: width 2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .match-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .match-tag {
+      font-size: 9.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .match-tag.verified {
+      border-color: rgba(52, 211, 153, 0.3);
+      color: var(--accent-emerald);
+      background: rgba(52, 211, 153, 0.06);
+    }
+
+    /* Card: Risk Alert */
+    .float-risk {
+      bottom: 2%;
+      right: -12%;
+      width: 190px;
+      animation: float-y 7s ease-in-out infinite 2s;
+    }
+
+    .float-risk::before {
+      background: linear-gradient(90deg, transparent, rgba(251, 113, 133, 0.5), transparent);
+    }
+
+    .float-risk:hover { transform: translateY(-6px) scale(1.03); }
+
+    .risk-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .risk-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(251, 113, 133, 0.12);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+    }
+
+    .risk-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-rose);
+    }
+
+    .risk-items {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .risk-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .risk-item-name {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .risk-item-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .risk-blocked { color: var(--accent-rose); }
+    .risk-clean { color: var(--accent-emerald); }
+
+    /* Card: Speed Metric */
+    .float-speed {
+      bottom: 18%;
+      left: -6%;
+      width: 180px;
+      animation: float-y 5.5s ease-in-out infinite 1s;
+    }
+
+    .float-speed::before {
+      background: linear-gradient(90deg, transparent, rgba(79, 140, 255, 0.5), transparent);
+    }
+
+    .float-speed:hover { transform: translateY(-6px) scale(1.03); }
+
+    .speed-metric {
+      text-align: center;
+    }
+
+    .speed-big {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .speed-big span {
+      font-size: 16px;
+      color: var(--accent-blue);
+    }
+
+    .speed-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .speed-compare {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .speed-bar-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .speed-bar-label {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      width: 60px;
+      flex-shrink: 0;
+    }
+
+    .speed-bar-track {
+      flex: 1;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+
+    .speed-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      width: 0%;
+      transition: width 2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .fill-blue { background: var(--accent-blue); }
+    .fill-muted { background: var(--text-muted); }
+
+    /* ─── Animations ─── */
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 6px currentColor; }
+      50% { opacity: 0.5; box-shadow: 0 0 14px currentColor; }
+    }
+
+    @keyframes float-y {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes count-up {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slide-in-left {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slide-in-right {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-copy { animation: slide-in-left 0.8s ease-out both; }
+    .hero-visual { animation: slide-in-right 0.9s ease-out 0.15s both; }
+    .float-match { animation: fade-in-up 0.6s ease-out 0.6s both, float-y 6s ease-in-out 1.2s infinite; }
+    .float-risk { animation: fade-in-up 0.6s ease-out 0.8s both, float-y 7s ease-in-out 1.4s infinite; }
+    .float-speed { animation: fade-in-up 0.6s ease-out 0.7s both, float-y 5.5s ease-in-out 1.3s infinite; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 1100px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 50px;
+      }
+      .hero { padding: 100px 24px 50px; }
+      .dashboard-scene { transform: none; max-width: 600px; margin: 0 auto; }
+      .dashboard-scene:hover { transform: none; }
+      .float-match { right: -2%; }
+      .float-risk { right: -4%; }
+      .float-speed { left: -2%; }
+    }
+
+    @media (max-width: 700px) {
+      .nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links li:nth-child(n+4) { display: none; }
+      .hero { padding: 90px 16px 40px; }
+      .hero-copy { gap: 20px; }
+      .benefits-row { gap: 8px; }
+      .cta-group { flex-direction: column; align-items: stretch; }
+      .btn-primary, .btn-secondary { justify-content: center; }
+      .dash-stats { grid-template-columns: 1fr; }
+      .dash-pipeline { grid-template-columns: repeat(2, 1fr); }
+      .float-card { display: none; }
+      .dash-main { inset: 0; }
+      .trust-bar { flex-wrap: wrap; gap: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient BG -->
+  <div class="hero-bg"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="main-nav">
+    <a href="#" class="nav-logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="url(#star-grad)" stroke="rgba(79,140,255,0.5)" stroke-width="0.5"/>
+        <defs><linearGradient id="star-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#4f8cff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+      </svg>
+      <span>NORTHSTAR</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Platform</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Process</a></li>
+      <li><a href="#">Industries</a></li>
+      <li><a href="#">Insights</a></li>
+      <li><a href="#" class="nav-cta">Request Access</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero-v4">
+    <div class="hero-inner">
+
+      <!-- Left: Copy -->
+      <div class="hero-copy">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          Trusted by 200+ hiring teams
+        </div>
+
+        <h1 class="hero-title">
+          Hire Smarter.<br>
+          <span class="highlight">Hire With Proof.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          NorthStar delivers pre-verified, interview-ready candidates 3× faster than traditional agencies. Every hire is backed by evidence — not guesswork.
+        </p>
+
+        <div class="benefits-row">
+          <div class="benefit-pill">
+            <span class="icon blue">⚡</span>
+            3× Faster Hiring
+          </div>
+          <div class="benefit-pill">
+            <span class="icon emerald">✓</span>
+            Verified Candidates
+          </div>
+          <div class="benefit-pill">
+            <span class="icon purple">🛡</span>
+            Fraud Protection
+          </div>
+          <div class="benefit-pill">
+            <span class="icon amber">📊</span>
+            Evidence Reports
+          </div>
+        </div>
+
+        <div class="cta-group">
+          <a href="#" class="btn-primary" id="cta-primary">
+            Start Hiring Today
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#" class="btn-secondary" id="cta-secondary">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><polygon points="6.5,5 11.5,8 6.5,11" fill="currentColor"/></svg>
+            Watch How It Works
+          </a>
+        </div>
+
+        <div class="trust-bar">
+          <div class="trust-item">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.76 3.57L13 5.18l-3 2.93.71 4.12L7 10.27 3.29 12.23 4 8.11 1 5.18l4.24-.61L7 1z" fill="var(--accent-amber)"/></svg>
+            <strong>4.9/5</strong> client rating
+          </div>
+          <div class="trust-item">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM5 7l1.5 1.5L9.5 5" stroke="var(--accent-emerald)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            <strong>12,000+</strong> placements
+          </div>
+          <div class="trust-item">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h2.5L6 4l2 6 1.5-3H12" stroke="var(--accent-blue)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            <strong>94%</strong> retention rate
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Dashboard Visual -->
+      <div class="hero-visual">
+        <div class="dashboard-scene" id="dashboard-scene">
+
+          <!-- Main Dashboard Card -->
+          <div class="dash-main">
+            <div class="dash-header">
+              <div class="dash-header-left">
+                <div class="dash-avatar">N★</div>
+                <div class="dash-title-group">
+                  <h3>Talent Pipeline</h3>
+                  <span>Sr. Full-Stack Engineer · Q1 2026</span>
+                </div>
+              </div>
+              <div class="dash-status">
+                <span class="status-dot"></span>
+                Active
+              </div>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="dash-stats">
+              <div class="dash-stat">
+                <div class="dash-stat-label">Match Rate</div>
+                <div class="dash-stat-value" data-target="97" data-suffix="%">0%</div>
+                <div class="dash-stat-delta delta-up">↑ 12% vs industry</div>
+              </div>
+              <div class="dash-stat">
+                <div class="dash-stat-label">Time to Fill</div>
+                <div class="dash-stat-value" data-target="14" data-suffix=" days">0 days</div>
+                <div class="dash-stat-delta delta-up">↓ 3× faster</div>
+              </div>
+              <div class="dash-stat">
+                <div class="dash-stat-label">Verified</div>
+                <div class="dash-stat-value" data-target="100" data-suffix="%">0%</div>
+                <div class="dash-stat-delta delta-neutral">All candidates</div>
+              </div>
+            </div>
+
+            <!-- Chart Area -->
+            <div class="dash-chart-area">
+              <div class="chart-header">
+                <span class="chart-title">Candidate Quality Score</span>
+                <div class="chart-tabs">
+                  <button class="chart-tab active">7d</button>
+                  <button class="chart-tab">30d</button>
+                  <button class="chart-tab">90d</button>
+                </div>
+              </div>
+              <div class="chart-canvas" id="chart-canvas">
+                <svg class="chart-svg" viewBox="0 0 400 100" preserveAspectRatio="none">
+                  <!-- Gradient fill -->
+                  <defs>
+                    <linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="rgba(79, 140, 255, 0.3)"/>
+                      <stop offset="100%" stop-color="rgba(79, 140, 255, 0)"/>
+                    </linearGradient>
+                    <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#4f8cff"/>
+                      <stop offset="100%" stop-color="#a855f7"/>
+                    </linearGradient>
+                  </defs>
+                  <!-- Area fill -->
+                  <path id="chart-area" fill="url(#chart-fill)" opacity="0">
+                    M0,80 C25,70 50,55 80,50 S140,60 180,40 S260,25 300,20 S360,30 400,15 L400,100 L0,100Z
+                  </path>
+                  <!-- Line -->
+                  <path id="chart-line" fill="none" stroke="url(#line-grad)" stroke-width="2.5" stroke-linecap="round"
+                    d="M0,80 C25,70 50,55 80,50 S140,60 180,40 S260,25 300,20 S360,30 400,15"
+                    stroke-dasharray="600" stroke-dashoffset="600"/>
+                  <!-- Glow dot at end -->
+                  <circle id="chart-dot" cx="400" cy="15" r="4" fill="#4f8cff" opacity="0">
+                    <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
+                  </circle>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Pipeline Mini -->
+            <div class="dash-pipeline">
+              <div class="pipe-stage" style="--fill: 0%; --fill-color: rgba(79, 140, 255, 0.12);" data-fill="85">
+                <div class="pipe-label">Sourced</div>
+                <div class="pipe-count" data-target="248">0</div>
+              </div>
+              <div class="pipe-stage" style="--fill: 0%; --fill-color: rgba(168, 85, 247, 0.12);" data-fill="65">
+                <div class="pipe-label">Verified</div>
+                <div class="pipe-count" data-target="186">0</div>
+              </div>
+              <div class="pipe-stage" style="--fill: 0%; --fill-color: rgba(52, 211, 153, 0.12);" data-fill="40">
+                <div class="pipe-label">Shortlist</div>
+                <div class="pipe-count" data-target="42">0</div>
+              </div>
+              <div class="pipe-stage" style="--fill: 0%; --fill-color: rgba(251, 191, 36, 0.12);" data-fill="25">
+                <div class="pipe-label">Interview</div>
+                <div class="pipe-count" data-target="18">0</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Card: Candidate Match -->
+          <div class="float-card float-match">
+            <div class="match-header">
+              <div class="match-avatar">SJ</div>
+              <div class="match-info">
+                <h4>Sarah Johnson</h4>
+                <span>Full-Stack · 8 YoE</span>
+              </div>
+            </div>
+            <div class="match-score">
+              <span class="match-score-label">Match strength</span>
+              <span class="match-score-value" data-target="98">0%</span>
+            </div>
+            <div class="match-bar">
+              <div class="match-bar-fill" data-width="98"></div>
+            </div>
+            <div class="match-tags">
+              <span class="match-tag verified">✓ Identity</span>
+              <span class="match-tag verified">✓ Skills</span>
+              <span class="match-tag">React</span>
+              <span class="match-tag">Node</span>
+            </div>
+          </div>
+
+          <!-- Floating Card: Fraud Protection -->
+          <div class="float-card float-risk">
+            <div class="risk-header">
+              <div class="risk-icon">🛡</div>
+              <span class="risk-label">Fraud Shield Active</span>
+            </div>
+            <div class="risk-items">
+              <div class="risk-item">
+                <span class="risk-item-name">Identity checks</span>
+                <span class="risk-item-val risk-clean">Passed</span>
+              </div>
+              <div class="risk-item">
+                <span class="risk-item-name">Credential verify</span>
+                <span class="risk-item-val risk-clean">Passed</span>
+              </div>
+              <div class="risk-item">
+                <span class="risk-item-name">Anomaly scan</span>
+                <span class="risk-item-val risk-blocked">2 Blocked</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Card: Speed Metric -->
+          <div class="float-card float-speed">
+            <div class="speed-metric">
+              <div class="speed-big"><span data-target="3" class="speed-counter">0</span><span>×</span></div>
+              <div class="speed-label">Faster Than Average</div>
+            </div>
+            <div class="speed-compare">
+              <div class="speed-bar-group">
+                <span class="speed-bar-label">NorthStar</span>
+                <div class="speed-bar-track"><div class="speed-bar-fill fill-blue" data-width="90"></div></div>
+              </div>
+              <div class="speed-bar-group">
+                <span class="speed-bar-label">Industry</span>
+                <div class="speed-bar-track"><div class="speed-bar-fill fill-muted" data-width="30"></div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    // ═══════════════════════════════
+    //  ANIMATIONS  (load-triggered)
+    // ═══════════════════════════════
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // ── Counter Animation ──
+      function animateCounter(el, target, suffix = '', duration = 1800) {
+        const start = performance.now();
+        const from = 0;
+        function tick(now) {
+          const t = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - t, 4); // ease-out-quart
+          const val = Math.round(from + (target - from) * eased);
+          el.textContent = val + suffix;
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      // Delay before starting counters
+      setTimeout(() => {
+        // Dashboard stats
+        document.querySelectorAll('.dash-stat-value[data-target]').forEach(el => {
+          animateCounter(el, +el.dataset.target, el.dataset.suffix || '', 2000);
+        });
+
+        // Pipeline counts
+        document.querySelectorAll('.pipe-count[data-target]').forEach(el => {
+          animateCounter(el, +el.dataset.target, '', 2200);
+        });
+
+        // Match score
+        document.querySelectorAll('.match-score-value[data-target]').forEach(el => {
+          animateCounter(el, +el.dataset.target, '%', 2000);
+        });
+
+        // Speed counter
+        document.querySelectorAll('.speed-counter[data-target]').forEach(el => {
+          animateCounter(el, +el.dataset.target, '', 1500);
+        });
+      }, 600);
+
+      // ── Bar Fills ──
+      setTimeout(() => {
+        document.querySelectorAll('.match-bar-fill[data-width]').forEach(el => {
+          el.style.width = el.dataset.width + '%';
+        });
+        document.querySelectorAll('.speed-bar-fill[data-width]').forEach(el => {
+          el.style.width = el.dataset.width + '%';
+        });
+      }, 900);
+
+      // ── Pipeline Stage Fills ──
+      setTimeout(() => {
+        document.querySelectorAll('.pipe-stage[data-fill]').forEach(el => {
+          el.style.setProperty('--fill', el.dataset.fill + '%');
+        });
+      }, 1000);
+
+      // ── Chart Line Draw ──
+      setTimeout(() => {
+        const line = document.getElementById('chart-line');
+        const area = document.getElementById('chart-area');
+        const dot = document.getElementById('chart-dot');
+        if (line) {
+          line.style.transition = 'stroke-dashoffset 2.5s ease-out';
+          line.style.strokeDashoffset = '0';
+        }
+        if (area) {
+          area.style.transition = 'opacity 1.5s ease-out 1s';
+          area.style.opacity = '1';
+        }
+        if (dot) {
+          dot.style.transition = 'opacity 0.5s ease-out 2.5s';
+          dot.style.opacity = '1';
+        }
+      }, 800);
+
+      // ── Subtle Interactive Tilt on Dashboard ──
+      const scene = document.getElementById('dashboard-scene');
+      if (scene && window.innerWidth > 1100) {
+        scene.addEventListener('mousemove', (e) => {
+          const rect = scene.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width;
+          const y = (e.clientY - rect.top) / rect.height;
+          const rotY = -4 + (x - 0.5) * 6;
+          const rotX = 2 + (y - 0.5) * -4;
+          scene.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+        });
+
+        scene.addEventListener('mouseleave', () => {
+          scene.style.transform = 'rotateY(-4deg) rotateX(2deg)';
+        });
+      }
+
+      // ── Chart Tab Switching ──
+      document.querySelectorAll('.chart-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+        });
+      });
+
+    });
+  </script>
+
+</body>
+</html>

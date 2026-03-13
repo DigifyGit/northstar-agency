@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NorthStar — V2 Evidence Architecture</title>
+    <meta name="description"
+        content="NorthStar builds verified talent intelligence. Evidence-based hiring with auditable verification gates.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════════════
+   V2 — EVIDENCE ARCHITECTURE
+   Rising stepped blocks representing evidence layers.
+   Each block is a lifecycle phase with inputs → gate → output.
+   Built by: Antigravity (Google DeepMind)
+   ═══════════════════════════════════════════════════ */
+
+        :root {
+            --bg-0: #050914;
+            --bg-1: #0A1224;
+            --bg-2: #111E35;
+            --surface-glass: rgba(17, 30, 53, 0.58);
+            --surface-glass-strong: rgba(17, 30, 53, 0.74);
+            --text-strong: #E8F0FF;
+            --text-body: #A6B8D6;
+            --text-dim: #7E93B7;
+            --accent-indigo: #5F6AD9;
+            --accent-cyan: #63D9FF;
+            --accent-teal: #3FC8B4;
+            --ok: #34D399;
+            --warn: #F59E0B;
+            --risk: #FB7185;
+            --line-soft: rgba(173, 206, 255, 0.16);
+            --line-strong: rgba(173, 206, 255, 0.30);
+            --radius: 16px;
+            --ease: cubic-bezier(.2, .8, .2, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-0);
+            color: var(--text-body);
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(900px 600px at 70% 60%, rgba(95, 106, 217, 0.06), transparent 60%),
+                radial-gradient(700px 500px at 20% 30%, rgba(63, 200, 180, 0.04), transparent 55%);
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            opacity: 0.022;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+            background-size: 128px 128px;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        /* ─── NAV ─── */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 72px;
+            z-index: 100;
+            background: rgba(5, 9, 20, 0.84);
+            border-bottom: 1px solid var(--line-soft);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .nav-inner {
+            max-width: 1360px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.88rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-strong);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+        }
+
+        .nav-links a {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: color 180ms var(--ease), background 180ms var(--ease);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-strong);
+            background: rgba(17, 30, 53, 0.35);
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 10px 18px;
+            transition: filter 200ms var(--ease), transform 200ms var(--ease), border-color 200ms var(--ease);
+        }
+
+        .btn-primary {
+            color: #F6FCFF;
+            background: linear-gradient(135deg, #3A7BD5 0%, #3FC8B4 100%);
+            border: 1px solid rgba(173, 206, 255, 0.18);
+            box-shadow: 0 0 28px rgba(99, 217, 255, 0.14);
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            color: var(--text-strong);
+            background: rgba(17, 30, 53, 0.35);
+            border: 1px solid var(--line-soft);
+            backdrop-filter: blur(12px);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--line-strong);
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            max-width: 1360px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: 120px 32px 60px;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        /* ─── LEFT: COPY ─── */
+        .hero-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent-teal);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--accent-teal);
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.6rem, 4.2vw, 3.8rem);
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            color: var(--text-strong);
+        }
+
+        h1 .grad {
+            background: linear-gradient(95deg, var(--accent-cyan), var(--accent-indigo), var(--accent-teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .sub {
+            font-size: 1.06rem;
+            line-height: 1.65;
+            max-width: 50ch;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 14px;
+            margin-top: 6px;
+        }
+
+        /* ─── DETAIL PANEL (below copy) ─── */
+        .detail-panel {
+            margin-top: 12px;
+            background: var(--surface-glass);
+            border: 1px solid var(--line-soft);
+            border-radius: 18px;
+            padding: 18px 20px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            min-height: 140px;
+            transition: border-color 260ms var(--ease);
+        }
+
+        .detail-panel.active {
+            border-color: rgba(99, 217, 255, 0.25);
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+
+        .detail-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-strong);
+        }
+
+        .detail-gate {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.06em;
+            padding: 3px 10px;
+            border-radius: 999px;
+            border: 1px solid;
+        }
+
+        .detail-desc {
+            font-size: 0.88rem;
+            line-height: 1.55;
+            color: var(--text-body);
+            margin-bottom: 12px;
+        }
+
+        .detail-flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .flow-box {
+            background: rgba(5, 9, 20, 0.6);
+            border: 1px solid var(--line-soft);
+            border-radius: 10px;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        .flow-box .fl {
+            font-size: 0.58rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-dim);
+        }
+
+        .flow-box .fv {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
+            color: var(--text-strong);
+            margin-top: 2px;
+        }
+
+        .flow-arrow {
+            color: var(--text-dim);
+            font-size: 1.2rem;
+        }
+
+        /* ─── RIGHT: STEPPED BLOCKS ─── */
+        .blocks-stage {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 10px;
+            padding-bottom: 20px;
+            min-height: 520px;
+        }
+
+        .block {
+            width: 110px;
+            border-radius: 14px;
+            border: 1px solid var(--line-soft);
+            background: var(--surface-glass);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 18px 40px rgba(4, 10, 28, 0.5);
+            cursor: pointer;
+            transition: transform 280ms var(--ease), border-color 240ms var(--ease),
+                box-shadow 280ms var(--ease), filter 240ms var(--ease);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .block:hover {
+            transform: translateY(-8px);
+            border-color: rgba(173, 206, 255, 0.35);
+            box-shadow: 0 28px 56px rgba(4, 10, 28, 0.65);
+            filter: brightness(1.06);
+        }
+
+        .block.active {
+            border-color: rgba(99, 217, 255, 0.4);
+            box-shadow: 0 28px 56px rgba(4, 10, 28, 0.65), 0 0 24px rgba(99, 217, 255, 0.08);
+            transform: translateY(-12px);
+        }
+
+        /* Heights create the stepped rising effect */
+        .block:nth-child(1) {
+            height: 180px;
+        }
+
+        .block:nth-child(2) {
+            height: 240px;
+        }
+
+        .block:nth-child(3) {
+            height: 320px;
+        }
+
+        .block:nth-child(4) {
+            height: 400px;
+        }
+
+        .block:nth-child(5) {
+            height: 470px;
+        }
+
+        .block-inner {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .block-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            color: var(--text-dim);
+            letter-spacing: 0.08em;
+        }
+
+        .block-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-strong);
+            line-height: 1.3;
+            letter-spacing: 0.02em;
+        }
+
+        .block-gate {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.52rem;
+            letter-spacing: 0.06em;
+            padding: 2px 7px;
+            border-radius: 999px;
+            border: 1px solid;
+            width: fit-content;
+        }
+
+        .gate-legit {
+            color: var(--ok);
+            border-color: rgba(52, 211, 153, 0.4);
+            background: rgba(52, 211, 153, 0.08);
+        }
+
+        .gate-risk {
+            color: var(--risk);
+            border-color: rgba(251, 113, 133, 0.4);
+            background: rgba(251, 113, 133, 0.08);
+        }
+
+        .gate-unknown {
+            color: var(--warn);
+            border-color: rgba(245, 158, 11, 0.4);
+            background: rgba(245, 158, 11, 0.08);
+        }
+
+        /* Top accent bar per block */
+        .block-accent {
+            height: 3px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--accent-indigo), var(--accent-teal));
+            opacity: 0;
+            transition: opacity 260ms var(--ease);
+        }
+
+        .block.active .block-accent,
+        .block:hover .block-accent {
+            opacity: 1;
+        }
+
+        /* Vertical connector line */
+        .blocks-stage::before {
+            display: none;
+            /* no connector in this layout */
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                min-height: auto;
+                padding-top: 100px;
+            }
+
+            .blocks-stage {
+                min-height: 380px;
+            }
+
+            .block {
+                width: 90px;
+            }
+
+            .block:nth-child(1) {
+                height: 140px;
+            }
+
+            .block:nth-child(2) {
+                height: 190px;
+            }
+
+            .block:nth-child(3) {
+                height: 250px;
+            }
+
+            .block:nth-child(4) {
+                height: 310px;
+            }
+
+            .block:nth-child(5) {
+                height: 370px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 96px 18px 40px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .blocks-stage {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                gap: 8px;
+                padding: 0 8px 20px;
+            }
+
+            .block {
+                min-width: 90px;
+                flex-shrink: 0;
+            }
+
+            .detail-flow {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-logo">NORTHSTAR</div>
+            <div class="nav-links">
+                <a href="#">Platform</a><a href="#">Methodology</a>
+                <a href="#">Enterprise Solutions</a><a href="#">Intelligence</a>
+            </div>
+            <div class="nav-cta">
+                <button class="btn btn-secondary">Log In</button>
+                <button class="btn btn-primary">Request Access</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <section class="hero-copy">
+            <div class="eyebrow">Evidence-Based Talent Infrastructure</div>
+            <h1>Architecting the<br><span class="grad">Future of Workforce</span></h1>
+            <p class="sub">Precision Talent Intelligence. Verified Execution. Every layer of the hiring process produces
+                auditable evidence — from sourcing specification to verified shortlist delivery.</p>
+            <div class="cta-row">
+                <button class="btn btn-primary">Request Access</button>
+                <button class="btn btn-secondary">View the Process</button>
+            </div>
+
+            <article class="detail-panel active" id="detailPanel">
+                <div class="detail-header">
+                    <span class="detail-title" id="dTitle">Mission Control</span>
+                    <span class="detail-gate gate-legit" id="dGate">VERIFIED_LEGIT</span>
+                </div>
+                <p class="detail-desc" id="dDesc">Launch every search with calibrated role scope, compensation
+                    boundaries, and outcome thresholds.</p>
+                <div class="detail-flow">
+                    <div class="flow-box">
+                        <div class="fl">Input</div>
+                        <div class="fv" id="dInput">Client Brief</div>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        <div class="fl">Process</div>
+                        <div class="fv" id="dProcess">Role Calibration</div>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        <div class="fl">Output</div>
+                        <div class="fv" id="dOutput">Sourcing Spec</div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="blocks-stage" id="blocksStage">
+            <div class="block active" data-idx="0">
+                <div class="block-accent"></div>
+                <div class="block-inner">
+                    <span class="block-num">01</span>
+                    <span class="block-name">Mission Control</span>
+                    <span class="block-gate gate-legit">VERIFIED</span>
+                </div>
+            </div>
+            <div class="block" data-idx="1">
+                <div class="block-accent"></div>
+                <div class="block-inner">
+                    <span class="block-num">02</span>
+                    <span class="block-name">Skill Recovery Lab</span>
+                    <span class="block-gate gate-unknown">UNKNOWN</span>
+                </div>
+            </div>
+            <div class="block" data-idx="2">
+                <div class="block-accent"></div>
+                <div class="block-inner">
+                    <span class="block-num">03</span>
+                    <span class="block-name">Case Command</span>
+                    <span class="block-gate gate-risk">RISK</span>
+                </div>
+            </div>
+            <div class="block" data-idx="3">
+                <div class="block-accent"></div>
+                <div class="block-inner">
+                    <span class="block-num">04</span>
+                    <span class="block-name">Strategic Roadmap</span>
+                    <span class="block-gate gate-legit">VERIFIED</span>
+                </div>
+            </div>
+            <div class="block" data-idx="4">
+                <div class="block-accent"></div>
+                <div class="block-inner">
+                    <span class="block-num">05</span>
+                    <span class="block-name">Next 7 Days</span>
+                    <span class="block-gate gate-legit">VERIFIED</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const modules = [
+            {
+                title: 'Mission Control', gate: 'VERIFIED_LEGIT', gateClass: 'gate-legit',
+                desc: 'Launch every search with calibrated role scope, compensation boundaries, and outcome thresholds.',
+                input: 'Client Brief', process: 'Role Calibration', output: 'Sourcing Spec'
+            },
+            {
+                title: 'Skill Recovery Lab', gate: 'UNKNOWN_INSUFFICIENT_EVIDENCE', gateClass: 'gate-unknown',
+                desc: 'Rescue strong profiles buried by weak formatting, then enrich with measurable evidence before client exposure.',
+                input: 'Raw Profiles', process: 'Evidence Enrichment', output: 'Candidate Stories'
+            },
+            {
+                title: 'Case Command', gate: 'VERIFIED_RISK', gateClass: 'gate-risk',
+                desc: 'Block mismatch and fraud vectors early with identity chain verification, history checks, and role-fit anomaly detection.',
+                input: 'Candidate Set', process: 'Risk Scoring', output: 'Gate Verdict'
+            },
+            {
+                title: 'Strategic Roadmap', gate: 'VERIFIED_LEGIT', gateClass: 'gate-legit',
+                desc: 'Turn weekly hiring signals into a quarterly roadmap so clients know which positions convert fastest.',
+                input: 'Placement Data', process: 'Market Analysis', output: 'Priority Map'
+            },
+            {
+                title: 'Next 7 Days', gate: 'VERIFIED_LEGIT', gateClass: 'gate-legit',
+                desc: 'Daily action board with interview-ready shortlists, blocked issues, and immediate placement priorities.',
+                input: 'Active Pipeline', process: 'Priority Ranking', output: 'Action Board'
+            }
+        ];
+
+        const blocks = document.querySelectorAll('.block');
+        const dTitle = document.getElementById('dTitle');
+        const dGate = document.getElementById('dGate');
+        const dDesc = document.getElementById('dDesc');
+        const dInput = document.getElementById('dInput');
+        const dProcess = document.getElementById('dProcess');
+        const dOutput = document.getElementById('dOutput');
+        const detailPanel = document.getElementById('detailPanel');
+
+        function setActive(idx) {
+            blocks.forEach(b => b.classList.remove('active'));
+            blocks[idx].classList.add('active');
+            const m = modules[idx];
+            dTitle.textContent = m.title;
+            dGate.textContent = m.gate;
+            dGate.className = `detail-gate ${m.gateClass}`;
+            dDesc.textContent = m.desc;
+            dInput.textContent = m.input;
+            dProcess.textContent = m.process;
+            dOutput.textContent = m.output;
+            detailPanel.classList.add('active');
+        }
+
+        blocks.forEach((block, i) => {
+            block.addEventListener('click', () => setActive(i));
+            block.addEventListener('mouseenter', () => setActive(i));
+        });
+    </script>
+</body>
+
+</html>

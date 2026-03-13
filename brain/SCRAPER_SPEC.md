@@ -168,6 +168,10 @@ Hard rules derived from USER preferences/exclusions:
 • If years_required_min >= 4 or contains “5+ years”  
 • If role family is clearly off-target: Sales, Call Center-only, DevOps, Java Developer  
 • If language required includes DE/FR/NL/IT/ES (unless user language profile includes it)
+• **PORTUGUESE-MANDATORY → TIER D HARD BLOCK:**
+  José speaks A1 Portuguese only. Hard block triggers on: "fluente em Português", "português fluente", "fluência em Português", "português obrigatório", "fluent Portuguese", "Portuguese required", "Portuguese mandatory".
+  Exception (soft -10 penalty only): phrase is qualified by "nice to have", "is a plus", "valorizado", "preferred".
+  Detection order: check exception modifier FIRST → if none found → hard block → Tier D. No override.
 
 ### 4.1.1 Experience Pattern Parsing (PT/EN)
 The scorer must parse both English and Portuguese/French-style expressions:

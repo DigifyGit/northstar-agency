@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NorthStar — V3 Signal Refinery</title>
+    <meta name="description"
+        content="NorthStar refines hiring noise into verified signal through a structured pipeline of AI sourcing, verification, and evidence scoring.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════════════
+   V3 — SIGNAL REFINERY
+   Horizontal pipeline with animated particle flow
+   through labeled filter stages (Source → Verify →
+   Score → Deliver). Noise enters left, signal exits right.
+   Built by: Antigravity (Google DeepMind)
+   ═══════════════════════════════════════════════════ */
+
+        :root {
+            --bg-0: #050914;
+            --surface-glass: rgba(17, 30, 53, 0.58);
+            --surface-glass-strong: rgba(17, 30, 53, 0.74);
+            --text-strong: #E8F0FF;
+            --text-body: #A6B8D6;
+            --text-dim: #7E93B7;
+            --accent-indigo: #5F6AD9;
+            --accent-cyan: #63D9FF;
+            --accent-teal: #3FC8B4;
+            --ok: #34D399;
+            --warn: #F59E0B;
+            --risk: #FB7185;
+            --line-soft: rgba(173, 206, 255, 0.16);
+            --line-strong: rgba(173, 206, 255, 0.30);
+            --noise-color: #FB7185;
+            --signal-color: #34D399;
+            --radius: 16px;
+            --ease: cubic-bezier(.2, .8, .2, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-0);
+            color: var(--text-body);
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(1000px 600px at 50% 55%, rgba(95, 106, 217, 0.05), transparent 60%),
+                radial-gradient(600px 400px at 15% 40%, rgba(251, 113, 133, 0.03), transparent 55%),
+                radial-gradient(600px 400px at 85% 40%, rgba(52, 211, 153, 0.03), transparent 55%);
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            opacity: 0.022;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+            background-size: 128px 128px;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        /* ─── NAV ─── */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 72px;
+            z-index: 100;
+            background: rgba(5, 9, 20, 0.84);
+            border-bottom: 1px solid var(--line-soft);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .nav-inner {
+            max-width: 1360px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.88rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-strong);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+        }
+
+        .nav-links a {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: color 180ms var(--ease), background 180ms var(--ease);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-strong);
+            background: rgba(17, 30, 53, 0.35);
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 10px 18px;
+            transition: filter 200ms var(--ease), transform 200ms var(--ease), border-color 200ms var(--ease);
+        }
+
+        .btn-primary {
+            color: #F6FCFF;
+            background: linear-gradient(135deg, #3A7BD5, #3FC8B4);
+            border: 1px solid rgba(173, 206, 255, 0.18);
+            box-shadow: 0 0 28px rgba(99, 217, 255, 0.14);
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            color: var(--text-strong);
+            background: rgba(17, 30, 53, 0.35);
+            border: 1px solid var(--line-soft);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--line-strong);
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            max-width: 1360px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: 120px 32px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        /* ─── TOP ROW: COPY + STATS ─── */
+        .hero-top {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: end;
+        }
+
+        .hero-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent-teal);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--accent-teal);
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.4rem, 3.8vw, 3.6rem);
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            color: var(--text-strong);
+        }
+
+        h1 .grad {
+            background: linear-gradient(95deg, var(--accent-cyan), var(--accent-indigo), var(--accent-teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .sub {
+            font-size: 1.04rem;
+            line-height: 1.65;
+            max-width: 50ch;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 14px;
+        }
+
+        /* Stats sidebar */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: var(--surface-glass);
+            border: 1px solid var(--line-soft);
+            border-radius: 14px;
+            padding: 16px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: border-color 220ms var(--ease);
+        }
+
+        .stat-card:hover {
+            border-color: var(--line-strong);
+        }
+
+        .stat-val {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-strong);
+        }
+
+        .stat-label {
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        /* ─── PIPELINE VISUALIZATION ─── */
+        .pipeline {
+            background: var(--surface-glass);
+            border: 1px solid var(--line-soft);
+            border-radius: 20px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 24px 60px rgba(4, 10, 28, 0.5);
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .pipeline-header {
+            padding: 14px 24px;
+            border-bottom: 1px solid var(--line-soft);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pipeline-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .pipeline-legend {
+            display: flex;
+            gap: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.06em;
+            color: var(--text-dim);
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.noise {
+            background: var(--noise-color);
+            box-shadow: 0 0 6px rgba(251, 113, 133, 0.5);
+        }
+
+        .legend-dot.processing {
+            background: var(--warn);
+            box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+        }
+
+        .legend-dot.signal {
+            background: var(--signal-color);
+            box-shadow: 0 0 6px rgba(52, 211, 153, 0.5);
+        }
+
+        /* ─── PIPELINE CANVAS ─── */
+        .pipeline-canvas {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+        }
+
+        /* Stages */
+        .stages {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .stage {
+            border-right: 1px solid var(--line-soft);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px 18px;
+            cursor: pointer;
+            transition: background 200ms var(--ease);
+        }
+
+        .stage:last-child {
+            border-right: none;
+        }
+
+        .stage:hover {
+            background: rgba(17, 30, 53, 0.4);
+        }
+
+        .stage.active {
+            background: rgba(95, 106, 217, 0.06);
+        }
+
+        .stage-top {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .stage-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.56rem;
+            color: var(--text-dim);
+            letter-spacing: 0.08em;
+        }
+
+        .stage-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-strong);
+        }
+
+        .stage-desc {
+            font-size: 0.76rem;
+            line-height: 1.45;
+            color: var(--text-body);
+            max-width: 26ch;
+            margin-top: 4px;
+        }
+
+        .stage-bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .stage-gate {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.54rem;
+            letter-spacing: 0.06em;
+            padding: 3px 8px;
+            border-radius: 999px;
+            border: 1px solid;
+            width: fit-content;
+        }
+
+        .gate-legit {
+            color: var(--ok);
+            border-color: rgba(52, 211, 153, 0.4);
+            background: rgba(52, 211, 153, 0.08);
+        }
+
+        .gate-risk {
+            color: var(--risk);
+            border-color: rgba(251, 113, 133, 0.4);
+            background: rgba(251, 113, 133, 0.08);
+        }
+
+        .gate-unknown {
+            color: var(--warn);
+            border-color: rgba(245, 158, 11, 0.4);
+            background: rgba(245, 158, 11, 0.08);
+        }
+
+        .stage-metric {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            letter-spacing: 0.04em;
+        }
+
+        .stage-metric .mv {
+            color: var(--text-strong);
+            font-weight: 600;
+        }
+
+        /* ─── ANIMATED FLOW PARTICLES ─── */
+        .particle-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: flowRight linear infinite;
+            opacity: 0.8;
+        }
+
+        .particle.noise {
+            background: var(--noise-color);
+            box-shadow: 0 0 8px rgba(251, 113, 133, 0.6);
+        }
+
+        .particle.processing {
+            background: var(--warn);
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+        }
+
+        .particle.signal {
+            background: var(--signal-color);
+            box-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
+        }
+
+        .particle.blocked {
+            background: var(--risk);
+            box-shadow: 0 0 8px rgba(251, 113, 133, 0.6);
+            animation: flowBlocked linear forwards;
+        }
+
+        @keyframes flowRight {
+            0% {
+                left: -12px;
+                opacity: 0;
+            }
+
+            5% {
+                opacity: 0.8;
+            }
+
+            95% {
+                opacity: 0.8;
+            }
+
+            100% {
+                left: calc(100% + 12px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes flowBlocked {
+            0% {
+                opacity: 0.8;
+                transform: translateY(0);
+            }
+
+            40% {
+                opacity: 0.8;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(80px);
+            }
+        }
+
+        /* ─── PIPELINE FOOTER ─── */
+        .pipeline-footer {
+            padding: 12px 24px;
+            border-top: 1px solid var(--line-soft);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 9, 20, 0.3);
+        }
+
+        .pf-stat {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            letter-spacing: 0.06em;
+        }
+
+        .pf-stat .pv {
+            color: var(--text-strong);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1100px) {
+            .hero-top {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 96px 14px 30px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stages {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline-canvas {
+                height: auto;
+            }
+
+            .stage {
+                border-right: none;
+                border-bottom: 1px solid var(--line-soft);
+                padding: 14px;
+            }
+
+            .stage:last-child {
+                border-bottom: none;
+            }
+
+            .particle-layer {
+                display: none;
+            }
+
+            .pipeline-legend {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .particle-layer {
+                display: none;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-logo">NORTHSTAR</div>
+            <div class="nav-links">
+                <a href="#">Platform</a><a href="#">Methodology</a>
+                <a href="#">Enterprise Solutions</a><a href="#">Intelligence</a>
+            </div>
+            <div class="nav-cta">
+                <button class="btn btn-secondary">Log In</button>
+                <button class="btn btn-primary">Request Access</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <div class="hero-top">
+            <section class="hero-copy">
+                <div class="eyebrow">Signal Refinery Pipeline</div>
+                <h1>Architecting the<br><span class="grad">Future of Workforce</span></h1>
+                <p class="sub">Precision Talent Intelligence. Verified Execution. Watch hiring noise enter the pipeline
+                    and verified signal emerge — every stage visible, every gate auditable.</p>
+                <div class="cta-row">
+                    <button class="btn btn-primary">Request Access</button>
+                    <button class="btn btn-secondary">View the Process</button>
+                </div>
+            </section>
+
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-val" style="color:var(--ok)">73%</div>
+                    <div class="stat-label">Faster shortlist</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" style="color:var(--accent-cyan)">4.8×</div>
+                    <div class="stat-label">Interview conversion</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" style="color:var(--risk)">0</div>
+                    <div class="stat-label">Fraud slips</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" style="color:var(--accent-teal)">48h</div>
+                    <div class="stat-label">Avg delivery</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pipeline">
+            <div class="pipeline-header">
+                <span class="pipeline-title">NorthStar Signal Refinery · Live Pipeline</span>
+                <div class="pipeline-legend">
+                    <span class="legend-item"><span class="legend-dot noise"></span> Noise</span>
+                    <span class="legend-item"><span class="legend-dot processing"></span> Verifying</span>
+                    <span class="legend-item"><span class="legend-dot signal"></span> Signal</span>
+                </div>
+            </div>
+
+            <div class="pipeline-canvas">
+                <div class="stages">
+                    <div class="stage active">
+                        <div class="stage-top">
+                            <span class="stage-num">01 · SOURCE</span>
+                            <span class="stage-name">Mission Control</span>
+                            <span class="stage-desc">AI sourcing with calibrated role scope and compensation
+                                boundaries.</span>
+                        </div>
+                        <div class="stage-bottom">
+                            <span class="stage-gate gate-legit">VERIFIED_LEGIT</span>
+                            <span class="stage-metric"><span class="mv">247</span> candidates sourced</span>
+                        </div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-top">
+                            <span class="stage-num">02 · VERIFY</span>
+                            <span class="stage-name">Skill Recovery Lab</span>
+                            <span class="stage-desc">Evidence enrichment from raw profiles to structured candidate
+                                stories.</span>
+                        </div>
+                        <div class="stage-bottom">
+                            <span class="stage-gate gate-unknown">UNKNOWN_INSUFFICIENT</span>
+                            <span class="stage-metric"><span class="mv">162</span> profiles enriched</span>
+                        </div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-top">
+                            <span class="stage-num">03 · SCORE</span>
+                            <span class="stage-name">Case Command</span>
+                            <span class="stage-desc">Risk scoring with identity chain, history checks, anomaly
+                                detection.</span>
+                        </div>
+                        <div class="stage-bottom">
+                            <span class="stage-gate gate-risk">VERIFIED_RISK</span>
+                            <span class="stage-metric"><span class="mv">38</span> blocked</span>
+                        </div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-top">
+                            <span class="stage-num">04 · DELIVER</span>
+                            <span class="stage-name">Shortlist Ready</span>
+                            <span class="stage-desc">Verified, evidence-backed candidates delivered to client in 48h
+                                avg.</span>
+                        </div>
+                        <div class="stage-bottom">
+                            <span class="stage-gate gate-legit">VERIFIED_LEGIT</span>
+                            <span class="stage-metric"><span class="mv">124</span> delivered</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="particle-layer" id="particleLayer"></div>
+            </div>
+
+            <div class="pipeline-footer">
+                <div style="display:flex;gap:24px;">
+                    <span class="pf-stat">ENTERED <span class="pv" id="pEntered">247</span></span>
+                    <span class="pf-stat">BLOCKED <span class="pv" style="color:var(--risk)"
+                            id="pBlocked">38</span></span>
+                    <span class="pf-stat">DELIVERED <span class="pv" style="color:var(--ok)"
+                            id="pDelivered">124</span></span>
+                    <span class="pf-stat">PASS RATE <span class="pv"
+                            style="color:var(--accent-cyan)">50.2%</span></span>
+                </div>
+                <span class="pf-stat" id="liveTs"></span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ─── PARTICLE SPAWNER ───
+        const layer = document.getElementById('particleLayer');
+        const canvasHeight = 280;
+
+        function spawnParticle() {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+
+            const rand = Math.random();
+            const y = 30 + Math.random() * (canvasHeight - 80);
+            const duration = 4 + Math.random() * 5;
+
+            // Decide particle type based on pipeline logic
+            if (rand < 0.15) {
+                // 15% get blocked
+                p.classList.add('noise');
+                p.style.top = y + 'px';
+                p.style.left = (Math.random() * 40 + 40) + '%';
+                p.style.animation = `flowBlocked ${1.5 + Math.random()}s linear forwards`;
+                p.style.animationDelay = Math.random() * 0.3 + 's';
+            } else if (rand < 0.4) {
+                // 25% are processing (amber)
+                p.classList.add('processing');
+                p.style.top = y + 'px';
+                p.style.animationDuration = duration + 's';
+                p.style.animationDelay = Math.random() * 0.5 + 's';
+            } else {
+                // 60% make it through as signal
+                p.classList.add('signal');
+                p.style.top = y + 'px';
+                p.style.animationDuration = duration + 's';
+                p.style.animationDelay = Math.random() * 0.5 + 's';
+            }
+
+            p.style.width = (5 + Math.random() * 5) + 'px';
+            p.style.height = p.style.width;
+
+            layer.appendChild(p);
+            setTimeout(() => p.remove(), (duration + 2) * 1000);
+        }
+
+        // Spawn particles at intervals
+        setInterval(spawnParticle, 600);
+        // Initial burst
+        for (let i = 0; i < 8; i++) setTimeout(spawnParticle, i * 200);
+
+        // ─── LIVE TIMESTAMP ───
+        const tsEl = document.getElementById('liveTs');
+        function updateTime() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            tsEl.textContent = `${h}:${m}:${s} UTC`;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // ─── COUNTER ANIMATION ───
+        let entered = 247, blocked = 38, delivered = 124;
+        const pEntered = document.getElementById('pEntered');
+        const pBlocked = document.getElementById('pBlocked');
+        const pDelivered = document.getElementById('pDelivered');
+
+        setInterval(() => {
+            entered += Math.floor(Math.random() * 3);
+            if (Math.random() < 0.3) blocked++;
+            if (Math.random() < 0.5) delivered++;
+            pEntered.textContent = entered;
+            pBlocked.textContent = blocked;
+            pDelivered.textContent = delivered;
+        }, 4000);
+    </script>
+</body>
+
+</html>

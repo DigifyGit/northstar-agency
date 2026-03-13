@@ -1,0 +1,27 @@
+reports/NORTHSTAR_V2_DASHBOARD_MASTER_SPEC.md
+reports/NORTHSTAR_V2_VISUAL_SYSTEM_AND_STITCH_BUILD_GUIDE.md
+reports/NORTHSTAR_PROJECT_CONTEXT_MAPPING.md
+reports/NORTHSTAR_WEB_APP_PRODUCT_BLUEPRINT.md
+webapp/README.md
+webapp/server.js
+webapp/public/index.html
+webapp/public/login.html
+webapp/public/app.html
+webapp/public/dashboard.html
+webapp/public/js/dashboard.js
+webapp/public/site.css
+webapp/package.json
+brain/CANDIDATE_PROFILE.md
+brain/CLIENT_BRIEF.md
+brain/CASE_LOG.md
+brain/SKILLS_EVIDENCE_LEDGER.json
+brain/knowledge_base.json
+brain/CLIENT_IDENTITY.json
+reports/CLIENT_SIDE_DATA_INVENTORY_2026-02-25.md
+reports/STITCH_DASHBOARD_FUNCTIONALITY_AUDIT_2026-02-25.md
+webapp/Stitch Designs/northstar_v2_stitch_dashboard_concepts/northstar_mission_control_dashboard_2/code.html
+webapp/Stitch Designs/northstar_v2_stitch_dashboard_concepts/northstar_skill_recovery_lab_2/code.html
+webapp/Stitch Designs/northstar_v2_stitch_dashboard_concepts/northstar_case_command_operations_2/code.html
+webapp/Stitch Designs/northstar_v2_stitch_dashboard_concepts/northstar_strategic_journey_roadmap_2/code.html
+webapp/Stitch Designs/northstar_v2_stitch_dashboard_concepts/northstar_executive_client_dual_view_1/code.html
+reports/GOOGLE_AI_STUDIO_SAAS_BUILD_FILE_PACK_2026-02-25.md

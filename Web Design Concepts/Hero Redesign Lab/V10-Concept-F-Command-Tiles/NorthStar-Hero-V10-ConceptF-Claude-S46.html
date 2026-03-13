@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NorthStar | Concept F — Command Tiles · V10</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/*
+  CONCEPT F — COMMAND TILES STACK
+  5 premium hardware module tiles stacked with slight offsets.
+  16-point star emblem on top tile. Titanium + frosted glass.
+  NO SPACE. NO PARTICLES. Studio product shot.
+*/
+:root{
+  --bg:#050914;
+  --indigo:#5F6AD9;
+  --teal:#3FC8B4;
+  --cyan:#7BC0D7;
+  --grad-a:#7BC0D7;
+  --grad-b:#6E82CB;
+  --text-h:#E8F0FF;
+  --text-b:#8899b8;
+  --text-d:#3d5270;
+  --ok:#34D399;
+  --risk:#FB7185;
+  --warn:#F59E0B;
+  --ls:rgba(99,140,200,0.12);
+  --lm:rgba(99,140,200,0.24);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);color:var(--text-b);
+  min-height:100vh;overflow-x:hidden;
+}
+
+/* Studio background: subtle warm-to-cool gradient, no nebula */
+.bg-studio{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 70% at 28% 50%, #080f1e 0%, #050914 55%, #030810 100%);
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:68px;
+  background:rgba(5,9,20,0.90);
+  border-bottom:1px solid var(--ls);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  display:flex;align-items:center;
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;max-width:1440px;margin:0 auto;padding:0 48px;
+}
+.logo{
+  display:flex;align-items:center;gap:9px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.0625rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:var(--text-h);text-decoration:none;
+}
+.nav-links{display:flex;gap:2px;list-style:none}
+.nav-links a{
+  font-size:0.8125rem;font-weight:500;color:var(--text-b);
+  padding:7px 12px;border-radius:6px;text-decoration:none;
+  transition:color 160ms,background 160ms;
+}
+.nav-links a:hover{color:var(--text-h);background:rgba(17,30,53,0.4)}
+.nav-right{display:flex;gap:9px;align-items:center}
+.btn-ghost{
+  background:transparent;border:1px solid var(--ls);color:var(--text-b);
+  padding:7px 16px;border-radius:7px;font-size:0.8125rem;font-weight:500;
+  font-family:inherit;cursor:pointer;transition:all 180ms;
+}
+.btn-ghost:hover{border-color:var(--lm);color:var(--text-h)}
+.btn-prim{
+  background:linear-gradient(135deg,#4A87AB,#294E74);
+  border:1px solid rgba(123,192,215,0.20);color:#E8F4FC;
+  padding:8px 18px;border-radius:7px;font-size:0.8125rem;font-weight:600;
+  font-family:inherit;cursor:pointer;transition:all 200ms;
+  box-shadow:0 0 20px rgba(74,135,171,0.25);
+}
+.btn-prim:hover{filter:brightness(1.1);transform:translateY(-1px)}
+
+/* ── HERO ── */
+#hero{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  max-width:1440px;margin:0 auto;
+  padding:68px 48px 0;
+  gap:0;
+}
+
+/* ───────────────────────────────────
+   LEFT: COMMAND TILES STACK
+─────────────────────────────────── */
+.tiles-stage{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  height:calc(100vh - 68px);
+  min-height:620px;
+}
+
+.tiles-stack{
+  position:relative;
+  width:360px;
+}
+
+/* The vertical "data backplane" spine */
+.spine{
+  position:absolute;
+  left:28px;top:0;bottom:0;
+  width:2px;
+  background:linear-gradient(180deg,
+    transparent 0%,
+    rgba(95,106,217,0.25) 15%,
+    rgba(63,200,180,0.20) 50%,
+    rgba(95,106,217,0.25) 85%,
+    transparent 100%);
+}
+/* Spine pulse dot */
+.spine::after{
+  content:'';
+  position:absolute;
+  left:-3px;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--teal);
+  box-shadow:0 0 12px var(--teal);
+  animation:spinePulse 2.5s ease-in-out infinite;
+}
+@keyframes spinePulse{
+  0%{top:5%;opacity:1}
+  100%{top:92%;opacity:0.2}
+}
+
+/* Each tile */
+.tile{
+  position:relative;
+  margin-bottom:10px;
+  padding:18px 20px 16px 52px;
+  background:linear-gradient(135deg, rgba(18,28,52,0.97) 0%, rgba(12,19,38,0.97) 100%);
+  border:1px solid rgba(99,140,200,0.14);
+  border-radius:8px;
+  box-shadow:
+    0 6px 32px rgba(0,0,0,0.65),
+    inset 0 1px 0 rgba(173,206,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.4);
+  cursor:default;
+  transition:border-color 250ms,box-shadow 250ms,transform 250ms;
+  /* Stagger offsets for depth */
+}
+.tile:hover{
+  border-color:rgba(99,140,200,0.28);
+  box-shadow:0 10px 48px rgba(0,0,0,0.7),inset 0 1px 0 rgba(173,206,255,0.10);
+  transform:translateX(6px);
+}
+/* Subtle horizontal brushed-metal lines on tile */
+.tile::before{
+  content:'';position:absolute;inset:0;border-radius:8px;
+  background:repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(255,255,255,0.005) 3px,
+    rgba(255,255,255,0.005) 4px
+  );
+  pointer-events:none;
+}
+/* Top edge chamfer light */
+.tile::after{
+  content:'';
+  position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(173,206,255,0.14),transparent);
+}
+
+/* Spine connector dot per tile */
+.tile-dot{
+  position:absolute;
+  left:24px;top:50%;transform:translateY(-50%);
+  width:10px;height:10px;border-radius:50%;
+  border:1px solid rgba(99,140,200,0.25);
+  background:rgba(14,22,42,1);
+}
+.tile-dot::after{
+  content:'';
+  position:absolute;inset:2px;border-radius:50%;
+}
+.tile.t1 .tile-dot::after{background:var(--ok)}
+.tile.t2 .tile-dot::after{background:var(--teal)}
+.tile.t3 .tile-dot::after{background:var(--warn)}
+.tile.t4 .tile-dot::after{background:rgba(95,106,217,0.7)}
+.tile.t5 .tile-dot::after{background:var(--text-d)}
+
+/* Tile content */
+.tile-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;font-weight:500;letter-spacing:0.14em;
+  color:var(--text-d);margin-bottom:4px;text-transform:uppercase;
+}
+.tile-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.875rem;font-weight:700;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--text-h);
+  margin-bottom:4px;
+}
+.tile-desc{
+  font-size:0.6875rem;color:var(--text-d);line-height:1.5;
+  margin-bottom:8px;
+}
+.tile-badge-row{display:flex;align-items:center;gap:8px}
+.tile-badge{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;font-weight:700;letter-spacing:0.12em;
+  text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid;
+}
+.tb-ok  {color:var(--ok); border-color:rgba(52,211,153,0.25); background:rgba(52,211,153,0.06)}
+.tb-teal{color:var(--teal);border-color:rgba(63,200,180,0.25);background:rgba(63,200,180,0.06)}
+.tb-warn{color:var(--warn);border-color:rgba(245,158,11,0.22);background:rgba(245,158,11,0.04)}
+.tb-ind {color:var(--indigo);border-color:rgba(95,106,217,0.28);background:rgba(95,106,217,0.06)}
+.tb-risk{color:var(--risk); border-color:rgba(251,113,133,0.25);background:rgba(251,113,133,0.06)}
+.tb-dim {color:var(--text-d);border-color:var(--ls);background:transparent}
+
+/* LED indicator */
+.led{
+  width:6px;height:6px;border-radius:50%;margin-left:auto;flex-shrink:0;
+}
+.led.green{background:var(--ok); box-shadow:0 0 8px var(--ok)}
+.led.teal {background:var(--teal);box-shadow:0 0 8px var(--teal)}
+.led.warn {background:var(--warn);box-shadow:0 0 6px var(--warn);animation:ledBlink 1.5s infinite}
+.led.dim  {background:var(--text-d)}
+@keyframes ledBlink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* Top tile: star emblem inset */
+.tile.t1{
+  padding-top:56px;
+  background:linear-gradient(135deg, rgba(20,32,58,0.98) 0%, rgba(12,19,38,0.98) 100%);
+}
+.tile-star-emblem{
+  position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+  width:100%;
+  display:flex;align-items:center;justify-content:center;
+  padding-top:14px;padding-bottom:4px;
+  border-bottom:1px solid rgba(99,140,200,0.10);
+}
+.tile-star-emblem svg{width:32px;height:32px}
+
+/* Stagger depth/offset for stack feel */
+.tile.t1{transform:translateX(0)}
+.tile.t2{transform:translateX(4px)}
+.tile.t3{transform:translateX(8px)}
+.tile.t4{transform:translateX(12px)}
+.tile.t5{transform:translateX(16px);margin-bottom:0}
+
+/* Entry animation */
+.tile{opacity:0;transform:translateX(30px)}
+.tile.visible{
+  animation:tileIn 0.6s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes tileIn{to{opacity:1;transform:translateX(var(--offset,0px))}}
+.tile.t1{--offset:0px}
+.tile.t2{--offset:4px}
+.tile.t3{--offset:8px}
+.tile.t4{--offset:12px}
+.tile.t5{--offset:16px}
+
+/* ───────────────────────────────────
+   RIGHT: TEXT
+─────────────────────────────────── */
+.hero-right{
+  padding:0 0 0 56px;
+  display:flex;flex-direction:column;gap:0;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.6875rem;font-weight:600;letter-spacing:0.14em;
+  text-transform:uppercase;color:rgba(123,192,215,0.65);
+  margin-bottom:28px;
+  opacity:0;animation:up 0.6s 0.8s forwards;
+}
+.eyebrow::before{content:'';width:22px;height:1px;background:currentColor}
+h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2.5rem,3.8vw,4.25rem);
+  font-weight:800;line-height:1.06;
+  letter-spacing:-0.03em;color:var(--text-h);
+  margin-bottom:22px;
+  opacity:0;animation:up 0.65s 0.9s forwards;
+}
+.grad-word{
+  background:linear-gradient(90deg,#7BC0D7 0%,#6E82CB 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{
+  font-size:1rem;line-height:1.75;color:var(--text-b);
+  max-width:420px;margin-bottom:40px;
+  opacity:0;animation:up 0.65s 1.02s forwards;
+}
+
+/* Module status list */
+.mod-list{
+  display:flex;flex-direction:column;gap:0;
+  margin-bottom:44px;
+  border:1px solid var(--ls);border-radius:10px;overflow:hidden;
+  opacity:0;animation:up 0.65s 1.12s forwards;
+}
+.mod-row{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 16px;
+  border-bottom:1px solid var(--ls);
+  transition:background 180ms;
+  cursor:default;
+}
+.mod-row:last-child{border-bottom:none}
+.mod-row:hover{background:rgba(17,30,53,0.35)}
+.mod-n{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5625rem;color:var(--text-d);width:24px;flex-shrink:0;
+}
+.mod-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.8125rem;font-weight:600;letter-spacing:0.04em;
+  text-transform:uppercase;color:var(--text-b);flex:1;
+}
+.mod-status{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;font-weight:700;letter-spacing:0.10em;
+  text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid;
+}
+.ms-ok  {color:var(--ok); border-color:rgba(52,211,153,0.22);background:rgba(52,211,153,0.06)}
+.ms-teal{color:var(--teal);border-color:rgba(63,200,180,0.22);background:rgba(63,200,180,0.06)}
+.ms-warn{color:var(--warn);border-color:rgba(245,158,11,0.18);background:rgba(245,158,11,0.04)}
+.ms-risk{color:var(--risk);border-color:rgba(251,113,133,0.20);background:rgba(251,113,133,0.05)}
+.ms-dim {color:var(--text-d);border-color:var(--ls);background:transparent}
+
+.cta-row{
+  display:flex;align-items:center;gap:16px;margin-bottom:28px;
+  opacity:0;animation:up 0.65s 1.24s forwards;
+}
+.cta-a{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#4A87AB,#294E74);
+  border:1px solid rgba(123,192,215,0.22);color:#E8F4FC;
+  padding:12px 26px;border-radius:8px;
+  font-family:'Space Grotesk',sans-serif;font-size:0.9375rem;font-weight:600;
+  text-decoration:none;cursor:pointer;letter-spacing:0.01em;
+  box-shadow:0 0 28px rgba(74,135,171,0.22);
+  transition:all 220ms;
+}
+.cta-a:hover{filter:brightness(1.12);transform:translateY(-2px)}
+.cta-a svg{transition:transform 220ms}
+.cta-a:hover svg{transform:translateX(3px)}
+.cta-b{
+  display:inline-flex;align-items:center;gap:7px;
+  color:var(--text-b);font-size:0.875rem;text-decoration:none;
+  border:1px solid var(--ls);padding:11px 20px;border-radius:8px;
+  transition:all 200ms;
+}
+.cta-b:hover{color:var(--text-h);border-color:var(--lm)}
+.tagline{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6875rem;letter-spacing:0.12em;color:var(--text-d);
+  text-transform:uppercase;
+  opacity:0;animation:up 0.5s 1.4s forwards;
+}
+.tagline span{color:rgba(123,192,215,0.35);margin:0 10px}
+
+@keyframes up   {to{opacity:1;transform:translateY(0)}}
+@media(max-width:960px){
+  #hero{grid-template-columns:1fr;padding:80px 20px 40px;gap:32px}
+  .tiles-stage{height:auto}
+  .tiles-stack{width:100%;max-width:380px}
+  .hero-right{padding:0}
+  .nav-links{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+</style>
+</head>
+<body>
+<div class="bg-studio" aria-hidden="true"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <svg style="width:20px;height:20px" viewBox="0 0 20 20" fill="none">
+        <path d="M10 1L11.1 7.8L16.8 4.5L12.9 9.5L19 10L12.9 10.5L16.8 15.5L11.1 12.2L10 19L8.9 12.2L3.2 15.5L7.1 10.5L1 10L7.1 9.5L3.2 4.5L8.9 7.8Z"
+          stroke="#7BC0D7" stroke-width="1" stroke-linejoin="round" fill="none"/>
+        <circle cx="10" cy="10" r="2" fill="#7BC0D7" opacity="0.6"/>
+      </svg>
+      NorthStar
+    </a>
+    <ul class="nav-links">
+      <li><a href="#platform">Platform</a></li>
+      <li><a href="#methodology">Methodology</a></li>
+      <li><a href="#enterprise">Enterprise Solutions</a></li>
+      <li><a href="#intelligence">Intelligence</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="btn-ghost">Log In</button>
+      <button class="btn-prim">Request Access</button>
+    </div>
+  </div>
+</nav>
+
+<section id="hero">
+
+  <!-- LEFT: COMMAND TILES STACK -->
+  <div class="tiles-stage" aria-label="Command Tiles Stack" aria-hidden="true">
+    <div class="tiles-stack">
+
+      <!-- Backplane spine -->
+      <div class="spine"></div>
+
+      <!-- TILE 1: MISSION CONTROL (with star emblem) -->
+      <div class="tile t1">
+        <div class="tile-star-emblem">
+          <svg viewBox="0 0 32 32" fill="none">
+            <!-- 16-point star -->
+            <path d="M16 2L16.9 11.5L22.6 6.8L18.1 13.8L26 13L18.8 16.8L23.6 22.8L16 19.2L16 28L15.1 18.5L9.4 23.2L13.9 16.2L6 17L13.2 13.2L8.4 7.2L16 10.8Z"
+              stroke="rgba(99,140,200,0.45)" stroke-width="0.9" stroke-linejoin="round"
+              fill="rgba(95,106,217,0.08)"/>
+            <!-- Indigo north tip -->
+            <path d="M16 2L16.7 8L16 7L15.3 8Z" fill="rgba(95,106,217,0.5)" stroke="#5F6AD9" stroke-width="0.6"/>
+            <!-- Teal LED east -->
+            <circle cx="26" cy="17" r="1.2" fill="rgba(63,200,180,0.5)"/>
+            <!-- Core -->
+            <circle cx="16" cy="16" r="2.5" fill="rgba(95,106,217,0.25)"/>
+            <circle cx="16" cy="16" r="1.2" fill="#6E82CB"/>
+          </svg>
+        </div>
+        <div class="tile-dot"></div>
+        <div class="tile-num">MODULE · 01</div>
+        <div class="tile-name">Mission Control</div>
+        <div class="tile-desc">Central command for all active engagements. Role definitions, constraints, executive oversight.</div>
+        <div class="tile-badge-row">
+          <span class="tile-badge tb-ok">Verified</span>
+          <span class="tile-badge tb-teal">Live</span>
+          <div class="led green"></div>
+        </div>
+      </div>
+
+      <!-- TILE 2 -->
+      <div class="tile t2">
+        <div class="tile-dot"></div>
+        <div class="tile-num">MODULE · 02</div>
+        <div class="tile-name">Skill Recovery Lab</div>
+        <div class="tile-desc">AI skill gap analysis, evidence mapping, and candidate readiness scoring before progression.</div>
+        <div class="tile-badge-row">
+          <span class="tile-badge tb-teal">Active</span>
+          <span class="tile-badge tb-ind">In Progress</span>
+          <div class="led teal"></div>
+        </div>
+      </div>
+
+      <!-- TILE 3 -->
+      <div class="tile t3">
+        <div class="tile-dot"></div>
+        <div class="tile-num">MODULE · 03</div>
+        <div class="tile-name">Case Command</div>
+        <div class="tile-desc">Structured dossiers for each candidate. Evidence trails, verification status, decision logs.</div>
+        <div class="tile-badge-row">
+          <span class="tile-badge tb-warn">In Review</span>
+          <span class="tile-badge tb-dim">3 Open</span>
+          <div class="led warn"></div>
+        </div>
+      </div>
+
+      <!-- TILE 4 -->
+      <div class="tile t4">
+        <div class="tile-dot"></div>
+        <div class="tile-num">MODULE · 04</div>
+        <div class="tile-name">Strategic Roadmap</div>
+        <div class="tile-desc">Hiring roadmap synchronized to business outcomes. Milestones, blockers, and cycle reporting.</div>
+        <div class="tile-badge-row">
+          <span class="tile-badge tb-ok">Verified</span>
+          <span class="tile-badge tb-dim">Q1 Active</span>
+          <div class="led dim"></div>
+        </div>
+      </div>
+
+      <!-- TILE 5 -->
+      <div class="tile t5">
+        <div class="tile-dot"></div>
+        <div class="tile-num">MODULE · 05</div>
+        <div class="tile-name">Next 7 Days</div>
+        <div class="tile-desc">Prioritized action queue. Interview prep, offer comparisons, and verification completions.</div>
+        <div class="tile-badge-row">
+          <span class="tile-badge tb-risk">Risk Flag</span>
+          <span class="tile-badge tb-dim">2 Actions</span>
+          <div class="led dim"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT: TEXT -->
+  <div class="hero-right">
+    <span class="eyebrow">Talent Intelligence Infrastructure</span>
+
+    <h1>
+      Architecting the<br>
+      <span class="grad-word">Future of Workforce</span>
+    </h1>
+
+    <p class="hero-sub">
+      Precision talent intelligence. Verified execution.
+      Five operational modules. One auditable system.
+      NorthStar transforms how teams source, verify, and decide.
+    </p>
+
+    <!-- Module status summary -->
+    <div class="mod-list" role="list">
+      <div class="mod-row">
+        <span class="mod-n">01</span>
+        <span class="mod-name">Mission Control</span>
+        <span class="mod-status ms-ok">Verified</span>
+      </div>
+      <div class="mod-row">
+        <span class="mod-n">02</span>
+        <span class="mod-name">Skill Recovery Lab</span>
+        <span class="mod-status ms-teal">Active</span>
+      </div>
+      <div class="mod-row">
+        <span class="mod-n">03</span>
+        <span class="mod-name">Case Command</span>
+        <span class="mod-status ms-warn">In Review</span>
+      </div>
+      <div class="mod-row">
+        <span class="mod-n">04</span>
+        <span class="mod-name">Strategic Roadmap</span>
+        <span class="mod-status ms-ok">Verified</span>
+      </div>
+      <div class="mod-row">
+        <span class="mod-n">05</span>
+        <span class="mod-name">Next 7 Days</span>
+        <span class="mod-status ms-risk">Risk Flag</span>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="#request" class="cta-a">
+        Request Access
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+          <path d="M2.5 7.5h10M8 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="#methodology" class="cta-b">
+        View Methodology
+      </a>
+    </div>
+
+    <div class="tagline">
+      Precision Talent Intelligence<span>·</span>Verified Execution
+    </div>
+  </div>
+
+</section>
+
+<script>
+// Staggered tile entry
+document.querySelectorAll('.tile').forEach((tile, i) => {
+  setTimeout(() => tile.classList.add('visible'), 100 + i * 140);
+});
+
+// Hover highlight on mod-list mirrors tile hover
+document.querySelectorAll('.mod-row').forEach((row, i) => {
+  const tiles = document.querySelectorAll('.tile');
+  row.addEventListener('mouseenter', () => {
+    tiles[i].style.borderColor = 'rgba(123,192,215,0.35)';
+    tiles[i].style.boxShadow = '0 10px 48px rgba(0,0,0,0.7),0 0 20px rgba(123,192,215,0.08),inset 0 1px 0 rgba(173,206,255,0.12)';
+  });
+  row.addEventListener('mouseleave', () => {
+    tiles[i].style.borderColor = '';
+    tiles[i].style.boxShadow = '';
+  });
+});
+</script>
+</body>
+</html>

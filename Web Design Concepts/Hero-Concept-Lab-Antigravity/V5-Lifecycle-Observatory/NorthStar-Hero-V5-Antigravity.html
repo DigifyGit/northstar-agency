@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NorthStar — V5 Lifecycle Observatory</title>
+    <meta name="description"
+        content="NorthStar's lifecycle observatory — a unified view of every talent intelligence module from sourcing to delivery.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════════════
+   V5 — LIFECYCLE OBSERVATORY
+   Circular ring with 5 labeled arc segments and
+   a detail panel. Click/hover a segment to see
+   module detail, verification status, and metrics.
+   Built by: Antigravity (Google DeepMind)
+   ═══════════════════════════════════════════════════ */
+
+        :root {
+            --bg-0: #050914;
+            --surface-glass: rgba(17, 30, 53, 0.58);
+            --surface-glass-strong: rgba(17, 30, 53, 0.74);
+            --text-strong: #E8F0FF;
+            --text-body: #A6B8D6;
+            --text-dim: #7E93B7;
+            --accent-indigo: #5F6AD9;
+            --accent-cyan: #63D9FF;
+            --accent-teal: #3FC8B4;
+            --ok: #34D399;
+            --warn: #F59E0B;
+            --risk: #FB7185;
+            --line-soft: rgba(173, 206, 255, 0.16);
+            --line-strong: rgba(173, 206, 255, 0.30);
+            --ease: cubic-bezier(.2, .8, .2, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-0);
+            color: var(--text-body);
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(1000px 600px at 30% 50%, rgba(95, 106, 217, 0.06), transparent 60%),
+                radial-gradient(700px 500px at 75% 60%, rgba(63, 200, 180, 0.04), transparent 55%);
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            opacity: 0.022;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+            background-size: 128px 128px;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        /* ─── NAV ─── */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 72px;
+            z-index: 100;
+            background: rgba(5, 9, 20, 0.84);
+            border-bottom: 1px solid var(--line-soft);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.88rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-strong);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+        }
+
+        .nav-links a {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: color 180ms var(--ease), background 180ms var(--ease);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-strong);
+            background: rgba(17, 30, 53, 0.35);
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 10px 18px;
+            transition: filter 200ms var(--ease), transform 200ms var(--ease), border-color 200ms var(--ease);
+        }
+
+        .btn-primary {
+            color: #F6FCFF;
+            background: linear-gradient(135deg, #3A7BD5, #3FC8B4);
+            border: 1px solid rgba(173, 206, 255, 0.18);
+            box-shadow: 0 0 28px rgba(99, 217, 255, 0.14);
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            color: var(--text-strong);
+            background: rgba(17, 30, 53, 0.35);
+            border: 1px solid var(--line-soft);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--line-strong);
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: 120px 32px 60px;
+            display: grid;
+            grid-template-columns: minmax(460px, 0.85fr) minmax(500px, 1.15fr);
+            gap: 48px;
+            align-items: center;
+        }
+
+        /* ─── LEFT: RING ─── */
+        .ring-stage {
+            display: grid;
+            place-items: center;
+            min-height: 580px;
+        }
+
+        .ring-container {
+            position: relative;
+            width: min(80vh, 560px);
+            aspect-ratio: 1;
+        }
+
+        /* SVG Ring */
+        .ring-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .arc-segment {
+            fill: none;
+            stroke-width: 32;
+            stroke-linecap: round;
+            cursor: pointer;
+            transition: stroke 300ms var(--ease), filter 300ms var(--ease), stroke-width 200ms var(--ease);
+            filter: brightness(0.7);
+        }
+
+        .arc-segment:hover,
+        .arc-segment.active {
+            filter: brightness(1);
+            stroke-width: 38;
+        }
+
+        .arc-s1 {
+            stroke: rgba(52, 211, 153, 0.6);
+        }
+
+        .arc-s2 {
+            stroke: rgba(245, 158, 11, 0.6);
+        }
+
+        .arc-s3 {
+            stroke: rgba(251, 113, 133, 0.6);
+        }
+
+        .arc-s4 {
+            stroke: rgba(95, 106, 217, 0.6);
+        }
+
+        .arc-s5 {
+            stroke: rgba(99, 217, 255, 0.6);
+        }
+
+        .arc-s1.active {
+            stroke: var(--ok);
+        }
+
+        .arc-s2.active {
+            stroke: var(--warn);
+        }
+
+        .arc-s3.active {
+            stroke: var(--risk);
+        }
+
+        .arc-s4.active {
+            stroke: var(--accent-indigo);
+        }
+
+        .arc-s5.active {
+            stroke: var(--accent-cyan);
+        }
+
+        /* Center star emblem */
+        .ring-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 38% 32%, rgba(172, 204, 255, 0.12), rgba(10, 18, 36, 0.95) 60%);
+            border: 1px solid rgba(173, 206, 255, 0.2);
+            display: grid;
+            place-items: center;
+            box-shadow: inset 0 8px 20px rgba(255, 255, 255, 0.04), 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .ring-center svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        .ring-center polygon {
+            fill: rgba(224, 239, 255, 0.7);
+        }
+
+        /* Arc labels (positioned around the ring) */
+        .arc-labels {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .arc-label {
+            position: absolute;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            white-space: nowrap;
+            transition: color 200ms var(--ease);
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .arc-label.active {
+            color: var(--text-strong);
+        }
+
+        .arc-label.l1 {
+            top: -4%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .arc-label.l2 {
+            top: 22%;
+            right: -10%;
+        }
+
+        .arc-label.l3 {
+            bottom: 18%;
+            right: -6%;
+        }
+
+        .arc-label.l4 {
+            bottom: 18%;
+            left: -8%;
+        }
+
+        .arc-label.l5 {
+            top: 22%;
+            left: -12%;
+        }
+
+        /* ─── RIGHT: DETAIL PANEL ─── */
+        .detail-side {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent-teal);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--accent-teal);
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.4rem, 3.8vw, 3.4rem);
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            color: var(--text-strong);
+        }
+
+        h1 .grad {
+            background: linear-gradient(95deg, var(--accent-cyan), var(--accent-indigo), var(--accent-teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .sub-text {
+            font-size: 1.06rem;
+            line-height: 1.65;
+            max-width: 50ch;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 14px;
+        }
+
+        /* Module Detail Card */
+        .module-card {
+            background: var(--surface-glass);
+            border: 1px solid var(--line-soft);
+            border-radius: 18px;
+            padding: 22px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 20px 50px rgba(4, 10, 28, 0.5);
+            transition: border-color 280ms var(--ease);
+        }
+
+        .module-card.has-focus {
+            border-color: rgba(99, 217, 255, 0.25);
+        }
+
+        .mc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .mc-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-strong);
+        }
+
+        .mc-gate {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.06em;
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid;
+        }
+
+        .gate-legit {
+            color: var(--ok);
+            border-color: rgba(52, 211, 153, 0.4);
+            background: rgba(52, 211, 153, 0.08);
+        }
+
+        .gate-risk {
+            color: var(--risk);
+            border-color: rgba(251, 113, 133, 0.4);
+            background: rgba(251, 113, 133, 0.08);
+        }
+
+        .gate-unknown {
+            color: var(--warn);
+            border-color: rgba(245, 158, 11, 0.4);
+            background: rgba(245, 158, 11, 0.08);
+        }
+
+        .mc-desc {
+            font-size: 0.9rem;
+            line-height: 1.55;
+            margin-bottom: 16px;
+        }
+
+        .mc-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .mc-metric {
+            border: 1px solid var(--line-soft);
+            border-radius: 12px;
+            padding: 12px;
+            background: rgba(5, 9, 20, 0.6);
+        }
+
+        .mc-val {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-strong);
+        }
+
+        .mc-label {
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-top: 3px;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                min-height: auto;
+                padding-top: 100px;
+            }
+
+            .ring-stage {
+                min-height: 420px;
+            }
+
+            .ring-container {
+                width: min(80vw, 440px);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 96px 18px 40px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .ring-container {
+                width: min(85vw, 360px);
+            }
+
+            .arc-label {
+                font-size: 0.52rem;
+            }
+
+            .mc-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-logo">NORTHSTAR</div>
+            <div class="nav-links">
+                <a href="#">Platform</a><a href="#">Methodology</a>
+                <a href="#">Enterprise Solutions</a><a href="#">Intelligence</a>
+            </div>
+            <div class="nav-cta">
+                <button class="btn btn-secondary">Log In</button>
+                <button class="btn btn-primary">Request Access</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <!-- LEFT: RING VISUALIZATION -->
+        <section class="ring-stage">
+            <div class="ring-container">
+                <svg class="ring-svg" viewBox="0 0 200 200" id="ringSvg">
+                    <!-- 5 arc segments, evenly distributed (72° each) -->
+                    <!-- Using stroke-dasharray & dashoffset to create arcs -->
+                    <circle class="arc-segment arc-s1 active" cx="100" cy="100" r="80" stroke-dasharray="88 414"
+                        stroke-dashoffset="0" data-idx="0" />
+                    <circle class="arc-segment arc-s2" cx="100" cy="100" r="80" stroke-dasharray="88 414"
+                        stroke-dashoffset="-100.5" data-idx="1" />
+                    <circle class="arc-segment arc-s3" cx="100" cy="100" r="80" stroke-dasharray="88 414"
+                        stroke-dashoffset="-201" data-idx="2" />
+                    <circle class="arc-segment arc-s4" cx="100" cy="100" r="80" stroke-dasharray="88 414"
+                        stroke-dashoffset="-301.5" data-idx="3" />
+                    <circle class="arc-segment arc-s5" cx="100" cy="100" r="80" stroke-dasharray="88 414"
+                        stroke-dashoffset="-402" data-idx="4" />
+                </svg>
+
+                <div class="ring-center">
+                    <svg viewBox="0 0 100 100" aria-hidden="true">
+                        <polygon points="50,2 55,36 98,50 55,64 50,98 45,64 2,50 45,36" />
+                        <polygon points="50,12 53,38 88,50 53,62 50,88 47,62 12,50 47,38" opacity="0.4" />
+                    </svg>
+                </div>
+
+                <div class="arc-labels">
+                    <span class="arc-label l1 active" data-idx="0">01 · Mission Control</span>
+                    <span class="arc-label l2" data-idx="1">02 · Skill Recovery</span>
+                    <span class="arc-label l3" data-idx="2">03 · Case Command</span>
+                    <span class="arc-label l4" data-idx="3">04 · Strategic Roadmap</span>
+                    <span class="arc-label l5" data-idx="4">05 · Next 7 Days</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT: COPY + DETAIL -->
+        <section class="detail-side">
+            <div class="eyebrow">Lifecycle Observatory</div>
+            <h1>Architecting the<br><span class="grad">Future of Workforce</span></h1>
+            <p class="sub-text">Precision Talent Intelligence. Verified Execution. Five operational modules form a
+                complete lifecycle — from sourcing calibration to interview-ready delivery.</p>
+            <div class="cta-row">
+                <button class="btn btn-primary">Request Access</button>
+                <button class="btn btn-secondary">View the Process</button>
+            </div>
+
+            <article class="module-card has-focus" id="moduleCard">
+                <div class="mc-header">
+                    <span class="mc-title" id="mcTitle">Mission Control</span>
+                    <span class="mc-gate gate-legit" id="mcGate">VERIFIED_LEGIT</span>
+                </div>
+                <p class="mc-desc" id="mcDesc">Launch every search with calibrated role scope, compensation boundaries,
+                    and outcome thresholds. The system maps client constraints into a sourcing specification before any
+                    outreach begins.</p>
+                <div class="mc-metrics">
+                    <div class="mc-metric">
+                        <div class="mc-val" id="mcM1">12d</div>
+                        <div class="mc-label">Avg. to shortlist</div>
+                    </div>
+                    <div class="mc-metric">
+                        <div class="mc-val" id="mcM2">92%</div>
+                        <div class="mc-label">Fit confidence</div>
+                    </div>
+                    <div class="mc-metric">
+                        <div class="mc-val" id="mcM3">41%</div>
+                        <div class="mc-label">Cost saved</div>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        const modules = [
+            {
+                title: 'Mission Control', gate: 'VERIFIED_LEGIT', gateClass: 'gate-legit',
+                desc: 'Launch every search with calibrated role scope, compensation boundaries, and outcome thresholds. The system maps client constraints into a sourcing specification before any outreach begins.',
+                m1: '12d', m2: '92%', m3: '41%'
+            },
+            {
+                title: 'Skill Recovery Lab', gate: 'UNKNOWN_INSUFFICIENT_EVIDENCE', gateClass: 'gate-unknown',
+                desc: 'Rescue strong profiles buried by weak formatting, then enrich with measurable evidence before client exposure. Converts raw talent signals into structured, verifiable candidate stories.',
+                m1: '9d', m2: '88%', m3: '36%'
+            },
+            {
+                title: 'Case Command', gate: 'VERIFIED_RISK', gateClass: 'gate-risk',
+                desc: 'Block mismatch and fraud vectors early with identity chain verification, history checks, and role-fit anomaly detection. Prevents bad submissions before they reach the client.',
+                m1: '7d', m2: '95%', m3: '48%'
+            },
+            {
+                title: 'Strategic Roadmap', gate: 'VERIFIED_LEGIT', gateClass: 'gate-legit',
+                desc: 'Turn weekly hiring signals into a quarterly roadmap so clients know which positions convert fastest and where to allocate sourcing budget for maximum ROI.',
+                m1: '14d', m2: '90%', m3: '33%'
+            },
+            {
+                title: 'Next 7 Days', gate: 'VERIFIED_LEGIT', gateClass: 'gate-legit',
+                desc: 'Daily action board with interview-ready shortlists, blocked issues, and immediate placement priorities. Every stakeholder sees the same execution timeline.',
+                m1: '5d', m2: '97%', m3: '52%'
+            }
+        ];
+
+        const arcs = document.querySelectorAll('.arc-segment');
+        const labels = document.querySelectorAll('.arc-label');
+        const mcTitle = document.getElementById('mcTitle');
+        const mcGate = document.getElementById('mcGate');
+        const mcDesc = document.getElementById('mcDesc');
+        const mcM1 = document.getElementById('mcM1');
+        const mcM2 = document.getElementById('mcM2');
+        const mcM3 = document.getElementById('mcM3');
+        const moduleCard = document.getElementById('moduleCard');
+
+        function setActive(idx) {
+            arcs.forEach(a => a.classList.remove('active'));
+            labels.forEach(l => l.classList.remove('active'));
+            arcs[idx].classList.add('active');
+            labels[idx].classList.add('active');
+
+            const m = modules[idx];
+            mcTitle.textContent = m.title;
+            mcGate.textContent = m.gate;
+            mcGate.className = `mc-gate ${m.gateClass}`;
+            mcDesc.textContent = m.desc;
+            mcM1.textContent = m.m1;
+            mcM2.textContent = m.m2;
+            mcM3.textContent = m.m3;
+
+            moduleCard.classList.add('has-focus');
+        }
+
+        arcs.forEach(arc => {
+            arc.addEventListener('click', () => setActive(parseInt(arc.dataset.idx)));
+            arc.addEventListener('mouseenter', () => setActive(parseInt(arc.dataset.idx)));
+        });
+
+        labels.forEach(label => {
+            label.addEventListener('click', () => setActive(parseInt(label.dataset.idx)));
+            label.addEventListener('mouseenter', () => setActive(parseInt(label.dataset.idx)));
+        });
+    </script>
+</body>
+
+</html>

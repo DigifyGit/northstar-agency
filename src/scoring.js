@@ -83,6 +83,44 @@ function scoreJob(job, userContext = {}) {
         }
     }
 
+    // --- ADVANCED PORTUGUESE HARD-BLOCK SENSORS ("Give the scraper eyes") ---
+    // 1. Proximity regex for Portuguese requirements
+    const ptRegex = /(?:portugu[eê]s|portuguese)[^.]{0,40}(?:c[12]|fluente|native|nativo|obrigat[oó]rio|mandat[oó]rio|required|mandatory|essential|m[ií]nimo|falado e escrito)|(?:c[12]|fluente|native|nativo|obrigat[oó]rio|mandat[oó]rio|required|mandatory|essential|m[ií]nimo)[^.]{0,40}(?:portugu[eê]s|portuguese)/i;
+
+    if (ptRegex.test(description)) {
+        if (!isOptionalLanguageMention(description, "portuguese", langPlusMarkers) &&
+            !isOptionalLanguageMention(description, "português", langPlusMarkers)) {
+            return { score: -50, tier: 'D', reason_short: `HARD BLOCK: Strict PT requirement detected` };
+        }
+    }
+
+    // 2. Language Density Heuristic (Is the JD written in Portuguese?)
+    const ptDensityWords = ['experiência', 'conhecimentos', 'requisitos', 'gestão', 'resolução', 'funções', 'equipas', 'projetos', 'desenvolvimento', 'cliente', 'suporte técnico'];
+    let ptWordCount = 0;
+    for (const word of ptDensityWords) {
+        // Use word boundaries to count occurrences
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        const matches = description.match(regex);
+        if (matches) ptWordCount += matches.length;
+    }
+
+    if (ptWordCount >= 6) {
+        return { score: -50, tier: 'D', reason_short: `HARD BLOCK: JD written in Portuguese (${ptWordCount} pt-words)` };
+    }
+    // -----------------------------------------------------------------------
+
+    // --- AGGREGATOR / GHOST LISTING SENSORS ---
+    if (knowledgeBase.runtime_scoring && knowledgeBase.runtime_scoring.aggregator_rules) {
+        const ar = knowledgeBase.runtime_scoring.aggregator_rules;
+        for (const phrase of ar.aggregator_phrases) {
+            if (description.includes(phrase)) {
+                score -= ar.ghost_penalty;
+                reasons.push(`Ghost Listing Penalty (-${ar.ghost_penalty} pt): '${phrase}' detected`);
+            }
+        }
+    }
+    // ------------------------------------------
+
     for (const item of runtime.heavy_penalty_title_terms || []) {
         const term = toLower(item.term);
         const penalty = Number(item.penalty ?? 10);
@@ -190,8 +228,22 @@ function scoreJob(job, userContext = {}) {
     else if (score >= bMin) tier = 'B';
     else if (score >= cMin) tier = 'C';
 
+    // Normalize to 1-10 scale for client reporting
+    // Max typical score is ~30. Below 0 is bad.
+    let score1To10 = 1;
+    if (score >= 25) score1To10 = 10;
+    else if (score >= 20) score1To10 = 9;
+    else if (score >= 15) score1To10 = 8;
+    else if (score >= 10) score1To10 = 7;
+    else if (score >= 7) score1To10 = 6;
+    else if (score >= 4) score1To10 = 5;
+    else if (score >= 1) score1To10 = 4;
+    else if (score >= -5) score1To10 = 3;
+    else if (score > -20) score1To10 = 2;
+    else score1To10 = 1;
+
     return {
-        score,
+        score: score1To10,
         tier,
         reason_short: unique(reasons).join(', ') || 'Standard Match'
     };

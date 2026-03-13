@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <h1>NorthStar Agent Code Clipboard</h1>
+
+  <h2>Config</h2>
+  <textarea id="Config" rows="10" cols="100">
+const CONFIG = {
+  GEMINI_API_KEY: "YOUR_API_KEY_HERE",
+  GMAIL_SEARCH_QUERY: "from:jobalerts@linkedin.com subject:\"Suggested jobs\" newer_than:1d",
+  MAX_THREADS: 5,
+  GEMINI_MODEL: "gemini-1.5-pro-latest",
+  AI_SYSTEM_PROMPT: `You are NorthStar Agency, an elite career management firm. 
+You are evaluating LinkedIn job alerts against our client's profile.
+
+CLIENT PROFILE:
+- Target Role: IT Support Specialist / Desktop Support / L1-L2 Helpdesk
+- Location: Portugal (Remote heavily preferred, Lisbon/Porto Hybrid acceptable)
+- Core Skills: Troubleshooting, Active Directory, Office 365, Hardware Support, Windows Desktop
+- Language: English (fluent), Portuguese (fluency preferred but not strict)
+- EXCLUSIONS: No Developer roles (React, Java, etc.), No Senior DevOps, No purely sales roles.
+
+INSTRUCTIONS:
+1. Review the provided job descriptions extracted from LinkedIn emails.
+2. Filter OUT any jobs that hit the EXCLUSIONS or require advanced programming.
+3. Identify the "A-Tier" matches (strong alignment with target role and skills).
+4. Output a Markdown report summarizing ONLY the A-Tier jobs. Do not list rejected jobs.
+5. Format:
+   ## 🌟 NorthStar Daily A-Tier Job Report
+   For each job:
+   - **Job Title** at **Company**
+   - **Location**: [Location]
+   - **Why it fits**: [1 sentence explanation]
+   - **Original Link**: [If available in text]`,
+};
+</textarea>
+
+  <h2>GmailParser</h2>
+  <textarea id="GmailParser" rows="10" cols="100">
+function fetchRecentJobAlerts() {
+  const query = CONFIG.GMAIL_SEARCH_QUERY;
+  Logger.log("Searching Gmail with query: " + query);
+  
+  const threads = GmailApp.search(query, 0, CONFIG.MAX_THREADS);
+  Logger.log("Found " + threads.length + " matching threads.");
+  if (threads.length === 0) return null;
+  
+  let allExtractedText = "";
+  for (let i = 0; i < threads.length; i++) {
+    const messages = threads[i].getMessages();
+    const latestMessage = messages[messages.length - 1];
+    const cleanText = extractTextFromHtml(latestMessage.getBody());
+    allExtractedText += "\n\n--- EMAIL DATE: " + latestMessage.getDate() + " ---\n" + cleanText;
+  }
+  return allExtractedText;
+}
+
+function extractTextFromHtml(html) {
+  if (!html) return "";
+  let text = html.replace(/<br\s*[\/]?>/gi, '\n').replace(/<\/p>/gi, '\n\n')
+                 .replace(/<\/div>/gi, '\n').replace(/<\/li>/gi, '\n').replace(/<tr>/gi, '\n');
+  text = text.replace(/<[^>]+>/g, ' ').replace(/[ \t]+/g, ' ').replace(/\n\s+\n/g, '\n\n').trim();
+  return text;
+}
+</textarea>
+
+  <h2>Agent</h2>
+  <textarea id="Agent" rows="10" cols="100">
+function analyzeWithGemini(jobsText) {
+  if (!CONFIG.GEMINI_API_KEY || CONFIG.GEMINI_API_KEY === "YOUR_API_KEY_HERE") {
+    Logger.log("ERROR: GEMINI_API_KEY is not configured.");
+    return null;
+  }
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${CONFIG.GEMINI_MODEL}:generateContent?key=${CONFIG.GEMINI_API_KEY}`;
+  const payload = {
+    contents: [{ role: "user", parts: [{ text: CONFIG.AI_SYSTEM_PROMPT + "\n\n=== JOB ALERTS BELOW ===\n\n" + jobsText }] }],
+    generationConfig: { temperature: 0.1 }
+  };
+  const options = {
+    method: "post", contentType: "application/json",
+    payload: JSON.stringify(payload), muteHttpExceptions: true
+  };
+  Logger.log("Calling Gemini API...");
+  try {
+    const response = UrlFetchApp.fetch(url, options);
+    const resultJson = JSON.parse(response.getContentText());
+    if (resultJson.error) { Logger.log("API ERROR: " + JSON.stringify(resultJson.error)); return null; }
+    if (resultJson.candidates && resultJson.candidates.length > 0) return resultJson.candidates[0].content.parts[0].text;
+    return null;
+  } catch(e) {
+    Logger.log("Request failed: " + e.toString());
+    return null;
+  }
+}
+</textarea>
+
+  <h2>Main</h2>
+  <textarea id="Main" rows="10" cols="100">
+function runDailyRoutine() {
+  Logger.log("--- Starting NorthStar Daily Analysis ---");
+  const jobsText = fetchRecentJobAlerts();
+  if (!jobsText) {
+    Logger.log("No new job alerts found matching criteria. Exiting.");
+    return;
+  }
+  Logger.log("Found emails, extracting intelligence...");
+  const reportText = analyzeWithGemini(jobsText);
+  if (!reportText) { Logger.log("Analysis failed. Exiting."); return; }
+  Logger.log("Analysis complete. Sending dossier.");
+  sendDossierEmail(reportText);
+  Logger.log("--- Routine Complete ---");
+}
+
+function sendDossierEmail(reportText) {
+  const htmlBody = reportText.replace(/\n\n/g, "<br><br>").replace(/\n/g, "<br>");
+  const myEmail = Session.getActiveUser().getEmail();
+  const today = new Date().toISOString().split('T')[0];
+  const subject = `🌟 NorthStar A-Tier Job Fits - ${today}`;
+  GmailApp.sendEmail(myEmail, subject, reportText, {
+    htmlBody: `<h2>🎯 NorthStar Job Sourcing Desk</h2><p>Here are today's top matches extracted from LinkedIn alerts:</p><hr>${htmlBody}`
+  });
+  Logger.log("Dossier sent to " + myEmail);
+}
+</textarea>
+</body>
+
+</html>

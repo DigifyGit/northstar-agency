@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NorthStar Hero V12 - Concept H Lifecycle Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;700&amp;family=Sora:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050914;
+  --line: rgba(163, 200, 246, 0.22);
+  --line-soft: rgba(163, 200, 246, 0.12);
+  --text: #edf4ff;
+  --muted: #9eb4d0;
+  --accent: #7bc0d7;
+  --accent2: #6e82cb;
+  --ok: #2fd0a1;
+  --risk: #fb7185;
+  --unknown: #f2b96b;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: "IBM Plex Sans", sans-serif; }
+body {
+  min-height: 100vh;
+  background: radial-gradient(1100px 680px at 33% 45%, #0d1830 0%, #071020 54%, #03060f 100%);
+}
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 72px;
+  border-bottom: 1px solid var(--line-soft);
+  background: rgba(5,9,20,0.76);
+  backdrop-filter: blur(10px);
+  z-index: 30;
+}
+.nav-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 42px;
+}
+.logo { font-family: "Sora", sans-serif; text-transform: uppercase; letter-spacing: 0.11em; font-size: 0.96rem; font-weight: 700; }
+.links { display: flex; gap: 20px; color: var(--muted); font-size: 0.84rem; }
+.hero {
+  max-width: 1700px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 102px 42px 32px;
+  display: grid;
+  gap: 44px;
+  grid-template-columns: minmax(620px, 1.1fr) minmax(520px, 0.9fr);
+  align-items: center;
+}
+.map-zone {
+  min-height: 640px;
+  display: grid;
+  place-items: center;
+}
+.slab {
+  width: min(96%, 790px);
+  min-height: 560px;
+  border-radius: 28px;
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(21,33,57,0.95), rgba(9,16,31,0.98));
+  box-shadow: 0 38px 74px rgba(0,0,0,0.58);
+  position: relative;
+  padding: 24px;
+}
+.track {
+  width: min(88%, 500px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(173,206,255,0.2);
+  box-shadow: inset 0 0 0 28px rgba(7,13,26,0.78);
+  margin: 22px auto 8px;
+  position: relative;
+}
+.track::before {
+  content: "";
+  position: absolute;
+  inset: 11%;
+  border-radius: 50%;
+  border: 1px dashed rgba(173,206,255,0.18);
+}
+.center-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(173,206,255,0.26);
+  background: radial-gradient(circle at 42% 30%, rgba(184,214,255,0.24), rgba(10,19,35,0.94) 60%);
+  display: grid;
+  place-items: center;
+}
+.star { width: 58%; }
+.star polygon.main { fill: rgba(228,240,255,0.82); }
+.star polygon.sub { fill: rgba(133,181,225,0.62); }
+.bay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(20,34,61,0.95), rgba(10,18,34,0.98));
+  transform-origin: 0 0;
+  padding: 10px;
+  min-height: 70px;
+  cursor: pointer;
+  transition: transform 220ms ease, border-color 220ms ease;
+}
+.bay:hover { border-color: rgba(190,222,255,0.44); }
+.bay.active { border-color: rgba(123,192,215,0.74); box-shadow: 0 0 24px rgba(123,192,215,0.2); }
+.bay .n { font-family: "Sora", sans-serif; font-size: 0.61rem; text-transform: uppercase; letter-spacing: 0.09em; line-height: 1.35; }
+.bay .g { margin-top: 5px; font-family: "JetBrains Mono", monospace; font-size: 0.55rem; color: #8ea5c3; }
+.b1 { transform: translate(-50%, -50%) rotate(-82deg) translateX(236px) rotate(82deg); }
+.b2 { transform: translate(-50%, -50%) rotate(-12deg) translateX(236px) rotate(12deg); }
+.b3 { transform: translate(-50%, -50%) rotate(54deg) translateX(236px) rotate(-54deg); }
+.b4 { transform: translate(-50%, -50%) rotate(126deg) translateX(236px) rotate(-126deg); }
+.b5 { transform: translate(-50%, -50%) rotate(196deg) translateX(236px) rotate(-196deg); }
+.runner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #9ce7f4;
+  box-shadow: 0 0 16px rgba(156,231,244,0.88);
+  transform: translate(-50%, -50%) rotate(var(--runner-angle, -12deg)) translateX(186px);
+  transition: transform 360ms cubic-bezier(.2,.8,.2,1);
+}
+.legend {
+  margin: 20px auto 0;
+  width: min(88%, 640px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 9px;
+}
+.legend-item {
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+}
+.copy { display: grid; gap: 18px; }
+.eyebrow { font-family: "JetBrains Mono", monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
+h1 { margin: 0; font-family: "Sora", sans-serif; font-size: clamp(2.5rem, 4vw, 4.3rem); line-height: 1.06; letter-spacing: -0.02em; }
+.grad { background: linear-gradient(95deg, var(--accent), var(--accent2)); -webkit-background-clip: text; color: transparent; }
+.sub { margin: 0; color: var(--muted); font-size: 1.12rem; line-height: 1.56; max-width: 56ch; }
+.cta { display: flex; gap: 14px; }
+.cta button { border-radius: 12px; border: 1px solid var(--line); padding: 12px 20px; font-family: "Sora", sans-serif; cursor: pointer; }
+.cta .main { background: linear-gradient(130deg, #4a87ab, #294e74); color: #e9f7ff; border-color: rgba(123,192,215,0.3); }
+.cta .ghost { background: transparent; color: var(--text); }
+.focus {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(165deg, rgba(17,29,53,0.95), rgba(9,16,31,0.96));
+  padding: 16px;
+  display: grid;
+  gap: 8px;
+}
+.focus .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: #93a8c4; }
+.focus .title { font-family: "Sora", sans-serif; font-size: 1.08rem; }
+.focus .body { color: var(--muted); line-height: 1.5; min-height: 48px; }
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.metric { border: 1px solid var(--line-soft); border-radius: 10px; background: rgba(8,14,28,0.84); padding: 12px; }
+.metric .v { font-family: "Sora", sans-serif; font-size: 1.16rem; }
+.metric .l { margin-top: 4px; font-size: 0.67rem; letter-spacing: 0.08em; text-transform: uppercase; color: #8ea5c3; }
+@media (max-width: 1340px) {
+  .hero { grid-template-columns: 1fr; gap: 22px; }
+  .map-zone { min-height: 520px; }
+}
+@media (max-width: 760px) {
+  .hero { padding: 96px 18px 28px; }
+  .links { display: none; }
+  .track { width: min(96%, 380px); }
+  .bay { width: 118px; min-height: 62px; }
+  .b1 { transform: translate(-50%, -50%) rotate(-82deg) translateX(178px) rotate(82deg); }
+  .b2 { transform: translate(-50%, -50%) rotate(-12deg) translateX(178px) rotate(12deg); }
+  .b3 { transform: translate(-50%, -50%) rotate(54deg) translateX(178px) rotate(-54deg); }
+  .b4 { transform: translate(-50%, -50%) rotate(126deg) translateX(178px) rotate(-126deg); }
+  .b5 { transform: translate(-50%, -50%) rotate(196deg) translateX(178px) rotate(-196deg); }
+  .runner { transform: translate(-50%, -50%) rotate(var(--runner-angle, -12deg)) translateX(136px); }
+  .legend { grid-template-columns: 1fr; }
+  .metrics { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="logo">NORTHSTAR</div>
+      <div class="links"><span>Platform</span><span>Methodology</span><span>Enterprise Solutions</span><span>Intelligence</span><span>Log In</span></div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <section class="map-zone">
+      <div class="slab">
+        <div class="track" id="track">
+          <button class="bay b1 active" data-angle="-12" data-title="Mission Control" data-gate="VERIFIED_LEGIT" data-copy="Define role intent, budget, and outcome expectations so each search starts with executive-level clarity." data-speed="12d" data-relevance="92%" data-cost="41%"><div class="n">Mission Control</div><div class="g">VERIFIED_LEGIT</div></button>
+          <button class="bay b2" data-angle="54" data-title="Skill Recovery Lab" data-gate="UNKNOWN_INSUFFICIENT_EVIDENCE" data-copy="Convert unclear profiles into structured candidate evidence before they enter client review loops." data-speed="9d" data-relevance="88%" data-cost="36%"><div class="n">Skill Recovery Lab</div><div class="g">UNKNOWN_INSUFFICIENT_EVIDENCE</div></button>
+          <button class="bay b3" data-angle="126" data-title="Case Command" data-gate="VERIFIED_RISK" data-copy="Apply verification gates that filter mismatch, trust issues, and timeline risk before shortlist handoff." data-speed="7d" data-relevance="95%" data-cost="48%"><div class="n">Case Command</div><div class="g">VERIFIED_RISK</div></button>
+          <button class="bay b4" data-angle="196" data-title="Strategic Roadmap" data-gate="VERIFIED_LEGIT" data-copy="Translate recurring hiring outcomes into a practical roadmap for better allocation and forecasting." data-speed="14d" data-relevance="90%" data-cost="33%"><div class="n">Strategic Roadmap</div><div class="g">VERIFIED_LEGIT</div></button>
+          <button class="bay b5" data-angle="264" data-title="Next 7 Days" data-gate="VERIFIED_LEGIT" data-copy="Deliver immediate priorities with interview-ready candidates and blocker resolution visible to every stakeholder." data-speed="5d" data-relevance="97%" data-cost="52%"><div class="n">Next 7 Days</div><div class="g">VERIFIED_LEGIT</div></button>
+          <div class="runner" id="runner"></div>
+          <div class="center-core">
+            <svg class="star" viewBox="0 0 100 100" aria-hidden="true">
+              <polygon class="main" points="50,5 57,34 95,50 57,66 50,95 43,66 5,50 43,34"></polygon>
+              <polygon class="sub" points="50,16 54,37 84,50 54,63 50,84 46,63 16,50 46,37"></polygon>
+            </svg>
+          </div>
+        </div>
+        <div class="legend">
+          <div class="legend-item">Workflow clarity in &lt; 3 seconds</div>
+          <div class="legend-item">Named modules, no black box stages</div>
+          <div class="legend-item">Verification gates always visible</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="copy">
+      <div class="eyebrow">Inlaid Lifecycle Map</div>
+      <h1>Architecting the <span class="grad">Future of Workforce</span></h1>
+      <p class="sub">Precision Talent Intelligence. Verified Execution. NorthStar shows where each hiring decision sits, what is verified, and what moves next across a physically understandable lifecycle.</p>
+      <div class="cta"><button class="main">Start Sourcing</button><button class="ghost">Request Consultation</button></div>
+
+      <article class="focus">
+        <div class="label" id="focusLabel">Mission Control · VERIFIED_LEGIT</div>
+        <div class="title" id="focusTitle">Current lifecycle bay: Mission Control</div>
+        <div class="body" id="focusBody">Define role intent, budget, and outcome expectations so each search starts with executive-level clarity.</div>
+      </article>
+
+      <div class="metrics">
+        <div class="metric"><div class="v" id="mSpeed">12d</div><div class="l">Time to shortlist</div></div>
+        <div class="metric"><div class="v" id="mRel">92%</div><div class="l">Relevance confidence</div></div>
+        <div class="metric"><div class="v" id="mCost">41%</div><div class="l">Cost saved</div></div>
+      </div>
+    </section>
+  </main>
+
+<script>
+const bays = [...document.querySelectorAll('.bay')];
+const runner = document.getElementById('runner');
+const focusLabel = document.getElementById('focusLabel');
+const focusTitle = document.getElementById('focusTitle');
+const focusBody = document.getElementById('focusBody');
+const mSpeed = document.getElementById('mSpeed');
+const mRel = document.getElementById('mRel');
+const mCost = document.getElementById('mCost');
+
+function selectBay(bay) {
+  bays.forEach(b => b.classList.remove('active'));
+  bay.classList.add('active');
+  runner.style.setProperty('--runner-angle', `${bay.dataset.angle}deg`);
+  focusLabel.textContent = `${bay.dataset.title} · ${bay.dataset.gate}`;
+  focusTitle.textContent = `Current lifecycle bay: ${bay.dataset.title}`;
+  focusBody.textContent = bay.dataset.copy;
+  mSpeed.textContent = bay.dataset.speed;
+  mRel.textContent = bay.dataset.relevance;
+  mCost.textContent = bay.dataset.cost;
+}
+
+bays.forEach(bay => {
+  bay.addEventListener('click', () => selectBay(bay));
+  bay.addEventListener('mouseenter', () => selectBay(bay));
+});
+</script>
+</body>
+</html>

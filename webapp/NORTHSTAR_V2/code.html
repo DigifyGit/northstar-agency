@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NorthStar Elite Corporate Landing System A</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --bg-base: #070B14;
+            --bg-elevated: #0F1728;
+            --glass-card: rgba(20, 30, 48, 0.64);
+            --text-primary: #E8EEF8;
+            --text-secondary: #9AABC3;
+            --accent-primary: #5F6AD9;
+            --accent-secondary: #3FC8B4;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-border-hover: rgba(95, 106, 217, 0.3);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.02em;
+        }
+        .glass-panel {
+            background: var(--glass-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+        }
+        .glass-nav {
+            background: rgba(7, 11, 20, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .cta-gradient {
+            background: linear-gradient(135deg, #3A7BD5 0%, #3FC8B4 100%);
+        }
+        .cta-glow:hover {
+            box-shadow: 0 0 20px rgba(63, 200, 180, 0.25);
+        }
+        .border-sweep {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .border-sweep:hover {
+            border-color: var(--glass-border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+        .border-sweep::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
+            pointer-events: none;
+        }
+        .border-sweep:hover::after {
+            left: 100%;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #E8EEF8, #9AABC3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .accent-gradient-text {
+            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .timeline-line {
+            background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-[var(--accent-primary)] selection:text-white">
+<nav class="fixed w-full z-50 glass-nav h-20 flex items-center">
+<div class="container mx-auto px-6 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg font-bold">north_east</span>
+</div>
+<span class="font-bold text-xl tracking-tight text-white">NORTHSTAR</span>
+</div>
+<div class="hidden lg:flex items-center gap-8 text-[13px] font-medium text-[var(--text-secondary)] tracking-wide">
+<a class="hover:text-white transition-colors" href="#">About</a>
+<a class="hover:text-white transition-colors" href="#">Services</a>
+<a class="hover:text-white transition-colors" href="#">Process</a>
+<a class="hover:text-white transition-colors" href="#">Industries</a>
+<a class="hover:text-white transition-colors" href="#">Insights</a>
+<a class="hover:text-white transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[14px]">shield</span> Fraud Protection
+                </a>
+<a class="hover:text-white transition-colors" href="#">Contact</a>
+</div>
+<a class="hidden lg:inline-flex items-center justify-center px-6 py-2 border border-[var(--accent-primary)] rounded-full text-[13px] font-semibold text-[var(--text-primary)] hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-300" href="#">
+                Client Login
+            </a>
+<button class="lg:hidden text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<header class="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[var(--accent-primary)] opacity-[0.08] rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute bottom-0 right-0 w-[600px] h-[400px] bg-[var(--accent-secondary)] opacity-[0.05] rounded-full blur-[100px] pointer-events-none"></div>
+<div class="container mx-auto px-6 relative z-10 text-center">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel mb-8 border border-[var(--glass-border)]">
+<span class="w-2 h-2 rounded-full bg-[var(--accent-secondary)] animate-pulse"></span>
+<span class="text-xs font-medium tracking-wide text-[var(--text-secondary)] uppercase">System V2.0 Operational</span>
+</div>
+<h1 class="text-5xl lg:text-7xl font-bold leading-tight mb-6 tracking-tight">
+                Architecting the <br/>
+<span class="accent-gradient-text">Future of Workforce</span>
+</h1>
+<p class="text-lg lg:text-xl text-[var(--text-secondary)] max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+                Elite AI talent sourcing for enterprise infrastructure. We deploy proprietary vetting algorithms to secure the top 1% of engineering leadership.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+<a class="cta-gradient cta-glow text-white px-8 py-4 rounded text-sm font-bold uppercase tracking-wider transition-all duration-300 transform hover:scale-[1.02]" href="#">
+                    Start Hiring
+                </a>
+<a class="px-8 py-4 rounded text-sm font-bold uppercase tracking-wider text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-card)] transition-all duration-300 flex items-center gap-2 group" href="#">
+                    View Methodology <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none z-0 opacity-20"></div>
+</header>
+<section class="border-y border-[var(--glass-border)] bg-[var(--bg-elevated)] relative z-20">
+<div class="container mx-auto px-6 py-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-[var(--glass-border)] text-center">
+<div class="flex flex-col items-center">
+<span class="text-3xl font-bold text-[var(--text-primary)] mb-1">98%</span>
+<span class="text-xs uppercase tracking-widest text-[var(--text-secondary)]">Retention Rate</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-3xl font-bold text-[var(--text-primary)] mb-1">500+</span>
+<span class="text-xs uppercase tracking-widest text-[var(--text-secondary)]">AI Placements</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-3xl font-bold text-[var(--text-primary)] mb-1">12 Days</span>
+<span class="text-xs uppercase tracking-widest text-[var(--text-secondary)]">Avg. Time to Fill</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-3xl font-bold text-[var(--text-primary)] mb-1">0%</span>
+<span class="text-xs uppercase tracking-widest text-[var(--text-secondary)]">Identity Fraud</span>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 relative">
+<div class="container mx-auto px-6">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="text-3xl font-bold mb-4">Core Capabilities</h2>
+<p class="text-[var(--text-secondary)] max-w-md">Precision-engineered sourcing modules designed for high-growth technical environments.</p>
+</div>
+<a class="hidden md:flex items-center gap-2 text-[var(--accent-secondary)] text-sm font-semibold hover:text-white transition-colors" href="#">
+                    Explore All Services <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="glass-panel p-10 rounded-xl border-sweep group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-[rgba(95,106,217,0.1)] border border-[rgba(95,106,217,0.2)] flex items-center justify-center mb-6 group-hover:bg-[var(--accent-primary)] group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-[var(--accent-primary)] group-hover:text-white">memory</span>
+</div>
+<h3 class="text-xl font-bold text-white mb-3">Executive AI Search</h3>
+<p class="text-[var(--text-secondary)] leading-relaxed text-sm">
+                        Retained search for CTOs, VPs of Engineering, and Head of AI Research roles. We map the invisible talent market.
+                    </p>
+</div>
+<div class="glass-panel p-10 rounded-xl border-sweep group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-[rgba(63,200,180,0.1)] border border-[rgba(63,200,180,0.2)] flex items-center justify-center mb-6 group-hover:bg-[var(--accent-secondary)] group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-[var(--accent-secondary)] group-hover:text-white">groups</span>
+</div>
+<h3 class="text-xl font-bold text-white mb-3">Team Augmentation</h3>
+<p class="text-[var(--text-secondary)] leading-relaxed text-sm">
+                        Rapid deployment of pre-vetted senior engineering squads to accelerate product roadmaps without overhead.
+                    </p>
+</div>
+<div class="glass-panel p-10 rounded-xl border-sweep group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-[rgba(232,238,248,0.1)] border border-[rgba(232,238,248,0.2)] flex items-center justify-center mb-6 group-hover:bg-[var(--text-primary)] group-hover:text-[var(--bg-base)] transition-colors duration-300">
+<span class="material-symbols-outlined text-[var(--text-primary)] group-hover:text-[var(--bg-base)]">analytics</span>
+</div>
+<h3 class="text-xl font-bold text-white mb-3">Talent Intelligence</h3>
+<p class="text-[var(--text-secondary)] leading-relaxed text-sm">
+                        Data-driven compensation benchmarking and organizational design consulting for Series B+ startups.
+                    </p>
+</div>
+<div class="glass-panel p-10 rounded-xl border-sweep group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-[rgba(95,106,217,0.1)] border border-[rgba(95,106,217,0.2)] flex items-center justify-center mb-6 group-hover:bg-[var(--accent-primary)] group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-[var(--accent-primary)] group-hover:text-white">security</span>
+</div>
+<h3 class="text-xl font-bold text-white mb-3">Identity Verification</h3>
+<p class="text-[var(--text-secondary)] leading-relaxed text-sm">
+                        Military-grade background checks and technical assessments to prevent employment fraud and IP theft.
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-[var(--bg-elevated)] relative overflow-hidden">
+<div class="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-[rgba(95,106,217,0.05)] to-transparent pointer-events-none"></div>
+<div class="container mx-auto px-6 relative z-10">
+<div class="flex flex-col lg:flex-row items-center gap-16">
+<div class="lg:w-1/2">
+<div class="inline-block px-3 py-1 rounded border border-[var(--accent-secondary)] text-[var(--accent-secondary)] text-xs font-bold uppercase tracking-widest mb-6 bg-[rgba(63,200,180,0.1)]">
+                        Security Protocol
+                    </div>
+<h2 class="text-4xl font-bold mb-6">The NorthStar <br/>Hard-Gate System</h2>
+<p class="text-[var(--text-secondary)] text-lg mb-8 leading-relaxed">
+                        In an era of deepfakes and resume fraud, we don't just review candidates; we investigate them. Our proprietary verification layer ensures zero false positives.
+                    </p>
+<ul class="space-y-4">
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-[var(--accent-secondary)] mt-1">check_circle</span>
+<div>
+<h4 class="font-bold text-white">Biometric Identity Matching</h4>
+<p class="text-sm text-[var(--text-secondary)] mt-1">Cross-referencing digital footprints with government ID databases.</p>
+</div>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-[var(--accent-secondary)] mt-1">check_circle</span>
+<div>
+<h4 class="font-bold text-white">Code Authorship Forensics</h4>
+<p class="text-sm text-[var(--text-secondary)] mt-1">Analyzing git commit history patterns to verify true contribution.</p>
+</div>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-[var(--accent-secondary)] mt-1">check_circle</span>
+<div>
+<h4 class="font-bold text-white">Synchronous Technical Audits</h4>
+<p class="text-sm text-[var(--text-secondary)] mt-1">Live, proctored coding environments to eliminate proxy interviewing.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="lg:w-1/2 w-full">
+<div class="glass-panel p-8 rounded-xl border border-[rgba(95,106,217,0.3)] relative">
+<div class="flex justify-between items-center mb-6 border-b border-[var(--glass-border)] pb-4">
+<span class="text-xs font-mono text-[var(--text-secondary)]">ID: NS-8829-XJ</span>
+<span class="text-xs font-mono text-[var(--accent-secondary)]">STATUS: VERIFIED</span>
+</div>
+<div class="space-y-3 mb-6">
+<div class="h-2 bg-[rgba(255,255,255,0.05)] rounded w-full overflow-hidden">
+<div class="h-full bg-[var(--accent-secondary)] w-[100%]"></div>
+</div>
+<div class="flex justify-between text-xs text-[var(--text-secondary)] font-mono">
+<span>Technical Assessment</span>
+<span>100/100</span>
+</div>
+</div>
+<div class="space-y-3 mb-6">
+<div class="h-2 bg-[rgba(255,255,255,0.05)] rounded w-full overflow-hidden">
+<div class="h-full bg-[var(--accent-secondary)] w-[98%]"></div>
+</div>
+<div class="flex justify-between text-xs text-[var(--text-secondary)] font-mono">
+<span>Identity Confidence</span>
+<span>98.4%</span>
+</div>
+</div>
+<div class="bg-[rgba(7,11,20,0.6)] p-4 rounded border border-[var(--glass-border)] font-mono text-xs text-[var(--text-secondary)]">
+<p>&gt; Initiating background trace...</p>
+<p class="text-[var(--accent-secondary)]">&gt; GitHub API connection established.</p>
+<p class="text-[var(--accent-secondary)]">&gt; LinkedIn graph validated.</p>
+<p class="text-white">&gt; Candidate cleared for interview.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 relative">
+<div class="container mx-auto px-6">
+<div class="text-center max-w-2xl mx-auto mb-16">
+<h2 class="text-3xl font-bold mb-4">The Sourcing Roadmap</h2>
+<p class="text-[var(--text-secondary)]">A linear, transparent timeline from initial calibration to final offer.</p>
+</div>
+<div class="relative">
+<div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 timeline-line md:-ml-[1px] ml-6 opacity-30"></div>
+<div class="relative z-10 mb-12 md:flex justify-between items-center group">
+<div class="md:w-[45%] mb-4 md:mb-0 md:text-right md:pr-12 pl-16 md:pl-0">
+<h3 class="text-xl font-bold text-white">01. Neural Calibration</h3>
+<p class="text-sm text-[var(--text-secondary)] mt-2">We ingest your technical stack, culture docs, and engineering challenges to build a perfect candidate profile.</p>
+</div>
+<div class="absolute left-0 md:left-1/2 w-12 h-12 -ml-0 md:-ml-6 bg-[var(--bg-base)] border border-[var(--accent-primary)] rounded-full flex items-center justify-center text-[var(--accent-primary)] font-bold z-20 shadow-[0_0_15px_rgba(95,106,217,0.3)]">
+<span class="material-symbols-outlined text-sm">tune</span>
+</div>
+<div class="md:w-[45%] hidden md:block"></div>
+</div>
+<div class="relative z-10 mb-12 md:flex justify-between items-center group flex-row-reverse">
+<div class="md:w-[45%] mb-4 md:mb-0 md:pl-12 pl-16">
+<h3 class="text-xl font-bold text-white">02. Deep Market Scan</h3>
+<p class="text-sm text-[var(--text-secondary)] mt-2">Our AI agents scan 50+ data sources to identify passive candidates who aren't on job boards.</p>
+</div>
+<div class="absolute left-0 md:left-1/2 w-12 h-12 -ml-0 md:-ml-6 bg-[var(--bg-base)] border border-[var(--accent-primary)] rounded-full flex items-center justify-center text-[var(--accent-primary)] font-bold z-20 shadow-[0_0_15px_rgba(95,106,217,0.3)]">
+<span class="material-symbols-outlined text-sm">radar</span>
+</div>
+<div class="md:w-[45%] hidden md:block"></div>
+</div>
+<div class="relative z-10 mb-12 md:flex justify-between items-center group">
+<div class="md:w-[45%] mb-4 md:mb-0 md:text-right md:pr-12 pl-16 md:pl-0">
+<h3 class="text-xl font-bold text-white">03. Hard-Gate Vetting</h3>
+<p class="text-sm text-[var(--text-secondary)] mt-2">Candidates pass our rigorous security and technical assessments before you ever see a resume.</p>
+</div>
+<div class="absolute left-0 md:left-1/2 w-12 h-12 -ml-0 md:-ml-6 bg-[var(--bg-base)] border border-[var(--accent-primary)] rounded-full flex items-center justify-center text-[var(--accent-primary)] font-bold z-20 shadow-[0_0_15px_rgba(95,106,217,0.3)]">
+<span class="material-symbols-outlined text-sm">gpp_good</span>
+</div>
+<div class="md:w-[45%] hidden md:block"></div>
+</div>
+<div class="relative z-10 md:flex justify-between items-center group flex-row-reverse">
+<div class="md:w-[45%] md:pl-12 pl-16">
+<h3 class="text-xl font-bold text-white">04. Deployment</h3>
+<p class="text-sm text-[var(--text-secondary)] mt-2">Seamless onboarding, contract negotiation, and Day 1 integration support.</p>
+</div>
+<div class="absolute left-0 md:left-1/2 w-12 h-12 -ml-0 md:-ml-6 bg-[var(--bg-base)] border border-[var(--accent-secondary)] rounded-full flex items-center justify-center text-[var(--accent-secondary)] font-bold z-20 shadow-[0_0_15px_rgba(63,200,180,0.3)]">
+<span class="material-symbols-outlined text-sm">rocket_launch</span>
+</div>
+<div class="md:w-[45%] hidden md:block"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-[var(--bg-elevated)] border-t border-[var(--glass-border)]">
+<div class="container mx-auto px-6">
+<h2 class="text-3xl font-bold mb-12 text-center">Trusted by Industry Leaders</h2>
+<div class="grid md:grid-cols-3 gap-6">
+<div class="glass-panel p-8 rounded-xl flex flex-col justify-between">
+<div>
+<div class="flex text-[var(--accent-secondary)] mb-4">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+<p class="text-[var(--text-secondary)] mb-6 text-sm italic">"NorthStar didn't just find us engineers; they found us the architects who rebuilt our entire payment infrastructure. The vetting is real."</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-gray-700 to-gray-600"></div>
+<div>
+<h5 class="text-white text-sm font-bold">Elena R.</h5>
+<p class="text-xs text-[var(--text-secondary)]">CTO at FinScale</p>
+</div>
+</div>
+</div>
+<div class="glass-panel p-8 rounded-xl flex flex-col justify-between md:translate-y-4">
+<div>
+<div class="flex text-[var(--accent-secondary)] mb-4">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+<p class="text-[var(--text-secondary)] mb-6 text-sm italic">"The speed of placement was shocking. 12 days from kickoff to offer letter for a Staff Machine Learning Engineer."</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-gray-700 to-gray-600"></div>
+<div>
+<h5 class="text-white text-sm font-bold">Marcus T.</h5>
+<p class="text-xs text-[var(--text-secondary)]">VP Engineering, DataFlow</p>
+</div>
+</div>
+</div>
+<div class="glass-panel p-8 rounded-xl flex flex-col justify-between">
+<div>
+<div class="flex text-[var(--accent-secondary)] mb-4">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+<p class="text-[var(--text-secondary)] mb-6 text-sm italic">"Security is paramount for us. NorthStar's identity verification saved us from a potential IP theft situation. Indispensable."</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-gray-700 to-gray-600"></div>
+<div>
+<h5 class="text-white text-sm font-bold">Sarah L.</h5>
+<p class="text-xs text-[var(--text-secondary)]">Director of Ops, SecurNet</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-32 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-b from-[var(--bg-base)] to-[#0B1021] z-0"></div>
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(95,106,217,0.15),_transparent_70%)] z-0 pointer-events-none"></div>
+<div class="container mx-auto px-6 relative z-10 text-center">
+<h2 class="text-4xl lg:text-5xl font-bold mb-8 tracking-tight text-white">Ready to Upgrade Your <br/>Talent Infrastructure?</h2>
+<p class="text-lg text-[var(--text-secondary)] mb-10 max-w-xl mx-auto">
+                Stop sifting through resumes. Start building with pre-verified, elite engineering leadership.
+            </p>
+<a class="inline-block cta-gradient cta-glow text-white px-10 py-5 rounded text-base font-bold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 shadow-[0_10px_40px_-10px_rgba(95,106,217,0.5)]" href="#">
+                Initialize Your Search
+            </a>
+<p class="mt-6 text-xs text-[var(--text-secondary)] opacity-60">No credit card required for initial consultation.</p>
+</div>
+</section>
+<footer class="border-t border-[var(--glass-border)] bg-[var(--bg-elevated)] pt-16 pb-8">
+<div class="container mx-auto px-6">
+<div class="grid md:grid-cols-4 gap-12 mb-12">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-[var(--accent-secondary)]">north_east</span>
+<span class="font-bold text-xl text-white">NORTHSTAR</span>
+</div>
+<p class="text-[var(--text-secondary)] text-sm mb-6">
+                        Premium AI talent sourcing for the modern enterprise.
+                    </p>
+<div class="flex gap-4">
+<a class="text-[var(--text-secondary)] hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-lg">public</span></a>
+<a class="text-[var(--text-secondary)] hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-lg">alternate_email</span></a>
+</div>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 text-sm uppercase tracking-wider">Company</h4>
+<ul class="space-y-2 text-sm text-[var(--text-secondary)]">
+<li><a class="hover:text-[var(--accent-secondary)] transition-colors" href="#">About</a></li>
+<li><a class="hover:text-[var(--accent-secondary)] transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-[var(--accent-secondary)] transition-colors" href="#">Press</a></li>
+<li><a class="hover:text-[var(--accent-secondary)] transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 text-sm uppercase tracking-wider">Solutions</h4>
+<ul class="space-y-2 text-sm text-[var(--text-secondary)]">
+<li><a class="hover:text-[var(--accent-secondary)] transition-colors" href="#">Executive Search</a></li>
+<li><a class="hover:text-[var(--accent-secondary)] transition-colors" href="#">Team Augmentation</a></li>
+<li><a class="hover:text-[var(--accent-secondary)] transition-colors" href="#">Fraud Protection</a></li>
+<li><a class="hover:text-[var(--accent-secondary)] transition-colors" href="#">Consulting</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 text-sm uppercase tracking-wider">Legal</h4>
+<ul class="space-y-2 text-sm text-[var(--text-secondary)]">
+<li><a class="hover:text-[var(--accent-secondary)] transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-[var(--accent-secondary)] transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-[var(--accent-secondary)] transition-colors" href="#">Security</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-[var(--glass-border)] pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-xs text-[var(--text-secondary)]">© 2026 NorthStar Agency. All rights reserved.</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[var(--accent-secondary)]"></span>
+<span class="text-xs text-[var(--text-secondary)]">System Status: Operational</span>
+</div>
+</div>
+</div>
+</footer>
+
+</body></html>

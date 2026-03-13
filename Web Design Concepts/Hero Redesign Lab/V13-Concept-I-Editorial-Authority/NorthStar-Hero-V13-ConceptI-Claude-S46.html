@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NorthStar | Concept I — Editorial Authority · V13</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/*
+  CONCEPT I — EDITORIAL AUTHORITY
+  No illustration. No space. No particles. Pure typographic power.
+  Huge debossed 16-point star watermark (same color, shadow-only reveal).
+  5-step lifecycle line below headline.
+  Brutally clean. Maximum authority.
+*/
+:root{
+  --bg:#050914;
+  --indigo:#5F6AD9;
+  --teal:#3FC8B4;
+  --grad-a:#7BC0D7;
+  --grad-b:#6E82CB;
+  --text-h:#E8F0FF;
+  --text-b:#8899b8;
+  --text-d:#3d5270;
+  --ok:#34D399;
+  --risk:#FB7185;
+  --ls:rgba(99,140,200,0.11);
+  --lm:rgba(99,140,200,0.22);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);color:var(--text-b);
+  min-height:100vh;overflow-x:hidden;
+  /* Film grain overlay */
+  position:relative;
+}
+/* Subtle grain texture */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:0.6;
+  mix-blend-mode:overlay;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:68px;
+  background:rgba(5,9,20,0.92);
+  border-bottom:1px solid var(--ls);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  display:flex;align-items:center;
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;max-width:1440px;margin:0 auto;padding:0 48px;
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.0625rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:var(--text-h);text-decoration:none;
+}
+.nav-links{display:flex;gap:2px;list-style:none}
+.nav-links a{
+  font-size:0.8125rem;font-weight:500;color:var(--text-b);
+  padding:7px 12px;border-radius:6px;text-decoration:none;
+  transition:color 160ms,background 160ms;
+}
+.nav-links a:hover{color:var(--text-h);background:rgba(17,30,53,0.4)}
+.nav-right{display:flex;gap:9px;align-items:center}
+.btn-ghost{
+  background:transparent;border:1px solid var(--ls);color:var(--text-b);
+  padding:7px 16px;border-radius:7px;font-size:0.8125rem;font-weight:500;
+  font-family:inherit;cursor:pointer;transition:all 180ms;
+}
+.btn-ghost:hover{border-color:var(--lm);color:var(--text-h)}
+.btn-prim{
+  background:linear-gradient(135deg,#4A87AB,#294E74);
+  border:1px solid rgba(123,192,215,0.20);color:#E8F4FC;
+  padding:8px 18px;border-radius:7px;font-size:0.8125rem;font-weight:600;
+  font-family:inherit;cursor:pointer;transition:all 200ms;
+  box-shadow:0 0 20px rgba(74,135,171,0.25);
+}
+.btn-prim:hover{filter:brightness(1.1);transform:translateY(-1px)}
+
+/* ── HERO ── */
+#hero{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  max-width:1440px;margin:0 auto;
+  padding:68px 80px 0;
+  overflow:hidden;
+}
+
+/* ── WATERMARK STAR ── */
+.star-watermark{
+  position:absolute;
+  left:-6%;
+  top:50%;
+  transform:translateY(-50%);
+  width:72vh;height:72vh;
+  pointer-events:none;
+  opacity:0;
+  animation:fadeI 1.2s 0.2s forwards;
+}
+/* The star is debossed into the background — same hue, revealed only by shadow/highlight */
+.star-watermark svg{
+  width:100%;height:100%;
+}
+
+/* ── MAIN TEXT BLOCK ── */
+.editorial-block{
+  position:relative;
+  z-index:2;
+  max-width:860px;
+  margin:0 auto;
+  padding-top:20px;
+}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:0.6875rem;font-weight:600;letter-spacing:0.18em;
+  text-transform:uppercase;color:rgba(123,192,215,0.55);
+  margin-bottom:36px;
+  opacity:0;animation:up 0.6s 0.4s forwards;
+}
+.eyebrow::before{content:'';width:32px;height:1px;background:currentColor}
+
+/* Massive headline */
+h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(3.5rem,7vw,7.5rem);
+  font-weight:800;
+  line-height:0.98;
+  letter-spacing:-0.04em;
+  color:var(--text-h);
+  margin-bottom:0;
+}
+.hl-1{
+  display:block;
+  opacity:0;transform:translateY(24px);
+  animation:up 0.7s 0.5s forwards;
+}
+.hl-2{
+  display:block;
+  opacity:0;transform:translateY(24px);
+  animation:up 0.7s 0.6s forwards;
+}
+.hl-3{
+  display:block;margin-bottom:36px;
+  opacity:0;transform:translateY(24px);
+  animation:up 0.7s 0.7s forwards;
+}
+.grad-word{
+  background:linear-gradient(90deg,#7BC0D7 0%,#6E82CB 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+/* Subtext */
+.hero-sub{
+  font-size:1.125rem;line-height:1.75;color:var(--text-b);
+  max-width:560px;margin-bottom:44px;
+  opacity:0;animation:up 0.65s 0.82s forwards;
+}
+
+/* ── 5-STEP LIFECYCLE LINE ── */
+.lifecycle-line{
+  display:flex;align-items:center;gap:0;
+  margin-bottom:52px;
+  opacity:0;animation:up 0.65s 0.95s forwards;
+}
+.step{
+  display:flex;align-items:center;gap:0;
+  position:relative;
+}
+.step-label{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.6875rem;font-weight:700;
+  letter-spacing:0.10em;text-transform:uppercase;
+  white-space:nowrap;
+  padding:7px 14px;
+  border:1px solid var(--ls);
+  border-radius:5px;
+  background:rgba(14,22,42,0.7);
+  color:var(--text-b);
+  transition:all 220ms;
+  cursor:default;
+}
+.step-label:hover{
+  color:var(--text-h);
+  border-color:var(--lm);
+  background:rgba(20,32,58,0.85);
+}
+.step-label.active{
+  color:var(--teal);
+  border-color:rgba(63,200,180,0.30);
+  background:rgba(63,200,180,0.06);
+}
+.step-label.done{
+  color:var(--ok);
+  border-color:rgba(52,211,153,0.22);
+  background:rgba(52,211,153,0.05);
+}
+.step-arrow{
+  width:28px;height:1px;
+  background:linear-gradient(90deg,rgba(99,140,200,0.25),rgba(99,140,200,0.12));
+  flex-shrink:0;
+}
+/* No arrow after last step */
+.step:last-child .step-arrow{display:none}
+
+/* ── CTA ROW ── */
+.cta-row{
+  display:flex;align-items:center;gap:20px;margin-bottom:44px;
+  opacity:0;animation:up 0.65s 1.08s forwards;
+}
+.cta-a{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#4A87AB,#294E74);
+  border:1px solid rgba(123,192,215,0.22);color:#E8F4FC;
+  padding:14px 30px;border-radius:8px;
+  font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;
+  text-decoration:none;cursor:pointer;letter-spacing:0.01em;
+  box-shadow:0 0 32px rgba(74,135,171,0.22);
+  transition:all 220ms;
+}
+.cta-a:hover{filter:brightness(1.12);transform:translateY(-2px);box-shadow:0 8px 40px rgba(74,135,171,0.32)}
+.cta-a svg{transition:transform 220ms}
+.cta-a:hover svg{transform:translateX(3px)}
+.cta-b{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--text-b);font-size:0.9375rem;text-decoration:none;
+  border:1px solid var(--ls);padding:13px 24px;border-radius:8px;
+  font-weight:500;
+  transition:all 200ms;
+}
+.cta-b:hover{color:var(--text-h);border-color:var(--lm)}
+
+/* ── BOTTOM METADATA ROW ── */
+.meta-row{
+  display:flex;align-items:center;gap:32px;
+  padding-top:32px;
+  border-top:1px solid var(--ls);
+  opacity:0;animation:up 0.5s 1.25s forwards;
+}
+.meta-item{
+  display:flex;flex-direction:column;gap:4px;
+}
+.meta-val{
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.5rem;font-weight:500;color:var(--text-h);
+}
+.meta-val.c{color:var(--teal)}
+.meta-lbl{
+  font-size:0.625rem;font-weight:600;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--text-d);
+}
+.meta-sep{width:1px;height:40px;background:var(--ls)}
+
+/* ── VERIFICATION STATUS STRIP ── */
+.verify-strip{
+  position:absolute;
+  bottom:44px;right:80px;
+  display:flex;flex-direction:column;gap:8px;
+  z-index:2;
+  opacity:0;animation:fadeI 0.8s 1.4s forwards;
+}
+.vs-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 14px;
+  background:rgba(10,16,30,0.85);
+  border:1px solid var(--ls);
+  border-radius:7px;
+  backdrop-filter:blur(12px);
+}
+.vs-stamp{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid;
+  white-space:nowrap;
+}
+.vs-ok  {color:var(--ok); border-color:rgba(52,211,153,0.22);background:rgba(52,211,153,0.06)}
+.vs-risk{color:var(--risk);border-color:rgba(251,113,133,0.22);background:rgba(251,113,133,0.05)}
+.vs-unk {color:var(--text-d);border-color:var(--ls);background:transparent}
+.vs-name{font-size:0.6875rem;color:var(--text-b)}
+
+@keyframes up   {to{opacity:1;transform:translateY(0)}}
+@keyframes fadeI{to{opacity:1}}
+
+@media(max-width:960px){
+  #hero{padding:80px 24px 40px}
+  .star-watermark{width:90vw;height:90vw;left:-15%;opacity:0.4}
+  .lifecycle-line{flex-wrap:wrap;gap:8px}
+  .step-arrow{display:none}
+  .verify-strip{position:static;margin-top:32px}
+  h1{font-size:clamp(2.8rem,9vw,5rem)}
+  .nav-links{display:none}
+  .meta-row{flex-wrap:wrap;gap:20px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <svg style="width:20px;height:20px" viewBox="0 0 20 20" fill="none">
+        <path d="M10 1L11.1 7.8L16.8 4.5L12.9 9.5L19 10L12.9 10.5L16.8 15.5L11.1 12.2L10 19L8.9 12.2L3.2 15.5L7.1 10.5L1 10L7.1 9.5L3.2 4.5L8.9 7.8Z"
+          stroke="#7BC0D7" stroke-width="1" stroke-linejoin="round" fill="none"/>
+        <circle cx="10" cy="10" r="2" fill="#7BC0D7" opacity="0.6"/>
+      </svg>
+      NorthStar
+    </a>
+    <ul class="nav-links">
+      <li><a href="#platform">Platform</a></li>
+      <li><a href="#methodology">Methodology</a></li>
+      <li><a href="#enterprise">Enterprise Solutions</a></li>
+      <li><a href="#intelligence">Intelligence</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="btn-ghost">Log In</button>
+      <button class="btn-prim">Request Access</button>
+    </div>
+  </div>
+</nav>
+
+<section id="hero">
+
+  <!-- STAR WATERMARK (debossed, same-color, shadow-only) -->
+  <div class="star-watermark" aria-hidden="true">
+    <svg viewBox="0 0 600 600" fill="none">
+      <!-- Giant 16-point star, monochrome, only slightly lighter than bg -->
+      <!-- Outer ring guide -->
+      <circle cx="300" cy="300" r="285" stroke="rgba(99,140,200,0.025)" stroke-width="1" fill="none"/>
+      <circle cx="300" cy="300" r="260" stroke="rgba(99,140,200,0.02)" stroke-width="0.5" fill="none"/>
+      <!-- Main star (debossed — just slightly lighter fill, subtle stroke) -->
+      <path d="M300 30 L310 195 L425 90 L340 220 L510 230 L355 300 L490 390 L325 335 L310 510 L300 340 L295 510 L275 335 L110 390 L245 300 L90 230 L260 220 L175 90 L290 195 Z"
+        fill="rgba(10,18,38,0.0)"
+        stroke="rgba(99,140,200,0.04)"
+        stroke-width="1.5"
+        stroke-linejoin="round"/>
+      <!-- Debossed fill (slightly lighter than bg) -->
+      <path d="M300 30 L310 195 L425 90 L340 220 L510 230 L355 300 L490 390 L325 335 L310 510 L300 340 L295 510 L275 335 L110 390 L245 300 L90 230 L260 220 L175 90 L290 195 Z"
+        fill="rgba(12,22,44,0.55)"
+        stroke="none"/>
+      <!-- Shadow bottom-right edge (deboss effect) -->
+      <path d="M300 30 L310 195 L425 90 L340 220 L510 230 L355 300 L490 390 L325 335 L310 510 L300 340 L295 510 L275 335 L110 390 L245 300 L90 230 L260 220 L175 90 L290 195 Z"
+        fill="none"
+        stroke="rgba(2,5,12,0.5)"
+        stroke-width="1"
+        stroke-linejoin="round"
+        transform="translate(2,2)"/>
+      <!-- Highlight top-left edge (deboss effect) -->
+      <path d="M300 30 L310 195 L425 90 L340 220 L510 230 L355 300 L490 390 L325 335 L310 510 L300 340 L295 510 L275 335 L110 390 L245 300 L90 230 L260 220 L175 90 L290 195 Z"
+        fill="none"
+        stroke="rgba(173,206,255,0.04)"
+        stroke-width="1"
+        stroke-linejoin="round"
+        transform="translate(-1,-1)"/>
+      <!-- North tip accent — very subtle indigo -->
+      <path d="M300 30 L306 120 L300 110 L294 120 Z"
+        fill="rgba(95,106,217,0.07)"
+        stroke="rgba(95,106,217,0.08)" stroke-width="1"/>
+      <!-- Core ring -->
+      <circle cx="300" cy="300" r="40" stroke="rgba(99,140,200,0.03)" stroke-width="1" fill="none"/>
+      <circle cx="300" cy="300" r="15" stroke="rgba(99,140,200,0.04)" stroke-width="0.75" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- EDITORIAL CONTENT -->
+  <div class="editorial-block">
+
+    <span class="eyebrow">Talent Intelligence Infrastructure · Est. 2024</span>
+
+    <h1>
+      <span class="hl-1">Architecting</span>
+      <span class="hl-2">the <span class="grad-word">Future</span></span>
+      <span class="hl-3">of Workforce</span>
+    </h1>
+
+    <p class="hero-sub">
+      Precision talent intelligence. Verified execution.
+      NorthStar is the infrastructure layer where sourcing,
+      verification, and decision-making converge into one
+      governed, auditable system.
+    </p>
+
+    <!-- 5-STEP LIFECYCLE LINE -->
+    <div class="lifecycle-line" role="list" aria-label="NorthStar lifecycle stages">
+      <div class="step">
+        <div class="step-label done">Mission Control</div>
+        <div class="step-arrow"></div>
+      </div>
+      <div class="step">
+        <div class="step-label active">Skill Recovery Lab</div>
+        <div class="step-arrow"></div>
+      </div>
+      <div class="step">
+        <div class="step-label">Case Command</div>
+        <div class="step-arrow"></div>
+      </div>
+      <div class="step">
+        <div class="step-label">Strategic Roadmap</div>
+        <div class="step-arrow"></div>
+      </div>
+      <div class="step">
+        <div class="step-label">Next 7 Days</div>
+        <div class="step-arrow"></div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="#request" class="cta-a">
+        Request Access
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="#methodology" class="cta-b">
+        View Methodology
+      </a>
+    </div>
+
+    <!-- Bottom proof metrics -->
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="meta-val c">73%</div>
+        <div class="meta-lbl">Faster Shortlist</div>
+      </div>
+      <div class="meta-sep"></div>
+      <div class="meta-item">
+        <div class="meta-val">4.8×</div>
+        <div class="meta-lbl">Interview Conversion</div>
+      </div>
+      <div class="meta-sep"></div>
+      <div class="meta-item">
+        <div class="meta-val c">0</div>
+        <div class="meta-lbl">Fraud Passed Gate</div>
+      </div>
+      <div class="meta-sep"></div>
+      <div class="meta-item">
+        <div class="meta-val">48h</div>
+        <div class="meta-lbl">Avg. Delivery</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- VERIFICATION STATUS STAMPS (bottom right) -->
+  <div class="verify-strip" aria-hidden="true">
+    <div class="vs-item">
+      <span class="vs-stamp vs-ok">VERIFIED_LEGIT</span>
+      <span class="vs-name">P. Osei-Bonsu · VP Engineering</span>
+    </div>
+    <div class="vs-item">
+      <span class="vs-stamp vs-risk">VERIFIED_RISK</span>
+      <span class="vs-name">K. Müller · Risk Score 71/100</span>
+    </div>
+    <div class="vs-item">
+      <span class="vs-stamp vs-unk">UNKNOWN_INSUFFICIENT_EVIDENCE</span>
+      <span class="vs-name">Anonymous · No evidence table</span>
+    </div>
+  </div>
+
+</section>
+
+<script>
+// Step highlight cycling
+const steps = document.querySelectorAll('.step-label');
+let activeStep = 1;
+setInterval(() => {
+  steps.forEach((s,i) => {
+    if (i < activeStep) { s.className = 'step-label done'; }
+    else if (i === activeStep) { s.className = 'step-label active'; }
+    else { s.className = 'step-label'; }
+  });
+  activeStep = (activeStep + 1) % steps.length;
+}, 2800);
+</script>
+</body>
+</html>

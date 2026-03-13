@@ -11,9 +11,14 @@
     "dossier": "node src/fit_dossier.js",
     "track": "node src/application_tracker.js",
     "daily": "node daily_routine.js",
+    "notify:scrape": "node src/notifications_scraper.js",
+    "gmail:check": "node src/gmail_monitor.js",
+    "gmail:digest": "node src/linkedin_email_digest.js 1d",
+    "gmail:digest:week": "node src/linkedin_email_digest.js 7d",
     "ci:smoke": "node src/ops/ci_smoke_check.js",
     "nightly:update": "node src/ops/nightly_mark_update.js",
-    "sync": "./scripts/sync.sh"
+    "sync": "./scripts/sync.sh",
+    "webapp:start": "node webapp/server.js"
   },
   "keywords": [],
   "author": "",
@@ -27,9 +32,14 @@
     "csv-parser": "^3.2.0",
     "csv-writer": "^1.6.0",
     "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "fs-extra": "^11.3.3",
     "puppeteer": "^24.37.3",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2"
+  },
+  "devDependencies": {
+    "@google/clasp": "^3.2.0"
   }
 }

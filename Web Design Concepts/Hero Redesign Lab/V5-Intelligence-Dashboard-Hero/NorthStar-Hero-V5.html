@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NorthStar Agency | AI Talent Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════════════════
+       NORTHSTAR V5 — TALENT INTELLIGENCE DASHBOARD HERO
+       Design: Cinematic split-layout, live animated SaaS dashboard
+       Inspired by: Top Dribbble SaaS dashboard hero shots 2025/26
+    ═══════════════════════════════════════════════════════ */
+    :root {
+      --bg-0: #050918;
+      --bg-1: #0A1224;
+      --bg-2: #111E35;
+      --surface-glass: rgba(17, 30, 53, 0.58);
+      --surface-glass-strong: rgba(17, 30, 53, 0.82);
+      --surface-glass-light: rgba(17, 30, 53, 0.38);
+      --text-strong: #E8F0FF;
+      --text-body: #A6B8D6;
+      --text-dim: #7E93B7;
+      --accent-indigo: #5F6AD9;
+      --accent-cyan: #63D9FF;
+      --accent-teal: #3FC8B4;
+      --accent-violet: #8B7DFF;
+      --ok: #34D399;
+      --warn: #F59E0B;
+      --risk: #FB7185;
+      --info: #60A5FA;
+      --line-soft: rgba(173, 206, 255, 0.12);
+      --line-strong: rgba(173, 206, 255, 0.24);
+      --glow-cyan: rgba(99, 217, 255, 0.28);
+      --glow-indigo: rgba(95, 106, 217, 0.28);
+      --glow-teal: rgba(63, 200, 180, 0.22);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-family: 'Inter', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-0);
+      color: var(--text-body);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ─── AMBIENT BACKGROUND ─── */
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-color: var(--bg-0);
+      background-image:
+        radial-gradient(ellipse 900px 600px at 8% 12%, rgba(139, 125, 255, 0.09), transparent 65%),
+        radial-gradient(ellipse 700px 500px at 92% 80%, rgba(63, 200, 180, 0.07), transparent 60%),
+        radial-gradient(ellipse 500px 400px at 50% 50%, rgba(95, 106, 217, 0.05), transparent 70%);
+    }
+
+    /* Stars */
+    .stars {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle var(--d) ease-in-out infinite var(--delay);
+      opacity: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; }
+      50% { opacity: var(--op); }
+    }
+
+    /* Fine grid */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(173, 206, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(173, 206, 255, 0.025) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(ellipse 120% 80% at 50% 30%, black 10%, transparent 75%);
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      background: rgba(5, 9, 24, 0.72);
+      backdrop-filter: blur(20px) saturate(130%);
+      -webkit-backdrop-filter: blur(20px) saturate(130%);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text-strong);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent-indigo) 0%, var(--accent-cyan) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+      margin-left: 48px;
+      flex: 1;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-dim);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 8px;
+      transition: color 200ms, background 200ms;
+    }
+
+    .nav-links a:hover { color: var(--text-strong); background: var(--surface-glass-light); }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+    }
+
+    .btn-ghost {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dim);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 7px 16px;
+      border-radius: 8px;
+      transition: color 200ms, background 200ms;
+      text-decoration: none;
+    }
+    .btn-ghost:hover { color: var(--text-strong); background: var(--surface-glass-light); }
+
+    .btn-primary {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent-indigo), #4a5abf);
+      border: none;
+      cursor: pointer;
+      padding: 8px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: opacity 200ms, transform 200ms, box-shadow 200ms;
+      box-shadow: 0 4px 20px rgba(95, 106, 217, 0.4);
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(95, 106, 217, 0.55); }
+
+    /* ─── HERO WRAPPER ─── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 64px 40px 0;
+      gap: 64px;
+    }
+
+    /* ─── LEFT: COPY ─── */
+    .hero-copy {
+      padding: 80px 0 80px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 217, 255, 0.08);
+      border: 1px solid rgba(99, 217, 255, 0.2);
+      border-radius: 100px;
+      padding: 6px 16px 6px 6px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .badge-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      flex-shrink: 0;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(99, 217, 255, 0.6); }
+      50% { box-shadow: 0 0 0 6px rgba(99, 217, 255, 0); }
+    }
+
+    .badge span {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(44px, 4.2vw, 64px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--text-strong);
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s ease 0.1s both;
+    }
+
+    h1 .gradient-text {
+      background: linear-gradient(120deg, var(--accent-cyan) 0%, var(--accent-indigo) 50%, var(--accent-violet) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--text-body);
+      max-width: 520px;
+      margin-bottom: 36px;
+      animation: fadeUp 0.6s ease 0.2s both;
+    }
+
+    /* Proof pills */
+    .proof-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      animation: fadeUp 0.6s ease 0.3s both;
+    }
+
+    .proof-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface-glass);
+      border: 1px solid var(--line-soft);
+      border-radius: 100px;
+      padding: 5px 14px 5px 8px;
+      font-size: 13px;
+      color: var(--text-body);
+      backdrop-filter: blur(10px);
+    }
+
+    .proof-pill .icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      flex-shrink: 0;
+    }
+    .icon-green { background: rgba(52, 211, 153, 0.2); color: var(--ok); }
+    .icon-blue  { background: rgba(96, 165, 250, 0.2); color: var(--info); }
+    .icon-amber { background: rgba(245, 158, 11, 0.2); color: var(--warn); }
+
+    /* CTA Row */
+    .cta-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      animation: fadeUp 0.6s ease 0.4s both;
+    }
+
+    .cta-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--accent-indigo) 0%, #4a5abf 100%);
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 14px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 200ms, box-shadow 200ms, opacity 200ms;
+      box-shadow: 0 6px 28px rgba(95, 106, 217, 0.5);
+    }
+    .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(95, 106, 217, 0.65); }
+
+    .cta-primary svg { width: 18px; height: 18px; transition: transform 200ms; }
+    .cta-primary:hover svg { transform: translateX(3px); }
+
+    .cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-body);
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      padding: 14px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--line-soft);
+      background: var(--surface-glass-light);
+      backdrop-filter: blur(10px);
+      transition: border-color 200ms, color 200ms, background 200ms;
+    }
+    .cta-secondary:hover { border-color: var(--line-strong); color: var(--text-strong); background: var(--surface-glass); }
+
+    /* Stat numbers */
+    .stat-strip {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-top: 52px;
+      padding-top: 36px;
+      border-top: 1px solid var(--line-soft);
+      animation: fadeUp 0.6s ease 0.5s both;
+    }
+
+    .stat-item {}
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-strong);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .stat-num .unit { color: var(--accent-cyan); font-size: 20px; }
+    .stat-label { font-size: 12px; color: var(--text-dim); margin-top: 4px; font-weight: 500; }
+
+    .stat-divider { width: 1px; height: 36px; background: var(--line-soft); flex-shrink: 0; }
+
+    /* ─── RIGHT: DASHBOARD PANEL ─── */
+    .hero-dashboard {
+      position: relative;
+      height: 620px;
+      animation: fadeUp 0.7s ease 0.15s both;
+    }
+
+    /* Main dashboard card */
+    .dashboard-main {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      left: 20px;
+      bottom: 0;
+      background: var(--surface-glass-strong);
+      border: 1px solid var(--line-soft);
+      border-radius: 24px;
+      backdrop-filter: blur(24px) saturate(120%);
+      -webkit-backdrop-filter: blur(24px) saturate(120%);
+      box-shadow: 0 24px 80px rgba(4, 10, 28, 0.8), inset 0 1px 0 rgba(255,255,255,0.06);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dashboard top bar */
+    .db-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line-soft);
+      flex-shrink: 0;
+    }
+
+    .db-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-strong);
+      letter-spacing: -0.01em;
+    }
+
+    .db-subtitle { font-size: 11px; color: var(--text-dim); margin-top: 1px; }
+
+    .db-live {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ok);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--ok);
+      animation: pulse-live 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse-live {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.6); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 5px rgba(52, 211, 153, 0); }
+    }
+
+    /* Dashboard body */
+    .db-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 1px;
+      background: var(--line-soft);
+      overflow: hidden;
+    }
+
+    .db-cell {
+      background: var(--bg-1);
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .db-cell-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    /* ── Cell 1: Pipeline Funnel Chart ── */
+    #cell-funnel {
+      grid-row: 1 / 3;
+    }
+
+    .funnel-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .funnel-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .funnel-label {
+      font-size: 11px;
+      color: var(--text-dim);
+      width: 60px;
+      flex-shrink: 0;
+      font-weight: 500;
+    }
+
+    .funnel-bar-wrap {
+      flex: 1;
+      height: 20px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .funnel-bar {
+      height: 100%;
+      border-radius: 6px;
+      width: 0%;
+      transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      padding-right: 6px;
+      justify-content: flex-end;
+    }
+
+    .funnel-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .funnel-pct {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+      width: 36px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ── Cell 2: Match Rate Line Chart ── */
+    .chart-svg-wrap {
+      position: relative;
+      width: 100%;
+      height: 90px;
+    }
+
+    .chart-line {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+      transition: stroke-dashoffset 2s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
+    }
+
+    .chart-fill {
+      opacity: 0;
+      transition: opacity 1s ease 1.6s;
+    }
+
+    .chart-animated .chart-line { stroke-dashoffset: 0; }
+    .chart-animated .chart-fill { opacity: 1; }
+
+    .metric-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-strong);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .metric-unit { font-size: 14px; color: var(--text-dim); font-weight: 500; }
+    .metric-delta {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ok);
+      background: rgba(52, 211, 153, 0.1);
+      border: 1px solid rgba(52, 211, 153, 0.2);
+      border-radius: 100px;
+      padding: 2px 8px;
+      margin-top: 4px;
+    }
+    .metric-delta.down { color: var(--risk); background: rgba(251, 113, 133, 0.1); border-color: rgba(251, 113, 133, 0.2); }
+
+    /* ── Cell 3: Fraud Shield ── */
+    .risk-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .risk-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .risk-label { font-size: 10px; color: var(--text-dim); width: 72px; flex-shrink: 0; }
+
+    .risk-track {
+      flex: 1;
+      height: 5px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .risk-fill {
+      height: 100%;
+      border-radius: 10px;
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1s;
+    }
+
+    .risk-status {
+      font-size: 10px;
+      font-weight: 700;
+      width: 40px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ── Cell 4: Top Candidates ── */
+    .candidate-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .candidate-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid transparent;
+      transition: border-color 200ms;
+    }
+    .candidate-row:hover { border-color: var(--line-soft); }
+
+    .candidate-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .candidate-name { font-size: 11px; font-weight: 600; color: var(--text-strong); }
+    .candidate-role { font-size: 10px; color: var(--text-dim); }
+
+    .candidate-score {
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .score-high { color: var(--ok); background: rgba(52, 211, 153, 0.1); }
+    .score-mid  { color: var(--info); background: rgba(96, 165, 250, 0.1); }
+    .score-low  { color: var(--warn); background: rgba(245, 158, 11, 0.1); }
+
+    .verified-badge {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(52, 211, 153, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Dashboard Footer ── */
+    .db-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      border-top: 1px solid var(--line-soft);
+      background: rgba(10, 18, 36, 0.6);
+      flex-shrink: 0;
+    }
+
+    .db-footer-stat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .db-footer-stat span {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: var(--text-strong);
+    }
+
+    .db-footer-divider { width: 1px; height: 14px; background: var(--line-soft); }
+
+    /* ── Floating Cards ── */
+    .float-card {
+      position: absolute;
+      border-radius: 16px;
+      backdrop-filter: blur(20px) saturate(130%);
+      -webkit-backdrop-filter: blur(20px) saturate(130%);
+      box-shadow: 0 12px 40px rgba(4, 10, 28, 0.7), inset 0 1px 0 rgba(255,255,255,0.07);
+      border: 1px solid var(--line-soft);
+      animation-fill-mode: both;
+    }
+
+    /* Float 1: Match Score  */
+    .fc-match {
+      top: 0px;
+      left: -40px;
+      width: 176px;
+      padding: 14px 16px;
+      background: var(--surface-glass-strong);
+      animation: floatIn 0.7s ease 0.8s both, floatBob 4s ease-in-out 1.5s infinite;
+    }
+
+    .fc-match-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 6px; }
+    .fc-match-score {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text-strong);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .fc-match-score em { font-size: 18px; color: var(--text-dim); font-style: normal; }
+    .fc-match-sub { font-size: 11px; color: var(--ok); font-weight: 600; margin-top: 4px; }
+
+    /* Ring progress */
+    .ring-wrap {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 6px;
+    }
+    .ring-wrap svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+    .ring-track { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 4; }
+    .ring-fill {
+      fill: none;
+      stroke: url(#ringGrad);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 126;
+      stroke-dashoffset: 126;
+      transition: stroke-dashoffset 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.2s;
+    }
+    .ring-animated .ring-fill { stroke-dashoffset: 20; } /* 84% */
+
+    /* Float 2: Alert */
+    .fc-alert {
+      bottom: 50px;
+      left: -50px;
+      width: 196px;
+      padding: 12px 14px;
+      background: rgba(10, 18, 40, 0.9);
+      animation: floatIn 0.7s ease 1.1s both, floatBob 4.5s ease-in-out 2s infinite;
+    }
+
+    .alert-row { display: flex; align-items: center; gap: 8px; }
+    .alert-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+    .alert-title { font-size: 11px; font-weight: 600; color: var(--text-strong); }
+    .alert-body  { font-size: 10px; color: var(--text-dim); margin-top: 1px; }
+    .alert-time  { font-size: 9px; color: var(--text-dim); margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes floatBob {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* Float 3: Speed stat */
+    .fc-speed {
+      top: 52px;
+      right: -48px;
+      width: 156px;
+      padding: 12px 14px;
+      background: var(--surface-glass-strong);
+      animation: floatIn 0.7s ease 0.9s both, floatBob 5s ease-in-out 1.8s infinite;
+    }
+    .fc-speed-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      line-height: 1;
+    }
+    .fc-speed-num small { font-size: 14px; color: var(--text-dim); font-weight: 500; }
+    .fc-speed-label { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+    .fc-speed-bar {
+      width: 100%;
+      height: 3px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .fc-speed-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-indigo));
+      border-radius: 10px;
+      width: 0%;
+      transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1) 1.4s;
+    }
+
+    /* Glows behind main dashboard */
+    .db-glow-1 {
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(95, 106, 217, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .db-glow-2 {
+      position: absolute;
+      bottom: -40px;
+      left: 0;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(63, 200, 180, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 100px 24px 48px;
+        gap: 40px;
+      }
+      .hero-dashboard { height: 460px; }
+      .fc-match, .fc-alert { display: none; }
+      .fc-speed { right: 0; }
+      h1 { font-size: 42px; }
+    }
+
+    @media (max-width: 640px) {
+      .hero-dashboard { height: 380px; }
+      h1 { font-size: 34px; }
+      .db-body { grid-template-columns: 1fr; grid-template-rows: repeat(4, auto); }
+      #cell-funnel { grid-row: auto; }
+      .stat-strip { gap: 20px; }
+      .stat-num { font-size: 22px; }
+      nav { padding: 0 16px; }
+      .nav-links, .btn-ghost { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background layers -->
+<div class="page-bg"></div>
+<div class="stars" id="starField"></div>
+<div class="grid-overlay"></div>
+
+<!-- SVG defs for gradients -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#63D9FF"/>
+      <stop offset="100%" stop-color="#5F6AD9"/>
+    </linearGradient>
+    <linearGradient id="lineGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5F6AD9"/>
+      <stop offset="100%" stop-color="#63D9FF"/>
+    </linearGradient>
+    <linearGradient id="fillGrad1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(99, 217, 255, 0.25)"/>
+      <stop offset="100%" stop-color="rgba(99, 217, 255, 0)"/>
+    </linearGradient>
+    <linearGradient id="funnelGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5F6AD9"/>
+      <stop offset="100%" stop-color="#63D9FF"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">N★</div>
+    NorthStar
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Platform</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Process</a></li>
+    <li><a href="#">Industries</a></li>
+    <li><a href="#">Insights</a></li>
+    <li><a href="#">Fraud Protection</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#" class="btn-ghost">Client Login</a>
+    <a href="#" class="btn-primary">Request Access</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- LEFT: Copy -->
+  <div class="hero-copy">
+
+    <div class="badge">
+      <div class="badge-dot">★</div>
+      <span>AI-Powered Talent Intelligence Platform</span>
+    </div>
+
+    <h1>
+      Architecting the<br>
+      <span class="gradient-text">Future of Workforce</span>
+    </h1>
+
+    <p class="hero-sub">
+      NorthStar is a talent intelligence infrastructure layer for recruiting and staffing teams. We combine AI sourcing with evidence-based verification so every shortlist is built on signal, not noise.
+    </p>
+
+    <div class="proof-row">
+      <div class="proof-pill">
+        <div class="icon icon-green">✓</div>
+        Verified sourcing
+      </div>
+      <div class="proof-pill">
+        <div class="icon icon-blue">⊕</div>
+        Risk-aware screening
+      </div>
+      <div class="proof-pill">
+        <div class="icon icon-amber">◎</div>
+        Audit-ready reporting
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="#" class="cta-primary">
+        Request Access
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <a href="#" class="cta-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+        </svg>
+        View the Process
+      </a>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-item">
+        <div class="stat-num"><span class="counter" data-target="3">0</span><span class="unit">×</span></div>
+        <div class="stat-label">Faster time-to-shortlist</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-num"><span class="counter" data-target="94">0</span><span class="unit">%</span></div>
+        <div class="stat-label">Candidate retention rate</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-num"><span class="counter" data-target="12">0</span><span class="unit">k+</span></div>
+        <div class="stat-label">Verified placements</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Dashboard -->
+  <div class="hero-dashboard" id="dashboardPane">
+
+    <!-- Ambient glows -->
+    <div class="db-glow-1"></div>
+    <div class="db-glow-2"></div>
+
+    <!-- Main dashboard card -->
+    <div class="dashboard-main">
+
+      <!-- Header -->
+      <div class="db-header">
+        <div>
+          <div class="db-title">Talent Intelligence Dashboard</div>
+          <div class="db-subtitle">Q1 2026 · Senior Engineers Pipeline</div>
+        </div>
+        <div class="db-live">
+          <div class="live-dot"></div>
+          Live
+        </div>
+      </div>
+
+      <!-- 4-cell grid body -->
+      <div class="db-body">
+
+        <!-- Cell 1: Funnel (full left column) -->
+        <div class="db-cell" id="cell-funnel">
+          <div class="db-cell-title">Hiring Pipeline</div>
+          <div class="funnel-bars" id="funnelBars">
+            <div class="funnel-row">
+              <div class="funnel-label">Sourced</div>
+              <div class="funnel-bar-wrap">
+                <div class="funnel-bar" data-w="100%" style="background: linear-gradient(90deg, #5F6AD9, #63D9FF);">
+                  <span class="funnel-count">248</span>
+                </div>
+              </div>
+              <div class="funnel-pct">100%</div>
+            </div>
+            <div class="funnel-row">
+              <div class="funnel-label">Verified</div>
+              <div class="funnel-bar-wrap">
+                <div class="funnel-bar" data-w="72%" style="background: linear-gradient(90deg, #4a5abf, #63D9FF);">
+                  <span class="funnel-count">178</span>
+                </div>
+              </div>
+              <div class="funnel-pct">72%</div>
+            </div>
+            <div class="funnel-row">
+              <div class="funnel-label">Shortlisted</div>
+              <div class="funnel-bar-wrap">
+                <div class="funnel-bar" data-w="36%" style="background: linear-gradient(90deg, #3FC8B4, #5F6AD9);">
+                  <span class="funnel-count">89</span>
+                </div>
+              </div>
+              <div class="funnel-pct">36%</div>
+            </div>
+            <div class="funnel-row">
+              <div class="funnel-label">Interview</div>
+              <div class="funnel-bar-wrap">
+                <div class="funnel-bar" data-w="22%" style="background: linear-gradient(90deg, #3FC8B4, #8B7DFF);">
+                  <span class="funnel-count">54</span>
+                </div>
+              </div>
+              <div class="funnel-pct">22%</div>
+            </div>
+            <div class="funnel-row">
+              <div class="funnel-label">Hired</div>
+              <div class="funnel-bar-wrap">
+                <div class="funnel-bar" data-w="9%" style="background: linear-gradient(90deg, #34D399, #3FC8B4);">
+                  <span class="funnel-count">22</span>
+                </div>
+              </div>
+              <div class="funnel-pct">9%</div>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div style="height: 1px; background: var(--line-soft); margin: 14px 0;"></div>
+
+          <!-- Fraud shield below funnel -->
+          <div class="db-cell-title" style="margin-top: 0;">Fraud Shield</div>
+          <div class="risk-bars" id="riskBars">
+            <div class="risk-row">
+              <div class="risk-label">Identity</div>
+              <div class="risk-track"><div class="risk-fill" data-w="95%" style="background: var(--ok);"></div></div>
+              <div class="risk-status" style="color: var(--ok);">Clear</div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-label">Credentials</div>
+              <div class="risk-track"><div class="risk-fill" data-w="88%" style="background: var(--ok);"></div></div>
+              <div class="risk-status" style="color: var(--ok);">Clear</div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-label">Anomaly scan</div>
+              <div class="risk-track"><div class="risk-fill" data-w="30%" style="background: var(--warn);"></div></div>
+              <div class="risk-status" style="color: var(--warn);">2 Blocked</div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-label">Dupe check</div>
+              <div class="risk-track"><div class="risk-fill" data-w="8%" style="background: var(--risk);"></div></div>
+              <div class="risk-status" style="color: var(--risk);">5 Flagged</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cell 2: Line chart (Match Quality Score) -->
+        <div class="db-cell">
+          <div class="db-cell-title">Match Quality Score</div>
+          <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px;">
+            <div class="metric-value">87<span class="metric-unit">%</span></div>
+            <div class="metric-delta">↑ +12% vs Q4</div>
+          </div>
+          <div class="chart-svg-wrap" id="chartWrap1">
+            <svg width="100%" height="90" viewBox="0 0 240 90" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="cFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#63D9FF" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#63D9FF" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path class="chart-fill" fill="url(#cFill)" d="M0,75 C20,72 40,60 60,50 S100,35 130,28 S180,20 210,15 L240,12 L240,90 L0,90Z"/>
+              <path class="chart-line" fill="none" stroke="url(#lineGrad1)" stroke-width="2.5" stroke-linecap="round" d="M0,75 C20,72 40,60 60,50 S100,35 130,28 S180,20 210,15 L240,12"/>
+              <!-- Data points -->
+              <circle cx="0"   cy="75" r="3" fill="#5F6AD9" opacity="0.8"/>
+              <circle cx="60"  cy="50" r="3" fill="#5F6AD9" opacity="0.8"/>
+              <circle cx="130" cy="28" r="3" fill="#63D9FF" opacity="0.8"/>
+              <circle cx="240" cy="12" r="4" fill="#63D9FF"/>
+              <circle cx="240" cy="12" r="7" fill="#63D9FF" opacity="0.15"/>
+            </svg>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-top: 2px;">
+            <span style="font-size: 9px; color: var(--text-dim);">Sep</span>
+            <span style="font-size: 9px; color: var(--text-dim);">Oct</span>
+            <span style="font-size: 9px; color: var(--text-dim);">Nov</span>
+            <span style="font-size: 9px; color: var(--text-dim);">Now</span>
+          </div>
+        </div>
+
+        <!-- Cell 3: Time to Fill -->
+        <div class="db-cell">
+          <div class="db-cell-title">Avg. Time to Fill</div>
+          <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px;">
+            <div class="metric-value">5<span class="metric-unit"> days</span></div>
+            <div class="metric-delta down">↓ 3× faster</div>
+          </div>
+          <!-- Mini bar chart -->
+          <div style="display: flex; align-items: flex-end; gap: 4px; height: 48px;">
+            <div style="flex: 1; border-radius: 4px 4px 0 0; background: rgba(95,106,217,0.4);" class="mini-bar" data-h="80%"></div>
+            <div style="flex: 1; border-radius: 4px 4px 0 0; background: rgba(95,106,217,0.5);" class="mini-bar" data-h="65%"></div>
+            <div style="flex: 1; border-radius: 4px 4px 0 0; background: rgba(95,106,217,0.55);" class="mini-bar" data-h="90%"></div>
+            <div style="flex: 1; border-radius: 4px 4px 0 0; background: rgba(95,106,217,0.6);" class="mini-bar" data-h="55%"></div>
+            <div style="flex: 1; border-radius: 4px 4px 0 0; background: rgba(95,106,217,0.65);" class="mini-bar" data-h="75%"></div>
+            <div style="flex: 1; border-radius: 4px 4px 0 0; background: rgba(99,217,255,0.7);" class="mini-bar" data-h="30%"></div>
+            <div style="flex: 1; border-radius: 4px 4px 0 0; background: linear-gradient(to top, #5F6AD9, #63D9FF);" class="mini-bar" data-h="20%"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+            <span style="font-size: 9px; color: var(--text-dim);">Industry avg: 16d</span>
+            <span style="font-size: 9px; color: var(--ok); font-weight: 600;">NS: 5d</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Dashboard footer -->
+      <div class="db-footer">
+        <div class="db-footer-stat">Active req: <span>12</span></div>
+        <div class="db-footer-divider"></div>
+        <div class="db-footer-stat">Candidates today: <span>34</span></div>
+        <div class="db-footer-divider"></div>
+        <div class="db-footer-stat">Risk blocks: <span style="color: var(--warn);">7</span></div>
+        <div class="db-footer-divider"></div>
+        <div class="db-footer-stat">Last sync: <span>2min ago</span></div>
+      </div>
+    </div>
+
+    <!-- FLOATING CARD 1: Match score ring -->
+    <div class="float-card fc-match" id="fcMatch">
+      <div class="fc-match-title">Top Match Score</div>
+      <div class="ring-wrap" id="ringWrap">
+        <svg viewBox="0 0 48 48" width="48" height="48">
+          <defs>
+            <linearGradient id="ringGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#63D9FF"/>
+              <stop offset="100%" stop-color="#5F6AD9"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-track" cx="24" cy="24" r="20"/>
+          <circle class="ring-fill" cx="24" cy="24" r="20" stroke="url(#ringGrad2)"/>
+        </svg>
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; color: var(--text-strong);">84%</div>
+      </div>
+      <div class="fc-match-score">84<em>%</em></div>
+      <div class="fc-match-sub">↑ Role fit verified</div>
+    </div>
+
+    <!-- FLOATING CARD 2: Alert notification -->
+    <div class="float-card fc-alert" id="fcAlert">
+      <div class="alert-row">
+        <div class="alert-icon" style="background: rgba(251,113,133,0.15);">🛡</div>
+        <div>
+          <div class="alert-title">Fraud Detected</div>
+          <div class="alert-body">Identity mismatch — blocked automatically</div>
+        </div>
+      </div>
+      <div class="alert-time">
+        <div class="live-dot" style="width: 5px; height: 5px;"></div>
+        Just now · Candidate #A-2847
+      </div>
+    </div>
+
+    <!-- FLOATING CARD 3: Speed stat -->
+    <div class="float-card fc-speed" id="fcSpeed">
+      <div class="fc-match-title" style="font-size: 10px; color: var(--text-dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600;">Time to Shortlist</div>
+      <div class="fc-speed-num">5<small>d</small></div>
+      <div class="fc-speed-label" style="color: var(--text-dim); font-size: 10px; margin-top: 2px;">vs 16d industry avg</div>
+      <div class="fc-speed-bar">
+        <div class="fc-speed-bar-fill" id="speedBar"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+/* ══════════════════════════════════════
+   NorthStar V5 — Dashboard Animations
+══════════════════════════════════════ */
+
+// ── Generate stars
+(function generateStars() {
+  const container = document.getElementById('starField');
+  const count = 90;
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() < 0.7 ? 1 : Math.random() < 0.85 ? 1.5 : 2;
+    s.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      top: ${Math.random() * 100}%;
+      left: ${Math.random() * 100}%;
+      --d: ${3 + Math.random() * 5}s;
+      --delay: ${-Math.random() * 6}s;
+      --op: ${0.3 + Math.random() * 0.6};
+    `;
+    container.appendChild(s);
+  }
+})();
+
+// ── Intersection observer to trigger animations once visible
+function onVisible(el, cb) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { cb(); io.disconnect(); }
+    });
+  }, { threshold: 0.15 });
+  io.observe(el);
+}
+
+const dashboard = document.getElementById('dashboardPane');
+
+onVisible(dashboard, function() {
+
+  // 1. Funnel bars
+  setTimeout(() => {
+    document.querySelectorAll('.funnel-bar').forEach((bar, i) => {
+      setTimeout(() => {
+        bar.style.width = bar.dataset.w;
+      }, i * 120);
+    });
+  }, 200);
+
+  // 2. Risk bars
+  setTimeout(() => {
+    document.querySelectorAll('.risk-fill').forEach((bar, i) => {
+      setTimeout(() => {
+        bar.style.width = bar.dataset.w;
+      }, i * 100);
+    });
+  }, 800);
+
+  // 3. Line chart
+  setTimeout(() => {
+    const wrap = document.getElementById('chartWrap1');
+    if (wrap) {
+      wrap.querySelector('.chart-line').style.strokeDashoffset = '0';
+      wrap.querySelector('.chart-fill').style.opacity = '1';
+    }
+  }, 400);
+
+  // 4. Mini bars (time-to-fill)
+  setTimeout(() => {
+    document.querySelectorAll('.mini-bar').forEach((bar, i) => {
+      setTimeout(() => {
+        bar.style.height = bar.dataset.h;
+        bar.style.transition = 'height 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+      }, i * 80);
+    });
+  }, 600);
+
+  // 5. Ring progress
+  setTimeout(() => {
+    document.getElementById('ringWrap').classList.add('ring-animated');
+  }, 1200);
+
+  // 6. Speed bar
+  setTimeout(() => {
+    document.getElementById('speedBar').style.width = '31%'; // 5/16
+  }, 1400);
+
+});
+
+// ── Counter animation
+function animateCounter(el, target, duration = 1800) {
+  let start = null;
+  const step = (ts) => {
+    if (!start) start = ts;
+    const prog = Math.min((ts - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - prog, 3);
+    el.textContent = Math.round(ease * target);
+    if (prog < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+// Trigger counters when hero-copy is visible
+const heroCopy = document.querySelector('.hero-copy');
+onVisible(heroCopy, function() {
+  document.querySelectorAll('.counter').forEach(el => {
+    const target = parseInt(el.dataset.target, 10);
+    setTimeout(() => animateCounter(el, target), 600);
+  });
+});
+
+// ── Mini bars: set initial height 0 for transition
+document.querySelectorAll('.mini-bar').forEach(bar => {
+  bar.style.height = '0%';
+  bar.style.transition = 'none';
+  bar.style.width = '100%';
+  bar.style.maxHeight = '48px';
+  bar.style.minWidth = '0';
+});
+
+// ── Typing effect for live dashboard
+(function pulseFraud() {
+  const alerts = [
+    { icon: '🛡', title: 'Fraud Detected', body: 'Identity mismatch — blocked', color: 'rgba(251,113,133,0.15)', time: 'Just now · Candidate #A-2847' },
+    { icon: '✓',  title: 'Verified',       body: 'Candidate #B-1992 cleared all checks', color: 'rgba(52,211,153,0.15)', time: '12s ago · Candidate #B-1992' },
+    { icon: '⚠',  title: 'Review Needed',  body: 'Anomaly detected in resume timeline', color: 'rgba(245,158,11,0.15)', time: '45s ago · Candidate #C-0543' },
+  ];
+  let idx = 0;
+  const card = document.getElementById('fcAlert');
+  setInterval(() => {
+    idx = (idx + 1) % alerts.length;
+    const a = alerts[idx];
+    card.querySelector('.alert-icon').style.background = a.color;
+    card.querySelector('.alert-icon').textContent = a.icon;
+    card.querySelector('.alert-title').textContent = a.title;
+    card.querySelector('.alert-body').textContent = a.body;
+    card.querySelector('.alert-time').innerHTML = `<div class="live-dot" style="width:5px;height:5px;border-radius:50%;background:var(--ok);animation:pulse-live 1.8s ease-in-out infinite;"></div> ${a.time}`;
+    // flash effect
+    card.style.transform = 'scale(1.02)';
+    setTimeout(() => { card.style.transform = ''; }, 300);
+  }, 4000);
+})();
+
+</script>
+</body>
+</html>

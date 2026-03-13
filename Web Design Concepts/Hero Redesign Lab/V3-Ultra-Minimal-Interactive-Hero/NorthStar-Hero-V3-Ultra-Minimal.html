@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NorthStar Hero V3 | Ultra Minimal Interactive</title>
+  <meta name="description" content="Ultra-minimal conversion hero with a single interactive benefit spotlight." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-0: #060914;
+      --bg-1: #0b1430;
+      --line: rgba(162, 218, 255, 0.28);
+      --line-strong: rgba(162, 218, 255, 0.58);
+      --text-1: #f2f9ff;
+      --text-2: #cadef7;
+      --text-3: #90afd8;
+      --cyan: #57dcff;
+      --mint: #43edbf;
+      --violet: #8ca0ff;
+      --amber: #ffd078;
+      --ok: #9effd6;
+      --warn: #ffd9ab;
+      --radius: 20px;
+      --shadow: 0 24px 52px rgba(5, 9, 28, 0.56);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+      color: var(--text-2);
+      background:
+        radial-gradient(880px 620px at 10% 10%, rgba(87, 220, 255, 0.14), transparent 72%),
+        radial-gradient(860px 620px at 88% 14%, rgba(67, 237, 191, 0.1), transparent 74%),
+        linear-gradient(180deg, var(--bg-0), var(--bg-1), var(--bg-0));
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 48px 0;
+    }
+
+    .wrap {
+      width: min(1240px, calc(100% - 40px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .left,
+    .right {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(155deg, rgba(10, 18, 42, 0.86), rgba(8, 14, 33, 0.84));
+      box-shadow: var(--shadow);
+    }
+
+    .left {
+      padding: 34px 30px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .badge {
+      width: fit-content;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #dcf3ff;
+      background: linear-gradient(120deg, rgba(87, 220, 255, 0.2), rgba(67, 237, 191, 0.16));
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--text-1);
+      font-family: "Space Grotesk", Manrope, sans-serif;
+      font-size: clamp(36px, 5vw, 62px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .grad {
+      background: linear-gradient(92deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      margin: 0;
+      font-size: clamp(16px, 1.7vw, 19px);
+      line-height: 1.6;
+      max-width: 54ch;
+    }
+
+    .bullets {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 9px;
+    }
+
+    .bullets li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 15px;
+      color: var(--text-2);
+    }
+
+    .bullets li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+      margin-top: 7px;
+      background: linear-gradient(140deg, var(--cyan), var(--mint));
+      box-shadow: 0 0 12px rgba(87, 220, 255, 0.7);
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      color: var(--text-1);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      background: rgba(13, 23, 52, 0.72);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      box-shadow: 0 0 16px rgba(87, 220, 255, 0.18);
+    }
+
+    .btn.primary {
+      color: #04131e;
+      border-color: rgba(255,255,255,.44);
+      background: linear-gradient(130deg, var(--mint), var(--cyan));
+    }
+
+    .proof {
+      font-size: 13px;
+      color: var(--text-3);
+      padding-top: 2px;
+    }
+
+    .right {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .modes {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mode-btn {
+      border: 1px solid var(--line);
+      background: rgba(12, 22, 48, 0.72);
+      color: #e7f5ff;
+      border-radius: 10px;
+      padding: 8px 11px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .mode-btn:hover,
+    .mode-btn.active {
+      border-color: rgba(67, 237, 191, 0.72);
+      box-shadow: 0 0 14px rgba(67, 237, 191, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .spotlight {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      min-height: 380px;
+      padding: 14px;
+      background:
+        radial-gradient(380px 280px at 20% 20%, rgba(87, 220, 255, 0.13), transparent 72%),
+        radial-gradient(360px 280px at 82% 82%, rgba(67, 237, 191, 0.1), transparent 74%),
+        linear-gradient(160deg, rgba(9, 16, 36, 0.9), rgba(12, 22, 48, 0.88));
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 12px;
+      --accentA: var(--cyan);
+      --accentB: var(--mint);
+      --accentGlow: rgba(87, 220, 255, 0.35);
+    }
+
+    .halo {
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      border: 1px dashed rgba(162, 218, 255, 0.3);
+      animation: spin 16s linear infinite;
+      opacity: .72;
+    }
+
+    .halo::before,
+    .halo::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 50%;
+      border: 1px solid rgba(162, 218, 255, 0.18);
+    }
+
+    .beam {
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accentGlow), transparent 72%);
+      filter: blur(10px);
+      animation: drift 5.6s ease-in-out infinite;
+    }
+
+    .core {
+      position: relative;
+      z-index: 2;
+      width: min(84%, 420px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 16px;
+      background: rgba(10, 19, 43, 0.78);
+      text-align: center;
+      transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+    }
+
+    .core.flash {
+      transform: scale(1.015);
+      border-color: rgba(162, 218, 255, 0.58);
+      box-shadow: 0 0 22px var(--accentGlow);
+    }
+
+    .core h3 {
+      margin: 0 0 5px;
+      color: var(--text-1);
+      font-size: clamp(21px, 2.2vw, 28px);
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: -0.01em;
+    }
+
+    .big {
+      margin: 0;
+      font-size: clamp(36px, 4.6vw, 52px);
+      line-height: 1;
+      font-family: "Space Grotesk", sans-serif;
+      color: #f7fdff;
+      text-shadow: 0 0 22px var(--accentGlow);
+    }
+
+    .small {
+      margin: 8px 0 0;
+      color: var(--text-2);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .tag-row {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 90%;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: #e8f6ff;
+      background: rgba(12, 22, 46, 0.7);
+      transition: border-color .2s ease, transform .2s ease;
+    }
+
+    .tag:hover {
+      border-color: rgba(162, 218, 255, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .mini-proof {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      color: var(--text-3);
+      font-size: 12px;
+    }
+
+    .mini-proof span {
+      border: 1px solid rgba(162, 218, 255, 0.24);
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: rgba(10, 18, 40, 0.6);
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 3px rgba(87, 220, 255, 0.2);
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes drift {
+      0%,100% { transform: translate(-120px, -64px); }
+      50% { transform: translate(122px, 78px); }
+    }
+
+    @media (max-width: 1080px) {
+      .wrap { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .hero { min-height: auto; padding: 30px 0; }
+      .wrap { width: min(1240px, calc(100% - 24px)); }
+      .left { padding: 24px 18px; }
+      .spotlight { min-height: 340px; }
+      .halo { width: 290px; height: 290px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" id="northstar-hero-v3">
+    <div class="wrap">
+      <article class="left">
+        <div class="badge">Hero V3 | Ultra Minimal</div>
+        <h1>Verified Shortlists, <span class="grad">Faster Hiring Decisions</span></h1>
+        <p class="lead">NorthStar turns candidate volume into interview-ready talent with proof-based verification and clear decision confidence.</p>
+
+        <ul class="bullets">
+          <li>Cut time-to-shortlist with focused sourcing.</li>
+          <li>Stop risky profiles before interview spend.</li>
+          <li>Give leadership evidence-backed hiring clarity.</li>
+        </ul>
+
+        <div class="cta-row">
+          <a href="#" class="btn primary">Request Access</a>
+          <a href="#" class="btn">See How It Works</a>
+        </div>
+
+        <div class="proof">Built for staffing and recruiting teams hiring high-stakes roles.</div>
+      </article>
+
+      <aside class="right" aria-label="Interactive benefit spotlight">
+        <div class="modes" role="tablist" aria-label="Benefit mode">
+          <button class="mode-btn active" data-mode="speed">Speed</button>
+          <button class="mode-btn" data-mode="quality">Quality</button>
+          <button class="mode-btn" data-mode="risk">Risk Control</button>
+        </div>
+
+        <div class="spotlight" id="spotlight">
+          <div class="halo"></div>
+          <div class="beam"></div>
+
+          <div class="core" id="core">
+            <h3 id="core-title">Faster Shortlists</h3>
+            <p class="big" id="core-value">7 days</p>
+            <p class="small" id="core-copy">From intake to interview-ready candidates without process drag.</p>
+          </div>
+
+          <div class="tag-row">
+            <span class="tag" id="tag-a">Priority sourcing</span>
+            <span class="tag" id="tag-b">Rapid verification</span>
+          </div>
+
+          <div class="mini-proof">
+            <span id="proof-a">-64% cycle time</span>
+            <span id="proof-b">Live case visibility</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <script>
+    const DATA = {
+      speed: {
+        title: 'Faster Shortlists',
+        value: '7 days',
+        copy: 'From intake to interview-ready candidates without process drag.',
+        tagA: 'Priority sourcing',
+        tagB: 'Rapid verification',
+        proofA: '-64% cycle time',
+        proofB: 'Live case visibility',
+        accentA: '#57dcff',
+        accentB: '#43edbf',
+        glow: 'rgba(87, 220, 255, 0.34)'
+      },
+      quality: {
+        title: 'Higher Candidate Fit',
+        value: '94%',
+        copy: 'Only evidence-backed candidates move into final interview stages.',
+        tagA: 'Skill proof first',
+        tagB: 'Role-fit ranking',
+        proofA: 'Confidence scoring',
+        proofB: 'Consistent shortlist quality',
+        accentA: '#43edbf',
+        accentB: '#8ca0ff',
+        glow: 'rgba(67, 237, 191, 0.34)'
+      },
+      risk: {
+        title: 'Lower Bad-Hire Risk',
+        value: '63%',
+        copy: 'Identity and anomaly checks catch issues before interview resources are spent.',
+        tagA: 'Identity checks',
+        tagB: 'Anomaly detection',
+        proofA: 'Early risk blocks',
+        proofB: 'Audit-ready evidence',
+        accentA: '#ffd078',
+        accentB: '#57dcff',
+        glow: 'rgba(255, 208, 120, 0.34)'
+      }
+    };
+
+    const refs = {
+      modes: [...document.querySelectorAll('.mode-btn')],
+      spotlight: document.getElementById('spotlight'),
+      core: document.getElementById('core'),
+      title: document.getElementById('core-title'),
+      value: document.getElementById('core-value'),
+      copy: document.getElementById('core-copy'),
+      tagA: document.getElementById('tag-a'),
+      tagB: document.getElementById('tag-b'),
+      proofA: document.getElementById('proof-a'),
+      proofB: document.getElementById('proof-b')
+    };
+
+    function apply(mode) {
+      const d = DATA[mode];
+      if (!d) return;
+      refs.modes.forEach((b) => b.classList.toggle('active', b.dataset.mode === mode));
+
+      refs.title.textContent = d.title;
+      refs.value.textContent = d.value;
+      refs.copy.textContent = d.copy;
+      refs.tagA.textContent = d.tagA;
+      refs.tagB.textContent = d.tagB;
+      refs.proofA.textContent = d.proofA;
+      refs.proofB.textContent = d.proofB;
+
+      refs.spotlight.style.setProperty('--accentA', d.accentA);
+      refs.spotlight.style.setProperty('--accentB', d.accentB);
+      refs.spotlight.style.setProperty('--accentGlow', d.glow);
+
+      refs.core.classList.remove('flash');
+      void refs.core.offsetWidth;
+      refs.core.classList.add('flash');
+      setTimeout(() => refs.core.classList.remove('flash'), 240);
+    }
+
+    refs.modes.forEach((b) => b.addEventListener('click', () => apply(b.dataset.mode)));
+
+    const autoplay = ['speed', 'quality', 'risk'];
+    let i = 0;
+    setInterval(() => {
+      i = (i + 1) % autoplay.length;
+      apply(autoplay[i]);
+    }, 7000);
+
+    apply('speed');
+  </script>
+</body>
+</html>

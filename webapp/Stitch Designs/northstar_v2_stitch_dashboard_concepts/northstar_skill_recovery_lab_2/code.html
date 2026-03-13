@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NorthStar Skill Recovery Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00f0ff","primary-dark": "#00a8b3",
+                        "secondary": "#2d4a6d",
+                        "cosmic-bg": "#030612","cosmic-blue": "#0a1124","glass-border": "rgba(255, 255, 255, 0.1)",
+                        "glass-surface": "rgba(10, 20, 40, 0.7)",
+                        "accent-glow": "rgba(0, 240, 255, 0.5)",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "sans": ["Space Grotesk", "sans-serif"]
+                    },
+                    backgroundImage: {
+                        'starfield': "radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)",
+                        'nebula': "linear-gradient(to bottom right, rgba(0, 240, 255, 0.05), rgba(0, 0, 0, 0))",
+                    },
+                    boxShadow: {
+                        'neon': '0 0 10px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1)',
+                        'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
+                        'inner-glow': 'inset 0 0 20px rgba(0, 240, 255, 0.05)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #030612;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px),
+                linear-gradient(to bottom, #050a18 0%, #020408 100%);
+            background-size: 550px 550px, 350px 350px, 250px 250px, 100% 100%;
+            background-position: 0 0, 40px 60px, 130px 270px, 0 0;
+            background-attachment: fixed;
+        }
+        .liquid-glass {
+            background: rgba(13, 25, 48, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(100, 200, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .liquid-glass:hover {
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 240, 255, 0.05);
+        }@keyframes flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        .cosmic-bar {
+            background: linear-gradient(90deg, #00f0ff, #005f73, #00f0ff);
+            background-size: 200% 200%;
+            animation: flow 3s ease infinite;
+        }::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.3); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d4a6d; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f0ff; 
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col overflow-x-hidden antialiased selection:bg-primary selection:text-black">
+<header class="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-[#050a18]/80 backdrop-blur-xl px-6 py-4 w-full">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-white">
+<div class="relative size-10 flex items-center justify-center">
+<div class="absolute inset-0 bg-primary rounded-full blur-md opacity-40 animate-pulse"></div>
+<span class="material-symbols-outlined text-4xl text-primary relative z-10" style="font-variation-settings: 'FILL' 1;">star_rate</span>
+</div>
+<h2 class="text-white text-2xl font-bold tracking-widest uppercase" style="text-shadow: 0 0 15px rgba(0,240,255,0.4);">NorthStar</h2>
+</div>
+<div class="hidden lg:flex w-full max-w-sm">
+<div class="relative w-full group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-primary/70">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="block w-full rounded-full border border-white/10 bg-white/5 py-2 pl-10 pr-4 text-sm text-white placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary transition-all group-hover:bg-white/10" placeholder="Search the cosmos..." type="text"/>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-400 hover:text-primary hover:text-glow text-sm font-medium transition-all" href="#">Dashboard</a>
+<a class="text-white text-sm font-bold border-b-2 border-primary pb-0.5 shadow-[0_4px_10px_rgba(0,240,255,0.3)]" href="#">Skill Lab</a>
+<a class="text-slate-400 hover:text-primary hover:text-glow text-sm font-medium transition-all" href="#">Jobs</a>
+<a class="text-slate-400 hover:text-primary hover:text-glow text-sm font-medium transition-all" href="#">Community</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="relative p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/5 hover:border-primary/50 text-white transition-all group">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-primary rounded-full shadow-[0_0_8px_#00f0ff]"></span>
+</button>
+<button class="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/5 hover:border-primary/50 text-white transition-all">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<div class="size-10 rounded-full bg-cover bg-center border-2 border-primary/30 shadow-[0_0_10px_rgba(0,240,255,0.2)]" data-alt="User profile picture showing a professional man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDZmFadVYqk3Q9Mik_LXA1g6s3QSkjxHXElzlhgGvWdzS6ro9cqzRalaUycjXROXdMZNQ6Vdk7aXGZIyS6uuRyOnY72GioUHIOW29PmCIdU8nVPHelrGkRewyP6dv5xd9oQ1m4plVxm8LnmKAy8WPvN7s3j1Y8a7Q65RKElLu9CZWwSFxfLXqakjo6QegTX9z3vk1hoC2h8iF7Xc61qZqprO8el_SUpQBPzSHu-4rXVTrRzPV_D2AvUIaaRl2OqAtpYigHchFWMbA0');"></div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 w-full max-w-[1800px] mx-auto relative z-10">
+<main class="flex-1 p-6 md:p-10 flex flex-col gap-10 min-w-0">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-white/5 pb-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-5xl font-bold tracking-tight text-white drop-shadow-lg">Skill Recovery Lab</h1>
+<p class="text-primary/80 text-lg font-light tracking-wide">Quantifying your return to <span class="text-white font-semibold">IT Readiness</span>.</p>
+</div>
+<div class="flex gap-3">
+<button class="liquid-glass flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white hover:text-primary transition-all hover:shadow-neon">
+<span class="material-symbols-outlined text-lg">download</span>
+                        Export Report
+                    </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-primary/90 hover:bg-primary text-black font-bold rounded-lg text-sm transition-all shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]">
+<span class="material-symbols-outlined text-lg">add</span>
+                        Log Activity
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="liquid-glass rounded-2xl p-6 relative overflow-hidden group">
+<div class="absolute -right-6 -top-6 w-32 h-32 bg-primary/20 rounded-full blur-[50px] group-hover:bg-primary/30 transition-all duration-500"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-4">
+<p class="text-slate-400 text-sm uppercase tracking-wider font-semibold">Current Role Fit</p>
+<span class="material-symbols-outlined text-primary/50 text-3xl">analytics</span>
+</div>
+<div class="flex items-baseline gap-3 mb-4">
+<span class="text-5xl font-bold text-white tracking-tighter shadow-black drop-shadow-md">72<span class="text-2xl text-slate-500">%</span></span>
+<span class="text-[#0bda54] text-xs font-bold flex items-center bg-[#0bda54]/10 border border-[#0bda54]/30 px-2 py-1 rounded-full uppercase tracking-wide">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span> +12%
+                        </span>
+</div>
+<div class="w-full bg-white/5 h-2 rounded-full overflow-hidden border border-white/5">
+<div class="cosmic-bar h-full rounded-full shadow-[0_0_10px_#00f0ff]" style="width: 72%"></div>
+</div>
+<p class="text-xs text-primary/60 mt-3 font-mono">Targeting: Senior Helpdesk Analyst</p>
+</div>
+</div>
+<div class="liquid-glass rounded-2xl p-6 relative overflow-hidden group">
+<div class="absolute -right-6 -top-6 w-32 h-32 bg-red-500/20 rounded-full blur-[50px] group-hover:bg-red-500/30 transition-all duration-500"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-4">
+<p class="text-slate-400 text-sm uppercase tracking-wider font-semibold">Missing Competencies</p>
+<span class="material-symbols-outlined text-red-400/50 text-3xl">warning</span>
+</div>
+<div class="flex items-baseline gap-3 mb-4">
+<span class="text-5xl font-bold text-white tracking-tighter">4</span>
+<span class="text-red-400 text-lg font-light tracking-widest uppercase">Critical</span>
+</div>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-3 py-1 bg-red-500/10 text-xs text-red-200 rounded border border-red-500/30 font-mono">Azure AD</span>
+<span class="px-3 py-1 bg-red-500/10 text-xs text-red-200 rounded border border-red-500/30 font-mono">PowerShell</span>
+<span class="px-3 py-1 bg-white/5 text-xs text-slate-400 rounded border border-white/10 font-mono">+2 more</span>
+</div>
+</div>
+</div>
+<div class="liquid-glass rounded-2xl p-6 relative overflow-hidden group">
+<div class="absolute -right-6 -top-6 w-32 h-32 bg-purple-500/20 rounded-full blur-[50px] group-hover:bg-purple-500/30 transition-all duration-500"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-4">
+<p class="text-slate-400 text-sm uppercase tracking-wider font-semibold">Confidence Trend</p>
+<span class="material-symbols-outlined text-purple-400/50 text-3xl">psychology</span>
+</div>
+<div class="flex items-baseline gap-3 mb-4">
+<span class="text-4xl font-bold text-white tracking-tight">Rising</span>
+<span class="text-orange-400 text-xs font-bold flex items-center bg-orange-400/10 border border-orange-400/30 px-2 py-1 rounded-full uppercase">
+<span class="material-symbols-outlined text-sm mr-1">timer</span> 5d to goal
+                        </span>
+</div>
+<div class="mt-4 flex items-end gap-1.5 h-10">
+<div class="w-1/6 bg-white/5 h-[40%] rounded-sm border-t border-white/10"></div>
+<div class="w-1/6 bg-white/5 h-[55%] rounded-sm border-t border-white/10"></div>
+<div class="w-1/6 bg-white/10 h-[45%] rounded-sm border-t border-white/20"></div>
+<div class="w-1/6 bg-white/10 h-[60%] rounded-sm border-t border-white/20"></div>
+<div class="w-1/6 bg-purple-500/50 h-[75%] rounded-sm shadow-[0_0_10px_rgba(168,85,247,0.4)]"></div>
+<div class="w-1/6 bg-primary h-[90%] rounded-sm shadow-[0_0_15px_rgba(0,240,255,0.8)] animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<div class="xl:col-span-2 flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-white flex items-center gap-2 tracking-wide">
+<span class="material-symbols-outlined text-primary drop-shadow-[0_0_5px_rgba(0,240,255,0.8)]">grid_view</span>
+                            IT Support Skill Matrix
+                        </h3>
+<div class="flex p-1 bg-white/5 rounded-full border border-white/10">
+<button class="text-xs font-bold text-black px-4 py-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(0,240,255,0.4)] transition-all">Technical</button>
+<button class="text-xs font-medium text-slate-400 hover:text-white px-4 py-1.5 rounded-full hover:bg-white/5 transition-all">Soft Skills</button>
+</div>
+</div>
+<div class="liquid-glass rounded-2xl overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead class="bg-black/20 border-b border-white/10">
+<tr>
+<th class="px-6 py-5 text-primary font-mono text-xs uppercase tracking-widest w-1/4">Competency</th>
+<th class="px-6 py-5 text-primary font-mono text-xs uppercase tracking-widest w-1/6">Level</th>
+<th class="px-6 py-5 text-primary font-mono text-xs uppercase tracking-widest w-1/4">Evidence</th>
+<th class="px-6 py-5 text-primary font-mono text-xs uppercase tracking-widest w-1/3">Gap Analysis</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="group hover:bg-white/5 transition-all duration-300">
+<td class="px-6 py-5 font-medium text-white flex items-center gap-3">
+<div class="size-2 rounded-full bg-yellow-500 shadow-[0_0_8px_#eab308]"></div>
+<span class="text-lg group-hover:text-primary transition-colors">Active Directory</span>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/10 text-yellow-200 border border-yellow-500/30 uppercase tracking-wide">Intermediate</span>
+</td>
+<td class="px-6 py-5 text-slate-400 font-light">Used in 2018 role</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+<div class="h-full bg-gradient-to-r from-cyan-600 to-cyan-300 rounded-full shadow-[0_0_10px_cyan]" style="width: 65%"></div>
+</div>
+<span class="text-white font-mono font-bold">65%</span>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-white/5 transition-all duration-300">
+<td class="px-6 py-5 font-medium text-white flex items-center gap-3">
+<div class="size-2 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444]"></div>
+<span class="text-lg group-hover:text-primary transition-colors">Office 365 Admin</span>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-red-500/10 text-red-200 border border-red-500/30 uppercase tracking-wide">Beginner</span>
+</td>
+<td class="px-6 py-5 text-slate-400 font-light">No recent usage</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+<div class="h-full bg-gradient-to-r from-red-800 to-red-500 rounded-full shadow-[0_0_10px_red]" style="width: 30%"></div>
+</div>
+<span class="text-white font-mono font-bold">30%</span>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-white/5 transition-all duration-300">
+<td class="px-6 py-5 font-medium text-white flex items-center gap-3">
+<div class="size-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></div>
+<span class="text-lg group-hover:text-primary transition-colors">Network Troubleshooting</span>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-green-500/10 text-green-300 border border-green-500/30 uppercase tracking-wide shadow-[0_0_10px_rgba(34,197,94,0.2)]">Advanced</span>
+</td>
+<td class="px-6 py-5 text-slate-400 font-light">Home lab setup</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+<div class="h-full bg-gradient-to-r from-green-600 to-green-400 rounded-full shadow-[0_0_10px_lime]" style="width: 90%"></div>
+</div>
+<span class="text-white font-mono font-bold">90%</span>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-white/5 transition-all duration-300">
+<td class="px-6 py-5 font-medium text-white flex items-center gap-3">
+<div class="size-2 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444]"></div>
+<span class="text-lg group-hover:text-primary transition-colors">ITIL Framework</span>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-slate-400 border border-white/10 uppercase tracking-wide">None</span>
+</td>
+<td class="px-6 py-5 text-slate-400 font-light">Expired cert</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+<div class="h-full bg-red-900 rounded-full" style="width: 10%"></div>
+</div>
+<span class="text-white font-mono font-bold">10%</span>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-white/5 transition-all duration-300">
+<td class="px-6 py-5 font-medium text-white flex items-center gap-3">
+<div class="size-2 rounded-full bg-yellow-500 shadow-[0_0_8px_#eab308]"></div>
+<span class="text-lg group-hover:text-primary transition-colors">Zendesk / Jira</span>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/10 text-yellow-200 border border-yellow-500/30 uppercase tracking-wide">Intermediate</span>
+</td>
+<td class="px-6 py-5 text-slate-400 font-light">Previous role</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+<div class="h-full bg-gradient-to-r from-yellow-600 to-yellow-300 rounded-full shadow-[0_0_10px_gold]" style="width: 60%"></div>
+</div>
+<span class="text-white font-mono font-bold">60%</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="mt-4">
+<h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2 tracking-wide">
+<span class="material-symbols-outlined text-primary drop-shadow-[0_0_5px_rgba(0,240,255,0.8)]">timeline</span>
+                            Recovery Roadmap
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="liquid-glass p-5 rounded-2xl relative border-t-2 border-t-primary shadow-[0_-5px_20px_rgba(0,240,255,0.15)]">
+<div class="absolute -top-3 left-6 bg-primary text-black text-xs font-bold px-3 py-1 rounded-full shadow-[0_0_10px_#00f0ff]">30 Days</div>
+<h4 class="text-white text-lg font-bold mt-3 mb-3 tracking-wide">Foundation</h4>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 text-sm text-slate-300">
+<span class="material-symbols-outlined text-primary text-lg mt-0.5 drop-shadow-[0_0_5px_#00f0ff]">check_circle</span>
+<span>Refresh A+ Core 1</span>
+</li>
+<li class="flex items-start gap-3 text-sm text-slate-300">
+<span class="material-symbols-outlined text-slate-600 text-lg mt-0.5">radio_button_unchecked</span>
+<span>Setup Home Lab</span>
+</li>
+</ul>
+</div>
+<div class="liquid-glass p-5 rounded-2xl relative opacity-80 hover:opacity-100 transition-opacity">
+<div class="absolute -top-3 left-6 bg-white/10 backdrop-blur-md border border-white/10 text-white text-xs font-bold px-3 py-1 rounded-full">60 Days</div>
+<h4 class="text-white text-lg font-bold mt-3 mb-3 tracking-wide">Advanced Admin</h4>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 text-sm text-slate-400">
+<span class="material-symbols-outlined text-slate-600 text-lg mt-0.5">radio_button_unchecked</span>
+<span>Azure Fundamentals</span>
+</li>
+<li class="flex items-start gap-3 text-sm text-slate-400">
+<span class="material-symbols-outlined text-slate-600 text-lg mt-0.5">radio_button_unchecked</span>
+<span>Powershell Scripts</span>
+</li>
+</ul>
+</div>
+<div class="liquid-glass p-5 rounded-2xl relative opacity-60 hover:opacity-100 transition-opacity">
+<div class="absolute -top-3 left-6 bg-white/5 backdrop-blur-md border border-white/5 text-slate-300 text-xs font-bold px-3 py-1 rounded-full">90 Days</div>
+<h4 class="text-white text-lg font-bold mt-3 mb-3 tracking-wide">Job Ready</h4>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 text-sm text-slate-500">
+<span class="material-symbols-outlined text-slate-700 text-lg mt-0.5">radio_button_unchecked</span>
+<span>Mock Interviews</span>
+</li>
+<li class="flex items-start gap-3 text-sm text-slate-500">
+<span class="material-symbols-outlined text-slate-700 text-lg mt-0.5">radio_button_unchecked</span>
+<span>Portfolio Deploy</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="liquid-glass rounded-2xl p-6">
+<div class="flex justify-between items-center mb-5">
+<h3 class="text-lg font-bold text-white tracking-wide">Recommended Certs</h3>
+<a class="text-xs text-primary font-bold uppercase tracking-wider hover:text-white transition-colors hover:drop-shadow-[0_0_5px_#00f0ff]" href="#">View All</a>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/5 hover:border-primary/50 hover:bg-white/10 transition-all cursor-pointer group">
+<div class="size-12 bg-blue-900/30 rounded-lg flex items-center justify-center text-blue-400 font-bold text-sm border border-blue-500/30 shadow-[0_0_10px_rgba(59,130,246,0.1)] group-hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all">
+                                    MS
+                                </div>
+<div class="flex-1">
+<h4 class="text-white text-sm font-bold group-hover:text-primary transition-colors">Microsoft MD-102</h4>
+<p class="text-slate-400 text-xs font-mono mt-1">Endpoint Administrator</p>
+</div>
+<span class="material-symbols-outlined text-slate-600 group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+<div class="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/5 hover:border-primary/50 hover:bg-white/10 transition-all cursor-pointer group">
+<div class="size-12 bg-yellow-900/30 rounded-lg flex items-center justify-center text-yellow-400 font-bold text-sm border border-yellow-500/30 shadow-[0_0_10px_rgba(234,179,8,0.1)] group-hover:shadow-[0_0_15px_rgba(234,179,8,0.3)] transition-all">
+                                    Comp
+                                </div>
+<div class="flex-1">
+<h4 class="text-white text-sm font-bold group-hover:text-primary transition-colors">CompTIA Net+</h4>
+<p class="text-slate-400 text-xs font-mono mt-1">Network Essentials</p>
+</div>
+<span class="material-symbols-outlined text-slate-600 group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+</div>
+<div class="liquid-glass rounded-2xl p-6">
+<div class="flex justify-between items-center mb-5">
+<h3 class="text-lg font-bold text-white tracking-wide">Lab Projects</h3>
+<a class="text-xs text-primary font-bold uppercase tracking-wider hover:text-white transition-colors hover:drop-shadow-[0_0_5px_#00f0ff]" href="#">Library</a>
+</div>
+<div class="space-y-4">
+<div class="relative pl-5 border-l-2 border-white/10 hover:border-primary transition-colors group py-1">
+<div class="absolute -left-[5px] top-1/2 -translate-y-1/2 size-2 rounded-full bg-black border border-white/20 group-hover:border-primary group-hover:bg-primary group-hover:shadow-[0_0_8px_#00f0ff] transition-all"></div>
+<h4 class="text-white text-sm font-bold group-hover:text-primary transition-colors tracking-wide">AD User Lifecycle Script</h4>
+<p class="text-slate-400 text-xs mt-1 font-light">Automate onboarding with PowerShell.</p>
+<div class="mt-3 flex gap-2">
+<span class="text-[10px] bg-white/5 border border-white/10 text-slate-300 px-2 py-0.5 rounded-sm font-mono uppercase">Intermediate</span>
+<span class="text-[10px] bg-white/5 border border-white/10 text-slate-300 px-2 py-0.5 rounded-sm font-mono uppercase">2h</span>
+</div>
+</div>
+<div class="relative pl-5 border-l-2 border-white/10 hover:border-primary transition-colors group py-1">
+<div class="absolute -left-[5px] top-1/2 -translate-y-1/2 size-2 rounded-full bg-black border border-white/20 group-hover:border-primary group-hover:bg-primary group-hover:shadow-[0_0_8px_#00f0ff] transition-all"></div>
+<h4 class="text-white text-sm font-bold group-hover:text-primary transition-colors tracking-wide">Deploy M365 Tenant</h4>
+<p class="text-slate-400 text-xs mt-1 font-light">Set up a developer tenant from scratch.</p>
+<div class="mt-3 flex gap-2">
+<span class="text-[10px] bg-white/5 border border-white/10 text-slate-300 px-2 py-0.5 rounded-sm font-mono uppercase">Beginner</span>
+<span class="text-[10px] bg-white/5 border border-white/10 text-slate-300 px-2 py-0.5 rounded-sm font-mono uppercase">4h</span>
+</div>
+</div>
+</div>
+</div>
+<div class="relative rounded-2xl overflow-hidden h-40 group shadow-lg border border-white/10">
+<div class="absolute inset-0 bg-gradient-to-br from-blue-900/40 to-black/80"></div>
+<img alt="Abstract technology background with blue circuit patterns" class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-all duration-700 mix-blend-overlay scale-100 group-hover:scale-110" data-alt="Abstract cybersecurity digital pattern" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3ykEnIsCWg1vCpGCnRt9wEdh90PPzxlyYEKolJlCT5ioj3uNwPRc3rZxA5XNCYRmflHg6GRJM7cra4E0sdFgCySVc0hCfGfqytrnv7_Qa_OcV8LXcpqOMVeiBtyHAH9dg2CT_8WVvp12TsmL25g2aqbFVaJqqUcvUdNDFl0LrHdQVbkBfOtiBGopJEADZx5Re7w07B4aF8GcUkPqQ2GJkNHTcaKx9al9ZEjdKk5XMqGNQRGHvSVDNTWPwTKkEvJv_DFxhQp5-jSc"/>
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(0,240,255,0.2),_transparent_60%)]"></div>
+<div class="relative p-6 flex flex-col justify-between h-full z-10">
+<div>
+<h4 class="text-white font-bold text-lg tracking-wide drop-shadow-md">Mock Interview</h4>
+<p class="text-cyan-100 text-xs mt-1 font-light opacity-80">Schedule a session with a mentor.</p>
+</div>
+<button class="self-start px-4 py-2 bg-black/40 hover:bg-primary text-primary hover:text-black text-xs font-bold rounded border border-primary/50 transition-all hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] uppercase tracking-wider backdrop-blur-sm">
+                                Book Now
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<aside class="hidden 2xl:flex w-80 flex-col border-l border-white/10 bg-[#020408]/50 backdrop-blur-md sticky top-[73px] h-[calc(100vh-73px)] overflow-y-auto z-20">
+<div class="p-6">
+<h3 class="text-lg font-bold text-white mb-8 flex items-center gap-2 tracking-wide">
+<span class="material-symbols-outlined text-primary drop-shadow-[0_0_5px_rgba(0,240,255,0.8)]">calendar_month</span>
+                    Next 7 Days
+                </h3>
+<div class="space-y-8 relative pl-2">
+<div class="absolute left-[27px] top-2 bottom-4 w-px bg-gradient-to-b from-primary/50 via-white/10 to-transparent"></div>
+<div class="relative flex gap-5 group">
+<div class="relative z-10 flex-none size-10 rounded-full bg-black border border-primary flex items-center justify-center text-primary font-bold shadow-[0_0_15px_rgba(0,240,255,0.3)] group-hover:shadow-[0_0_25px_rgba(0,240,255,0.5)] transition-all">
+                            24
+                        </div>
+<div class="flex-1 pb-2">
+<p class="text-primary text-xs font-bold uppercase tracking-widest mb-2 text-glow">Today</p>
+<div class="bg-primary/5 p-4 rounded-xl border border-primary/20 shadow-[inset_0_0_20px_rgba(0,240,255,0.05)] hover:border-primary/40 transition-all">
+<p class="text-white text-sm font-bold tracking-wide">Lab: AD Security Groups</p>
+<p class="text-slate-400 text-xs mt-1 font-mono">2:00 PM - 3:30 PM</p>
+<button class="mt-3 w-full text-center py-1.5 bg-primary/10 hover:bg-primary text-primary hover:text-black text-xs font-bold rounded border border-primary/30 transition-all uppercase tracking-wider">Start Lab</button>
+</div>
+</div>
+</div>
+<div class="relative flex gap-5 group opacity-80 hover:opacity-100 transition-all">
+<div class="relative z-10 flex-none size-10 rounded-full bg-black border border-white/20 flex items-center justify-center text-slate-300 text-sm font-medium group-hover:border-white/50 transition-colors">
+                            25
+                        </div>
+<div class="flex-1 pb-2">
+<p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-2 group-hover:text-slate-300">Tomorrow</p>
+<div class="bg-white/5 p-4 rounded-xl border border-white/5 group-hover:border-white/20 transition-all">
+<p class="text-white text-sm font-medium">Quiz: Network Protocols</p>
+<p class="text-slate-500 text-xs mt-1 font-mono">15 Questions</p>
+</div>
+</div>
+</div>
+<div class="relative flex gap-5 group opacity-60 hover:opacity-100 transition-all">
+<div class="relative z-10 flex-none size-10 rounded-full bg-black border border-white/10 flex items-center justify-center text-slate-500 text-sm font-medium">
+                           26
+                       </div>
+<div class="flex-1 pb-2">
+<p class="text-slate-600 text-xs font-bold uppercase tracking-widest mb-2">Wednesday</p>
+<div class="bg-white/5 p-4 rounded-xl border border-white/5">
+<p class="text-slate-300 text-sm font-medium">Study: DNS Records</p>
+<p class="text-slate-500 text-xs mt-1 font-mono">Module 4.2</p>
+</div>
+</div>
+</div>
+<div class="relative flex gap-5 group opacity-40 hover:opacity-100 transition-all">
+<div class="relative z-10 flex-none size-10 rounded-full bg-black border border-white/10 flex items-center justify-center text-slate-500 text-sm font-medium">
+                           27
+                       </div>
+<div class="flex-1 pb-2">
+<p class="text-slate-600 text-xs font-bold uppercase tracking-widest mb-2">Thursday</p>
+<div class="bg-white/5 p-4 rounded-xl border border-white/5">
+<p class="text-slate-300 text-sm font-medium">Rest Day</p>
+<p class="text-slate-500 text-xs mt-1 font-mono">Review notes only</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-10 pt-6 border-t border-white/10">
+<div class="flex justify-between items-end mb-3">
+<span class="text-slate-300 text-xs uppercase tracking-widest font-bold">Weekly Goal</span>
+<span class="text-primary text-sm font-mono font-bold drop-shadow-[0_0_5px_#00f0ff]">12/20 hrs</span>
+</div>
+<div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden border border-white/5">
+<div class="bg-gradient-to-r from-primary-dark to-primary h-full rounded-full w-[60%] shadow-[0_0_10px_#00f0ff]"></div>
+</div>
+<p class="text-xs text-slate-500 mt-3 text-center font-light">Target velocity optimized.</p>
+</div>
+</div>
+</aside>
+</div>
+
+</body></html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NorthStar Hero V10 - Concept F Command Tiles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;700&amp;family=Sora:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050914;
+  --panel: #0f1c33;
+  --line: rgba(160, 196, 245, 0.22);
+  --line-soft: rgba(160, 196, 245, 0.12);
+  --text: #ecf3ff;
+  --muted: #a4b9d5;
+  --accent: #7bc0d7;
+  --accent2: #6e82cb;
+  --ok: #2fd0a1;
+  --risk: #fb7185;
+  --unknown: #f2b96b;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: "IBM Plex Sans", sans-serif; }
+body {
+  min-height: 100vh;
+  background: radial-gradient(1300px 700px at 30% 48%, #0d1830 0%, #070d1b 54%, #03060f 100%);
+}
+.nav {
+  height: 72px;
+  border-bottom: 1px solid var(--line-soft);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 30;
+  backdrop-filter: blur(10px);
+  background: rgba(5,9,20,0.74);
+}
+.nav-inner {
+  max-width: 1580px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 42px;
+}
+.logo { font-family: "Sora", sans-serif; font-size: 0.96rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+.links { display: flex; gap: 20px; color: var(--muted); font-size: 0.84rem; }
+.hero {
+  max-width: 1700px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(620px, 1.1fr) minmax(520px, 0.9fr);
+  gap: 44px;
+  align-items: center;
+  padding: 102px 42px 30px;
+}
+.stack-zone {
+  min-height: 640px;
+  display: grid;
+  place-items: center;
+}
+.stack {
+  position: relative;
+  width: min(92%, 740px);
+  min-height: 560px;
+  display: grid;
+  gap: 14px;
+  padding-left: 78px;
+}
+.spine {
+  position: absolute;
+  left: 36px;
+  top: 24px;
+  bottom: 24px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(123,192,215,0.12), rgba(63,200,180,0.6), rgba(123,192,215,0.12));
+}
+.spine::after {
+  content: "";
+  position: absolute;
+  left: -4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #6edec8;
+  box-shadow: 0 0 14px rgba(110,222,200,0.9);
+  animation: travel 2.8s linear infinite;
+}
+@keyframes travel {
+  from { top: 3%; opacity: 1; }
+  to { top: 94%; opacity: 0.4; }
+}
+.tile {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px 18px 16px 20px;
+  background: linear-gradient(155deg, rgba(22,35,61,0.96), rgba(11,19,36,0.98));
+  box-shadow: 0 26px 40px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.06);
+  transform: translateX(calc(var(--offset) * 8px));
+  transition: transform 240ms ease, border-color 220ms ease, filter 220ms ease;
+  cursor: pointer;
+}
+.tile:hover { transform: translateX(calc(var(--offset) * 8px + 6px)); border-color: rgba(190,220,255,0.44); filter: brightness(1.08); }
+.tile.active { border-color: rgba(123,192,215,0.72); box-shadow: 0 30px 46px rgba(0,0,0,0.52), 0 0 28px rgba(123,192,215,0.16); }
+.tile-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.tile-name { font-family: "Sora", sans-serif; text-transform: uppercase; letter-spacing: 0.11em; font-size: 0.78rem; }
+.tile-num { font-family: "JetBrains Mono", monospace; font-size: 0.58rem; color: #8da3bf; letter-spacing: 0.08em; }
+.tile-desc { margin-top: 8px; color: var(--muted); font-size: 0.92rem; line-height: 1.45; }
+.stamp { margin-top: 11px; display: inline-flex; font-family: "JetBrains Mono", monospace; font-size: 0.57rem; padding: 3px 8px; border-radius: 999px; border: 1px solid; letter-spacing: 0.06em; }
+.stamp.legit { color: var(--ok); border-color: rgba(47,208,161,0.44); background: rgba(47,208,161,0.08); }
+.stamp.risk { color: var(--risk); border-color: rgba(251,113,133,0.4); background: rgba(251,113,133,0.1); }
+.stamp.unknown { color: var(--unknown); border-color: rgba(242,185,107,0.42); background: rgba(242,185,107,0.08); }
+.top-emblem {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 32% 30%, rgba(221,236,255,0.28), rgba(19,35,60,0.85));
+  border: 1px solid rgba(173,206,255,0.28);
+  display: grid;
+  place-items: center;
+}
+.top-emblem svg { width: 20px; height: 20px; opacity: 0.92; }
+.content {
+  display: grid;
+  gap: 18px;
+}
+.eyebrow { font-family: "JetBrains Mono", monospace; font-size: 0.72rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; }
+h1 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(2.5rem, 4vw, 4.3rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+.grad { background: linear-gradient(95deg, var(--accent), var(--accent2)); -webkit-background-clip: text; color: transparent; }
+.sub { margin: 0; color: var(--muted); font-size: 1.12rem; line-height: 1.55; max-width: 56ch; }
+.cta { display: flex; gap: 14px; }
+.cta button {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  padding: 12px 20px;
+  font-family: "Sora", sans-serif;
+  cursor: pointer;
+}
+.cta .main { background: linear-gradient(130deg, #4a87ab, #294e74); color: #e9f7ff; border-color: rgba(123,192,215,0.3); }
+.cta .ghost { background: transparent; color: var(--text); }
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.kpi {
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  padding: 13px;
+  background: rgba(8,14,28,0.84);
+}
+.kpi .v { font-family: "Sora", sans-serif; font-size: 1.28rem; }
+.kpi .l { margin-top: 4px; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.08em; color: #8ea5c3; }
+.dynamic {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(165deg, rgba(17,29,53,0.95), rgba(9,16,31,0.96));
+  padding: 16px;
+}
+.dynamic .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: #90a6c2; }
+.dynamic .copy { margin-top: 8px; line-height: 1.5; color: var(--muted); min-height: 46px; }
+@media (max-width: 1320px) {
+  .hero { grid-template-columns: 1fr; gap: 22px; }
+  .stack-zone { min-height: 520px; }
+}
+@media (max-width: 760px) {
+  .hero { padding: 96px 18px 28px; }
+  .links { display: none; }
+  .stack { padding-left: 62px; }
+  .tile { padding-right: 12px; }
+  .kpi-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="logo">NORTHSTAR</div>
+      <div class="links"><span>Platform</span><span>Methodology</span><span>Enterprise Solutions</span><span>Intelligence</span><span>Log In</span></div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <section class="stack-zone">
+      <div class="stack">
+        <div class="spine"></div>
+        <article class="tile active" tabindex="0" role="button" aria-label="Mission Control module" style="--offset:0" data-title="Mission Control" data-gate="VERIFIED_LEGIT" data-copy="Client briefs are translated into precise role parameters, compensation guardrails, and must-have outcomes before sourcing begins." data-time="12d" data-fit="92%" data-cost="41%">
+          <div class="top-emblem" aria-hidden="true">
+            <svg viewBox="0 0 100 100"><polygon fill="rgba(224,239,255,0.82)" points="50,6 57,34 94,50 57,66 50,94 43,66 6,50 43,34"/></svg>
+          </div>
+          <div class="tile-head"><div class="tile-name">Mission Control</div><div class="tile-num">01</div></div>
+          <div class="tile-desc">Structured launch pad for every assignment.</div>
+          <span class="stamp legit">VERIFIED_LEGIT</span>
+        </article>
+
+        <article class="tile" tabindex="0" role="button" aria-label="Skill Recovery Lab module" style="--offset:1" data-title="Skill Recovery Lab" data-gate="UNKNOWN_INSUFFICIENT_EVIDENCE" data-copy="NorthStar salvages high-potential profiles by converting weak resumes into evidence-backed candidate stories clients can trust." data-time="9d" data-fit="88%" data-cost="36%">
+          <div class="tile-head"><div class="tile-name">Skill Recovery Lab</div><div class="tile-num">02</div></div>
+          <div class="tile-desc">Reconstruct hidden value from under-documented talent.</div>
+          <span class="stamp unknown">UNKNOWN_INSUFFICIENT_EVIDENCE</span>
+        </article>
+
+        <article class="tile" tabindex="0" role="button" aria-label="Case Command module" style="--offset:2" data-title="Case Command" data-gate="VERIFIED_RISK" data-copy="Risk vectors are isolated early: identity mismatch, history inconsistency, and role-fit anomalies are blocked before shortlist." data-time="7d" data-fit="95%" data-cost="48%">
+          <div class="tile-head"><div class="tile-name">Case Command</div><div class="tile-num">03</div></div>
+          <div class="tile-desc">Stop bad submissions before they reach the client.</div>
+          <span class="stamp risk">VERIFIED_RISK</span>
+        </article>
+
+        <article class="tile" tabindex="0" role="button" aria-label="Strategic Roadmap module" style="--offset:3" data-title="Strategic Roadmap" data-gate="VERIFIED_LEGIT" data-copy="Weekly placement data is converted into market priorities so leadership teams know exactly where speed and quality are highest." data-time="14d" data-fit="90%" data-cost="33%">
+          <div class="tile-head"><div class="tile-name">Strategic Roadmap</div><div class="tile-num">04</div></div>
+          <div class="tile-desc">Move from reactive hiring to planned execution.</div>
+          <span class="stamp legit">VERIFIED_LEGIT</span>
+        </article>
+
+        <article class="tile" tabindex="0" role="button" aria-label="Next 7 Days module" style="--offset:4" data-title="Next 7 Days" data-gate="VERIFIED_LEGIT" data-copy="Daily priorities keep every stakeholder aligned with interview-ready candidates, issue blockers, and expected decision windows." data-time="5d" data-fit="97%" data-cost="52%">
+          <div class="tile-head"><div class="tile-name">Next 7 Days</div><div class="tile-num">05</div></div>
+          <div class="tile-desc">Execution rhythm clients can review at a glance.</div>
+          <span class="stamp legit">VERIFIED_LEGIT</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="eyebrow">Command Tiles Stack</div>
+      <h1>Architecting the <span class="grad">Future of Workforce</span></h1>
+      <p class="sub">Precision Talent Intelligence. Verified Execution. Every module is tangible, named, and tied to an explicit client benefit so buyers understand value in seconds.</p>
+      <div class="cta"><button class="main">Start Sourcing</button><button class="ghost">Request Consultation</button></div>
+
+      <div class="dynamic">
+        <div class="label" id="activeTitle">Mission Control · VERIFIED_LEGIT</div>
+        <div class="copy" id="activeCopy">Client briefs are translated into precise role parameters, compensation guardrails, and must-have outcomes before sourcing begins.</div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="v" id="kpiTime">12d</div><div class="l">Time to shortlist</div></div>
+        <div class="kpi"><div class="v" id="kpiFit">92%</div><div class="l">Fit confidence</div></div>
+        <div class="kpi"><div class="v" id="kpiCost">41%</div><div class="l">Cost saved</div></div>
+      </div>
+    </section>
+  </main>
+
+<script>
+const tiles = [...document.querySelectorAll('.tile')];
+const activeTitle = document.getElementById('activeTitle');
+const activeCopy = document.getElementById('activeCopy');
+const kpiTime = document.getElementById('kpiTime');
+const kpiFit = document.getElementById('kpiFit');
+const kpiCost = document.getElementById('kpiCost');
+
+function setActive(tile) {
+  tiles.forEach(t => t.classList.remove('active'));
+  tile.classList.add('active');
+  activeTitle.textContent = `${tile.dataset.title} · ${tile.dataset.gate}`;
+  activeCopy.textContent = tile.dataset.copy;
+  kpiTime.textContent = tile.dataset.time;
+  kpiFit.textContent = tile.dataset.fit;
+  kpiCost.textContent = tile.dataset.cost;
+}
+
+tiles.forEach(tile => {
+  tile.addEventListener('mouseenter', () => setActive(tile));
+  tile.addEventListener('click', () => setActive(tile));
+  tile.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      setActive(tile);
+    }
+  });
+});
+</script>
+</body>
+</html>

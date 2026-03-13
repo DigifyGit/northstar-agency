@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NorthStar | Premium Client Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" />
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Top Navigation -->
+        <header class="glass">
+            <div class="logo">
+                <h2 style="color: var(--indigo);">North<span style="color: var(--teal);">Star</span></h2>
+            </div>
+            <nav class="top-nav">
+                <button class="nav-item active">Dashboard</button>
+                <button class="nav-item">Case Log</button>
+                <button class="nav-item">Skill Matrix</button>
+                <button class="nav-item">Applications</button>
+                <button class="nav-item">Interview Prep</button>
+                <button class="nav-item"><span class="material-symbols-outlined">smart_toy</span> Mark AI</button>
+            </nav>
+            <div class="user-profile">
+                <div class="user-info">
+                    <span class="user-name">José</span>
+                    <span class="user-status">Readiness: 78%</span>
+                </div>
+                <div class="avatar"></div>
+            </div>
+        </header>
+
+        <!-- Left Sidebar: Controls & Modes -->
+        <aside class="sidebar glass">
+            <div class="view-toggle">
+                <button id="clientViewBtn" class="toggle-btn active">Client View</button>
+                <button id="execViewBtn" class="toggle-btn">Executive View</button>
+            </div>
+            <div class="sidebar-section">
+                <h3>Priority Filters</h3>
+                <!-- Filter items -->
+            </div>
+        </aside>
+
+        <!-- Main Dashboard Content -->
+        <main class="content">
+            <div class="hero-section">
+                <div class="eyebrow"
+                    style="color: var(--indigo); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 10px; margin-bottom: 8px;">
+                    Agency Command Center</div>
+                <h1 id="greeting">Welcome back, José</h1>
+                <p>Architecting your return to IT leadership. Current momentum: <span
+                        style="color: var(--teal); font-weight: 700;">High</span></p>
+            </div>
+
+            <!-- Roadmap Narrative -->
+            <section class="glass roadmap-container" style="margin: 24px 0;">
+                <div class="roadmap-line"></div>
+                <div class="roadmap-progress"></div>
+                <div class="roadmap-step completed">
+                    <div class="step-node"><span class="material-symbols-outlined">check</span></div>
+                    <span class="kpi-label">Intake</span>
+                </div>
+                <div class="roadmap-step active">
+                    <div class="step-node"><span class="material-symbols-outlined">build</span></div>
+                    <span class="kpi-label" style="color: var(--teal);">Skill Recovery</span>
+                </div>
+                <div class="roadmap-step">
+                    <div class="step-node"><span class="material-symbols-outlined">send</span></div>
+                    <span class="kpi-label">Verified Apps</span>
+                </div>
+                <div class="roadmap-step">
+                    <div class="step-node"><span class="material-symbols-outlined">groups</span></div>
+                    <span class="kpi-label">Interviews</span>
+                </div>
+                <div class="roadmap-step">
+                    <div class="step-node"><span class="material-symbols-outlined">trophy</span></div>
+                    <span class="kpi-label">Offer</span>
+                </div>
+            </section>
+
+            <!-- KPI Row -->
+            <div class="kpi-grid">
+                <div class="glass kpi-card">
+                    <span class="kpi-label">Readiness Score</span>
+                    <span class="kpi-value">82/100</span>
+                    <p class="score-desc">Top 15% for Senior IT Support</p>
+                </div>
+                <div class="glass kpi-card">
+                    <span class="kpi-label">Market Probability</span>
+                    <span class="kpi-value">78%</span>
+                    <p class="score-desc">+5% since last week</p>
+                </div>
+                <div class="glass kpi-card">
+                    <span class="kpi-label">Risk Level</span>
+                    <span class="kpi-value" style="color: var(--indigo);">Medium</span>
+                    <p class="score-desc">Gap factor: Skills recency</p>
+                </div>
+                <div class="glass kpi-card">
+                    <span class="kpi-label">Est. Time to Offer</span>
+                    <span class="kpi-value">4-6w</span>
+                    <p class="score-desc">Based on current velocity</p>
+                </div>
+            </div>
+
+            <div class="main-grid">
+                <!-- Kanban Section -->
+                <section class="glass chart-section" style="padding: 24px; grid-column: 1 / -1;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2>Application Pipeline</h2>
+                        <button class="btn-primary" style="padding: 6px 16px; font-size: 12px;">+ New App</button>
+                    </div>
+                    <div class="kanban-board">
+                        <div class="kanban-column">
+                            <h4>Sourced <span>12</span></h4>
+                            <div class="kanban-card">
+                                <h5>Senior DevOps Eng.</h5>
+                                <div class="meta">TechFlow Systems • Remote</div>
+                            </div>
+                            <div class="kanban-card">
+                                <h5>Cloud Architect</h5>
+                                <div class="meta">Nebula Corp • Hybrid</div>
+                            </div>
+                        </div>
+                        <div class="kanban-column">
+                            <h4>Verified <span>5</span></h4>
+                            <div class="kanban-card" style="border-left: 2px solid var(--teal);">
+                                <h5>Site Reliability Eng.</h5>
+                                <div class="meta">Apex Global • High Match</div>
+                            </div>
+                        </div>
+                        <div class="kanban-column">
+                            <h4>Applied <span>8</span></h4>
+                            <div class="kanban-card">
+                                <h5>Platform Engineer</h5>
+                                <div class="meta">Stryker Inc. • Auto-Apply</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Skill Gap Section -->
+                <section class="glass chart-section" style="padding: 24px;">
+                    <h2>Skill Gap & Experience Decay</h2>
+                    <div id="radarChart" class="chart-container"
+                        style="height: 300px; display: flex; align-items: center; justify-content: center;">
+                        <!-- Radar chart SVG injected via JS -->
+                    </div>
+                </section>
+
+                <!-- Blockers Section -->
+                <section class="glass feed-section" style="padding: 24px;">
+                    <h2>Blockers to Success</h2>
+                    <div class="blocker-list">
+                        <div class="blocker-item high">
+                            <div>
+                                <h5 style="color: white;">Gap Explanation</h5>
+                                <p style="font-size: 11px;">High impact on placement speed</p>
+                            </div>
+                        </div>
+                        <div class="blocker-item med">
+                            <div>
+                                <h5 style="color: white;">Modern Tech Stack</h5>
+                                <p style="font-size: 11px;">Update LinkedIn with K8s/Azure</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-primary"
+                        style="width: 100%; margin-top: 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">Run
+                        "What If" Simulator</button>
+                </section>
+            </div>
+
+            <!-- Joint Action Board -->
+            <section class="joint-actions">
+                <div class="glass action-column" style="border-top: 2px solid var(--indigo);">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span class="kpi-label" style="color: var(--indigo);">Agency Actions</span>
+                        <span style="font-size: 10px; color: var(--text-secondary);">SLA: 4h</span>
+                    </div>
+                    <div class="action-list">
+                        <div class="action-item">
+                            <span class="material-symbols-outlined" style="color: var(--indigo);">pending</span>
+                            <div>
+                                <p style="color: white; font-weight: 600;">Negotiating TechFlow Salary</p>
+                                <p style="font-size: 11px;">Agent Sarah is on it.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass action-column" style="border-top: 2px solid var(--teal);">
+                    <span class="kpi-label" style="color: var(--teal);">Your Actions</span>
+                    <div class="action-list">
+                        <div class="action-item">
+                            <span class="material-symbols-outlined"
+                                style="color: var(--teal);">check_box_outline_blank</span>
+                            <div>
+                                <p style="color: white; font-weight: 600;">Review MegaCorp Interview Guide</p>
+                                <p style="font-size: 11px;">High Priority</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Right Side Panel: Next 7 Days -->
+        <aside class="plan-panel glass">
+            <h2>Your Plan</h2>
+            <div class="plan-timeline">
+                <!-- Timeline items -->
+            </div>
+            <button class="btn-primary" style="width: 100%; margin-top: 20px;">View Full Calendar</button>
+        </aside>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

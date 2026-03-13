@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NorthStar - Mark AI Copilot</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#38bdf8", // Sky blue for glows
+                        danger: "#ef4444", // Red for alerts
+                        "glass-border": "rgba(255, 255, 255, 0.1)",
+                        "glass-bg": "rgba(11, 20, 38, 0.6)",
+                        "glass-highlight": "rgba(56, 189, 248, 0.15)",
+                        "background-dark": "#050b14",
+                        "background-light": "#f0f4f8", // Fallback, though design is dark-heavy
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(56, 189, 248, 0.3)',
+                        'glow-red': '0 0 15px rgba(239, 68, 68, 0.3)',
+                    },
+                    backgroundImage: {
+                        'nebula': 'radial-gradient(circle at 50% 0%, rgba(30, 58, 138, 0.4) 0%, rgba(5, 11, 20, 0) 70%), radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.1) 0%, transparent 40%), linear-gradient(180deg, #050b14 0%, #02040a 100%)',
+                        'card-gradient': 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)',
+                        'progress-gradient': 'linear-gradient(90deg, #38bdf8 0%, #60a5fa 100%)',
+                        'bar-shine': 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)'
+                    }
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            background-color: #02040a;
+            color: #e2e8f0;
+        }::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, 0.3);
+            border-radius: 3px;
+        }.glass-panel {
+            background: rgba(13, 22, 40, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .glass-inner {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+        .text-glow-red {
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        }
+        .border-gradient-bottom {
+            border-bottom: 1px solid;
+            border-image: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), transparent) 1;
+        }.bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen relative overflow-x-hidden antialiased selection:bg-primary selection:text-white bg-background-dark text-slate-200">
+<div class="fixed inset-0 z-[-2]">
+<img alt="Nebula Background" class="w-full h-full object-cover opacity-40 mix-blend-screen filter brightness-50 contrast-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7wNxevQCBL9mMcX0Y5Zg8xC5hrziW6A7P9hGTsWCoZfcARp56Nx6fxzb7MyzmdeBGG5QA8R9LC5VLeTvG6VWe3s-nzos3SxKaegHLL3G-jZm7UH4nmyAZQCA3ZjVksmt5KNdZ362FGKRXOrEqduVGs81418gpMBaTXqQ4-wB0N25SZ39JPKhGX4AqG-cubAU4W4cFyUNhL_TJaZcXjesae6PMWbDrk833UBooarAEKXWqKZ0UQVyFly-7gnkqqYHCQciJ_-EEkW0"/>
+</div>
+<div class="fixed inset-0 z-[-1] bg-nebula"></div>
+<div class="fixed inset-0 z-[-1] bg-grid mask-image-gradient"></div>
+<div class="max-w-[1600px] mx-auto p-4 md:p-6 lg:p-8 flex flex-col h-screen overflow-hidden">
+<header class="flex items-center justify-between mb-8 px-2 py-3">
+<div class="flex items-center gap-3">
+<div class="text-primary animate-pulse">
+<span class="material-icons-outlined text-4xl" style="font-size: 32px;">stars</span>
+</div>
+<h1 class="text-2xl font-light tracking-[0.2em] text-white">NORTHSTAR</h1>
+</div>
+<nav class="hidden md:flex items-center gap-1 bg-glass-bg/50 px-2 py-1.5 rounded-full border border-glass-border">
+<a class="px-5 py-2 text-sm text-white font-medium bg-white/10 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all" href="#">Dashboard</a>
+<a class="px-5 py-2 text-sm text-slate-400 hover:text-white transition-colors" href="#">Case Log</a>
+<a class="px-5 py-2 text-sm text-slate-400 hover:text-white transition-colors" href="#">Skill Matrix</a>
+<a class="px-5 py-2 text-sm text-slate-400 hover:text-white transition-colors" href="#">Applications</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3 pl-4 border-l border-glass-border">
+<img alt="User Avatar" class="w-8 h-8 rounded-full border border-primary/50 ring-2 ring-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA77FC_PPevJZ0Yc8P4jq5rilnviWoAerto-4JWm8PjQ7p_lCPTEtVEyK66cPQMc3EzTWbr48wXkaxmx-L0S2hvvVoUP4LqhEZWAlDFwdfIdz3rtvp0JlxMMM4M4FAUVP69mir-zZWpZWPGxkKPTL_CKL9bRXBwEn38r-ZYHCUobtJd0KRYlM_cw23i59p3dqlAy0RbzXY8OOOggeriputf8jRz7Id6UmQNfrji3T-I4yN5eZRgz7KgRxOcTNLqOqphUdpz8KQ6XEk"/>
+<span class="text-sm font-medium text-slate-300">Mark</span>
+<span class="material-icons-outlined text-slate-400 text-sm">settings</span>
+</div>
+</div>
+</header>
+<main class="flex-1 grid grid-cols-12 gap-6 h-full min-h-0 overflow-hidden">
+<div class="col-span-12 lg:col-span-9 flex flex-col gap-6 h-full">
+<div class="grid grid-cols-12 gap-6 h-[55%]">
+<div class="col-span-12 md:col-span-5 glass-panel rounded-xl p-5 relative overflow-hidden flex flex-col">
+<div class="flex items-center gap-2 mb-4 text-primary">
+<span class="material-icons-outlined text-xl">smart_toy</span>
+<h2 class="text-lg font-medium tracking-wide text-white">Mark AI Copilot</h2>
+</div>
+<div class="bg-gradient-to-r from-blue-900/40 to-transparent border border-blue-500/20 rounded-lg p-3 mb-4 flex justify-between items-start">
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded bg-blue-500/10 flex items-center justify-center border border-blue-400/20">
+<span class="material-icons-outlined text-blue-300">security</span>
+</div>
+<div>
+<div class="text-xs text-slate-400 uppercase tracking-wider mb-0.5">NorthStar Est Respet</div>
+<div class="text-sm text-white font-medium">Your Courts, Ders Celuptions</div>
+<div class="text-[10px] text-slate-500 mt-0.5">— Bell Fententilllingst.</div>
+</div>
+</div>
+<span class="material-icons-outlined text-slate-500 text-sm transform rotate-45">unfold_more</span>
+</div>
+<div class="flex justify-between items-center text-[10px] text-slate-400 px-1 mb-4 border-b border-white/5 pb-2">
+<span class="text-white font-medium">Peanter Shopashet</span>
+<span>Ast Flagwoes</span>
+<span class="font-mono text-slate-500">SSGAAS 5.811 <span class="text-primary">▼</span></span>
+</div>
+<div class="glass-inner rounded bg-red-900/10 border-red-500/30 p-4 relative flex-1 flex flex-col justify-between overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-[1px] bg-red-500/50 shadow-[0_0_10px_#ef4444] animate-[scan_3s_ease-in-out_infinite]"></div>
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2 text-danger">
+<span class="text-xs font-bold tracking-widest uppercase text-glow-red">FLAG DETECTED</span>
+<span class="material-icons-outlined text-sm animate-pulse">warning</span>
+</div>
+<span class="text-[10px] text-slate-500 bg-black/40 px-1.5 py-0.5 rounded border border-white/10">Siklilsed</span>
+</div>
+<p class="text-[10px] text-slate-400 leading-relaxed mb-3">
+                                    -azatiareer ararret on poot angiavativeet, $2.82%, SEU3.1 tvoes leest ht. best bavireteerl co confianance.
+                                </p>
+<div class="bg-black/40 border border-white/10 rounded px-2 py-1.5 mb-3 flex items-center gap-2">
+<span class="text-[10px] text-slate-400 uppercase">Verificor:</span>
+<span class="text-[11px] text-red-300 bg-red-500/10 px-1 rounded">REDACTED: Plates</span>
+</div>
+<div class="text-[11px] text-slate-300 leading-snug">
+<span class="text-slate-500 uppercase text-[10px]">DECRYPTING:</span> Open Source intelligence, and elesto,vne searched incorpocater best selected to the first easelft.
+                                </div>
+</div>
+<div class="mt-3">
+<div class="flex justify-between text-[10px] text-primary mb-1">
+<span class="border-l-2 border-primary pl-1">DECRYPTING: Open Source Intelligence...</span>
+<span>64%</span>
+</div>
+<div class="h-1 w-full bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[64%] shadow-[0_0_8px_#38bdf8]"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-12 md:col-span-7 glass-panel rounded-xl p-5 flex flex-col">
+<div class="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
+<h2 class="text-lg font-medium text-white tracking-wide">Next Actions</h2>
+<span class="material-icons-outlined text-slate-500 text-sm">expand_less</span>
+</div>
+<div class="flex-1 overflow-y-auto pr-1 space-y-3">
+<div class="group p-3 rounded-lg border border-transparent hover:border-primary/20 hover:bg-white/5 transition-all cursor-pointer relative">
+<div class="absolute left-0 top-3 w-0.5 h-8 bg-primary/50 rounded-r opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex items-start gap-3">
+<div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_5px_#38bdf8]"></div>
+<div>
+<h4 class="text-sm font-medium text-slate-200">NorthStar Est Respet</h4>
+<p class="text-xs text-slate-500 mt-1">Your Courts Intelligence was boomanstem verivor threat..</p>
+</div>
+</div>
+</div>
+<div class="group p-3 rounded-lg border border-red-500/10 bg-red-500/5 hover:bg-red-500/10 transition-all cursor-pointer relative">
+<div class="flex items-start gap-3">
+<div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-danger shadow-[0_0_5px_#ef4444]"></div>
+<div class="flex-1">
+<div class="flex justify-between">
+<h4 class="text-sm font-medium text-slate-200">Ast Flagwoes</h4>
+<span class="text-[9px] text-slate-500 border border-slate-700 px-1 rounded">Sikilisad</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">The dossier was bisxdor is andiles aretlessnd atrest action:boothority.</p>
+</div>
+</div>
+</div>
+<div class="group p-3 rounded-lg border border-transparent hover:border-primary/20 hover:bg-white/5 transition-all cursor-pointer relative">
+<div class="absolute left-0 top-3 w-0.5 h-8 bg-primary/50 rounded-r opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex items-start gap-3">
+<div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-600"></div>
+<div class="flex-1">
+<div class="flex justify-between">
+<h4 class="text-sm font-medium text-slate-400">Bank Lander</h4>
+<span class="text-[9px] text-red-400 border border-red-900/50 bg-red-900/10 px-1 rounded flex items-center gap-1"><span class="w-1 h-1 rounded-full bg-red-500"></span> Stiled</span>
+</div>
+<p class="text-xs text-slate-600 mt-1">-azatiareer ararret on poot angiavativeet, $2.82%, SEU3.1 tvoes best baxreteerl co confianance.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-4">
+<div class="w-full text-left border-collapse">
+<div class="grid grid-cols-3 text-[10px] uppercase text-slate-500 font-semibold tracking-wider pb-2 border-b border-white/10">
+<div class="pl-2">Originator</div>
+<div>Source</div>
+<div>Risk Score</div>
+</div>
+<div class="grid grid-cols-3 text-xs text-slate-300 py-2 border-b border-white/5 items-center hover:bg-white/5 transition-colors">
+<div class="pl-2">External</div>
+<div>Public</div>
+<div class="text-danger font-bold text-glow-red">98</div>
+</div>
+<div class="grid grid-cols-3 text-xs text-slate-400 py-2 items-center hover:bg-white/5 transition-colors">
+<div class="pl-2">R.onimistration</div>
+<div>Public</div>
+<div>Quarantine</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 flex-1">
+<div class="glass-panel p-6 rounded-xl flex flex-col justify-center relative overflow-hidden">
+<div class="flex justify-between text-xs font-mono uppercase tracking-widest text-primary mb-2 z-10 relative">
+<span class="text-glow">Decrypting...</span>
+<span class="text-glow">64%</span>
+</div>
+<div class="h-2 w-full bg-slate-800/50 rounded-full relative overflow-hidden border border-white/5">
+<div class="absolute inset-y-0 left-0 bg-progress-gradient w-[64%] shadow-[0_0_20px_#38bdf8] rounded-full">
+<div class="absolute top-0 right-0 h-full w-2 bg-white blur-[2px]"></div>
+</div>
+<div class="absolute inset-0 bg-bar-shine opacity-20 w-full animate-[shimmer_2s_infinite]"></div>
+</div>
+<div class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+</div>
+<div class="glass-panel p-1 rounded-xl relative overflow-hidden mt-auto">
+<div class="px-5 py-2 flex justify-between items-center text-xs text-slate-400 font-mono border-b border-white/5 mb-1">
+<span class="tracking-widest">Daily Quota <span class="text-white">2 - 66</span></span>
+<span class="flex items-center gap-1 cursor-pointer hover:text-white">Neser Sunva <span class="material-icons-outlined text-[10px]">expand_more</span></span>
+</div>
+<div class="relative bg-black/20 m-2 rounded-lg border border-primary/20 focus-within:border-primary/60 focus-within:shadow-[0_0_15px_rgba(56,189,248,0.2)] transition-all overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-50 pointer-events-none"></div>
+<input class="w-full bg-transparent border-none text-white placeholder-slate-500 text-sm px-4 py-3 focus:ring-0 z-10 relative font-light" placeholder="Enter command or query here..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-primary hover:text-white transition-colors z-20">
+<span class="material-icons-outlined">send</span>
+</button>
+<div class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary/0 via-primary to-primary/0 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-3 flex flex-col gap-4 h-full">
+<div class="glass-panel rounded-xl p-4 space-y-3">
+<div class="flex items-center justify-between group cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:border-primary/50 text-primary transition-colors">
+<span class="material-icons-outlined text-sm">search</span>
+</div>
+<div>
+<h4 class="text-sm text-slate-200">Start Investigation</h4>
+<p class="text-[10px] text-slate-500">Due 3-20 ms</p>
+</div>
+</div>
+<span class="material-icons-outlined text-slate-600 text-sm">chevron_right</span>
+</div>
+<div class="flex items-center justify-between group cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:border-primary/50 text-primary transition-colors">
+<span class="material-icons-outlined text-sm">description</span>
+</div>
+<div>
+<h4 class="text-sm text-slate-200">View Dossier</h4>
+<p class="text-[10px] text-slate-500">Due 3-20 ms</p>
+</div>
+</div>
+<span class="material-icons-outlined text-slate-600 text-sm">chevron_right</span>
+</div>
+<div class="flex items-center justify-between group cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:border-primary/50 text-primary transition-colors">
+<span class="material-icons-outlined text-sm">hub</span>
+</div>
+<div>
+<h4 class="text-sm text-slate-200">Analyze Network</h4>
+<p class="text-[10px] text-slate-500">Due S:20 ms</p>
+</div>
+</div>
+<span class="material-icons-outlined text-slate-600 text-sm">chevron_right</span>
+</div>
+<div class="flex items-center justify-between group cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:border-primary/50 text-primary transition-colors">
+<span class="material-icons-outlined text-sm">donut_large</span>
+</div>
+<div>
+<h4 class="text-sm text-slate-200">Analyze Dossier</h4>
+<p class="text-[10px] text-slate-500">Due S:30 ms</p>
+</div>
+</div>
+<span class="material-icons-outlined text-slate-600 text-sm">chevron_right</span>
+</div>
+<div class="flex items-center justify-between group cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:border-primary/50 text-primary transition-colors">
+<span class="material-icons-outlined text-sm">settings_input_component</span>
+</div>
+<div>
+<h4 class="text-sm text-slate-200">Analyze Network</h4>
+<p class="text-[10px] text-slate-500">Due S:30 ms</p>
+</div>
+</div>
+<span class="material-icons-outlined text-slate-600 text-sm">chevron_right</span>
+</div>
+</div>
+<div class="glass-panel rounded-xl p-5 flex flex-col gap-6 flex-1 h-full min-h-0">
+<div class="flex justify-between items-center border-b border-white/5 pb-2">
+<h2 class="text-lg font-medium text-white tracking-wide">Insights</h2>
+<span class="material-icons-outlined text-slate-500 text-sm">expand_less</span>
+</div>
+<div class="bg-black/20 rounded-lg p-3 border border-white/5">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm text-slate-300">Threat Level</span>
+<span class="text-danger font-medium text-glow-red">High</span>
+</div>
+<div class="h-1 bg-slate-700 rounded-full mb-4 relative">
+<div class="absolute h-full w-[80%] bg-gradient-to-r from-orange-500 to-red-600 rounded-full shadow-[0_0_8px_#ef4444]"></div>
+<div class="absolute h-3 w-1 bg-white top-1/2 -translate-y-1/2 left-[80%] shadow-[0_0_5px_white]"></div>
+</div>
+<div class="h-16 flex items-end justify-between gap-1 px-1">
+<div class="w-1 bg-blue-900/40 h-2 rounded-t"></div>
+<div class="w-1 bg-blue-900/40 h-4 rounded-t"></div>
+<div class="w-1 bg-blue-900/40 h-3 rounded-t"></div>
+<div class="w-1 bg-blue-900/40 h-6 rounded-t"></div>
+<div class="w-1 bg-blue-900/40 h-4 rounded-t"></div>
+<div class="w-1 bg-blue-500/30 h-8 rounded-t"></div>
+<div class="w-1 bg-blue-500/40 h-5 rounded-t"></div>
+<div class="w-1 bg-blue-500/60 h-10 rounded-t"></div>
+<div class="w-1 bg-red-500/60 h-14 rounded-t shadow-[0_0_5px_#ef4444]"></div>
+<div class="w-1 bg-blue-500/50 h-6 rounded-t"></div>
+<div class="w-1 bg-blue-500/40 h-8 rounded-t"></div>
+<div class="w-1 bg-blue-500/30 h-4 rounded-t"></div>
+<div class="w-1 bg-blue-900/40 h-2 rounded-t"></div>
+<div class="w-1 bg-blue-900/40 h-10 rounded-t"></div>
+<div class="w-1 bg-blue-900/40 h-3 rounded-t"></div>
+</div>
+<div class="flex justify-between text-[8px] text-slate-600 mt-1 font-mono">
+<span>0</span>
+<span>1000</span>
+</div>
+</div>
+<div class="bg-black/20 rounded-lg p-3 border border-white/5">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm text-slate-300">Entity Risk Score</span>
+<span class="text-primary font-medium text-lg text-glow">92</span>
+</div>
+<div class="h-1.5 bg-slate-700 rounded-full mb-3 relative overflow-hidden">
+<div class="absolute h-full w-[92%] bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full shadow-[0_0_8px_#38bdf8]"></div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-xs text-slate-400">
+<span>Confidence</span>
+<div class="flex items-center gap-2 w-24">
+<div class="h-1 w-full bg-slate-800 rounded-full"><div class="h-full w-[89%] bg-primary rounded-full"></div></div>
+<span class="text-[10px]">89%</span>
+</div>
+</div>
+<div class="flex justify-between text-xs text-slate-400">
+<span>Relevance</span>
+<div class="flex items-center gap-2 w-24">
+<div class="h-1 w-full bg-slate-800 rounded-full"><div class="h-full w-[95%] bg-primary rounded-full"></div></div>
+<span class="text-[10px]">95%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-black/20 rounded-lg p-3 border border-white/5 mt-auto">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm text-slate-300">Potential Impact</span>
+<span class="text-danger font-medium text-glow-red">Critical</span>
+</div>
+<div class="h-1.5 bg-slate-700 rounded-full mb-3 relative overflow-hidden">
+<div class="absolute h-full w-[95%] bg-gradient-to-r from-red-600 to-red-400 rounded-full shadow-[0_0_8px_#ef4444]"></div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-xs text-slate-400">
+<span>Confidence</span>
+<div class="flex items-center gap-2 w-24">
+<div class="h-1 w-full bg-slate-800 rounded-full"><div class="h-full w-[89%] bg-primary rounded-full"></div></div>
+<span class="text-[10px]">89%</span>
+</div>
+</div>
+<div class="flex justify-between text-xs text-slate-400">
+<span>Score</span>
+<div class="flex items-center gap-2 w-24">
+<div class="h-1 w-full bg-slate-800 rounded-full"><div class="h-full w-[95%] bg-primary rounded-full"></div></div>
+<span class="text-[10px]">95%</span>
+</div>
+</div>
+<div class="flex justify-between text-xs text-slate-400">
+<span>Relevance</span>
+<div class="flex items-center gap-2 w-24">
+<div class="h-1 w-full bg-slate-800 rounded-full"><div class="h-full w-[95%] bg-primary rounded-full"></div></div>
+<span class="text-[10px]">95%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<style>@keyframes scan {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }@keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }.mask-image-gradient {
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+    </style>
+
+</body></html>

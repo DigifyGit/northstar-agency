@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NorthStar Hero V4 | Outcome Graph</title>
+  <meta name="description" content="NorthStar hero redesign: graph-first outcome storytelling for time, cost, and relevance." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-0: #060913;
+      --bg-1: #0a1431;
+      --line: rgba(161, 218, 255, 0.27);
+      --line-strong: rgba(161, 218, 255, 0.58);
+      --text-1: #f3f9ff;
+      --text-2: #cce0f8;
+      --text-3: #90afd6;
+      --cyan: #57dcff;
+      --mint: #41edbf;
+      --violet: #8ea4ff;
+      --amber: #ffcf78;
+      --rose: #ff809d;
+      --shadow: 0 24px 56px rgba(4, 8, 26, 0.58);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+      color: var(--text-2);
+      background:
+        radial-gradient(920px 620px at 8% 8%, rgba(87, 220, 255, 0.14), transparent 72%),
+        radial-gradient(860px 620px at 88% 14%, rgba(65, 237, 191, 0.1), transparent 74%),
+        linear-gradient(180deg, var(--bg-0), var(--bg-1), var(--bg-0));
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 46px 0;
+      overflow: hidden;
+    }
+
+    .wrap {
+      width: min(1260px, calc(100% - 40px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .left {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      padding: 6px 4px;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #dff4ff;
+      background: linear-gradient(120deg, rgba(87,220,255,.18), rgba(65,237,191,.15));
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--text-1);
+      font-family: "Space Grotesk", Manrope, sans-serif;
+      font-size: clamp(38px, 5.4vw, 70px);
+      line-height: 1.03;
+      letter-spacing: -0.02em;
+      max-width: 14ch;
+    }
+
+    .grad {
+      background: linear-gradient(95deg, var(--cyan), var(--mint), var(--violet));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      margin: 0;
+      font-size: clamp(16px, 1.8vw, 19px);
+      line-height: 1.65;
+      max-width: 58ch;
+      color: var(--text-2);
+    }
+
+    .benefit-matrix {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .b {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(10, 19, 44, 0.68);
+      padding: 12px;
+      transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+
+    .b:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      box-shadow: 0 0 16px rgba(87,220,255,.18);
+    }
+
+    .b strong {
+      display: block;
+      color: var(--text-1);
+      font-size: 15px;
+      margin-bottom: 3px;
+    }
+
+    .b span {
+      color: var(--text-3);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .impact-strip {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 12px;
+      color: #e4f5ff;
+      background: rgba(11, 22, 47, 0.7);
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .btn {
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      color: var(--text-1);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      background: rgba(12, 22, 49, 0.72);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      box-shadow: 0 0 16px rgba(87,220,255,.2);
+    }
+
+    .btn.primary {
+      color: #04121f;
+      border-color: rgba(255,255,255,.44);
+      background: linear-gradient(130deg, var(--mint), var(--cyan));
+    }
+
+    .right {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(160deg, rgba(9, 16, 36, 0.9), rgba(11, 21, 46, 0.86));
+      box-shadow: var(--shadow);
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .right::before {
+      content: "";
+      position: absolute;
+      inset: -12% -10% auto;
+      height: 42%;
+      background: radial-gradient(circle at 50% 100%, rgba(87,220,255,.16), transparent 70%);
+      pointer-events: none;
+    }
+
+    .modes {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    .mode-btn {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 11px;
+      background: rgba(12, 23, 50, 0.74);
+      color: #e7f6ff;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .mode-btn:hover,
+    .mode-btn.active {
+      border-color: rgba(65, 237, 191, 0.72);
+      box-shadow: 0 0 14px rgba(65, 237, 191, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .graph-stage {
+      position: relative;
+      min-height: 390px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background:
+        linear-gradient(rgba(161,218,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(161,218,255,.06) 1px, transparent 1px),
+        linear-gradient(160deg, rgba(10, 19, 43, 0.86), rgba(8, 15, 33, 0.86));
+      background-size: 36px 36px, 36px 36px, auto;
+      overflow: hidden;
+      padding: 12px;
+    }
+
+    .metric-orb {
+      position: absolute;
+      top: 16px;
+      right: 14px;
+      width: 140px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid rgba(161,218,255,.42);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.16), rgba(12,24,52,.9));
+      display: grid;
+      place-items: center;
+      text-align: center;
+      z-index: 4;
+      box-shadow: 0 0 24px var(--orbGlow, rgba(87,220,255,.28));
+      transition: box-shadow .3s ease, transform .3s ease;
+    }
+
+    .metric-orb.flash {
+      transform: scale(1.04);
+    }
+
+    .orb-value {
+      color: #f8fdff;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 26px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .orb-label {
+      color: #d9eaff;
+      font-size: 11px;
+      line-height: 1.2;
+      max-width: 90px;
+      margin: 0 auto;
+    }
+
+    .svg-wrap {
+      position: absolute;
+      inset: 10px 8px 70px 8px;
+    }
+
+    svg { width: 100%; height: 100%; overflow: visible; }
+
+    .area {
+      fill: var(--areaFill, rgba(87,220,255,.18));
+      transition: fill .25s ease;
+    }
+
+    .line {
+      fill: none;
+      stroke: var(--lineColor, #57dcff);
+      stroke-width: 3;
+      filter: drop-shadow(0 0 8px var(--lineGlow, rgba(87,220,255,.5)));
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke .25s ease, filter .25s ease;
+    }
+
+    .dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.72);
+      background: var(--dotColor, #57dcff);
+      box-shadow: 0 0 15px var(--lineGlow, rgba(87,220,255,.5));
+      transform: translate(-50%, -50%);
+      transition: left .45s ease, top .45s ease, background .25s ease, box-shadow .25s ease;
+      z-index: 3;
+    }
+
+    .xlabels {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 14px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 4px;
+      text-align: center;
+      color: var(--text-3);
+      font-size: 11px;
+      letter-spacing: .02em;
+    }
+
+    .summary {
+      display: grid;
+      gap: 5px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .summary h3 {
+      margin: 0;
+      color: var(--text-1);
+      font-size: 20px;
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: -0.01em;
+    }
+
+    .summary p {
+      margin: 0;
+      color: var(--text-2);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .mini-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    .mini-tags span {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      color: #e7f5ff;
+      background: rgba(11, 22, 48, 0.68);
+      transition: border-color .2s ease;
+    }
+
+    .mini-tags span:hover { border-color: var(--line-strong); }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 3px rgba(87,220,255,.2);
+    }
+
+    @media (max-width: 1100px) {
+      .wrap { grid-template-columns: 1fr; }
+      h1 { max-width: 100%; }
+    }
+
+    @media (max-width: 760px) {
+      .hero { min-height: auto; padding: 30px 0; }
+      .wrap { width: min(1260px, calc(100% - 24px)); }
+      .benefit-matrix { grid-template-columns: 1fr; }
+      .graph-stage { min-height: 330px; }
+      .metric-orb { width: 120px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" id="northstar-hero-v4">
+    <div class="wrap">
+      <article class="left">
+        <div class="eyebrow">Hero V4 | Graph-First Outcome Design</div>
+        <h1>We Do the Hard Work so Clients Get <span class="grad">Only Relevant Offers</span></h1>
+        <p class="lead">NorthStar sources, filters, and prepares applications end-to-end, helping teams save time and money while improving offer relevance through analytics.</p>
+
+        <div class="benefit-matrix">
+          <div class="b"><strong>Save hiring budget</strong><span>We reduce wasted screening and interview spend by filtering low-fit profiles early.</span></div>
+          <div class="b"><strong>Save cycle time</strong><span>Client-ready shortlists move faster from intake to application decision.</span></div>
+          <div class="b"><strong>Filter bad results</strong><span>Risk and mismatch signals are blocked before they consume team capacity.</span></div>
+          <div class="b"><strong>Tailored, focused offers</strong><span>Analytics rank relevance so clients see only the strongest opportunities.</span></div>
+        </div>
+
+        <div class="impact-strip">
+          <span class="chip">Prepared application context</span>
+          <span class="chip">Evidence-backed relevance</span>
+          <span class="chip">Client-first workflow</span>
+        </div>
+
+        <div class="cta-row">
+          <a href="#" class="btn primary">Request Access</a>
+          <a href="#" class="btn">Book Strategy Call</a>
+        </div>
+      </article>
+
+      <aside class="right" aria-label="Interactive outcome graph">
+        <div class="modes" role="tablist" aria-label="Outcome mode">
+          <button class="mode-btn active" data-mode="money">Money Saved</button>
+          <button class="mode-btn" data-mode="time">Time Saved</button>
+          <button class="mode-btn" data-mode="relevance">Offer Relevance</button>
+        </div>
+
+        <div class="graph-stage" id="graph-stage">
+          <div class="metric-orb" id="orb">
+            <div>
+              <div class="orb-value" id="orb-value">$148k</div>
+              <div class="orb-label" id="orb-label">Average quarterly savings</div>
+            </div>
+          </div>
+
+          <div class="svg-wrap">
+            <svg viewBox="0 0 640 280" preserveAspectRatio="none" aria-hidden="true">
+              <path class="area" id="area-path" d="M40 250 C160 230, 240 200, 320 185 C410 168, 510 132, 600 96 L600 280 L40 280 Z"></path>
+              <path class="line" id="line-path" d="M40 250 C160 230, 240 200, 320 185 C410 168, 510 132, 600 96"></path>
+            </svg>
+          </div>
+
+          <span class="dot" id="dot-1" style="left: 40px; top: 250px"></span>
+          <span class="dot" id="dot-2" style="left: 220px; top: 205px"></span>
+          <span class="dot" id="dot-3" style="left: 400px; top: 165px"></span>
+          <span class="dot" id="dot-4" style="left: 600px; top: 96px"></span>
+
+          <div class="xlabels">
+            <span id="x1">Intake</span>
+            <span id="x2">Filter</span>
+            <span id="x3">Prepare</span>
+            <span id="x4">Client-ready</span>
+          </div>
+        </div>
+
+        <div class="summary">
+          <h3 id="sum-title">Spend Reduction Curve</h3>
+          <p id="sum-copy">Low-fit applications are removed earlier, reducing wasted interview and screening cost for client teams.</p>
+        </div>
+
+        <div class="mini-tags">
+          <span id="tag-a">Lower interview waste</span>
+          <span id="tag-b">Higher decision confidence</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <script>
+    const MODES = {
+      money: {
+        value: '$148k',
+        label: 'Average quarterly savings',
+        title: 'Spend Reduction Curve',
+        copy: 'Low-fit applications are removed earlier, reducing wasted interview and screening cost for client teams.',
+        tagA: 'Lower interview waste',
+        tagB: 'Higher decision confidence',
+        color: '#57dcff',
+        glow: 'rgba(87,220,255,.46)',
+        area: 'rgba(87,220,255,.2)',
+        line: 'M40 250 C160 230, 240 200, 320 185 C410 168, 510 132, 600 96',
+        areaPath: 'M40 250 C160 230, 240 200, 320 185 C410 168, 510 132, 600 96 L600 280 L40 280 Z',
+        dots: [{x:40,y:250},{x:220,y:205},{x:400,y:165},{x:600,y:96}],
+        labels: ['Intake','Filter','Prepare','Client-ready']
+      },
+      time: {
+        value: '7 days',
+        label: 'Intake to shortlist',
+        title: 'Cycle Compression Curve',
+        copy: 'Applications are prepared with context and relevance, shortening time from role intake to client-ready candidate list.',
+        tagA: 'Faster shortlist delivery',
+        tagB: 'Prepared application packs',
+        color: '#41edbf',
+        glow: 'rgba(65,237,191,.42)',
+        area: 'rgba(65,237,191,.18)',
+        line: 'M40 246 C145 220, 230 170, 320 146 C420 124, 520 112, 600 108',
+        areaPath: 'M40 246 C145 220, 230 170, 320 146 C420 124, 520 112, 600 108 L600 280 L40 280 Z',
+        dots: [{x:40,y:246},{x:220,y:176},{x:400,y:128},{x:600,y:108}],
+        labels: ['Role intake','Sourcing','Validation','Ready list']
+      },
+      relevance: {
+        value: '94%',
+        label: 'Offer relevance score',
+        title: 'Relevance Lift Curve',
+        copy: 'Analytics-driven ranking narrows options to tailored, focused offers that map directly to client requirements.',
+        tagA: 'Tailored recommendations',
+        tagB: 'Low-noise shortlist',
+        color: '#8ea4ff',
+        glow: 'rgba(142,164,255,.42)',
+        area: 'rgba(142,164,255,.2)',
+        line: 'M40 236 C150 226, 240 210, 320 178 C420 144, 520 118, 600 92',
+        areaPath: 'M40 236 C150 226, 240 210, 320 178 C420 144, 520 118, 600 92 L600 280 L40 280 Z',
+        dots: [{x:40,y:236},{x:220,y:212},{x:400,y:144},{x:600,y:92}],
+        labels: ['Raw pool','Scored fit','Ranked offers','Client match']
+      }
+    };
+
+    const refs = {
+      buttons: [...document.querySelectorAll('.mode-btn')],
+      stage: document.getElementById('graph-stage'),
+      orb: document.getElementById('orb'),
+      orbValue: document.getElementById('orb-value'),
+      orbLabel: document.getElementById('orb-label'),
+      title: document.getElementById('sum-title'),
+      copy: document.getElementById('sum-copy'),
+      tagA: document.getElementById('tag-a'),
+      tagB: document.getElementById('tag-b'),
+      areaPath: document.getElementById('area-path'),
+      linePath: document.getElementById('line-path'),
+      dots: [1,2,3,4].map(i => document.getElementById(`dot-${i}`)),
+      xlabels: [1,2,3,4].map(i => document.getElementById(`x${i}`))
+    };
+
+    function flashOrb() {
+      refs.orb.classList.remove('flash');
+      void refs.orb.offsetWidth;
+      refs.orb.classList.add('flash');
+      setTimeout(() => refs.orb.classList.remove('flash'), 220);
+    }
+
+    function apply(mode) {
+      const d = MODES[mode];
+      if (!d) return;
+
+      refs.buttons.forEach((b) => b.classList.toggle('active', b.dataset.mode === mode));
+      refs.orbValue.textContent = d.value;
+      refs.orbLabel.textContent = d.label;
+      refs.title.textContent = d.title;
+      refs.copy.textContent = d.copy;
+      refs.tagA.textContent = d.tagA;
+      refs.tagB.textContent = d.tagB;
+
+      refs.stage.style.setProperty('--lineColor', d.color);
+      refs.stage.style.setProperty('--dotColor', d.color);
+      refs.stage.style.setProperty('--lineGlow', d.glow);
+      refs.stage.style.setProperty('--areaFill', d.area);
+      refs.orb.style.setProperty('--orbGlow', d.glow);
+
+      refs.linePath.setAttribute('d', d.line);
+      refs.areaPath.setAttribute('d', d.areaPath);
+
+      refs.dots.forEach((dot, i) => {
+        dot.style.left = `${d.dots[i].x}px`;
+        dot.style.top = `${d.dots[i].y}px`;
+      });
+
+      refs.xlabels.forEach((x, i) => { x.textContent = d.labels[i]; });
+
+      flashOrb();
+    }
+
+    refs.buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.mode)));
+
+    const loop = ['money', 'time', 'relevance'];
+    let i = 0;
+    setInterval(() => {
+      i = (i + 1) % loop.length;
+      apply(loop[i]);
+    }, 8000);
+
+    apply('money');
+  </script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NorthStar Hero V13 - Concept I Editorial Authority</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;700&amp;family=Sora:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050914;
+  --line: rgba(163, 200, 246, 0.2);
+  --line-soft: rgba(163, 200, 246, 0.11);
+  --text: #edf4ff;
+  --muted: #9eb4d0;
+  --accent: #7bc0d7;
+  --accent2: #6e82cb;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: "IBM Plex Sans", sans-serif; background: var(--bg); color: var(--text); }
+body {
+  min-height: 100vh;
+  background: #050914;
+}
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.12) 1px, transparent 0);
+  background-size: 3px 3px;
+  mix-blend-mode: soft-light;
+}
+.nav {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  height: 72px;
+  border-bottom: 1px solid var(--line-soft);
+  background: rgba(5,9,20,0.78);
+  backdrop-filter: blur(9px);
+  z-index: 30;
+}
+.nav-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 42px;
+}
+.logo { font-family: "Sora", sans-serif; text-transform: uppercase; letter-spacing: 0.11em; font-size: 0.96rem; font-weight: 700; }
+.links { display: flex; gap: 20px; color: var(--muted); font-size: 0.84rem; }
+.hero {
+  max-width: 1700px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 102px 42px 42px;
+  position: relative;
+  display: grid;
+  align-items: center;
+}
+.watermark {
+  position: absolute;
+  left: -8%;
+  top: 52%;
+  transform: translateY(-50%);
+  width: min(78vh, 740px);
+  aspect-ratio: 1;
+  opacity: 0.7;
+}
+.watermark polygon.main { fill: #050914; stroke: rgba(165,204,250,0.14); stroke-width: 1.4; }
+.watermark polygon.sub { fill: #050914; stroke: rgba(165,204,250,0.08); stroke-width: 1; }
+.content {
+  position: relative;
+  z-index: 2;
+  margin-left: auto;
+  width: min(860px, 58vw);
+  display: grid;
+  gap: 18px;
+}
+.eyebrow { font-family: "JetBrains Mono", monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+h1 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(3rem, 6vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+.grad { background: linear-gradient(95deg, var(--accent), var(--accent2)); -webkit-background-clip: text; color: transparent; }
+.sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.16rem;
+  line-height: 1.6;
+  max-width: 58ch;
+}
+.lifecycle {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.step {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 13px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.67rem;
+  color: #9eb4d0;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 220ms ease;
+}
+.step.active,
+.step:hover {
+  border-color: rgba(123,192,215,0.6);
+  color: #d6ecff;
+  background: rgba(123,192,215,0.12);
+}
+.panel {
+  margin-top: 6px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(12,20,37,0.78);
+  padding: 18px;
+  display: grid;
+  gap: 8px;
+}
+.panel .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: #93a8c4; }
+.panel .title { font-family: "Sora", sans-serif; font-size: 1.14rem; }
+.panel .body { color: var(--muted); line-height: 1.5; min-height: 44px; }
+.cta { display: flex; gap: 14px; margin-top: 8px; }
+.cta button {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  padding: 12px 20px;
+  font-family: "Sora", sans-serif;
+  cursor: pointer;
+}
+.cta .main { background: linear-gradient(130deg, #4a87ab, #294e74); color: #e9f7ff; border-color: rgba(123,192,215,0.3); }
+.cta .ghost { background: transparent; color: var(--text); }
+.meta {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 10px;
+}
+.meta-item {
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  padding: 12px;
+  background: rgba(8,14,28,0.75);
+}
+.meta-item .v { font-family: "Sora", sans-serif; font-size: 1.22rem; }
+.meta-item .l { font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8ea5c3; margin-top: 4px; }
+@media (max-width: 1200px) {
+  .content { width: min(900px, 100%); margin-left: 0; }
+  .watermark { left: 50%; top: 28%; transform: translate(-50%, -50%); opacity: 0.44; }
+}
+@media (max-width: 760px) {
+  .hero { padding: 96px 18px 28px; }
+  .links { display: none; }
+  .meta { grid-template-columns: 1fr; }
+  h1 { font-size: clamp(2.5rem, 11vw, 4rem); }
+}
+</style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="logo">NORTHSTAR</div>
+      <div class="links"><span>Platform</span><span>Methodology</span><span>Enterprise Solutions</span><span>Intelligence</span><span>Log In</span></div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <svg class="watermark" viewBox="0 0 100 100" aria-hidden="true">
+      <polygon class="main" points="50,3 56,34 97,50 56,66 50,97 44,66 3,50 44,34"></polygon>
+      <polygon class="sub" points="50,14 54,37 86,50 54,63 50,86 46,63 14,50 46,37"></polygon>
+    </svg>
+
+    <section class="content">
+      <div class="eyebrow">Editorial Authority</div>
+      <h1>Architecting the <span class="grad">Future of Workforce</span></h1>
+      <p class="sub">Precision Talent Intelligence. Verified Execution. NorthStar gives enterprise teams a disciplined hiring lifecycle: clear modules, explicit gates, and faster decisions with lower risk.</p>
+
+      <div class="lifecycle">
+        <button class="step active" data-title="Mission Control" data-gate="VERIFIED_LEGIT" data-body="Scope, budget, and role outcomes are locked before sourcing starts.">Mission Control</button>
+        <button class="step" data-title="Skill Recovery Lab" data-gate="UNKNOWN_INSUFFICIENT_EVIDENCE" data-body="Hidden potential is translated into evidence-backed candidate value.">Skill Recovery Lab</button>
+        <button class="step" data-title="Case Command" data-gate="VERIFIED_RISK" data-body="Risk vectors are blocked before they can pollute client decisions.">Case Command</button>
+        <button class="step" data-title="Strategic Roadmap" data-gate="VERIFIED_LEGIT" data-body="Placement data informs where to invest hiring effort next.">Strategic Roadmap</button>
+        <button class="step" data-title="Next 7 Days" data-gate="VERIFIED_LEGIT" data-body="A decision-ready execution queue keeps velocity high week over week.">Next 7 Days</button>
+      </div>
+
+      <article class="panel">
+        <div class="label" id="panelLabel">Mission Control · VERIFIED_LEGIT</div>
+        <div class="title" id="panelTitle">Module focus: Mission Control</div>
+        <div class="body" id="panelBody">Scope, budget, and role outcomes are locked before sourcing starts.</div>
+      </article>
+
+      <div class="cta"><button class="main">Start Sourcing</button><button class="ghost">Request Consultation</button></div>
+
+      <div class="meta">
+        <div class="meta-item"><div class="v">12d</div><div class="l">Time to shortlist</div></div>
+        <div class="meta-item"><div class="v">92%</div><div class="l">Fit confidence</div></div>
+        <div class="meta-item"><div class="v">41%</div><div class="l">Cost saved</div></div>
+      </div>
+    </section>
+  </main>
+
+<script>
+const steps = [...document.querySelectorAll('.step')];
+const panelLabel = document.getElementById('panelLabel');
+const panelTitle = document.getElementById('panelTitle');
+const panelBody = document.getElementById('panelBody');
+
+function activate(step) {
+  steps.forEach(s => s.classList.remove('active'));
+  step.classList.add('active');
+  panelLabel.textContent = `${step.dataset.title} · ${step.dataset.gate}`;
+  panelTitle.textContent = `Module focus: ${step.dataset.title}`;
+  panelBody.textContent = step.dataset.body;
+}
+
+steps.forEach(step => {
+  step.addEventListener('click', () => activate(step));
+  step.addEventListener('mouseenter', () => activate(step));
+});
+</script>
+</body>
+</html>

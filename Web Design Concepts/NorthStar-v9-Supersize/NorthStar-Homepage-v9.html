@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NorthStar Agency | AI Talent Intelligence and Verified Hiring Infrastructure</title>
+<meta name="description" content="NorthStar is a talent intelligence infrastructure layer for recruiting and staffing. We source specialized talent, verify identity and risk signals, and deliver evidence based shortlists that reduce hiring fraud and accelerate time to hire.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg-0:#050918;--bg-1:#0A1224;--bg-2:#111E35;
+--surface-glass:rgba(17,30,53,0.58);--surface-glass-strong:rgba(17,30,53,0.74);
+--text-strong:#E8F0FF;--text-body:#A6B8D6;--text-dim:#7E93B7;
+--accent-indigo:#5F6AD9;--accent-cyan:#63D9FF;--accent-teal:#3FC8B4;--accent-violet:#8B7DFF;
+--ok:#34D399;--warn:#F59E0B;--risk:#FB7185;--info:#60A5FA;
+--line-soft:rgba(173,206,255,0.16);--line-strong:rgba(173,206,255,0.30);
+--glow-cyan:rgba(99,217,255,0.35);--glow-indigo:rgba(95,106,217,0.35);
+--container-max:1320px;--gutter:24px;--section-y:72px;--radius-sm:16px;--radius-md:20px;
+}
+html{scroll-behavior:smooth;background:var(--bg-0);color:var(--text-body);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6}
+body{overflow-x:hidden;min-height:100vh}
+.page-bg{
+position:fixed;inset:0;z-index:-2;
+background-color:var(--bg-0);
+background-image:
+radial-gradient(900px 500px at 10% 10%,rgba(139,125,255,0.10),transparent 60%),
+radial-gradient(900px 500px at 90% 10%,rgba(99,217,255,0.10),transparent 60%),
+radial-gradient(900px 600px at 50% 90%,rgba(95,106,217,0.10),transparent 65%);
+background-size:cover;background-position:center;
+}
+.page-bg::before{
+content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+background:repeating-conic-gradient(rgba(255,255,255,0.03) 0%,transparent 0.5%);
+background-size:200px 200px;opacity:0.5;mix-blend-mode:overlay;
+}
+.container{max-width:var(--container-max);margin:0 auto;padding:0 var(--gutter)}
+.section{padding:var(--section-y) 0}
+h1,h2,h3,h4{font-family:'Space Grotesk',system-ui,sans-serif;color:var(--text-strong)}
+a{color:var(--accent-cyan);text-decoration:none;transition:color 180ms}
+a:hover{color:var(--text-strong)}
+
+/* GLASS */
+.ns-glass{
+background:var(--surface-glass);border:1px solid var(--line-soft);
+backdrop-filter:blur(14px) saturate(115%);-webkit-backdrop-filter:blur(14px) saturate(115%);
+border-radius:var(--radius-md);box-shadow:0 14px 40px rgba(4,10,28,0.55);
+}
+.ns-glass-strong{background:var(--surface-glass-strong);border:1px solid var(--line-strong)}
+.ns-hover{transition:transform 220ms cubic-bezier(.2,.8,.2,1),box-shadow 220ms cubic-bezier(.2,.8,.2,1),border-color 220ms cubic-bezier(.2,.8,.2,1)}
+.ns-hover:hover{transform:translateY(-3px);border-color:rgba(173,206,255,0.30);box-shadow:0 18px 52px rgba(4,10,28,0.62)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;outline:none;transition:all 200ms cubic-bezier(.2,.8,.2,1)}
+.btn-primary{height:48px;padding:0 24px;border-radius:10px;color:#F6FCFF;background:linear-gradient(135deg,#3A7BD5 0%,#3FC8B4 100%);border:1px solid rgba(173,206,255,0.18);box-shadow:0 0 28px rgba(99,217,255,0.18)}
+.btn-primary:hover{filter:brightness(1.08);transform:translateY(-2px);box-shadow:0 0 40px rgba(99,217,255,0.3)}
+.btn-secondary{height:48px;padding:0 24px;border-radius:10px;background:rgba(17,30,53,0.35);border:1px solid var(--line-soft);color:var(--text-strong);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.btn-secondary:hover{border-color:var(--line-strong);background:rgba(17,30,53,0.55)}
+
+/* NAVBAR */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;height:72px;background:rgba(5,9,24,0.84);border-bottom:1px solid var(--line-soft);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:height 300ms,background 300ms}
+.navbar.scrolled{height:60px;background:rgba(5,9,24,0.94)}
+.navbar .inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:var(--container-max);margin:0 auto;padding:0 var(--gutter)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk';font-size:20px;font-weight:700;color:var(--text-strong);transition:transform 300ms}
+.navbar.scrolled .nav-logo{transform:scale(0.92)}
+.nav-logo svg{width:32px;height:32px}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-link{font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:var(--text-body);padding:8px 12px;border-radius:10px;position:relative;transition:color 180ms,background 180ms;cursor:pointer}
+.nav-link:hover{color:var(--text-strong);background:rgba(17,30,53,0.35)}
+.nav-link::after{content:"";position:absolute;left:12px;right:12px;bottom:4px;height:1px;background:linear-gradient(90deg,transparent,rgba(99,217,255,0.55),transparent);opacity:0;transition:opacity 180ms}
+.nav-link:hover::after{opacity:1}
+.nav-cta{display:flex;align-items:center;gap:12px}
+.nav-cta .btn{height:40px;padding:0 18px;font-size:13px}
+
+/* HERO */
+.hero{padding-top:140px;padding-bottom:80px;position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center}
+.hero .container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero h1{font-size:clamp(40px,5vw,68px);line-height:1.08;font-weight:700;letter-spacing:-0.02em;margin-bottom:24px}
+.hero .grad{background:linear-gradient(90deg,var(--accent-cyan) 0%,var(--accent-indigo) 55%,var(--accent-teal) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+.hero-sub{font-size:18px;line-height:28px;color:var(--text-body);max-width:560px;margin-bottom:32px}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.hero-proof{font-size:13px;color:var(--text-dim);letter-spacing:0.04em}
+.hero-proof span{color:var(--accent-cyan);margin:0 6px}
+
+/* HERO COMMAND PREVIEW */
+.hero-preview{position:relative}
+.command-preview{border-radius:var(--radius-md);padding:28px;position:relative;overflow:hidden}
+.command-preview .preview-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line-soft)}
+.command-preview .preview-header h3{font-size:16px;font-weight:600}
+.preview-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.preview-metric{padding:14px;border-radius:12px;background:rgba(5,9,24,0.5);border:1px solid var(--line-soft)}
+.preview-metric .metric-value{font-family:'JetBrains Mono';font-size:28px;font-weight:700;color:var(--text-strong)}
+.preview-metric .metric-label{font-size:11px;color:var(--text-dim);margin-top:4px;text-transform:uppercase;letter-spacing:0.06em}
+.preview-metric .metric-delta{font-size:12px;color:var(--ok);margin-top:4px}
+.preview-pipeline{display:flex;gap:2px;height:6px;border-radius:3px;overflow:hidden}
+.preview-pipeline div{flex:1;border-radius:3px;transition:flex 600ms}
+.pipeline-s{background:var(--accent-cyan)}.pipeline-v{background:var(--accent-indigo)}.pipeline-i{background:var(--accent-teal)}.pipeline-o{background:var(--accent-violet)}
+
+/* FLOATING PARTICLES */
+.particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.particle{position:absolute;width:3px;height:3px;background:var(--accent-cyan);border-radius:50%;opacity:0;animation:particleDrift linear infinite}
+@keyframes particleDrift{0%{opacity:0;transform:translateY(100vh) translateX(0)}10%{opacity:0.6}90%{opacity:0.6}100%{opacity:0;transform:translateY(-100px) translateX(80px)}}
+
+/* TRUST STRIP */
+.trust-strip{padding:40px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.trust-inner{display:flex;align-items:center;gap:40px;flex-wrap:wrap}
+.trust-label{font-size:14px;color:var(--text-dim);white-space:nowrap;font-weight:500}
+.trust-chips{display:flex;gap:12px;flex-wrap:wrap;flex:1}
+.trust-chip{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:100px;background:rgba(17,30,53,0.40);border:1px solid var(--line-soft);font-size:13px;color:var(--text-body);transition:all 220ms}
+.trust-chip:hover{border-color:var(--line-strong);box-shadow:0 0 20px rgba(99,217,255,0.1)}
+.trust-chip svg{width:16px;height:16px;color:var(--accent-cyan)}
+
+/* SIGNAL VS NOISE */
+.signal-section{position:relative;overflow:hidden}
+.signal-section h2{font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:16px}
+.signal-section>p{text-align:center;max-width:680px;margin:0 auto 48px}
+.signal-container{display:grid;grid-template-columns:1fr auto 1fr;gap:32px;align-items:start}
+.signal-panel,.noise-panel{padding:32px;border-radius:var(--radius-md);min-height:320px}
+.noise-panel{border-color:rgba(251,113,133,0.2)}
+.noise-panel h3{color:var(--risk)}
+.signal-panel h3{color:var(--accent-cyan)}
+.signal-panel ul,.noise-panel ul{list-style:none;margin-top:20px}
+.signal-panel li,.noise-panel li{padding:12px 0;border-bottom:1px solid var(--line-soft);display:flex;align-items:flex-start;gap:10px;font-size:15px}
+.signal-panel li::before{content:"✓";color:var(--ok);font-weight:700;flex-shrink:0}
+.noise-panel li::before{content:"✕";color:var(--risk);font-weight:700;flex-shrink:0}
+.signal-divider{display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:60px}
+.signal-divider .divider-line{width:2px;height:200px;background:linear-gradient(180deg,var(--risk),var(--accent-cyan));border-radius:1px;position:relative}
+.signal-divider .divider-orb{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle,var(--accent-cyan),transparent);display:flex;align-items:center;justify-content:center;font-size:18px;animation:orbPulse 3s ease-in-out infinite}
+@keyframes orbPulse{0%,100%{box-shadow:0 0 20px var(--glow-cyan)}50%{box-shadow:0 0 40px var(--glow-cyan)}}
+
+/* CORE PILLARS */
+.pillars-section h2{font-size:clamp(28px,3.5vw,42px);margin-bottom:48px}
+.pillars-grid{display:grid;grid-template-columns:380px 1fr;gap:32px}
+.pillar-tabs{display:flex;flex-direction:column;gap:8px}
+.pillar-tab{padding:20px 24px;border-radius:var(--radius-sm);background:rgba(17,30,53,0.25);border:1px solid transparent;cursor:pointer;transition:all 220ms;position:relative;overflow:hidden}
+.pillar-tab::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent-cyan);transform:scaleY(0);transition:transform 300ms;border-radius:0 2px 2px 0}
+.pillar-tab.active{background:var(--surface-glass);border-color:var(--line-soft)}
+.pillar-tab.active::before{transform:scaleY(1)}
+.pillar-tab:hover{background:var(--surface-glass)}
+.pillar-tab h3{font-size:18px;margin-bottom:4px;transition:color 180ms}
+.pillar-tab.active h3{color:var(--accent-cyan)}
+.pillar-tab p{font-size:14px;color:var(--text-dim);line-height:1.5}
+.pillar-display{padding:40px;border-radius:var(--radius-md);position:relative;overflow:hidden;min-height:380px;display:flex;flex-direction:column;justify-content:center}
+.pillar-display .pillar-content{animation:fadeSlideIn 300ms ease-out}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.pillar-display h3{font-size:28px;margin-bottom:16px;color:var(--accent-cyan)}
+.pillar-display p{font-size:16px;line-height:1.7;margin-bottom:24px}
+.pillar-features{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pillar-feature{padding:14px;border-radius:12px;background:rgba(5,9,24,0.4);border:1px solid var(--line-soft);font-size:13px;display:flex;align-items:center;gap:8px}
+.pillar-feature .feat-icon{width:8px;height:8px;border-radius:50%;background:var(--accent-teal);flex-shrink:0}
+
+/* PROCESS */
+.process-section h2{font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:48px}
+.process-track{display:flex;gap:0;position:relative}
+.process-step{flex:1;position:relative;cursor:pointer;transition:flex 400ms cubic-bezier(.2,.8,.2,1)}
+.process-step:hover{flex:1.8}
+.process-step-inner{padding:28px 20px;border-radius:var(--radius-md);border:1px solid var(--line-soft);background:var(--surface-glass);height:100%;transition:all 300ms;position:relative;overflow:hidden}
+.process-step:hover .process-step-inner{border-color:var(--line-strong);background:var(--surface-glass-strong)}
+.process-step .step-num{font-family:'JetBrains Mono';font-size:42px;font-weight:700;color:rgba(99,217,255,0.12);position:absolute;top:12px;right:16px;line-height:1}
+.process-step h3{font-size:18px;margin-bottom:8px;transition:color 300ms}
+.process-step:hover h3{color:var(--accent-cyan)}
+.process-step .step-desc{font-size:14px;color:var(--text-dim);line-height:1.5;margin-bottom:12px}
+.process-step .step-output{font-size:12px;color:var(--accent-teal);opacity:0;max-height:0;overflow:hidden;transition:all 400ms}
+.process-step:hover .step-output{opacity:1;max-height:100px;margin-top:12px}
+.process-connector{position:absolute;top:50%;right:-16px;width:32px;height:2px;background:linear-gradient(90deg,var(--accent-indigo),var(--accent-cyan));z-index:2}
+.process-step:last-child .process-connector{display:none}
+.process-confidence{height:4px;border-radius:2px;background:rgba(255,255,255,0.06);margin-top:12px;overflow:hidden;opacity:0;transition:opacity 400ms}
+.process-step:hover .process-confidence{opacity:1}
+.process-confidence div{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent-cyan),var(--accent-teal));transition:width 600ms}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 600ms cubic-bezier(.2,.8,.2,1),transform 600ms cubic-bezier(.2,.8,.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:1024px){
+.hero .container{grid-template-columns:1fr}
+.hero-preview{display:none}
+.pillars-grid{grid-template-columns:1fr}
+.process-track{flex-direction:column}
+.signal-container{grid-template-columns:1fr}
+.signal-divider{flex-direction:row;padding-top:0}.signal-divider .divider-line{width:200px;height:2px}
+.navbar .nav-links{display:none}
+}
+@media(max-width:768px){
+:root{--section-y:48px}
+.trust-inner{flex-direction:column;align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce){
+.particle{animation:none!important}
+.reveal{transition:opacity 300ms!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+<div class="page-bg"></div>
+
+<!-- PARTICLES -->
+<div class="particles" id="particles"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+<div class="inner">
+<a class="nav-logo" href="#">
+<svg viewBox="0 0 32 32" fill="none"><path d="M16 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z" fill="currentColor" opacity="0.9"/><circle cx="16" cy="16" r="3" fill="currentColor"/></svg>
+NORTHSTAR
+</a>
+<div class="nav-links">
+<a class="nav-link" href="#platform">Platform</a>
+<a class="nav-link" href="#services">Services</a>
+<a class="nav-link" href="#process">Process</a>
+<a class="nav-link" href="#industries">Industries</a>
+<a class="nav-link" href="#insights">Insights</a>
+<a class="nav-link" href="#fraud">Fraud Protection</a>
+<a class="nav-link" href="#pricing">Pricing</a>
+<a class="nav-link" href="#contact">Contact</a>
+</div>
+<div class="nav-cta">
+<a class="btn btn-secondary" href="#login">Client Login</a>
+<a class="btn btn-primary" href="#access">Request Access</a>
+</div>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+<div class="container">
+<div class="hero-content">
+<h1 class="reveal">Architecting the<br><span class="grad">Future of Workforce</span></h1>
+<p class="hero-sub reveal">NorthStar is a talent intelligence infrastructure layer for recruiting and staffing teams. We combine AI sourcing with evidence based verification so every shortlist is built on signal, not noise.</p>
+<div class="hero-ctas reveal">
+<a class="btn btn-primary" href="#access">Request Access <span>→</span></a>
+<a class="btn btn-secondary" href="#process">View the Process</a>
+</div>
+<p class="hero-proof reveal">Verified sourcing<span>·</span>Risk aware screening<span>·</span>Audit ready reporting</p>
+</div>
+<div class="hero-preview reveal">
+<div class="command-preview ns-glass">
+<div class="preview-header">
+<h3>Command Center</h3>
+<span style="font-size:12px;color:var(--text-dim)">Live Preview</span>
+</div>
+<div class="preview-metrics">
+<div class="preview-metric"><div class="metric-value" data-count="58">0</div><div class="metric-label">Readiness Score</div><div class="metric-delta">↑ 12%</div></div>
+<div class="preview-metric"><div class="metric-value" data-count="31">0</div><div class="metric-label">Active Candidates</div><div class="metric-delta">↑ 8%</div></div>
+<div class="preview-metric"><div class="metric-value" data-count="54" data-suffix=" Days">0</div><div class="metric-label">Avg Cycle Time</div><div class="metric-delta">↓ 15%</div></div>
+</div>
+<div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em">Active Pipeline</div>
+<div class="preview-pipeline"><div class="pipeline-s" style="flex:3"></div><div class="pipeline-v" style="flex:2"></div><div class="pipeline-i" style="flex:2"></div><div class="pipeline-o" style="flex:1"></div></div>
+<div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--text-dim)"><span>Sourced</span><span>Verified</span><span>Interview</span><span>Offer</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- TRUST STRIP -->
+<section class="trust-strip reveal">
+<div class="container">
+<div class="trust-inner">
+<span class="trust-label">Trusted by teams that cannot afford a bad hire</span>
+<div class="trust-chips">
+<div class="trust-chip"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.5 3 3.5.5-2.5 2.5.5 3.5L8 9l-3 1.5.5-3.5L3 4.5 6.5 4z"/></svg>Evidence first verification</div>
+<div class="trust-chip"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm1 11H7V7h2v4zM8 6a1 1 0 110-2 1 1 0 010 2z"/></svg>Fraud risk signals surfaced</div>
+<div class="trust-chip"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h12v12H2V2zm2 2v8h8V4H4z"/></svg>Clear decision trails</div>
+<div class="trust-chip"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm3 8H5V7h6v2z"/></svg>Audit logged</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- SIGNAL VS NOISE -->
+<section class="section signal-section reveal" id="platform">
+<div class="container">
+<h2>Turn the hiring market into <span class="grad">signal</span></h2>
+<p>Job boards produce volume. Real hiring outcomes require clarity. NorthStar filters the market through verification, fit evidence, and risk scoring so you stop wasting cycles on low quality leads.</p>
+<div class="signal-container">
+<div class="noise-panel ns-glass">
+<h3>⚡ Noise</h3>
+<ul>
+<li>Duplicated listings across platforms</li>
+<li>Weak fit indicators and vague resumes</li>
+<li>Unclear identity and employment gaps</li>
+<li>Volume-based pipeline stuffing</li>
+<li>No risk assessment before interview</li>
+</ul>
+</div>
+<div class="signal-divider">
+<div class="divider-orb">→</div>
+<div class="divider-line"></div>
+</div>
+<div class="signal-panel ns-glass">
+<h3>◆ Signal</h3>
+<ul>
+<li>Verified profile with identity confirmation</li>
+<li>Role alignment scored against requirements</li>
+<li>Complete evidence trail per candidate</li>
+<li>Risk scoring before progression</li>
+<li>Confidence metrics on every shortlist</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CORE VALUE PILLARS -->
+<section class="section pillars-section reveal" id="services">
+<div class="container">
+<h2>What NorthStar delivers</h2>
+<div class="pillars-grid">
+<div class="pillar-tabs" id="pillarTabs">
+<div class="pillar-tab active" data-pillar="0"><h3>Elite Talent Sourcing</h3><p>Quality pipeline, not volume</p></div>
+<div class="pillar-tab" data-pillar="1"><h3>Hard Gate Verification</h3><p>Evidence, not checkboxes</p></div>
+<div class="pillar-tab" data-pillar="2"><h3>Secure Infrastructure</h3><p>Governance by design</p></div>
+<div class="pillar-tab" data-pillar="3"><h3>Talent Intelligence Reporting</h3><p>Transparent decision support</p></div>
+</div>
+<div class="pillar-display ns-glass" id="pillarDisplay"></div>
+</div>
+</div>
+</section>
+
+<!-- PROCESS PREVIEW -->
+<section class="section process-section reveal" id="process">
+<div class="container">
+<h2>A clear system from <span class="grad">intake to offer</span></h2>
+<div class="process-track">
+<div class="process-step"><div class="process-step-inner ns-glass"><span class="step-num">01</span><h3>Intake</h3><p class="step-desc">Define role targets, constraints, and success metrics.</p><div class="step-output">→ Target profile and sourcing spec</div><div class="process-confidence"><div style="width:95%"></div></div></div><div class="process-connector"></div></div>
+<div class="process-step"><div class="process-step-inner ns-glass"><span class="step-num">02</span><h3>Sourcing</h3><p class="step-desc">Build a curated pipeline of qualified prospects.</p><div class="step-output">→ Ranked opportunities and candidate set</div><div class="process-confidence"><div style="width:80%"></div></div></div><div class="process-connector"></div></div>
+<div class="process-step"><div class="process-step-inner ns-glass"><span class="step-num">03</span><h3>Verification</h3><p class="step-desc">Validate identity, evidence, and risk signals.</p><div class="step-output">→ Verification status with reasoning</div><div class="process-confidence"><div style="width:70%"></div></div></div><div class="process-connector"></div></div>
+<div class="process-step"><div class="process-step-inner ns-glass"><span class="step-num">04</span><h3>Interview</h3><p class="step-desc">Prepare and calibrate to reduce false positives.</p><div class="step-output">→ Interview pack and scorecard framing</div><div class="process-confidence"><div style="width:85%"></div></div></div><div class="process-connector"></div></div>
+<div class="process-step"><div class="process-step-inner ns-glass"><span class="step-num">05</span><h3>Offer</h3><p class="step-desc">Compare tradeoffs with evidence, not guesswork.</p><div class="step-output">→ Decision support and next actions</div><div class="process-confidence"><div style="width:90%"></div></div></div></div>
+</div>
+<div style="text-align:center;margin-top:40px"><a class="btn btn-secondary" href="#process-detail">See the full process →</a></div>
+</div>
+</section>
+
+<!-- ═══════ TIMELINE OF SUCCESS ═══════ -->
+<section class="section reveal" id="timeline" style="position:relative">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:12px">The success timeline inside <span class="grad">NorthStar</span></h2>
+<p style="max-width:600px;margin-bottom:56px">Every phase produces an artifact you can audit.</p>
+<div class="timeline-rail">
+<div class="timeline-line"></div>
+<div class="timeline-node" data-delay="0">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 1</div>
+<h3>Discovery</h3>
+<p>We map the role and constraints into a sourcing spec.</p>
+<div class="timeline-artifact">📄 Sourcing Spec Document</div>
+</div>
+</div>
+<div class="timeline-node" data-delay="100">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 2</div>
+<h3>Fit Validation</h3>
+<p>We connect requirements to evidence, not assumptions.</p>
+<div class="timeline-artifact">📊 Fit Evidence Matrix</div>
+</div>
+</div>
+<div class="timeline-node" data-delay="200">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 3</div>
+<h3>Verification</h3>
+<p>We surface risk, identity signals, and confidence.</p>
+<div class="timeline-artifact">🔒 Verification Record</div>
+</div>
+</div>
+<div class="timeline-node" data-delay="300">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 4</div>
+<h3>Presentation</h3>
+<p>You see a clean shortlist with rationale.</p>
+<div class="timeline-artifact">📋 Evidence Shortlist</div>
+</div>
+</div>
+<div class="timeline-node" data-delay="400">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 5</div>
+<h3>Interview Control</h3>
+<p>We reduce noise and improve signal through structured prep.</p>
+<div class="timeline-artifact">🎯 Interview Scorecard</div>
+</div>
+</div>
+<div class="timeline-node" data-delay="500">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 6</div>
+<h3>Offer Decision</h3>
+<p>We compare options with documented tradeoffs.</p>
+<div class="timeline-artifact">⚖️ Decision Analysis</div>
+</div>
+</div>
+</div>
+<p style="text-align:center;margin-top:40px;font-size:15px;color:var(--text-dim);font-style:italic">This is how recruiting becomes an operating system.</p>
+</div>
+</section>
+
+<!-- ═══════ HARD GATE VERIFICATION ═══════ -->
+<section class="section reveal" id="hardgate">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:16px">Verification that is <span class="grad">explainable</span></h2>
+<p style="text-align:center;max-width:680px;margin:0 auto 48px">Most recruiting fails at the same point. A profile looks good until the interview collapses. NorthStar enforces verification gates so pipeline movement reflects proof, not optimism.</p>
+<div class="hardgate-console ns-glass-strong" style="padding:40px;border-radius:var(--radius-md);max-width:900px;margin:0 auto;position:relative;overflow:hidden">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:28px"><div style="width:12px;height:12px;border-radius:50%;background:var(--risk);animation:blink 2s infinite"></div><div style="width:12px;height:12px;border-radius:50%;background:var(--warn)"></div><div style="width:12px;height:12px;border-radius:50%;background:var(--ok)"></div><span style="margin-left:auto;font-family:'JetBrains Mono';font-size:12px;color:var(--text-dim)">VERIFICATION PROTOCOL v3.2</span></div>
+<div class="gate-layers">
+<div class="gate-layer" style="--gate-color:var(--accent-cyan)"><div class="gate-icon">🛡️</div><div><div class="gate-name">Identity & Consistency Checks</div><div class="gate-status">5 signals verified</div></div><div class="gate-bar"><div style="width:92%"></div></div></div>
+<div class="gate-layer" style="--gate-color:var(--accent-indigo)"><div class="gate-icon">📐</div><div><div class="gate-name">Skill Evidence Mapping</div><div class="gate-status">Cross-referenced against role spec</div></div><div class="gate-bar"><div style="width:78%"></div></div></div>
+<div class="gate-layer" style="--gate-color:var(--warn)"><div class="gate-icon">⚠️</div><div><div class="gate-name">Risk Signals & Anomalies</div><div class="gate-status">2 flags under review</div></div><div class="gate-bar"><div style="width:45%"></div></div></div>
+<div class="gate-layer" style="--gate-color:var(--accent-teal)"><div class="gate-icon">📊</div><div><div class="gate-name">Confidence Scoring</div><div class="gate-status">Composite: 74%</div></div><div class="gate-bar"><div style="width:74%"></div></div></div>
+<div class="gate-layer" style="--gate-color:var(--accent-violet)"><div class="gate-icon">📝</div><div><div class="gate-name">Decision Trail Logging</div><div class="gate-status">All gates logged with evidence</div></div><div class="gate-bar"><div style="width:100%"></div></div></div>
+</div>
+<div style="text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--line-soft)">
+<button class="btn btn-secondary" id="simulateBtn" onclick="simulateRisk()">⚡ Simulate Risk Detection</button>
+<div id="simResult" style="margin-top:16px;font-family:'JetBrains Mono';font-size:14px;opacity:0;transition:opacity 400ms"></div>
+</div>
+<p style="text-align:center;margin-top:20px;font-size:14px;color:var(--text-dim);font-weight:600;letter-spacing:0.04em">No evidence table. No verdict.</p>
+</div>
+</div>
+</section>
+
+<!-- ═══════ TESTIMONIALS ═══════ -->
+<section class="section reveal" id="testimonials">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:48px">What leaders say after switching to <span class="grad">NorthStar</span></h2>
+<div class="testimonial-wall">
+<div class="testimonial-tabs">
+<button class="test-tab active" data-filter="all">All</button>
+<button class="test-tab" data-filter="enterprise">Enterprise</button>
+<button class="test-tab" data-filter="startup">Startups</button>
+<button class="test-tab" data-filter="talent">Talent Ops</button>
+</div>
+<div class="testimonial-grid" id="testimonialGrid">
+<div class="testimonial-card ns-glass ns-hover" data-cat="enterprise">
+<div class="test-quote">"We stopped chasing volume and started hiring with confidence. The verification logic changed the quality of every conversation."</div>
+<div class="test-meta"><div class="test-avatar">VP</div><div><div class="test-name">VP Engineering</div><div class="test-company">B2B SaaS · Enterprise</div></div></div>
+<div class="test-outcomes"><span class="test-chip">↑ Interview Quality</span><span class="test-chip">↑ Confidence</span></div>
+</div>
+<div class="testimonial-card ns-glass ns-hover" data-cat="startup">
+<div class="test-quote">"NorthStar gave our hiring team a shared language. Evidence, risk, and readiness became visible."</div>
+<div class="test-meta"><div class="test-avatar">HT</div><div><div class="test-name">Head of Talent</div><div class="test-company">Series C · Startup</div></div></div>
+<div class="test-outcomes"><span class="test-chip">✓ Shared Language</span><span class="test-chip">✓ Visibility</span></div>
+</div>
+<div class="testimonial-card ns-glass ns-hover" data-cat="enterprise">
+<div class="test-quote">"The shortlist quality improved, but the bigger win was clarity. We knew exactly why a candidate was recommended."</div>
+<div class="test-meta"><div class="test-avatar">CT</div><div><div class="test-name">CTO</div><div class="test-company">Fintech · Enterprise</div></div></div>
+<div class="test-outcomes"><span class="test-chip">↑ Shortlist Quality</span><span class="test-chip">✓ Explainability</span></div>
+</div>
+<div class="testimonial-card ns-glass ns-hover" data-cat="enterprise">
+<div class="test-quote">"Fraud risk is real. We needed a system that treats verification as infrastructure, not a promise."</div>
+<div class="test-meta"><div class="test-avatar">SL</div><div><div class="test-name">Security Lead</div><div class="test-company">Enterprise · Security</div></div></div>
+<div class="test-outcomes"><span class="test-chip">🛡️ Fraud Prevention</span><span class="test-chip">✓ Infrastructure</span></div>
+</div>
+<div class="testimonial-card ns-glass ns-hover" data-cat="talent">
+<div class="test-quote">"Time to shortlist dropped. Interview conversion went up. We finally had a process we could trust."</div>
+<div class="test-meta"><div class="test-avatar">RM</div><div><div class="test-name">Recruiting Manager</div><div class="test-company">Healthcare Tech</div></div></div>
+<div class="test-outcomes"><span class="test-chip">↓ Time to Shortlist</span><span class="test-chip">↑ Conversion</span></div>
+</div>
+<div class="testimonial-card ns-glass ns-hover" data-cat="talent">
+<div class="test-quote">"The reporting made leadership calm. We could see progress, blockers, and next actions without guessing."</div>
+<div class="test-meta"><div class="test-avatar">PO</div><div><div class="test-name">People Ops Director</div><div class="test-company">Remote-first · Talent</div></div></div>
+<div class="test-outcomes"><span class="test-chip">✓ Leadership Trust</span><span class="test-chip">✓ Clarity</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ DASHBOARD PREVIEW ═══════ -->
+<section class="section reveal" id="dashboard">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:16px">A command center for <span class="grad">recruiting outcomes</span></h2>
+<p style="text-align:center;max-width:600px;margin:0 auto 40px">NorthStar is not a spreadsheet. It is a workspace that shows what is true right now, what is blocked, and what to do next.</p>
+<div class="dashboard-frame ns-glass-strong" style="padding:32px;border-radius:var(--radius-md);max-width:1000px;margin:0 auto;position:relative">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+<div class="dash-toggle"><button class="dash-btn active" data-view="client">Client View</button><button class="dash-btn" data-view="exec">Executive View</button></div>
+<span style="font-size:12px;color:var(--text-dim);font-family:'JetBrains Mono'">LIVE WORKSPACE</span>
+</div>
+<div id="dashClient" class="dash-view active">
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+<div class="dash-stat"><div class="ds-val">12</div><div class="ds-label">Next Actions</div></div>
+<div class="dash-stat"><div class="ds-val">8</div><div class="ds-label">Active Candidates</div></div>
+<div class="dash-stat"><div class="ds-val">3</div><div class="ds-label">Pending Reviews</div></div>
+<div class="dash-stat"><div class="ds-val">94%</div><div class="ds-label">Pipeline Health</div></div>
+</div>
+<div style="padding:20px;border-radius:12px;background:rgba(5,9,24,0.4);border:1px solid var(--line-soft)"><div style="font-size:13px;color:var(--text-dim);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.06em">Coaching Insights</div><div style="font-size:14px;line-height:1.7">→ 2 candidates ready for interview scheduling<br>→ Verification pending for 1 senior role<br>→ Shortlist report ready for stakeholder review</div></div>
+</div>
+<div id="dashExec" class="dash-view">
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+<div class="dash-stat"><div class="ds-val" style="color:var(--ok)">2.1x</div><div class="ds-label">Conversion Uplift</div></div>
+<div class="dash-stat"><div class="ds-val" style="color:var(--accent-cyan)">-38%</div><div class="ds-label">Cycle Time Δ</div></div>
+<div class="dash-stat"><div class="ds-val" style="color:var(--warn)">3</div><div class="ds-label">Risk Flags Active</div></div>
+<div class="dash-stat"><div class="ds-val">$42K</div><div class="ds-label">Cost per Quality Hire</div></div>
+</div>
+<div style="padding:20px;border-radius:12px;background:rgba(5,9,24,0.4);border:1px solid var(--line-soft)"><div style="font-size:13px;color:var(--text-dim);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.06em">Executive Summary</div><div style="font-size:14px;line-height:1.7">→ Pipeline conversion at 31% — above industry benchmark<br>→ 3 fraud risk flags resolved this quarter<br>→ Average time to verified shortlist: 12 days</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ CASE STUDIES ═══════ -->
+<section class="section reveal" id="cases">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:16px">Proof you can <span class="grad">open</span></h2>
+<p style="max-width:600px;margin-bottom:40px">Each case is presented as a dossier. Not a story. A structured record of role context, screening decisions, and outcomes.</p>
+<div class="case-scroll">
+<div class="case-card ns-glass ns-hover"><div class="case-tag">Engineering</div><h3>Engineering leadership shortlist in 12 days</h3><div class="case-meta"><span>⏱ 12 days</span><span>✓ 4 verified</span><span>🎯 2 offers</span></div><div class="case-expand">View Dossier →</div></div>
+<div class="case-card ns-glass ns-hover"><div class="case-tag" style="background:rgba(251,113,133,0.15);color:var(--risk)">Fraud Blocked</div><h3>Fraud risk blocked before interview</h3><div class="case-meta"><span>🛡️ Identity flag</span><span>⚠️ Risk: High</span><span>✕ Blocked</span></div><div class="case-expand">View Dossier →</div></div>
+<div class="case-card ns-glass ns-hover"><div class="case-tag" style="background:rgba(245,158,11,0.15);color:var(--warn)">Scope Correction</div><h3>Role scope corrected before sourcing wasted time</h3><div class="case-meta"><span>📐 Realigned</span><span>↓ 60% waste</span><span>✓ Saved 3 weeks</span></div><div class="case-expand">View Dossier →</div></div>
+<div class="case-card ns-glass ns-hover"><div class="case-tag">Tracking</div><h3>Candidate readiness improved through evidence tracking</h3><div class="case-meta"><span>📊 Evidence trail</span><span>↑ 45% readiness</span><span>✓ Placed</span></div><div class="case-expand">View Dossier →</div></div>
+</div>
+<div style="text-align:center;margin-top:32px"><a class="btn btn-secondary" href="#cases-all">View all case studies →</a></div>
+</div>
+</section>
+
+<!-- ═══════ FRAUD PROTECTION ═══════ -->
+<section class="section reveal" id="fraud">
+<div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
+<div>
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:16px">Fraud protection built into <span class="grad">the workflow</span></h2>
+<p style="margin-bottom:24px">Hiring fraud is evolving fast. NorthStar treats verification as a first class system. Risk signals are surfaced early, backed by evidence, and reflected in every decision.</p>
+<ul style="list-style:none;display:flex;flex-direction:column;gap:14px">
+<li style="display:flex;align-items:center;gap:12px;font-size:15px"><span style="width:32px;height:32px;border-radius:8px;background:rgba(251,113,133,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">🛡️</span>Reduce exposure to identity fraud</li>
+<li style="display:flex;align-items:center;gap:12px;font-size:15px"><span style="width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">⚡</span>Prevent weak evidence progression</li>
+<li style="display:flex;align-items:center;gap:12px;font-size:15px"><span style="width:32px;height:32px;border-radius:8px;background:rgba(99,217,255,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">📋</span>Keep every decision explainable</li>
+</ul>
+<div style="margin-top:32px"><a class="btn btn-primary" href="#fraud-detail">Explore Fraud Protection →</a></div>
+</div>
+<div class="ns-glass" style="padding:32px;border-radius:var(--radius-md);position:relative;overflow:hidden">
+<div style="font-family:'JetBrains Mono';font-size:12px;color:var(--text-dim);margin-bottom:20px">FRAUD DETECTION ENGINE</div>
+<div class="fraud-scan-line"></div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div class="fraud-check"><span class="fc-status fc-pass">PASS</span><span>Document consistency check</span></div>
+<div class="fraud-check"><span class="fc-status fc-pass">PASS</span><span>Employment history verification</span></div>
+<div class="fraud-check"><span class="fc-status fc-warn">FLAG</span><span>Education credential gap</span></div>
+<div class="fraud-check"><span class="fc-status fc-pass">PASS</span><span>Identity cross-reference</span></div>
+<div class="fraud-check"><span class="fc-status fc-fail">RISK</span><span>Behavioral pattern anomaly</span></div>
+<div class="fraud-check"><span class="fc-status fc-pass">PASS</span><span>Reference network analysis</span></div>
+</div>
+<div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--line-soft);display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text-dim)">Composite Risk Score</span><span style="font-family:'JetBrains Mono';color:var(--warn);font-weight:700">MODERATE — 2 FLAGS</span></div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ INTEGRATIONS ═══════ -->
+<section class="section reveal" id="integrations">
+<div class="container" style="text-align:center">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:16px">Fits into your <span class="grad">hiring stack</span></h2>
+<p style="max-width:600px;margin:0 auto 48px">NorthStar is designed to plug into modern recruiting workflows.</p>
+<div class="integration-grid">
+<div class="integ-node ns-glass ns-hover"><div class="integ-icon">📋</div><div class="integ-label">ATS & Pipeline</div><div class="integ-port"></div></div>
+<div class="integ-node ns-glass ns-hover"><div class="integ-icon">📅</div><div class="integ-label">Calendar & Scheduling</div><div class="integ-port"></div></div>
+<div class="integ-node ns-glass ns-hover integ-center"><div class="integ-icon" style="font-size:32px">✦</div><div class="integ-label" style="font-weight:700;color:var(--accent-cyan)">NorthStar</div><div class="integ-port" style="background:var(--accent-cyan)"></div></div>
+<div class="integ-node ns-glass ns-hover"><div class="integ-icon">📊</div><div class="integ-label">Reporting Exports</div><div class="integ-port"></div></div>
+<div class="integ-node ns-glass ns-hover"><div class="integ-icon">🗄️</div><div class="integ-label">Secure Storage</div><div class="integ-port"></div></div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ METRICS WALL ═══════ -->
+<section class="section reveal" id="metrics">
+<div class="container" style="text-align:center">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:48px">Metrics that executives <span class="grad">actually trust</span></h2>
+<div class="metrics-grid">
+<div class="metric-tile ns-glass"><div class="mt-value" data-count="12" data-suffix=" Days">0</div><div class="mt-label">Time to Shortlist</div><div class="mt-delta">↓ 38% vs industry avg</div></div>
+<div class="metric-tile ns-glass"><div class="mt-value" data-count="31" data-suffix="%">0</div><div class="mt-label">Interview Conversion</div><div class="mt-delta">↑ 2.1x improvement</div></div>
+<div class="metric-tile ns-glass"><div class="mt-value" data-count="94" data-suffix="%">0</div><div class="mt-label">Risk Surfaced Early</div><div class="mt-delta">Before interview stage</div></div>
+<div class="metric-tile ns-glass"><div class="mt-value" data-count="54" data-suffix=" Days">0</div><div class="mt-label">Cycle Time by Phase</div><div class="mt-delta">Full visibility per stage</div></div>
+</div>
+<p style="margin-top:32px;font-size:15px;color:var(--text-dim)">Outcomes improve when the system tells the truth.</p>
+</div>
+</section>
+
+<!-- ═══════ PRICING ═══════ -->
+<section class="section reveal" id="pricing">
+<div class="container" style="text-align:center">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:48px">Choose the <span class="grad">engagement level</span></h2>
+<div class="pricing-grid">
+<div class="pricing-card ns-glass ns-hover">
+<div class="price-tier">Pilot</div>
+<h3>Test the System</h3>
+<p>Best for teams testing a verified pipeline workflow.</p>
+<ul><li>Up to 3 active roles</li><li>Basic verification gates</li><li>Standard reporting</li><li>Email support</li></ul>
+<a class="btn btn-secondary" href="#access" style="width:100%;justify-content:center">Request Access</a>
+</div>
+<div class="pricing-card ns-glass ns-hover pricing-featured">
+<div class="price-badge">Most Popular</div>
+<div class="price-tier">Partner</div>
+<h3>Scale with Confidence</h3>
+<p>Best for ongoing roles with repeatable sourcing and reporting.</p>
+<ul><li>Unlimited active roles</li><li>Full verification protocol</li><li>Advanced analytics</li><li>Dedicated account lead</li><li>Priority support</li></ul>
+<a class="btn btn-primary" href="#book" style="width:100%;justify-content:center">Book a Consult</a>
+</div>
+<div class="pricing-card ns-glass ns-hover">
+<div class="price-tier">Enterprise</div>
+<h3>Full Infrastructure</h3>
+<p>Best for multi-team hiring with governance and advanced reporting.</p>
+<ul><li>Multi-team workspace</li><li>Custom verification rules</li><li>Executive dashboards</li><li>API access</li><li>SLA guarantees</li></ul>
+<a class="btn btn-secondary" href="#contact" style="width:100%;justify-content:center">Contact Sales</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section class="section reveal" id="faq">
+<div class="container" style="max-width:800px">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:48px">Questions, answered <span class="grad">clearly</span></h2>
+<div class="faq-list">
+<div class="faq-item ns-glass"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Is NorthStar a staffing agency?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>NorthStar is a talent intelligence infrastructure layer. It can support recruiting and staffing workflows, but the product is built around verification, transparency, and decision support.</p></div></div>
+<div class="faq-item ns-glass"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Do you work with technical roles?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>Yes. NorthStar is optimized for technical and high trust hiring environments.</p></div></div>
+<div class="faq-item ns-glass"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>How do you handle verification?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>Verification is evidence first. If evidence is insufficient, the system marks that reality. No blind progression.</p></div></div>
+<div class="faq-item ns-glass"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>What makes NorthStar different from other recruiting platforms?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>We treat verification as infrastructure, not a checkbox. Every candidate progresses based on evidence, risk scoring, and explainable decisions — not volume or gut feeling.</p></div></div>
+<div class="faq-item ns-glass"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Can NorthStar integrate with our existing ATS?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>Yes. NorthStar is designed to plug into modern hiring stacks — ATS, calendars, reporting tools, and secure storage systems.</p></div></div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ FINAL CTA ═══════ -->
+<section class="section reveal" id="contact">
+<div class="container">
+<div class="final-cta ns-glass-strong" style="padding:64px 40px;border-radius:var(--radius-md);text-align:center;position:relative;overflow:hidden;border:1px solid var(--line-strong)">
+<div class="cta-glow"></div>
+<h2 style="font-size:clamp(32px,4vw,48px);margin-bottom:16px">Upgrade your <span class="grad">hiring infrastructure</span></h2>
+<p style="max-width:600px;margin:0 auto 40px;font-size:18px">If you hire for impact, you need more than sourcing volume. You need verified signal, clear reasoning, and decision ready reporting.</p>
+<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+<a class="btn btn-primary" href="#access" style="font-size:16px;height:52px;padding:0 32px">Request Access <span>→</span></a>
+<a class="btn btn-secondary" href="#process" style="font-size:16px;height:52px;padding:0 32px">View the Process</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer style="background:rgba(5,9,24,0.72);border-top:1px solid var(--line-soft);padding:64px 0 32px">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand"><div class="nav-logo" style="margin-bottom:16px"><svg viewBox="0 0 32 32" fill="none" style="width:28px;height:28px"><path d="M16 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z" fill="currentColor" opacity="0.9"/><circle cx="16" cy="16" r="3" fill="currentColor"/></svg>NORTHSTAR</div><p style="font-size:14px;color:var(--text-dim);max-width:280px">Talent intelligence infrastructure for evidence-based hiring.</p></div>
+<div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Careers</a><a href="#">Press</a></div>
+<div class="footer-col"><h4>Platform</h4><a href="#">Client Login</a><a href="#">Sign Up</a><a href="#">Dashboard</a></div>
+<div class="footer-col"><h4>Solutions</h4><a href="#">Services</a><a href="#">Industries</a><a href="#">Process</a></div>
+<div class="footer-col"><h4>Resources</h4><a href="#">Insights</a><a href="#">FAQ</a><a href="#">Fraud Protection</a></div>
+<div class="footer-col"><h4>Legal</h4><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Security</a></div>
+</div>
+<div style="border-top:1px solid var(--line-soft);margin-top:40px;padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+<span style="font-size:13px;color:var(--text-dim)">© 2026 NorthStar Agency. All rights reserved.</span>
+<span style="font-size:13px;color:var(--text-dim)">Built with intelligence. Verified with evidence.</span>
+</div>
+</div>
+</footer>
+
+<!-- ═══════ TIMELINE OF SUCCESS ═══════ -->
+<section class="section reveal" id="timeline" style="position:relative">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:12px">The success timeline inside <span class="grad">NorthStar</span></h2>
+<p style="max-width:600px;margin-bottom:56px">Every phase produces an artifact you can audit.</p>
+<div class="timeline-rail">
+<div class="timeline-line"></div>
+<div class="timeline-node" data-delay="0">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 1</div>
+<h3>Discovery</h3>
+<p>We map the role and constraints into a sourcing spec.</p>
+<div class="timeline-artifact">📄 Sourcing Spec Document</div>
+</div>
+</div>
+<div class="timeline-node" data-delay="100">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 2</div>
+<h3>Fit Validation</h3>
+<p>We connect requirements to evidence, not assumptions.</p>
+<div class="timeline-artifact">📊 Fit Evidence Matrix</div>
+</div>
+</div>
+<div class="timeline-node" data-delay="200">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 3</div>
+<h3>Verification</h3>
+<p>We surface risk, identity signals, and confidence.</p>
+<div class="timeline-artifact">🔒 Verification Record</div>
+</div>
+</div>
+<div class="timeline-node" data-delay="300">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 4</div>
+<h3>Presentation</h3>
+<p>You see a clean shortlist with rationale.</p>
+<div class="timeline-artifact">📋 Evidence Shortlist</div>
+</div>
+</div>
+<div class="timeline-node" data-delay="400">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 5</div>
+<h3>Interview Control</h3>
+<p>We reduce noise and improve signal through structured prep.</p>
+<div class="timeline-artifact">🎯 Interview Scorecard</div>
+</div>
+</div>
+<div class="timeline-node" data-delay="500">
+<div class="timeline-dot"></div>
+<div class="timeline-card ns-glass ns-hover">
+<div class="timeline-phase">Phase 6</div>
+<h3>Offer Decision</h3>
+<p>We compare options with documented tradeoffs.</p>
+<div class="timeline-artifact">⚖️ Decision Analysis</div>
+</div>
+</div>
+</div>
+<p style="text-align:center;margin-top:40px;font-size:15px;color:var(--text-dim);font-style:italic">This is how recruiting becomes an operating system.</p>
+</div>
+</section>
+
+<!-- ═══════ HARD GATE VERIFICATION ═══════ -->
+<section class="section reveal" id="hardgate">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:16px">Verification that is <span class="grad">explainable</span></h2>
+<p style="text-align:center;max-width:680px;margin:0 auto 48px">Most recruiting fails at the same point. A profile looks good until the interview collapses. NorthStar enforces verification gates so pipeline movement reflects proof, not optimism.</p>
+<div class="hardgate-console ns-glass-strong" style="padding:40px;border-radius:var(--radius-md);max-width:900px;margin:0 auto;position:relative;overflow:hidden">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:28px"><div style="width:12px;height:12px;border-radius:50%;background:var(--risk);animation:blink 2s infinite"></div><div style="width:12px;height:12px;border-radius:50%;background:var(--warn)"></div><div style="width:12px;height:12px;border-radius:50%;background:var(--ok)"></div><span style="margin-left:auto;font-family:'JetBrains Mono';font-size:12px;color:var(--text-dim)">VERIFICATION PROTOCOL v3.2</span></div>
+<div class="gate-layers">
+<div class="gate-layer" style="--gate-color:var(--accent-cyan)"><div class="gate-icon">🛡️</div><div><div class="gate-name">Identity & Consistency Checks</div><div class="gate-status">5 signals verified</div></div><div class="gate-bar"><div style="width:92%"></div></div></div>
+<div class="gate-layer" style="--gate-color:var(--accent-indigo)"><div class="gate-icon">📐</div><div><div class="gate-name">Skill Evidence Mapping</div><div class="gate-status">Cross-referenced against role spec</div></div><div class="gate-bar"><div style="width:78%"></div></div></div>
+<div class="gate-layer" style="--gate-color:var(--warn)"><div class="gate-icon">⚠️</div><div><div class="gate-name">Risk Signals & Anomalies</div><div class="gate-status">2 flags under review</div></div><div class="gate-bar"><div style="width:45%"></div></div></div>
+<div class="gate-layer" style="--gate-color:var(--accent-teal)"><div class="gate-icon">📊</div><div><div class="gate-name">Confidence Scoring</div><div class="gate-status">Composite: 74%</div></div><div class="gate-bar"><div style="width:74%"></div></div></div>
+<div class="gate-layer" style="--gate-color:var(--accent-violet)"><div class="gate-icon">📝</div><div><div class="gate-name">Decision Trail Logging</div><div class="gate-status">All gates logged with evidence</div></div><div class="gate-bar"><div style="width:100%"></div></div></div>
+</div>
+<div style="text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--line-soft)">
+<button class="btn btn-secondary" id="simulateBtn" onclick="simulateRisk()">⚡ Simulate Risk Detection</button>
+<div id="simResult" style="margin-top:16px;font-family:'JetBrains Mono';font-size:14px;opacity:0;transition:opacity 400ms"></div>
+</div>
+<p style="text-align:center;margin-top:20px;font-size:14px;color:var(--text-dim);font-weight:600;letter-spacing:0.04em">No evidence table. No verdict.</p>
+</div>
+</div>
+</section>
+
+<!-- ═══════ TESTIMONIALS ═══════ -->
+<section class="section reveal" id="testimonials">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:48px">What leaders say after switching to <span class="grad">NorthStar</span></h2>
+<div class="testimonial-wall">
+<div class="testimonial-tabs">
+<button class="test-tab active" data-filter="all">All</button>
+<button class="test-tab" data-filter="enterprise">Enterprise</button>
+<button class="test-tab" data-filter="startup">Startups</button>
+<button class="test-tab" data-filter="talent">Talent Ops</button>
+</div>
+<div class="testimonial-grid" id="testimonialGrid">
+<div class="testimonial-card ns-glass ns-hover" data-cat="enterprise">
+<div class="test-quote">"We stopped chasing volume and started hiring with confidence. The verification logic changed the quality of every conversation."</div>
+<div class="test-meta"><div class="test-avatar">VP</div><div><div class="test-name">VP Engineering</div><div class="test-company">B2B SaaS · Enterprise</div></div></div>
+<div class="test-outcomes"><span class="test-chip">↑ Interview Quality</span><span class="test-chip">↑ Confidence</span></div>
+</div>
+<div class="testimonial-card ns-glass ns-hover" data-cat="startup">
+<div class="test-quote">"NorthStar gave our hiring team a shared language. Evidence, risk, and readiness became visible."</div>
+<div class="test-meta"><div class="test-avatar">HT</div><div><div class="test-name">Head of Talent</div><div class="test-company">Series C · Startup</div></div></div>
+<div class="test-outcomes"><span class="test-chip">✓ Shared Language</span><span class="test-chip">✓ Visibility</span></div>
+</div>
+<div class="testimonial-card ns-glass ns-hover" data-cat="enterprise">
+<div class="test-quote">"The shortlist quality improved, but the bigger win was clarity. We knew exactly why a candidate was recommended."</div>
+<div class="test-meta"><div class="test-avatar">CT</div><div><div class="test-name">CTO</div><div class="test-company">Fintech · Enterprise</div></div></div>
+<div class="test-outcomes"><span class="test-chip">↑ Shortlist Quality</span><span class="test-chip">✓ Explainability</span></div>
+</div>
+<div class="testimonial-card ns-glass ns-hover" data-cat="enterprise">
+<div class="test-quote">"Fraud risk is real. We needed a system that treats verification as infrastructure, not a promise."</div>
+<div class="test-meta"><div class="test-avatar">SL</div><div><div class="test-name">Security Lead</div><div class="test-company">Enterprise · Security</div></div></div>
+<div class="test-outcomes"><span class="test-chip">🛡️ Fraud Prevention</span><span class="test-chip">✓ Infrastructure</span></div>
+</div>
+<div class="testimonial-card ns-glass ns-hover" data-cat="talent">
+<div class="test-quote">"Time to shortlist dropped. Interview conversion went up. We finally had a process we could trust."</div>
+<div class="test-meta"><div class="test-avatar">RM</div><div><div class="test-name">Recruiting Manager</div><div class="test-company">Healthcare Tech</div></div></div>
+<div class="test-outcomes"><span class="test-chip">↓ Time to Shortlist</span><span class="test-chip">↑ Conversion</span></div>
+</div>
+<div class="testimonial-card ns-glass ns-hover" data-cat="talent">
+<div class="test-quote">"The reporting made leadership calm. We could see progress, blockers, and next actions without guessing."</div>
+<div class="test-meta"><div class="test-avatar">PO</div><div><div class="test-name">People Ops Director</div><div class="test-company">Remote-first · Talent</div></div></div>
+<div class="test-outcomes"><span class="test-chip">✓ Leadership Trust</span><span class="test-chip">✓ Clarity</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ DASHBOARD PREVIEW ═══════ -->
+<section class="section reveal" id="dashboard">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:16px">A command center for <span class="grad">recruiting outcomes</span></h2>
+<p style="text-align:center;max-width:600px;margin:0 auto 40px">NorthStar is not a spreadsheet. It is a workspace that shows what is true right now, what is blocked, and what to do next.</p>
+<div class="dashboard-frame ns-glass-strong" style="padding:32px;border-radius:var(--radius-md);max-width:1000px;margin:0 auto;position:relative">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+<div class="dash-toggle"><button class="dash-btn active" data-view="client">Client View</button><button class="dash-btn" data-view="exec">Executive View</button></div>
+<span style="font-size:12px;color:var(--text-dim);font-family:'JetBrains Mono'">LIVE WORKSPACE</span>
+</div>
+<div id="dashClient" class="dash-view active">
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+<div class="dash-stat"><div class="ds-val">12</div><div class="ds-label">Next Actions</div></div>
+<div class="dash-stat"><div class="ds-val">8</div><div class="ds-label">Active Candidates</div></div>
+<div class="dash-stat"><div class="ds-val">3</div><div class="ds-label">Pending Reviews</div></div>
+<div class="dash-stat"><div class="ds-val">94%</div><div class="ds-label">Pipeline Health</div></div>
+</div>
+<div style="padding:20px;border-radius:12px;background:rgba(5,9,24,0.4);border:1px solid var(--line-soft)"><div style="font-size:13px;color:var(--text-dim);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.06em">Coaching Insights</div><div style="font-size:14px;line-height:1.7">→ 2 candidates ready for interview scheduling<br>→ Verification pending for 1 senior role<br>→ Shortlist report ready for stakeholder review</div></div>
+</div>
+<div id="dashExec" class="dash-view">
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+<div class="dash-stat"><div class="ds-val" style="color:var(--ok)">2.1x</div><div class="ds-label">Conversion Uplift</div></div>
+<div class="dash-stat"><div class="ds-val" style="color:var(--accent-cyan)">-38%</div><div class="ds-label">Cycle Time Δ</div></div>
+<div class="dash-stat"><div class="ds-val" style="color:var(--warn)">3</div><div class="ds-label">Risk Flags Active</div></div>
+<div class="dash-stat"><div class="ds-val">$42K</div><div class="ds-label">Cost per Quality Hire</div></div>
+</div>
+<div style="padding:20px;border-radius:12px;background:rgba(5,9,24,0.4);border:1px solid var(--line-soft)"><div style="font-size:13px;color:var(--text-dim);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.06em">Executive Summary</div><div style="font-size:14px;line-height:1.7">→ Pipeline conversion at 31% — above industry benchmark<br>→ 3 fraud risk flags resolved this quarter<br>→ Average time to verified shortlist: 12 days</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ CASE STUDIES ═══════ -->
+<section class="section reveal" id="cases">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:16px">Proof you can <span class="grad">open</span></h2>
+<p style="max-width:600px;margin-bottom:40px">Each case is presented as a dossier. Not a story. A structured record of role context, screening decisions, and outcomes.</p>
+<div class="case-scroll">
+<div class="case-card ns-glass ns-hover"><div class="case-tag">Engineering</div><h3>Engineering leadership shortlist in 12 days</h3><div class="case-meta"><span>⏱ 12 days</span><span>✓ 4 verified</span><span>🎯 2 offers</span></div><div class="case-expand">View Dossier →</div></div>
+<div class="case-card ns-glass ns-hover"><div class="case-tag" style="background:rgba(251,113,133,0.15);color:var(--risk)">Fraud Blocked</div><h3>Fraud risk blocked before interview</h3><div class="case-meta"><span>🛡️ Identity flag</span><span>⚠️ Risk: High</span><span>✕ Blocked</span></div><div class="case-expand">View Dossier →</div></div>
+<div class="case-card ns-glass ns-hover"><div class="case-tag" style="background:rgba(245,158,11,0.15);color:var(--warn)">Scope Correction</div><h3>Role scope corrected before sourcing wasted time</h3><div class="case-meta"><span>📐 Realigned</span><span>↓ 60% waste</span><span>✓ Saved 3 weeks</span></div><div class="case-expand">View Dossier →</div></div>
+<div class="case-card ns-glass ns-hover"><div class="case-tag">Tracking</div><h3>Candidate readiness improved through evidence tracking</h3><div class="case-meta"><span>📊 Evidence trail</span><span>↑ 45% readiness</span><span>✓ Placed</span></div><div class="case-expand">View Dossier →</div></div>
+</div>
+<div style="text-align:center;margin-top:32px"><a class="btn btn-secondary" href="#cases-all">View all case studies →</a></div>
+</div>
+</section>
+
+<!-- ═══════ FRAUD PROTECTION ═══════ -->
+<section class="section reveal" id="fraud">
+<div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
+<div>
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:16px">Fraud protection built into <span class="grad">the workflow</span></h2>
+<p style="margin-bottom:24px">Hiring fraud is evolving fast. NorthStar treats verification as a first class system. Risk signals are surfaced early, backed by evidence, and reflected in every decision.</p>
+<ul style="list-style:none;display:flex;flex-direction:column;gap:14px">
+<li style="display:flex;align-items:center;gap:12px;font-size:15px"><span style="width:32px;height:32px;border-radius:8px;background:rgba(251,113,133,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">🛡️</span>Reduce exposure to identity fraud</li>
+<li style="display:flex;align-items:center;gap:12px;font-size:15px"><span style="width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">⚡</span>Prevent weak evidence progression</li>
+<li style="display:flex;align-items:center;gap:12px;font-size:15px"><span style="width:32px;height:32px;border-radius:8px;background:rgba(99,217,255,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">📋</span>Keep every decision explainable</li>
+</ul>
+<div style="margin-top:32px"><a class="btn btn-primary" href="#fraud-detail">Explore Fraud Protection →</a></div>
+</div>
+<div class="ns-glass" style="padding:32px;border-radius:var(--radius-md);position:relative;overflow:hidden">
+<div style="font-family:'JetBrains Mono';font-size:12px;color:var(--text-dim);margin-bottom:20px">FRAUD DETECTION ENGINE</div>
+<div class="fraud-scan-line"></div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div class="fraud-check"><span class="fc-status fc-pass">PASS</span><span>Document consistency check</span></div>
+<div class="fraud-check"><span class="fc-status fc-pass">PASS</span><span>Employment history verification</span></div>
+<div class="fraud-check"><span class="fc-status fc-warn">FLAG</span><span>Education credential gap</span></div>
+<div class="fraud-check"><span class="fc-status fc-pass">PASS</span><span>Identity cross-reference</span></div>
+<div class="fraud-check"><span class="fc-status fc-fail">RISK</span><span>Behavioral pattern anomaly</span></div>
+<div class="fraud-check"><span class="fc-status fc-pass">PASS</span><span>Reference network analysis</span></div>
+</div>
+<div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--line-soft);display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text-dim)">Composite Risk Score</span><span style="font-family:'JetBrains Mono';color:var(--warn);font-weight:700">MODERATE — 2 FLAGS</span></div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ INTEGRATIONS ═══════ -->
+<section class="section reveal" id="integrations">
+<div class="container" style="text-align:center">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:16px">Fits into your <span class="grad">hiring stack</span></h2>
+<p style="max-width:600px;margin:0 auto 48px">NorthStar is designed to plug into modern recruiting workflows.</p>
+<div class="integration-grid">
+<div class="integ-node ns-glass ns-hover"><div class="integ-icon">📋</div><div class="integ-label">ATS & Pipeline</div><div class="integ-port"></div></div>
+<div class="integ-node ns-glass ns-hover"><div class="integ-icon">📅</div><div class="integ-label">Calendar & Scheduling</div><div class="integ-port"></div></div>
+<div class="integ-node ns-glass ns-hover integ-center"><div class="integ-icon" style="font-size:32px">✦</div><div class="integ-label" style="font-weight:700;color:var(--accent-cyan)">NorthStar</div><div class="integ-port" style="background:var(--accent-cyan)"></div></div>
+<div class="integ-node ns-glass ns-hover"><div class="integ-icon">📊</div><div class="integ-label">Reporting Exports</div><div class="integ-port"></div></div>
+<div class="integ-node ns-glass ns-hover"><div class="integ-icon">🗄️</div><div class="integ-label">Secure Storage</div><div class="integ-port"></div></div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ METRICS WALL ═══════ -->
+<section class="section reveal" id="metrics">
+<div class="container" style="text-align:center">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:48px">Metrics that executives <span class="grad">actually trust</span></h2>
+<div class="metrics-grid">
+<div class="metric-tile ns-glass"><div class="mt-value" data-count="12" data-suffix=" Days">0</div><div class="mt-label">Time to Shortlist</div><div class="mt-delta">↓ 38% vs industry avg</div></div>
+<div class="metric-tile ns-glass"><div class="mt-value" data-count="31" data-suffix="%">0</div><div class="mt-label">Interview Conversion</div><div class="mt-delta">↑ 2.1x improvement</div></div>
+<div class="metric-tile ns-glass"><div class="mt-value" data-count="94" data-suffix="%">0</div><div class="mt-label">Risk Surfaced Early</div><div class="mt-delta">Before interview stage</div></div>
+<div class="metric-tile ns-glass"><div class="mt-value" data-count="54" data-suffix=" Days">0</div><div class="mt-label">Cycle Time by Phase</div><div class="mt-delta">Full visibility per stage</div></div>
+</div>
+<p style="margin-top:32px;font-size:15px;color:var(--text-dim)">Outcomes improve when the system tells the truth.</p>
+</div>
+</section>
+
+<!-- ═══════ PRICING ═══════ -->
+<section class="section reveal" id="pricing">
+<div class="container" style="text-align:center">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:48px">Choose the <span class="grad">engagement level</span></h2>
+<div class="pricing-grid">
+<div class="pricing-card ns-glass ns-hover">
+<div class="price-tier">Pilot</div>
+<h3>Test the System</h3>
+<p>Best for teams testing a verified pipeline workflow.</p>
+<ul><li>Up to 3 active roles</li><li>Basic verification gates</li><li>Standard reporting</li><li>Email support</li></ul>
+<a class="btn btn-secondary" href="#access" style="width:100%;justify-content:center">Request Access</a>
+</div>
+<div class="pricing-card ns-glass ns-hover pricing-featured">
+<div class="price-badge">Most Popular</div>
+<div class="price-tier">Partner</div>
+<h3>Scale with Confidence</h3>
+<p>Best for ongoing roles with repeatable sourcing and reporting.</p>
+<ul><li>Unlimited active roles</li><li>Full verification protocol</li><li>Advanced analytics</li><li>Dedicated account lead</li><li>Priority support</li></ul>
+<a class="btn btn-primary" href="#book" style="width:100%;justify-content:center">Book a Consult</a>
+</div>
+<div class="pricing-card ns-glass ns-hover">
+<div class="price-tier">Enterprise</div>
+<h3>Full Infrastructure</h3>
+<p>Best for multi-team hiring with governance and advanced reporting.</p>
+<ul><li>Multi-team workspace</li><li>Custom verification rules</li><li>Executive dashboards</li><li>API access</li><li>SLA guarantees</li></ul>
+<a class="btn btn-secondary" href="#contact" style="width:100%;justify-content:center">Contact Sales</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section class="section reveal" id="faq">
+<div class="container" style="max-width:800px">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:48px">Questions, answered <span class="grad">clearly</span></h2>
+<div class="faq-list">
+<div class="faq-item ns-glass"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Is NorthStar a staffing agency?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>NorthStar is a talent intelligence infrastructure layer. It can support recruiting and staffing workflows, but the product is built around verification, transparency, and decision support.</p></div></div>
+<div class="faq-item ns-glass"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Do you work with technical roles?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>Yes. NorthStar is optimized for technical and high trust hiring environments.</p></div></div>
+<div class="faq-item ns-glass"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>How do you handle verification?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>Verification is evidence first. If evidence is insufficient, the system marks that reality. No blind progression.</p></div></div>
+<div class="faq-item ns-glass"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>What makes NorthStar different from other recruiting platforms?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>We treat verification as infrastructure, not a checkbox. Every candidate progresses based on evidence, risk scoring, and explainable decisions — not volume or gut feeling.</p></div></div>
+<div class="faq-item ns-glass"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Can NorthStar integrate with our existing ATS?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>Yes. NorthStar is designed to plug into modern hiring stacks — ATS, calendars, reporting tools, and secure storage systems.</p></div></div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ FINAL CTA ═══════ -->
+<section class="section reveal" id="contact">
+<div class="container">
+<div class="final-cta ns-glass-strong" style="padding:64px 40px;border-radius:var(--radius-md);text-align:center;position:relative;overflow:hidden;border:1px solid var(--line-strong)">
+<div class="cta-glow"></div>
+<h2 style="font-size:clamp(32px,4vw,48px);margin-bottom:16px">Upgrade your <span class="grad">hiring infrastructure</span></h2>
+<p style="max-width:600px;margin:0 auto 40px;font-size:18px">If you hire for impact, you need more than sourcing volume. You need verified signal, clear reasoning, and decision ready reporting.</p>
+<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+<a class="btn btn-primary" href="#access" style="font-size:16px;height:52px;padding:0 32px">Request Access <span>→</span></a>
+<a class="btn btn-secondary" href="#process" style="font-size:16px;height:52px;padding:0 32px">View the Process</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer style="background:rgba(5,9,24,0.72);border-top:1px solid var(--line-soft);padding:64px 0 32px">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand"><div class="nav-logo" style="margin-bottom:16px"><svg viewBox="0 0 32 32" fill="none" style="width:28px;height:28px"><path d="M16 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z" fill="currentColor" opacity="0.9"/><circle cx="16" cy="16" r="3" fill="currentColor"/></svg>NORTHSTAR</div><p style="font-size:14px;color:var(--text-dim);max-width:280px">Talent intelligence infrastructure for evidence-based hiring.</p></div>
+<div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Careers</a><a href="#">Press</a></div>
+<div class="footer-col"><h4>Platform</h4><a href="#">Client Login</a><a href="#">Sign Up</a><a href="#">Dashboard</a></div>
+<div class="footer-col"><h4>Solutions</h4><a href="#">Services</a><a href="#">Industries</a><a href="#">Process</a></div>
+<div class="footer-col"><h4>Resources</h4><a href="#">Insights</a><a href="#">FAQ</a><a href="#">Fraud Protection</a></div>
+<div class="footer-col"><h4>Legal</h4><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Security</a></div>
+</div>
+<div style="border-top:1px solid var(--line-soft);margin-top:40px;padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+<span style="font-size:13px;color:var(--text-dim)">© 2026 NorthStar Agency. All rights reserved.</span>
+<span style="font-size:13px;color:var(--text-dim)">Built with intelligence. Verified with evidence.</span>
+</div>
+</div>
+</footer>
+
+<!-- ═══════ ADDITIONAL CSS ═══════ -->
+<style>
+/* TIMELINE */
+.timeline-rail{position:relative;padding-left:40px}
+.timeline-line{position:absolute;left:18px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent-indigo),var(--accent-cyan),var(--accent-teal));border-radius:1px}
+.timeline-node{position:relative;margin-bottom:32px}
+.timeline-dot{position:absolute;left:-40px;top:20px;width:14px;height:14px;border-radius:50%;background:var(--bg-0);border:2px solid var(--accent-cyan);box-shadow:0 0 16px var(--glow-cyan);z-index:2;transition:transform 300ms,box-shadow 300ms}
+.timeline-node:hover .timeline-dot{transform:scale(1.4);box-shadow:0 0 28px var(--glow-cyan)}
+.timeline-card{padding:24px 28px;margin-left:16px;transition:all 300ms}
+.timeline-phase{font-family:'JetBrains Mono';font-size:11px;color:var(--accent-cyan);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+.timeline-card h3{font-size:20px;margin-bottom:8px}
+.timeline-card p{font-size:14px;color:var(--text-dim);line-height:1.6}
+.timeline-artifact{margin-top:14px;padding:10px 14px;border-radius:8px;background:rgba(5,9,24,0.5);border:1px solid var(--line-soft);font-size:13px;color:var(--accent-teal);max-height:0;overflow:hidden;opacity:0;transition:all 400ms}
+.timeline-node:hover .timeline-artifact{max-height:60px;opacity:1}
+
+/* HARD GATE */
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.gate-layers{display:flex;flex-direction:column;gap:16px}
+.gate-layer{display:grid;grid-template-columns:44px 1fr 120px;gap:16px;align-items:center;padding:16px;border-radius:12px;background:rgba(5,9,24,0.4);border:1px solid var(--line-soft);transition:all 300ms}
+.gate-layer:hover{border-color:var(--gate-color,var(--line-strong));box-shadow:0 0 20px rgba(99,217,255,0.08)}
+.gate-icon{font-size:22px;text-align:center}
+.gate-name{font-size:14px;color:var(--text-strong);font-weight:600}
+.gate-status{font-size:12px;color:var(--text-dim);margin-top:2px}
+.gate-bar{height:6px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden}
+.gate-bar div{height:100%;border-radius:3px;background:var(--gate-color,var(--accent-cyan));transition:width 800ms cubic-bezier(.2,.8,.2,1)}
+
+/* TESTIMONIALS */
+.testimonial-wall{position:relative}
+.testimonial-tabs{display:flex;gap:8px;margin-bottom:32px;flex-wrap:wrap}
+.test-tab{padding:8px 20px;border-radius:100px;background:rgba(17,30,53,0.3);border:1px solid var(--line-soft);color:var(--text-dim);font-size:13px;font-weight:500;cursor:pointer;transition:all 200ms;font-family:'Inter',sans-serif}
+.test-tab.active{background:var(--surface-glass);color:var(--accent-cyan);border-color:var(--accent-cyan)}
+.test-tab:hover{border-color:var(--line-strong)}
+.testimonial-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+.testimonial-card{padding:28px;border-radius:var(--radius-md);transition:all 300ms}
+.testimonial-card.hidden{display:none}
+.test-quote{font-size:16px;line-height:1.7;color:var(--text-strong);margin-bottom:20px;font-style:italic;position:relative;padding-left:20px;border-left:2px solid var(--accent-cyan)}
+.test-meta{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.test-avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent-indigo),var(--accent-cyan));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.test-name{font-size:14px;font-weight:600;color:var(--text-strong)}
+.test-company{font-size:12px;color:var(--text-dim)}
+.test-outcomes{display:flex;gap:8px;flex-wrap:wrap}
+.test-chip{padding:4px 12px;border-radius:100px;background:rgba(99,217,255,0.08);border:1px solid rgba(99,217,255,0.15);font-size:12px;color:var(--accent-cyan)}
+
+/* DASHBOARD PREVIEW */
+.dash-toggle{display:flex;background:rgba(5,9,24,0.5);border-radius:10px;padding:3px;border:1px solid var(--line-soft)}
+.dash-btn{padding:8px 20px;border-radius:8px;border:none;background:transparent;color:var(--text-dim);font-size:13px;font-weight:500;cursor:pointer;transition:all 200ms;font-family:'Inter',sans-serif}
+.dash-btn.active{background:var(--surface-glass);color:var(--accent-cyan);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.dash-view{display:none}.dash-view.active{display:block;animation:fadeSlideIn 300ms}
+.dash-stat{padding:18px;border-radius:12px;background:rgba(5,9,24,0.4);border:1px solid var(--line-soft);text-align:center}
+.ds-val{font-family:'JetBrains Mono';font-size:28px;font-weight:700;color:var(--text-strong)}
+.ds-label{font-size:12px;color:var(--text-dim);margin-top:4px;text-transform:uppercase;letter-spacing:0.04em}
+
+/* CASE STUDIES */
+.case-scroll{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.case-card{padding:28px;border-radius:var(--radius-md);position:relative;overflow:hidden;cursor:pointer}
+.case-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(99,217,255,0.1);color:var(--accent-cyan);font-size:12px;font-weight:500;margin-bottom:14px}
+.case-card h3{font-size:18px;line-height:1.4;margin-bottom:14px}
+.case-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--text-dim);margin-bottom:14px}
+.case-expand{font-size:13px;color:var(--accent-cyan);opacity:0;transform:translateY(8px);transition:all 300ms}
+.case-card:hover .case-expand{opacity:1;transform:translateY(0)}
+
+/* FRAUD */
+.fraud-scan-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent-cyan),transparent);animation:fraudScan 3s linear infinite}
+@keyframes fraudScan{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+.fraud-check{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;font-size:14px;transition:background 200ms}
+.fraud-check:hover{background:rgba(255,255,255,0.03)}
+.fc-status{font-family:'JetBrains Mono';font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;min-width:50px;text-align:center;flex-shrink:0}
+.fc-pass{background:rgba(52,211,153,0.12);color:var(--ok)}
+.fc-warn{background:rgba(245,158,11,0.12);color:var(--warn)}
+.fc-fail{background:rgba(251,113,133,0.12);color:var(--risk)}
+
+/* INTEGRATIONS */
+.integration-grid{display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap}
+.integ-node{padding:28px 24px;border-radius:var(--radius-md);text-align:center;min-width:160px;position:relative}
+.integ-center{min-width:200px;border-color:rgba(99,217,255,0.3);box-shadow:0 0 40px rgba(99,217,255,0.1)}
+.integ-icon{font-size:28px;margin-bottom:10px}
+.integ-label{font-size:14px;color:var(--text-body)}
+.integ-port{width:8px;height:8px;border-radius:50%;background:var(--accent-indigo);position:absolute;right:-4px;top:50%;transform:translateY(-50%);box-shadow:0 0 8px var(--glow-indigo)}
+
+/* METRICS WALL */
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.metric-tile{padding:40px 28px;border-radius:var(--radius-md);text-align:center;transition:all 300ms}
+.metric-tile:hover{border-color:var(--line-strong);box-shadow:0 0 40px rgba(99,217,255,0.08)}
+.mt-value{font-family:'JetBrains Mono';font-size:48px;font-weight:700;color:var(--text-strong);margin-bottom:8px}
+.mt-label{font-size:15px;color:var(--text-body);margin-bottom:8px}
+.mt-delta{font-size:13px;color:var(--accent-teal);padding:4px 12px;border-radius:100px;background:rgba(63,200,180,0.08);display:inline-block}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;max-width:1060px;margin:0 auto}
+.pricing-card{padding:36px;border-radius:var(--radius-md);text-align:left;position:relative}
+.pricing-featured{border-color:var(--accent-cyan);box-shadow:0 0 40px rgba(99,217,255,0.1)}
+.price-badge{position:absolute;top:-12px;right:24px;padding:4px 14px;border-radius:100px;background:linear-gradient(135deg,var(--accent-indigo),var(--accent-cyan));font-size:12px;font-weight:600;color:#fff}
+.price-tier{font-family:'JetBrains Mono';font-size:12px;color:var(--accent-cyan);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+.pricing-card h3{font-size:22px;margin-bottom:12px}
+.pricing-card p{font-size:14px;color:var(--text-dim);margin-bottom:20px;line-height:1.6}
+.pricing-card ul{list-style:none;margin-bottom:24px;display:flex;flex-direction:column;gap:10px}
+.pricing-card li{font-size:14px;padding-left:20px;position:relative}
+.pricing-card li::before{content:"✓";position:absolute;left:0;color:var(--accent-teal);font-weight:700}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:12px}
+.faq-item{border-radius:var(--radius-sm);overflow:hidden;transition:all 300ms}
+.faq-item.open{background:var(--surface-glass-strong);border-color:var(--line-strong)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:none;border:none;color:var(--text-strong);font-size:16px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;text-align:left;gap:16px}
+.faq-icon{font-size:20px;color:var(--accent-cyan);transition:transform 300ms;flex-shrink:0}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 400ms cubic-bezier(.2,.8,.2,1)}
+.faq-item.open .faq-a{max-height:200px}
+.faq-a p{padding:0 24px 20px;font-size:15px;line-height:1.7;color:var(--text-body)}
+
+/* FINAL CTA */
+.cta-glow{position:absolute;inset:-2px;border-radius:inherit;background:linear-gradient(135deg,var(--accent-indigo),var(--accent-cyan),var(--accent-teal),var(--accent-violet));opacity:0.15;filter:blur(40px);z-index:-1}
+.final-cta{position:relative;overflow:hidden}
+
+/* FOOTER */
+.footer-grid{display:grid;grid-template-columns:2fr repeat(5,1fr);gap:32px}
+.footer-col h4{font-size:13px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-dim);margin-bottom:16px;font-family:'Inter',sans-serif}
+.footer-col a{display:block;font-size:14px;color:var(--text-dim);padding:4px 0;transition:color 180ms}
+.footer-col a:hover{color:var(--text-strong)}
+
+/* RESPONSIVE ADDITIONS */
+@media(max-width:1024px){
+.signal-container{grid-template-columns:1fr!important}
+.footer-grid{grid-template-columns:1fr 1fr 1fr}
+.pricing-grid{grid-template-columns:1fr}
+#fraud .container{grid-template-columns:1fr!important}
+.dashboard-frame .dash-stat{padding:12px}
+.ds-val{font-size:22px}
+}
+@media(max-width:768px){
+.footer-grid{grid-template-columns:1fr 1fr}
+.testimonial-grid{grid-template-columns:1fr}
+.metrics-grid{grid-template-columns:1fr 1fr}
+.timeline-rail{padding-left:30px}
+}
+</style>
+
+<!-- ═══════ JAVASCRIPT ═══════ -->
+<script>
+// NAVBAR SCROLL SHRINK
+const navbar = document.getElementById('navbar');
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      navbar.classList.toggle('scrolled', window.scrollY > 24);
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+
+// SCROLL REVEAL
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 40);
+      revealObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => revealObs.observe(el));
+
+// PILLAR TABS
+const pillarData = [
+  { title: 'Elite Talent Sourcing', text: 'We identify specialized talent across channels, not just applications. Your pipeline is built for quality, not volume.', features: ['Multi-channel sourcing','Quality over volume','Specialized role matching','Active + passive talent'] },
+  { title: 'Hard Gate Verification', text: 'Verification is not a checkbox. We require evidence, surface risk signals, and prevent blind progression through the pipeline.', features: ['Evidence requirements','Risk signal detection','Gate enforcement','Progression controls'] },
+  { title: 'Secure Infrastructure', text: 'Workflows are designed for governance. Clear roles, controlled visibility, and audit ready outputs.', features: ['Role-based access','Audit logging','Data isolation','Evidence provenance'] },
+  { title: 'Talent Intelligence Reporting', text: 'Decision making improves when the system explains itself. NorthStar produces transparent reporting on progress, blockers, and outcomes.', features: ['Progress tracking','Blocker visibility','Outcome analytics','Stakeholder reports'] }
+];
+
+function renderPillar(idx) {
+  const d = pillarData[idx];
+  const display = document.getElementById('pillarDisplay');
+  display.innerHTML = `<div class="pillar-content"><h3>${d.title}</h3><p>${d.text}</p><div class="pillar-features">${d.features.map(f => `<div class="pillar-feature"><div class="feat-icon"></div>${f}</div>`).join('')}</div></div>`;
+  document.querySelectorAll('.pillar-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+}
+renderPillar(0);
+document.querySelectorAll('.pillar-tab').forEach(tab => {
+  tab.addEventListener('click', () => renderPillar(parseInt(tab.dataset.pillar)));
+  tab.addEventListener('mouseenter', () => renderPillar(parseInt(tab.dataset.pillar)));
+});
+
+// TESTIMONIAL FILTER
+document.querySelectorAll('.test-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.test-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter = tab.dataset.filter;
+    document.querySelectorAll('.testimonial-card').forEach(card => {
+      card.classList.toggle('hidden', filter !== 'all' && card.dataset.cat !== filter);
+    });
+  });
+});
+
+// DASHBOARD TOGGLE
+document.querySelectorAll('.dash-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.dash-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.dash-view').forEach(v => v.classList.remove('active'));
+    document.getElementById(btn.dataset.view === 'client' ? 'dashClient' : 'dashExec').classList.add('active');
+  });
+});
+
+// COUNTER ANIMATION
+function animateCounters() {
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1200;
+    const start = performance.now();
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  });
+}
+
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { animateCounters(); counterObs.unobserve(entry.target); }
+  });
+}, { threshold: 0.3 });
+
+const heroPreview = document.querySelector('.hero-preview');
+if (heroPreview) counterObs.observe(heroPreview);
+const metricsSection = document.getElementById('metrics');
+if (metricsSection) counterObs.observe(metricsSection);
+
+// RISK SIMULATION
+function simulateRisk() {
+  const result = document.getElementById('simResult');
+  result.style.opacity = '1';
+  result.style.color = 'var(--warn)';
+  result.innerHTML = '⏳ Scanning candidate profile...';
+  setTimeout(() => {
+    result.innerHTML = '⚠️ IDENTITY FLAG DETECTED — Employment gap inconsistency';
+    result.style.color = 'var(--risk)';
+  }, 1200);
+  setTimeout(() => {
+    result.innerHTML = '🔍 Cross-referencing evidence sources...';
+    result.style.color = 'var(--accent-cyan)';
+  }, 2400);
+  setTimeout(() => {
+    result.innerHTML = '✓ VERIFICATION OUTCOME: <span style="color:var(--warn);font-weight:700">FLAGGED — MANUAL REVIEW REQUIRED</span>';
+    result.style.color = 'var(--text-strong)';
+  }, 3600);
+}
+
+// PARTICLES
+const particlesContainer = document.getElementById('particles');
+if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = Math.random() * 10 + 's';
+    p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+    p.style.opacity = 0.1 + Math.random() * 0.5;
+    particlesContainer.appendChild(p);
+  }
+}
+
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>

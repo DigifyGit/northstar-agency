@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NorthStar Agency — Talent Intelligence Infrastructure</title>
+<meta name="description" content="NorthStar is a talent intelligence infrastructure layer for recruiting and staffing teams. Evidence-first verification, fraud risk scoring, and decision-ready reporting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════ V11 DESIGN SYSTEM ═══════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg-0:#050918;--bg-1:#0a1128;--bg-2:#111e35;
+  --surface-glass:rgba(17,30,53,0.55);--surface-glass-strong:rgba(17,30,53,0.75);
+  --text-strong:#f0f4fc;--text-body:#c0c8dc;--text-dim:#6b7a99;
+  --accent-cyan:#63d9ff;--accent-indigo:#818cf8;--accent-violet:#a78bfa;
+  --accent-teal:#34d399;--accent-rose:#fb7185;--accent-amber:#f59e0b;
+  --glow-cyan:rgba(99,217,255,0.25);--glow-indigo:rgba(129,140,248,0.25);
+  --glow-violet:rgba(167,139,250,0.2);
+  --ok:#34d399;--warn:#f59e0b;--risk:#fb7185;
+  --line-soft:rgba(255,255,255,0.06);--line-strong:rgba(255,255,255,0.12);
+  --radius-sm:8px;--radius-md:16px;--radius-lg:24px;--radius-xl:32px;
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);color:var(--text-body);background:var(--bg-0);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:var(--font-display);color:var(--text-strong);line-height:1.15;font-weight:700}
+a{color:inherit;text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.section{padding:120px 0;position:relative}
+.grad{background:linear-gradient(135deg,var(--accent-cyan),var(--accent-indigo),var(--accent-violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ns-glass{background:var(--surface-glass);border:1px solid var(--line-soft);border-radius:var(--radius-md);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.ns-glass-strong{background:var(--surface-glass-strong);border:1px solid var(--line-strong);border-radius:var(--radius-md);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+
+/* ═══════ PAGE BACKGROUND ═══════ */
+.page-bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(129,140,248,0.08),transparent 70%),radial-gradient(ellipse 60% 50% at 80% 80%,rgba(99,217,255,0.05),transparent 60%),var(--bg-0)}
+.page-bg::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");opacity:0.4}
+
+/* ═══════ ANIMATIONS ═══════ */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes pulse-ring{0%{transform:scale(0.8);opacity:1}100%{transform:scale(2.2);opacity:0}}
+@keyframes sweep{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glow-pulse{0%,100%{box-shadow:0 0 20px var(--glow-cyan),0 0 60px rgba(99,217,255,0.1)}50%{box-shadow:0 0 40px var(--glow-cyan),0 0 100px rgba(99,217,255,0.2)}}
+@keyframes scan-line{0%{top:-2px}100%{top:100%}}
+@keyframes orbit{0%{transform:rotate(0deg) translateX(var(--orbit-r)) rotate(0deg)}100%{transform:rotate(360deg) translateX(var(--orbit-r)) rotate(-360deg)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes morph{0%,100%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%}25%{border-radius:30% 60% 70% 40%/50% 60% 30% 60%}50%{border-radius:50% 60% 30% 60%/30% 60% 70% 40%}75%{border-radius:60% 40% 60% 30%/40% 50% 60% 50%}}
+.reveal{opacity:0;transform:translateY(30px);transition:all 0.8s cubic-bezier(0.16,1,0.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ═══════ BUTTONS ═══════ */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:0 28px;height:48px;border-radius:12px;font-family:var(--font-display);font-weight:600;font-size:15px;border:none;cursor:pointer;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.3s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(0.98)}
+.btn-primary{background:linear-gradient(135deg,var(--accent-cyan),var(--accent-indigo));color:#fff;box-shadow:0 4px 24px var(--glow-cyan)}
+.btn-primary:hover{box-shadow:0 8px 40px var(--glow-cyan)}
+.btn-primary::before{background:linear-gradient(135deg,var(--accent-indigo),var(--accent-violet))}
+.btn-primary:hover::before{opacity:1}
+.btn-secondary{background:transparent;color:var(--text-strong);border:1px solid var(--line-strong);backdrop-filter:blur(12px)}
+.btn-secondary:hover{border-color:var(--accent-cyan);color:var(--accent-cyan);box-shadow:0 0 24px rgba(99,217,255,0.08)}
+/* Magnetic hover effect via JS */
+.btn-magnetic{transition:transform 0.2s ease-out}
+
+/* ═══════ NAVBAR ═══════ */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 0;transition:all 0.4s cubic-bezier(0.16,1,0.3,1)}
+.navbar.scrolled{padding:10px 0;background:rgba(5,9,24,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--line-soft)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--text-strong);letter-spacing:0.04em}
+.nav-logo svg{width:28px;height:28px;color:var(--accent-cyan);filter:drop-shadow(0 0 8px var(--glow-cyan))}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-link{color:var(--text-dim);font-size:14px;font-weight:500;transition:color 0.2s;position:relative}
+.nav-link:hover{color:var(--text-strong)}
+.nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent-cyan);transition:width 0.3s;border-radius:1px}
+.nav-link:hover::after{width:100%}
+.nav-actions{display:flex;align-items:center;gap:12px}
+.nav-actions .btn{height:40px;font-size:13px;padding:0 20px}
+
+/* ═══════ HERO — KINETIC SPLIT ═══════ */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:100px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.hero-content h1{font-size:clamp(40px,5vw,64px);margin-bottom:24px;line-height:1.05}
+.hero-content p{font-size:18px;max-width:480px;margin-bottom:36px;color:var(--text-body)}
+.hero-ctas{display:flex;gap:16px;margin-bottom:24px}
+.hero-proof{display:flex;gap:20px;font-size:13px;color:var(--text-dim)}
+.hero-proof span{display:flex;align-items:center;gap:6px}
+.hero-proof span::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent-cyan);box-shadow:0 0 8px var(--glow-cyan)}
+
+/* Signal Scanner — the living hero panel */
+.signal-scanner{position:relative;width:100%;aspect-ratio:4/3;border-radius:var(--radius-lg);overflow:hidden;background:rgba(5,9,24,0.6);border:1px solid var(--line-strong);box-shadow:0 0 80px rgba(99,217,255,0.06),inset 0 0 60px rgba(5,9,24,0.5)}
+.scanner-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);background-size:40px 40px;opacity:0.3}
+.scanner-sweep{position:absolute;top:50%;left:50%;width:180px;height:180px;margin:-90px 0 0 -90px;border:2px solid transparent;border-top-color:var(--accent-cyan);border-radius:50%;animation:sweep 3s linear infinite;filter:drop-shadow(0 0 12px var(--glow-cyan))}
+.scanner-sweep::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;border:1px solid rgba(99,217,255,0.3);box-shadow:0 0 20px var(--glow-cyan)}
+.scanner-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;background:var(--accent-cyan);box-shadow:0 0 20px var(--glow-cyan);z-index:3}
+.scanner-ping{position:absolute;width:10px;height:10px;border-radius:50%;z-index:2;animation:float 3s ease-in-out infinite}
+.scanner-ping::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid;opacity:0;animation:pulse-ring 2s ease-out infinite}
+.scanner-ping.green{background:var(--ok);box-shadow:0 0 12px rgba(52,211,153,0.5)}.scanner-ping.green::after{border-color:var(--ok)}
+.scanner-ping.amber{background:var(--warn);box-shadow:0 0 12px rgba(245,158,11,0.5)}.scanner-ping.amber::after{border-color:var(--warn)}
+.scanner-ping.red{background:var(--risk);box-shadow:0 0 12px rgba(251,113,133,0.5)}.scanner-ping.red::after{border-color:var(--risk)}
+.scanner-stats{position:absolute;bottom:16px;left:16px;right:16px;display:flex;gap:8px;z-index:3}
+.scanner-stat{flex:1;padding:12px;border-radius:var(--radius-sm);background:rgba(5,9,24,0.7);border:1px solid var(--line-soft);backdrop-filter:blur(8px)}
+.scanner-stat-val{font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--text-strong)}
+.scanner-stat-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px}
+.scanner-hud{position:absolute;top:16px;left:16px;display:flex;align-items:center;gap:8px;z-index:3}
+.scanner-hud-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:glow-pulse 2s infinite}
+.scanner-hud-label{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);letter-spacing:0.06em}
+
+/* ═══════ TRUST TICKER ═══════ */
+.trust-ticker{overflow:hidden;padding:32px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);position:relative}
+.trust-ticker::before,.trust-ticker::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
+.trust-ticker::before{left:0;background:linear-gradient(90deg,var(--bg-0),transparent)}
+.trust-ticker::after{right:0;background:linear-gradient(-90deg,var(--bg-0),transparent)}
+.ticker-track{display:flex;gap:48px;animation:ticker 30s linear infinite;width:max-content}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:flex;align-items:center;gap:12px;white-space:nowrap;padding:8px 20px;border-radius:100px;background:rgba(17,30,53,0.4);border:1px solid var(--line-soft);font-size:13px;color:var(--text-dim);font-weight:500;transition:all 0.3s}
+.ticker-item:hover{border-color:var(--accent-cyan);color:var(--accent-cyan);background:rgba(99,217,255,0.05)}
+.ticker-item .tick-icon{font-size:16px}
+.ticker-counter{font-family:var(--font-mono);font-weight:700;color:var(--accent-cyan)}
+
+/* ═══════ NARRATIVE REACTOR (Scrollytelling) ═══════ */
+.narrative-section{position:relative;min-height:400vh}
+.narrative-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden}
+.narrative-container{display:grid;grid-template-columns:280px 1fr;gap:64px;align-items:center;width:100%}
+.narrative-rail{display:flex;flex-direction:column;gap:0}
+.narrative-checkpoint{padding:20px 24px;border-left:2px solid var(--line-soft);cursor:pointer;transition:all 0.4s;position:relative}
+.narrative-checkpoint.active{border-left-color:var(--accent-cyan)}
+.narrative-checkpoint.active::before{content:'';position:absolute;left:-5px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--accent-cyan);box-shadow:0 0 12px var(--glow-cyan)}
+.narrative-checkpoint h4{font-size:14px;color:var(--text-dim);transition:color 0.3s;font-weight:600}
+.narrative-checkpoint.active h4{color:var(--text-strong)}
+.narrative-checkpoint p{font-size:12px;color:var(--text-dim);opacity:0;max-height:0;overflow:hidden;transition:all 0.4s}
+.narrative-checkpoint.active p{opacity:1;max-height:60px;margin-top:8px}
+.narrative-stage{position:relative;height:500px;border-radius:var(--radius-xl);overflow:hidden}
+.narrative-scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px;opacity:0;transform:scale(0.9);transition:all 0.6s cubic-bezier(0.16,1,0.3,1);pointer-events:none}
+.narrative-scene.active{opacity:1;transform:scale(1);pointer-events:auto}
+.narrative-blob{width:200px;height:200px;border-radius:60% 40% 30% 70%/60% 30% 70% 40%;animation:morph 8s ease-in-out infinite;margin-bottom:32px;opacity:0.6}
+.narrative-scene h3{font-size:clamp(24px,3vw,36px);margin-bottom:12px}
+.narrative-scene p{font-size:15px;color:var(--text-body);max-width:400px;margin-bottom:24px}
+.narrative-metrics{display:flex;gap:24px;justify-content:center}
+.narrative-metric{text-align:center}
+.narrative-metric-val{font-family:var(--font-mono);font-size:28px;font-weight:700;color:var(--text-strong)}
+.narrative-metric-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.04em;margin-top:4px}
+
+/* ═══════ SIGNAL VS NOISE — INTERACTIVE COMPARATOR ═══════ */
+.comparator-section .comparator-wrap{max-width:900px;margin:0 auto}
+.comparator-header{text-align:center;margin-bottom:48px}
+.comparator-header h2{font-size:clamp(28px,3.5vw,42px);margin-bottom:12px}
+.threshold-control{display:flex;align-items:center;gap:20px;justify-content:center;margin-bottom:40px;padding:16px 24px;border-radius:var(--radius-md);background:var(--surface-glass);border:1px solid var(--line-soft)}
+.threshold-label{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em}
+.threshold-slider{-webkit-appearance:none;width:240px;height:4px;border-radius:2px;background:linear-gradient(90deg,var(--risk),var(--warn),var(--ok));outline:none;cursor:pointer}
+.threshold-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--text-strong);box-shadow:0 0 12px var(--glow-cyan);cursor:pointer;transition:transform 0.2s}
+.threshold-slider::-webkit-slider-thumb:hover{transform:scale(1.3)}
+.threshold-value{font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--accent-cyan);min-width:48px;text-align:center}
+.comparator-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.comp-panel{border-radius:var(--radius-md);padding:28px;position:relative;overflow:hidden}
+.comp-panel h3{font-size:18px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.comp-item{padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);font-size:14px}
+.comp-item.dissolved{opacity:0.15;transform:scale(0.95);filter:blur(2px)}
+.comp-item .comp-score{font-family:var(--font-mono);font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px}
+.noise-panel{background:rgba(251,113,133,0.04);border:1px solid rgba(251,113,133,0.1)}
+.noise-panel .comp-item{background:rgba(251,113,133,0.06);border:1px solid rgba(251,113,133,0.08)}
+.noise-panel .comp-score{background:rgba(251,113,133,0.12);color:var(--risk)}
+.signal-panel{background:rgba(52,211,153,0.04);border:1px solid rgba(52,211,153,0.1)}
+.signal-panel .comp-item{background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.08)}
+.signal-panel .comp-score{background:rgba(52,211,153,0.12);color:var(--ok)}
+.comparator-outcome{text-align:center;margin-top:32px;padding:20px;border-radius:var(--radius-md);background:var(--surface-glass);border:1px solid var(--line-soft)}
+.comparator-outcome span{font-family:var(--font-mono);font-size:14px;color:var(--accent-cyan)}
+
+/* ═══════ RADIAL COMMAND MENU — PILLARS ═══════ */
+.radial-section{overflow:hidden}
+.radial-wrap{display:flex;gap:64px;align-items:center}
+.radial-ring{position:relative;width:400px;height:400px;flex-shrink:0}
+.radial-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(99,217,255,0.15),transparent);border:2px solid var(--accent-cyan);display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 0 40px var(--glow-cyan);z-index:2}
+.radial-node{position:absolute;width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);z-index:3;border:2px solid var(--line-strong);background:var(--surface-glass-strong);backdrop-filter:blur(12px)}
+.radial-node:hover,.radial-node.active{transform:scale(1.2);border-color:var(--accent-cyan);box-shadow:0 0 30px var(--glow-cyan)}
+.radial-node::after{content:attr(data-label);position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--text-dim);white-space:nowrap;font-weight:600;text-transform:uppercase;letter-spacing:0.04em}
+.radial-connector{position:absolute;top:50%;left:50%;width:120px;height:1px;transform-origin:left center;background:linear-gradient(90deg,var(--accent-cyan),transparent);opacity:0.3}
+.radial-detail{flex:1}
+.radial-detail-card{padding:40px;border-radius:var(--radius-lg);opacity:0;transform:translateX(20px);transition:all 0.5s cubic-bezier(0.16,1,0.3,1);display:none}
+.radial-detail-card.active{opacity:1;transform:translateX(0);display:block}
+.radial-detail-card h3{font-size:28px;margin-bottom:12px}
+.radial-detail-card p{font-size:15px;margin-bottom:24px;line-height:1.7}
+.radial-features{display:flex;flex-direction:column;gap:12px}
+.radial-feature{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:var(--radius-sm);background:rgba(5,9,24,0.4);border:1px solid var(--line-soft);font-size:14px;transition:all 0.3s}
+.radial-feature:hover{border-color:var(--accent-cyan);transform:translateX(4px)}
+.radial-feature-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+
+/* ═══════ MISSION PIPELINE — PROCESS ═══════ */
+.pipeline-section{overflow:hidden}
+.pipeline-track{display:flex;gap:0;position:relative;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:20px}
+.pipeline-track::-webkit-scrollbar{display:none}
+.pipeline-phase{min-width:260px;flex-shrink:0;position:relative;padding:0 12px}
+.pipeline-beam{position:absolute;top:32px;left:0;right:0;height:3px;background:var(--line-soft);z-index:0}
+.pipeline-beam-fill{height:100%;background:linear-gradient(90deg,var(--accent-cyan),var(--accent-indigo));border-radius:2px;width:0;transition:width 1.5s cubic-bezier(0.16,1,0.3,1)}
+.pipeline-node{position:relative;z-index:2}
+.pipeline-dot{width:20px;height:20px;border-radius:50%;background:var(--bg-1);border:3px solid var(--line-strong);margin-bottom:20px;transition:all 0.4s;position:relative}
+.pipeline-dot::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid transparent;transition:all 0.4s}
+.pipeline-phase.active .pipeline-dot{border-color:var(--accent-cyan);background:var(--accent-cyan);box-shadow:0 0 16px var(--glow-cyan)}
+.pipeline-phase.active .pipeline-dot::after{border-color:rgba(99,217,255,0.3)}
+.pipeline-card{padding:24px;border-radius:var(--radius-md);transition:all 0.4s;cursor:pointer}
+.pipeline-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.pipeline-num{font-family:var(--font-mono);font-size:11px;color:var(--accent-cyan);margin-bottom:8px;letter-spacing:0.08em}
+.pipeline-card h3{font-size:18px;margin-bottom:8px}
+.pipeline-card p{font-size:13px;color:var(--text-dim);margin-bottom:14px}
+.pipeline-output{font-size:12px;color:var(--accent-teal);padding:8px 12px;border-radius:6px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.1);display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.pipeline-confidence{height:4px;border-radius:2px;background:rgba(255,255,255,0.06);overflow:hidden}
+.pipeline-confidence div{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent-cyan),var(--accent-indigo));transition:width 1s}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero-content p{margin:0 auto 36px}
+  .hero-ctas{justify-content:center}
+  .hero-proof{justify-content:center}
+  .signal-scanner{max-width:500px;margin:0 auto}
+  .narrative-container{grid-template-columns:1fr}
+  .narrative-rail{flex-direction:row;overflow-x:auto}
+  .narrative-checkpoint{border-left:none;border-bottom:2px solid var(--line-soft);min-width:120px}
+  .narrative-checkpoint.active{border-bottom-color:var(--accent-cyan)}
+  .comparator-grid{grid-template-columns:1fr}
+  .radial-wrap{flex-direction:column}
+  .radial-ring{width:300px;height:300px}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+<div class="page-bg"></div>
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav class="navbar" id="navbar">
+<div class="container">
+<div class="nav-inner">
+<a href="#" class="nav-logo"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z" fill="currentColor" opacity="0.9"/><circle cx="16" cy="16" r="3" fill="currentColor"/></svg>NORTHSTAR</a>
+<div class="nav-links">
+<a href="#platform" class="nav-link">Platform</a>
+<a href="#services" class="nav-link">Services</a>
+<a href="#process" class="nav-link">Process</a>
+<a href="#industries" class="nav-link">Industries</a>
+<a href="#insights" class="nav-link">Insights</a>
+<a href="#fraud" class="nav-link">Fraud Protection</a>
+<a href="#pricing" class="nav-link">Pricing</a>
+<a href="#contact" class="nav-link">Contact</a>
+</div>
+<div class="nav-actions">
+<a href="#login" class="btn btn-secondary" style="border-radius:10px">Client Login</a>
+<a href="#access" class="btn btn-primary btn-magnetic" style="border-radius:10px">Request Access</a>
+</div>
+</div>
+</div>
+</nav>
+
+<!-- ═══════ HERO — KINETIC SPLIT ═══════ -->
+<section class="hero" id="hero">
+<div class="container">
+<div class="hero-grid">
+<div class="hero-content">
+<h1>Architecting the<br><span class="grad">Future of<br>Workforce</span></h1>
+<p>NorthStar is a talent intelligence infrastructure layer for recruiting and staffing teams. We combine AI sourcing with evidence based verification so every shortlist is built on signal, not noise.</p>
+<div class="hero-ctas">
+<a class="btn btn-primary btn-magnetic" href="#access">Request Access <span>→</span></a>
+<a class="btn btn-secondary btn-magnetic" href="#process">View the Process</a>
+</div>
+<div class="hero-proof">
+<span>Verified sourcing</span>
+<span>Risk aware screening</span>
+<span>Audit ready reporting</span>
+</div>
+</div>
+<div class="signal-scanner" id="signalScanner">
+<div class="scanner-grid"></div>
+<div class="scanner-hud"><div class="scanner-hud-dot"></div><span class="scanner-hud-label">LIVE SCAN</span></div>
+<div class="scanner-sweep"></div>
+<div class="scanner-center"></div>
+<div class="scanner-ping green" style="top:25%;left:30%;animation-delay:0s"></div>
+<div class="scanner-ping green" style="top:40%;left:65%;animation-delay:0.5s"></div>
+<div class="scanner-ping amber" style="top:60%;left:45%;animation-delay:1s"></div>
+<div class="scanner-ping green" style="top:35%;left:75%;animation-delay:1.5s"></div>
+<div class="scanner-ping red" style="top:55%;left:25%;animation-delay:2s"></div>
+<div class="scanner-ping green" style="top:20%;left:55%;animation-delay:2.5s"></div>
+<div class="scanner-stats">
+<div class="scanner-stat"><div class="scanner-stat-val">58</div><div class="scanner-stat-label">Readiness Score</div></div>
+<div class="scanner-stat"><div class="scanner-stat-val">31</div><div class="scanner-stat-label">Active Candidates</div></div>
+<div class="scanner-stat"><div class="scanner-stat-val">94%</div><div class="scanner-stat-label">Verification Rate</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ TRUST TICKER ═══════ -->
+<div class="trust-ticker reveal">
+<div class="ticker-track" id="tickerTrack">
+<div class="ticker-item"><span class="tick-icon">🛡️</span>Evidence-first verification</div>
+<div class="ticker-item"><span class="tick-icon">⚡</span>Fraud prevented: <span class="ticker-counter" data-count="847">0</span></div>
+<div class="ticker-item"><span class="tick-icon">📊</span>Shortlists verified: <span class="ticker-counter" data-count="2340">0</span></div>
+<div class="ticker-item"><span class="tick-icon">⏱</span>Avg cycle: <span class="ticker-counter" data-count="12">0</span> days</div>
+<div class="ticker-item"><span class="tick-icon">🎯</span>Interview conversion: <span class="ticker-counter" data-count="31">0</span>%</div>
+<div class="ticker-item"><span class="tick-icon">📋</span>Clear decision trails</div>
+<div class="ticker-item"><span class="tick-icon">🔒</span>Audit logged</div>
+<div class="ticker-item"><span class="tick-icon">✦</span>Identity signals surfaced</div>
+<!-- duplicate for seamless loop -->
+<div class="ticker-item"><span class="tick-icon">🛡️</span>Evidence-first verification</div>
+<div class="ticker-item"><span class="tick-icon">⚡</span>Fraud prevented: <span class="ticker-counter" data-count="847">0</span></div>
+<div class="ticker-item"><span class="tick-icon">📊</span>Shortlists verified: <span class="ticker-counter" data-count="2340">0</span></div>
+<div class="ticker-item"><span class="tick-icon">⏱</span>Avg cycle: <span class="ticker-counter" data-count="12">0</span> days</div>
+<div class="ticker-item"><span class="tick-icon">🎯</span>Interview conversion: <span class="ticker-counter" data-count="31">0</span>%</div>
+<div class="ticker-item"><span class="tick-icon">📋</span>Clear decision trails</div>
+<div class="ticker-item"><span class="tick-icon">🔒</span>Audit logged</div>
+<div class="ticker-item"><span class="tick-icon">✦</span>Identity signals surfaced</div>
+</div>
+</div>
+
+<!-- ═══════ NARRATIVE REACTOR (Scrollytelling) ═══════ -->
+<section class="section narrative-section reveal" id="platform">
+<div class="narrative-sticky">
+<div class="container">
+<div class="narrative-container">
+<div class="narrative-rail" id="narrativeRail">
+<div class="narrative-checkpoint active" data-scene="0"><h4>01 — The Problem</h4><p>Hiring is broken by noise</p></div>
+<div class="narrative-checkpoint" data-scene="1"><h4>02 — The Signal</h4><p>Evidence replaces assumptions</p></div>
+<div class="narrative-checkpoint" data-scene="2"><h4>03 — Verification</h4><p>Risk surfaces before interviews</p></div>
+<div class="narrative-checkpoint" data-scene="3"><h4>04 — Intelligence</h4><p>Data drives every decision</p></div>
+<div class="narrative-checkpoint" data-scene="4"><h4>05 — Outcomes</h4><p>Faster, cheaper, better hires</p></div>
+<div class="narrative-checkpoint" data-scene="5"><h4>06 — The Future</h4><p>Recruiting as operating system</p></div>
+</div>
+<div class="narrative-stage ns-glass-strong" id="narrativeStage">
+<div class="narrative-scene active" data-idx="0">
+<div class="narrative-blob" style="background:linear-gradient(135deg,var(--risk),var(--warn));"></div>
+<h3>Hiring is drowning in <span class="grad">noise</span></h3>
+<p>85% of recruiter time is spent on candidates who will never convert. Volume-based pipelines create false confidence.</p>
+<div class="narrative-metrics"><div class="narrative-metric"><div class="narrative-metric-val">85%</div><div class="narrative-metric-label">Time Wasted</div></div><div class="narrative-metric"><div class="narrative-metric-val">3.2x</div><div class="narrative-metric-label">Cost Overrun</div></div><div class="narrative-metric"><div class="narrative-metric-val">67%</div><div class="narrative-metric-label">False Positives</div></div></div>
+</div>
+<div class="narrative-scene" data-idx="1">
+<div class="narrative-blob" style="background:linear-gradient(135deg,var(--accent-cyan),var(--accent-indigo));"></div>
+<h3>Evidence replaces <span class="grad">assumptions</span></h3>
+<p>NorthStar connects every candidate to verified evidence — skills, identity, and fit — before they enter your pipeline.</p>
+<div class="narrative-metrics"><div class="narrative-metric"><div class="narrative-metric-val">94%</div><div class="narrative-metric-label">Verified</div></div><div class="narrative-metric"><div class="narrative-metric-val">↓38%</div><div class="narrative-metric-label">Cycle Time</div></div><div class="narrative-metric"><div class="narrative-metric-val">2.1x</div><div class="narrative-metric-label">Conversion</div></div></div>
+</div>
+<div class="narrative-scene" data-idx="2">
+<div class="narrative-blob" style="background:linear-gradient(135deg,var(--warn),var(--risk));"></div>
+<h3>Risk surfaces <span class="grad">before interviews</span></h3>
+<p>Identity fraud, credential gaps, and behavioral anomalies are caught by automated verification gates.</p>
+<div class="narrative-metrics"><div class="narrative-metric"><div class="narrative-metric-val">100%</div><div class="narrative-metric-label">Screened</div></div><div class="narrative-metric"><div class="narrative-metric-val">847</div><div class="narrative-metric-label">Frauds Blocked</div></div><div class="narrative-metric"><div class="narrative-metric-val">5</div><div class="narrative-metric-label">Signal Layers</div></div></div>
+</div>
+<div class="narrative-scene" data-idx="3">
+<div class="narrative-blob" style="background:linear-gradient(135deg,var(--accent-indigo),var(--accent-violet));"></div>
+<h3>Data drives every <span class="grad">decision</span></h3>
+<p>Confidence scoring, fit matrices, and explainable recommendations replace gut feeling and bias.</p>
+<div class="narrative-metrics"><div class="narrative-metric"><div class="narrative-metric-val">74%</div><div class="narrative-metric-label">Avg Confidence</div></div><div class="narrative-metric"><div class="narrative-metric-val">12</div><div class="narrative-metric-label">Decision Points</div></div><div class="narrative-metric"><div class="narrative-metric-val">100%</div><div class="narrative-metric-label">Explainable</div></div></div>
+</div>
+<div class="narrative-scene" data-idx="4">
+<div class="narrative-blob" style="background:linear-gradient(135deg,var(--accent-teal),var(--ok));"></div>
+<h3>Faster, cheaper, <span class="grad">better hires</span></h3>
+<p>Teams using NorthStar see measurable improvements within 30 days — verified by outcome data, not promises.</p>
+<div class="narrative-metrics"><div class="narrative-metric"><div class="narrative-metric-val">12d</div><div class="narrative-metric-label">To Shortlist</div></div><div class="narrative-metric"><div class="narrative-metric-val">$42K</div><div class="narrative-metric-label">Cost/Quality Hire</div></div><div class="narrative-metric"><div class="narrative-metric-val">31%</div><div class="narrative-metric-label">Conversion Rate</div></div></div>
+</div>
+<div class="narrative-scene" data-idx="5">
+<div class="narrative-blob" style="background:linear-gradient(135deg,var(--accent-cyan),var(--accent-teal));"></div>
+<h3>Recruiting as an <span class="grad">operating system</span></h3>
+<p>NorthStar is not a tool. It is infrastructure — verification, intelligence, and decision support woven into every stage.</p>
+<div class="narrative-metrics"><div class="narrative-metric"><div class="narrative-metric-val">∞</div><div class="narrative-metric-label">Scalable</div></div><div class="narrative-metric"><div class="narrative-metric-val">24/7</div><div class="narrative-metric-label">Always On</div></div><div class="narrative-metric"><div class="narrative-metric-val">v3.2</div><div class="narrative-metric-label">Protocol</div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ SIGNAL VS NOISE — INTERACTIVE COMPARATOR ═══════ -->
+<section class="section comparator-section reveal" id="signal">
+<div class="container">
+<div class="comparator-wrap">
+<div class="comparator-header">
+<h2>Turn the hiring market into <span class="grad">signal</span></h2>
+<p style="color:var(--text-dim);max-width:560px;margin:0 auto">Drag the threshold to see which profiles survive evidence-based filtering.</p>
+</div>
+<div class="threshold-control">
+<span class="threshold-label">Verification Threshold</span>
+<input type="range" class="threshold-slider" id="thresholdSlider" min="0" max="100" value="50">
+<span class="threshold-value" id="thresholdVal">50%</span>
+</div>
+<div class="comparator-grid">
+<div class="comp-panel noise-panel">
+<h3>⚡ Noise <span style="font-size:13px;color:var(--text-dim);font-weight:400" id="noiseCount">(5 profiles)</span></h3>
+<div class="comp-item" data-score="20"><span>Duplicated listing — vague resume</span><span class="comp-score">20</span></div>
+<div class="comp-item" data-score="15"><span>No identity verification</span><span class="comp-score">15</span></div>
+<div class="comp-item" data-score="35"><span>Weak fit indicators</span><span class="comp-score">35</span></div>
+<div class="comp-item" data-score="10"><span>Employment gap unexplained</span><span class="comp-score">10</span></div>
+<div class="comp-item" data-score="25"><span>Volume-stuffed pipeline entry</span><span class="comp-score">25</span></div>
+</div>
+<div class="comp-panel signal-panel">
+<h3>◆ Signal <span style="font-size:13px;color:var(--text-dim);font-weight:400" id="signalCount">(5 profiles)</span></h3>
+<div class="comp-item" data-score="92"><span>Verified identity + skills match</span><span class="comp-score">92</span></div>
+<div class="comp-item" data-score="78"><span>Role aligned with evidence trail</span><span class="comp-score">78</span></div>
+<div class="comp-item" data-score="85"><span>Risk scored — no flags</span><span class="comp-score">85</span></div>
+<div class="comp-item" data-score="67"><span>Confidence metrics attached</span><span class="comp-score">67</span></div>
+<div class="comp-item" data-score="88"><span>Complete decision documentation</span><span class="comp-score">88</span></div>
+</div>
+</div>
+<div class="comparator-outcome" id="compOutcome">
+<span>At threshold <strong>50%</strong> — <strong>5</strong> noise profiles dissolved, <strong>4</strong> signal profiles remain</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ RADIAL COMMAND MENU — PILLARS ═══════ -->
+<section class="section radial-section reveal" id="services">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:64px">What NorthStar <span class="grad">delivers</span></h2>
+<div class="radial-wrap">
+<div class="radial-ring" id="radialRing">
+<div class="radial-center">✦</div>
+<div class="radial-node active" data-pillar="0" data-label="Sourcing" style="top:10%;left:50%;transform:translate(-50%,-50%)">🎯</div>
+<div class="radial-node" data-pillar="1" data-label="Verification" style="top:50%;right:0;transform:translate(50%,-50%)">🛡️</div>
+<div class="radial-node" data-pillar="2" data-label="Security" style="bottom:10%;left:50%;transform:translate(-50%,50%)">🔒</div>
+<div class="radial-node" data-pillar="3" data-label="Intelligence" style="top:50%;left:0;transform:translate(-50%,-50%)">📊</div>
+</div>
+<div class="radial-detail" id="radialDetail">
+<div class="radial-detail-card ns-glass active" data-pillar="0">
+<h3>Elite Talent <span class="grad">Sourcing</span></h3>
+<p>Quality pipeline, not volume. NorthStar sources candidates through verified channels and applies fit-based filtering before a single profile enters your workflow.</p>
+<div class="radial-features">
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(99,217,255,0.1)">🎯</div>Fit-scored candidate matching</div>
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(129,140,248,0.1)">📐</div>Role requirement alignment</div>
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(52,211,153,0.1)">✓</div>Pre-verified pipeline delivery</div>
+</div>
+</div>
+<div class="radial-detail-card ns-glass" data-pillar="1">
+<h3>Hard Gate <span class="grad">Verification</span></h3>
+<p>Evidence, not checkboxes. Every candidate passes through multi-layer verification gates that surface risk, confirm identity, and map skill evidence.</p>
+<div class="radial-features">
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(251,113,133,0.1)">🛡️</div>Identity & consistency checks</div>
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(245,158,11,0.1)">⚠️</div>Risk signal detection</div>
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(167,139,250,0.1)">📝</div>Decision trail logging</div>
+</div>
+</div>
+<div class="radial-detail-card ns-glass" data-pillar="2">
+<h3>Secure <span class="grad">Infrastructure</span></h3>
+<p>Governance by design. NorthStar treats security and compliance as first-class system requirements built into every layer.</p>
+<div class="radial-features">
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(52,211,153,0.1)">🔒</div>End-to-end encryption</div>
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(99,217,255,0.1)">📋</div>Audit-ready compliance</div>
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(129,140,248,0.1)">🗄️</div>SOC 2 aligned data handling</div>
+</div>
+</div>
+<div class="radial-detail-card ns-glass" data-pillar="3">
+<h3>Talent <span class="grad">Intelligence</span></h3>
+<p>Transparent decision support. Rich reporting, confidence scoring, and outcome analytics give leadership the clarity they need.</p>
+<div class="radial-features">
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(167,139,250,0.1)">📊</div>Confidence scoring engine</div>
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(245,158,11,0.1)">📈</div>Executive dashboards</div>
+<div class="radial-feature"><div class="radial-feature-icon" style="background:rgba(52,211,153,0.1)">📋</div>Outcome-based reporting</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ MISSION PIPELINE — PROCESS ═══════ -->
+<section class="section pipeline-section reveal" id="process">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:16px">A clear system from <span class="grad">intake to offer</span></h2>
+<p style="text-align:center;color:var(--text-dim);max-width:560px;margin:0 auto 56px">Every phase produces an artifact you can audit. No black boxes.</p>
+<div style="position:relative">
+<div class="pipeline-beam"><div class="pipeline-beam-fill" id="pipelineBeam"></div></div>
+<div class="pipeline-track" id="pipelineTrack">
+<div class="pipeline-phase active"><div class="pipeline-node"><div class="pipeline-dot"></div><div class="pipeline-card ns-glass"><div class="pipeline-num">PHASE 01</div><h3>Intake</h3><p>Define role targets, constraints, and success metrics.</p><div class="pipeline-output">→ Target profile & sourcing spec</div><div class="pipeline-confidence"><div style="width:95%"></div></div></div></div></div>
+<div class="pipeline-phase"><div class="pipeline-node"><div class="pipeline-dot"></div><div class="pipeline-card ns-glass"><div class="pipeline-num">PHASE 02</div><h3>Sourcing</h3><p>Build a curated pipeline of qualified prospects.</p><div class="pipeline-output">→ Ranked opportunities set</div><div class="pipeline-confidence"><div style="width:80%"></div></div></div></div></div>
+<div class="pipeline-phase"><div class="pipeline-node"><div class="pipeline-dot"></div><div class="pipeline-card ns-glass"><div class="pipeline-num">PHASE 03</div><h3>Verification</h3><p>Validate identity, evidence, and risk signals.</p><div class="pipeline-output">→ Verification status record</div><div class="pipeline-confidence"><div style="width:70%"></div></div></div></div></div>
+<div class="pipeline-phase"><div class="pipeline-node"><div class="pipeline-dot"></div><div class="pipeline-card ns-glass"><div class="pipeline-num">PHASE 04</div><h3>Interview</h3><p>Prepare and calibrate to reduce false positives.</p><div class="pipeline-output">→ Interview pack & scorecard</div><div class="pipeline-confidence"><div style="width:85%"></div></div></div></div></div>
+<div class="pipeline-phase"><div class="pipeline-node"><div class="pipeline-dot"></div><div class="pipeline-card ns-glass"><div class="pipeline-num">PHASE 05</div><h3>Offer</h3><p>Compare tradeoffs with evidence, not guesswork.</p><div class="pipeline-output">→ Decision support & actions</div><div class="pipeline-confidence"><div style="width:90%"></div></div></div></div></div>
+</div>
+</div>
+</div>
+</section>
+
+
+<!-- ═══════ HORIZONTAL FILMSTRIP — TIMELINE ═══════ -->
+<section class="section reveal" id="timeline" style="overflow:hidden">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:16px">The success timeline inside <span class="grad">NorthStar</span></h2>
+<p style="text-align:center;color:var(--text-dim);max-width:560px;margin:0 auto 48px">Every phase produces an artifact you can audit.</p>
+</div>
+<div class="filmstrip" id="filmstrip">
+<div class="filmstrip-track">
+<div class="film-panel ns-glass-strong" style="--panel-accent:var(--accent-cyan)">
+<div class="film-phase">Phase 1</div>
+<div class="film-icon">🔍</div>
+<h3>Discovery</h3>
+<p>We map the role and constraints into a sourcing spec.</p>
+<div class="film-artifact"><span>📄</span> Sourcing Spec Document</div>
+</div>
+<div class="film-panel ns-glass-strong" style="--panel-accent:var(--accent-indigo)">
+<div class="film-phase">Phase 2</div>
+<div class="film-icon">📊</div>
+<h3>Fit Validation</h3>
+<p>We connect requirements to evidence, not assumptions.</p>
+<div class="film-artifact"><span>📊</span> Fit Evidence Matrix</div>
+</div>
+<div class="film-panel ns-glass-strong" style="--panel-accent:var(--accent-violet)">
+<div class="film-phase">Phase 3</div>
+<div class="film-icon">🛡️</div>
+<h3>Verification</h3>
+<p>We surface risk, identity signals, and confidence.</p>
+<div class="film-artifact"><span>🔒</span> Verification Record</div>
+</div>
+<div class="film-panel ns-glass-strong" style="--panel-accent:var(--accent-teal)">
+<div class="film-phase">Phase 4</div>
+<div class="film-icon">📋</div>
+<h3>Presentation</h3>
+<p>You see a clean shortlist with rationale.</p>
+<div class="film-artifact"><span>📋</span> Evidence Shortlist</div>
+</div>
+<div class="film-panel ns-glass-strong" style="--panel-accent:var(--accent-amber)">
+<div class="film-phase">Phase 5</div>
+<div class="film-icon">🎯</div>
+<h3>Interview Control</h3>
+<p>We reduce noise through structured prep.</p>
+<div class="film-artifact"><span>🎯</span> Interview Scorecard</div>
+</div>
+<div class="film-panel ns-glass-strong" style="--panel-accent:var(--ok)">
+<div class="film-phase">Phase 6</div>
+<div class="film-icon">⚖️</div>
+<h3>Offer Decision</h3>
+<p>Compare options with documented tradeoffs.</p>
+<div class="film-artifact"><span>⚖️</span> Decision Analysis</div>
+</div>
+</div>
+<div class="filmstrip-progress"><div class="filmstrip-progress-fill" id="filmProgress"></div></div>
+</div>
+</section>
+
+<!-- ═══════ EVIDENCE GRAPH — HARD GATE ═══════ -->
+<section class="section reveal" id="hardgate">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:16px">Verification that is <span class="grad">explainable</span></h2>
+<p style="text-align:center;color:var(--text-dim);max-width:680px;margin:0 auto 48px">Click any node to reveal the evidence artifact and risk score rationale.</p>
+<div class="evidence-graph" id="evidenceGraph">
+<svg class="graph-lines" id="graphLines" width="100%" height="100%"></svg>
+<div class="graph-node graph-center-node" data-node="core" style="top:50%;left:50%;transform:translate(-50%,-50%)">
+<div class="node-inner" style="background:linear-gradient(135deg,var(--accent-cyan),var(--accent-indigo))">✦</div>
+<div class="node-label">Candidate</div>
+</div>
+<div class="graph-node" data-node="identity" style="top:15%;left:25%">
+<div class="node-inner" style="background:rgba(99,217,255,0.15);border-color:var(--accent-cyan)">🛡️</div>
+<div class="node-label">Identity</div>
+<div class="node-status node-pass">PASS</div>
+</div>
+<div class="graph-node" data-node="skills" style="top:15%;right:25%">
+<div class="node-inner" style="background:rgba(129,140,248,0.15);border-color:var(--accent-indigo)">📐</div>
+<div class="node-label">Skills</div>
+<div class="node-status node-pass">PASS</div>
+</div>
+<div class="graph-node" data-node="risk" style="top:50%;right:10%">
+<div class="node-inner" style="background:rgba(245,158,11,0.15);border-color:var(--warn)">⚠️</div>
+<div class="node-label">Risk</div>
+<div class="node-status node-warn">2 FLAGS</div>
+</div>
+<div class="graph-node" data-node="confidence" style="bottom:15%;right:25%">
+<div class="node-inner" style="background:rgba(167,139,250,0.15);border-color:var(--accent-violet)">📊</div>
+<div class="node-label">Confidence</div>
+<div class="node-status node-pass">74%</div>
+</div>
+<div class="graph-node" data-node="trail" style="bottom:15%;left:25%">
+<div class="node-inner" style="background:rgba(52,211,153,0.15);border-color:var(--accent-teal)">📝</div>
+<div class="node-label">Decision Trail</div>
+<div class="node-status node-pass">LOGGED</div>
+</div>
+<div class="graph-node" data-node="history" style="top:50%;left:10%">
+<div class="node-inner" style="background:rgba(251,113,133,0.15);border-color:var(--risk)">📋</div>
+<div class="node-label">History</div>
+<div class="node-status node-fail">RISK</div>
+</div>
+</div>
+<div class="graph-detail ns-glass" id="graphDetail" style="display:none">
+<button class="graph-detail-close" id="graphDetailClose">✕</button>
+<div id="graphDetailContent"></div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ TESTIMONIALS — ROTATIONAL MOSAIC ═══════ -->
+<section class="section reveal" id="testimonials">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:48px">What leaders say after switching to <span class="grad">NorthStar</span></h2>
+<div class="mosaic-grid" id="mosaicGrid">
+<div class="mosaic-card ns-glass" data-cat="enterprise" style="grid-row:span 2">
+<div class="mosaic-quote">"We stopped chasing volume and started hiring with confidence. The verification logic changed the quality of every conversation."</div>
+<div class="mosaic-meta"><div class="mosaic-avatar" style="background:linear-gradient(135deg,var(--accent-cyan),var(--accent-indigo))">VP</div><div><div class="mosaic-name">VP Engineering</div><div class="mosaic-company">B2B SaaS · Enterprise</div></div></div>
+<div class="mosaic-chips"><span class="mosaic-chip">↑ Interview Quality</span><span class="mosaic-chip">↑ Confidence</span></div>
+<div class="mosaic-badge">Enterprise</div>
+</div>
+<div class="mosaic-card ns-glass" data-cat="startup">
+<div class="mosaic-quote">"NorthStar gave our hiring team a shared language. Evidence, risk, and readiness became visible."</div>
+<div class="mosaic-meta"><div class="mosaic-avatar" style="background:linear-gradient(135deg,var(--accent-teal),var(--ok))">HT</div><div><div class="mosaic-name">Head of Talent</div><div class="mosaic-company">Series C · Startup</div></div></div>
+<div class="mosaic-chips"><span class="mosaic-chip">✓ Shared Language</span></div>
+<div class="mosaic-badge">Startup</div>
+</div>
+<div class="mosaic-card ns-glass" data-cat="enterprise">
+<div class="mosaic-quote">"The shortlist quality improved, but the bigger win was clarity."</div>
+<div class="mosaic-meta"><div class="mosaic-avatar" style="background:linear-gradient(135deg,var(--accent-violet),var(--accent-indigo))">CT</div><div><div class="mosaic-name">CTO</div><div class="mosaic-company">Fintech · Enterprise</div></div></div>
+<div class="mosaic-chips"><span class="mosaic-chip">↑ Quality</span><span class="mosaic-chip">✓ Explainability</span></div>
+<div class="mosaic-badge">Enterprise</div>
+</div>
+<div class="mosaic-card ns-glass" data-cat="talent" style="grid-row:span 2">
+<div class="mosaic-quote">"Time to shortlist dropped. Interview conversion went up. We finally had a process we could trust. The reporting made leadership calm."</div>
+<div class="mosaic-meta"><div class="mosaic-avatar" style="background:linear-gradient(135deg,var(--accent-amber),var(--warn))">RM</div><div><div class="mosaic-name">Recruiting Manager</div><div class="mosaic-company">Healthcare Tech</div></div></div>
+<div class="mosaic-chips"><span class="mosaic-chip">↓ Time to Shortlist</span><span class="mosaic-chip">↑ Conversion</span><span class="mosaic-chip">✓ Trust</span></div>
+<div class="mosaic-badge">Talent Ops</div>
+</div>
+<div class="mosaic-card ns-glass" data-cat="enterprise">
+<div class="mosaic-quote">"Fraud risk is real. We needed verification as infrastructure."</div>
+<div class="mosaic-meta"><div class="mosaic-avatar" style="background:linear-gradient(135deg,var(--risk),var(--accent-rose))">SL</div><div><div class="mosaic-name">Security Lead</div><div class="mosaic-company">Enterprise · Security</div></div></div>
+<div class="mosaic-chips"><span class="mosaic-chip">🛡️ Fraud Prevention</span></div>
+<div class="mosaic-badge">Enterprise</div>
+</div>
+<div class="mosaic-card ns-glass" data-cat="talent">
+<div class="mosaic-quote">"We could see progress, blockers, and next actions without guessing."</div>
+<div class="mosaic-meta"><div class="mosaic-avatar" style="background:linear-gradient(135deg,var(--accent-indigo),var(--accent-cyan))">PO</div><div><div class="mosaic-name">People Ops Director</div><div class="mosaic-company">Remote-first</div></div></div>
+<div class="mosaic-chips"><span class="mosaic-chip">✓ Clarity</span></div>
+<div class="mosaic-badge">Talent Ops</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ FRAUD — INCIDENT SIMULATION CONSOLE ═══════ -->
+<section class="section reveal" id="fraud">
+<div class="container">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:16px">Fraud protection built into <span class="grad">the workflow</span></h2>
+<p style="text-align:center;color:var(--text-dim);max-width:600px;margin:0 auto 48px">Watch a live simulation of NorthStar's detection engine.</p>
+<div class="fraud-console ns-glass-strong" id="fraudConsole">
+<div class="console-header">
+<div class="console-dots"><span style="background:var(--risk)"></span><span style="background:var(--warn)"></span><span style="background:var(--ok)"></span></div>
+<span class="console-title">FRAUD DETECTION ENGINE v3.2</span>
+<button class="btn btn-secondary console-run" id="fraudRunBtn" style="height:32px;font-size:12px;padding:0 16px;border-radius:8px">▶ Run Simulation</button>
+</div>
+<div class="console-body" id="consoleBody">
+<div class="console-line" data-delay="0"><span class="c-time">00:00</span><span class="c-msg">Initializing verification protocol...</span></div>
+<div class="console-line" data-delay="400"><span class="c-time">00:01</span><span class="c-status c-pass">PASS</span><span class="c-msg">Document consistency check</span></div>
+<div class="console-line" data-delay="800"><span class="c-time">00:02</span><span class="c-status c-pass">PASS</span><span class="c-msg">Employment history verification</span></div>
+<div class="console-line" data-delay="1200"><span class="c-time">00:03</span><span class="c-status c-warn">FLAG</span><span class="c-msg">Education credential gap detected</span></div>
+<div class="console-line" data-delay="1600"><span class="c-time">00:04</span><span class="c-status c-pass">PASS</span><span class="c-msg">Identity cross-reference</span></div>
+<div class="console-line" data-delay="2000"><span class="c-time">00:05</span><span class="c-status c-fail">RISK</span><span class="c-msg">Behavioral pattern anomaly flagged</span></div>
+<div class="console-line" data-delay="2400"><span class="c-time">00:06</span><span class="c-status c-pass">PASS</span><span class="c-msg">Reference network analysis</span></div>
+<div class="console-line console-result" data-delay="3000"><span class="c-time">00:07</span><span class="c-msg">━━━ COMPOSITE: <span style="color:var(--warn);font-weight:700">MODERATE — 2 FLAGS</span> ━━━</span></div>
+</div>
+<div class="console-scan-line" id="consoleScan"></div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ ORBIT INTEGRATION MAP ═══════ -->
+<section class="section reveal" id="integrations">
+<div class="container" style="text-align:center">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:16px">Fits into your <span class="grad">hiring stack</span></h2>
+<p style="color:var(--text-dim);max-width:560px;margin:0 auto 64px">NorthStar integrates with your existing tools.</p>
+<div class="orbit-system" id="orbitSystem">
+<div class="orbit-center"><span>✦</span><div class="orbit-center-label">NorthStar</div></div>
+<div class="orbit-ring orbit-ring-1">
+<div class="orbit-sat" style="--orbit-r:130px;--orbit-speed:20s;--orbit-delay:0s"><div class="orbit-sat-inner">📋</div><div class="orbit-sat-label">ATS</div></div>
+<div class="orbit-sat" style="--orbit-r:130px;--orbit-speed:20s;--orbit-delay:-6.6s"><div class="orbit-sat-inner">📅</div><div class="orbit-sat-label">Calendar</div></div>
+<div class="orbit-sat" style="--orbit-r:130px;--orbit-speed:20s;--orbit-delay:-13.3s"><div class="orbit-sat-inner">💬</div><div class="orbit-sat-label">Comms</div></div>
+</div>
+<div class="orbit-ring orbit-ring-2">
+<div class="orbit-sat" style="--orbit-r:210px;--orbit-speed:30s;--orbit-delay:0s"><div class="orbit-sat-inner">📊</div><div class="orbit-sat-label">Reporting</div></div>
+<div class="orbit-sat" style="--orbit-r:210px;--orbit-speed:30s;--orbit-delay:-7.5s"><div class="orbit-sat-inner">🗄️</div><div class="orbit-sat-label">Storage</div></div>
+<div class="orbit-sat" style="--orbit-r:210px;--orbit-speed:30s;--orbit-delay:-15s"><div class="orbit-sat-inner">🔐</div><div class="orbit-sat-label">SSO</div></div>
+<div class="orbit-sat" style="--orbit-r:210px;--orbit-speed:30s;--orbit-delay:-22.5s"><div class="orbit-sat-inner">⚙️</div><div class="orbit-sat-label">API</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ METRICS — SCROLLYTELLING COUNTERS ═══════ -->
+<section class="section reveal" id="metrics">
+<div class="container" style="text-align:center">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:48px">Metrics that executives <span class="grad">actually trust</span></h2>
+<div class="metrics-wall">
+<div class="metric-card ns-glass">
+<div class="metric-spark" style="--spark-color:var(--accent-cyan)"></div>
+<div class="metric-val" data-count="12" data-suffix=" Days">0</div>
+<div class="metric-label">Time to Shortlist</div>
+<div class="metric-delta" style="color:var(--ok)">↓ 38% vs industry avg</div>
+</div>
+<div class="metric-card ns-glass">
+<div class="metric-spark" style="--spark-color:var(--accent-indigo)"></div>
+<div class="metric-val" data-count="31" data-suffix="%">0</div>
+<div class="metric-label">Interview Conversion</div>
+<div class="metric-delta" style="color:var(--ok)">↑ 2.1x improvement</div>
+</div>
+<div class="metric-card ns-glass">
+<div class="metric-spark" style="--spark-color:var(--accent-violet)"></div>
+<div class="metric-val" data-count="94" data-suffix="%">0</div>
+<div class="metric-label">Risk Surfaced Early</div>
+<div class="metric-delta" style="color:var(--warn)">Before interview stage</div>
+</div>
+<div class="metric-card ns-glass">
+<div class="metric-spark" style="--spark-color:var(--accent-teal)"></div>
+<div class="metric-val" data-count="847" data-suffix="">0</div>
+<div class="metric-label">Fraud Cases Blocked</div>
+<div class="metric-delta" style="color:var(--risk)">And counting</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ PRICING — PLAN COMPARATOR ═══════ -->
+<section class="section reveal" id="pricing">
+<div class="container" style="text-align:center">
+<h2 style="font-size:clamp(28px,3.5vw,42px);margin-bottom:48px">Choose the <span class="grad">engagement level</span></h2>
+<div class="pricing-row">
+<div class="price-card ns-glass">
+<div class="price-tier-badge">Pilot</div>
+<h3>Test the System</h3>
+<p>Best for teams testing a verified pipeline workflow.</p>
+<ul><li>Up to 3 active roles</li><li>Basic verification gates</li><li>Standard reporting</li><li>Email support</li></ul>
+<a class="btn btn-secondary btn-magnetic" href="#access" style="width:100%;justify-content:center">Request Access</a>
+</div>
+<div class="price-card ns-glass price-featured">
+<div class="price-popular">Most Popular</div>
+<div class="price-tier-badge">Partner</div>
+<h3>Scale with Confidence</h3>
+<p>Best for ongoing roles with repeatable sourcing.</p>
+<ul><li>Unlimited active roles</li><li>Full verification protocol</li><li>Advanced analytics</li><li>Dedicated account lead</li><li>Priority support</li></ul>
+<a class="btn btn-primary btn-magnetic" href="#book" style="width:100%;justify-content:center">Book a Consult</a>
+</div>
+<div class="price-card ns-glass">
+<div class="price-tier-badge">Enterprise</div>
+<h3>Full Infrastructure</h3>
+<p>Best for multi-team hiring with governance.</p>
+<ul><li>Multi-team workspace</li><li>Custom verification rules</li><li>Executive dashboards</li><li>API access</li><li>SLA guarantees</li></ul>
+<a class="btn btn-secondary btn-magnetic" href="#contact" style="width:100%;justify-content:center">Contact Sales</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ COMMAND-SEARCH FAQ ═══════ -->
+<section class="section reveal" id="faq">
+<div class="container" style="max-width:720px">
+<h2 style="font-size:clamp(28px,3.5vw,42px);text-align:center;margin-bottom:32px">Questions, answered <span class="grad">clearly</span></h2>
+<div class="faq-search-wrap">
+<input type="text" class="faq-search" id="faqSearch" placeholder="⌘ Search questions...">
+</div>
+<div class="faq-compact" id="faqList">
+<div class="faq-row" data-q="is northstar a staffing agency">
+<button class="faq-trigger"><span>Is NorthStar a staffing agency?</span><span class="faq-arrow">→</span></button>
+<div class="faq-answer"><p>NorthStar is a talent intelligence infrastructure layer. It supports recruiting workflows through verification, transparency, and decision support.</p></div>
+</div>
+<div class="faq-row" data-q="do you work with technical roles">
+<button class="faq-trigger"><span>Do you work with technical roles?</span><span class="faq-arrow">→</span></button>
+<div class="faq-answer"><p>Yes. NorthStar is optimized for technical and high-trust hiring environments.</p></div>
+</div>
+<div class="faq-row" data-q="how do you handle verification">
+<button class="faq-trigger"><span>How do you handle verification?</span><span class="faq-arrow">→</span></button>
+<div class="faq-answer"><p>Verification is evidence-first. If evidence is insufficient, the system flags it. No blind progression.</p></div>
+</div>
+<div class="faq-row" data-q="what makes northstar different from other recruiting platforms">
+<button class="faq-trigger"><span>What makes NorthStar different?</span><span class="faq-arrow">→</span></button>
+<div class="faq-answer"><p>We treat verification as infrastructure, not a checkbox. Every candidate progresses based on evidence, risk scoring, and explainable decisions.</p></div>
+</div>
+<div class="faq-row" data-q="can northstar integrate with our existing ats">
+<button class="faq-trigger"><span>Can NorthStar integrate with our ATS?</span><span class="faq-arrow">→</span></button>
+<div class="faq-answer"><p>Yes. NorthStar plugs into modern hiring stacks — ATS, calendars, reporting tools, and secure storage systems.</p></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ IMMERSIVE CTA — TUNNEL ═══════ -->
+<section class="section reveal" id="contact">
+<div class="container">
+<div class="cta-tunnel" id="ctaTunnel">
+<div class="tunnel-rings">
+<div class="tunnel-ring" style="--ring-size:600px;--ring-delay:0s"></div>
+<div class="tunnel-ring" style="--ring-size:480px;--ring-delay:0.3s"></div>
+<div class="tunnel-ring" style="--ring-size:360px;--ring-delay:0.6s"></div>
+<div class="tunnel-ring" style="--ring-size:240px;--ring-delay:0.9s"></div>
+</div>
+<div class="cta-content">
+<h2 style="font-size:clamp(32px,4vw,48px);margin-bottom:16px">Upgrade your <span class="grad">hiring infrastructure</span></h2>
+<p style="font-size:18px;max-width:560px;margin:0 auto 40px">Verified signal, clear reasoning, and decision-ready reporting.</p>
+<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+<a class="btn btn-primary btn-magnetic" href="#access" style="font-size:16px;height:52px;padding:0 32px">Request Access <span>→</span></a>
+<a class="btn btn-secondary btn-magnetic" href="#process" style="font-size:16px;height:52px;padding:0 32px">View the Process</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="site-footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand"><div class="nav-logo" style="margin-bottom:16px"><svg viewBox="0 0 32 32" fill="none" style="width:28px;height:28px"><path d="M16 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z" fill="currentColor" opacity="0.9"/><circle cx="16" cy="16" r="3" fill="currentColor"/></svg>NORTHSTAR</div><p style="font-size:14px;color:var(--text-dim);max-width:280px">Talent intelligence infrastructure for evidence-based hiring.</p></div>
+<div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Careers</a><a href="#">Press</a></div>
+<div class="footer-col"><h4>Platform</h4><a href="#">Client Login</a><a href="#">Sign Up</a><a href="#">Dashboard</a></div>
+<div class="footer-col"><h4>Solutions</h4><a href="#">Services</a><a href="#">Industries</a><a href="#">Process</a></div>
+<div class="footer-col"><h4>Resources</h4><a href="#">Insights</a><a href="#">FAQ</a><a href="#">Fraud Protection</a></div>
+<div class="footer-col"><h4>Legal</h4><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Security</a></div>
+</div>
+<div class="footer-bottom">
+<span>© 2026 NorthStar Agency. All rights reserved.</span>
+<span>Built with intelligence. Verified with evidence.</span>
+</div>
+</div>
+</footer>
+
+<!-- ═══════ SECTION CSS ═══════ -->
+<style>
+/* FILMSTRIP TIMELINE */
+.filmstrip{position:relative;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding:0 24px}
+.filmstrip::-webkit-scrollbar{display:none}
+.filmstrip-track{display:flex;gap:24px;padding:20px 0;min-width:max-content}
+.film-panel{min-width:300px;max-width:300px;padding:32px;border-radius:var(--radius-lg);position:relative;overflow:hidden;cursor:pointer;transition:all 0.4s cubic-bezier(0.16,1,0.3,1)}
+.film-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--panel-accent);opacity:0;transition:opacity 0.3s}
+.film-panel:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 16px 48px rgba(0,0,0,0.4)}.film-panel:hover::before{opacity:1}
+.film-phase{font-family:var(--font-mono);font-size:11px;color:var(--panel-accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px}
+.film-icon{font-size:36px;margin-bottom:16px;filter:drop-shadow(0 0 12px rgba(99,217,255,0.3))}
+.film-panel h3{font-size:20px;margin-bottom:8px}
+.film-panel p{font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:16px}
+.film-artifact{padding:10px 14px;border-radius:8px;background:rgba(5,9,24,0.5);border:1px solid var(--line-soft);font-size:13px;color:var(--accent-teal);display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(8px);transition:all 0.4s}
+.film-panel:hover .film-artifact{opacity:1;transform:translateY(0)}
+.filmstrip-progress{height:3px;background:var(--line-soft);border-radius:2px;margin:24px 24px 0;position:relative}
+.filmstrip-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent-cyan),var(--accent-indigo));border-radius:2px;width:16%;transition:width 0.3s}
+
+/* EVIDENCE GRAPH */
+.evidence-graph{position:relative;width:100%;max-width:700px;margin:0 auto;height:500px}
+.graph-lines{position:absolute;inset:0;z-index:0;pointer-events:none}
+.graph-node{position:absolute;z-index:2;text-align:center;cursor:pointer;transition:all 0.3s}
+.graph-node:hover{transform:scale(1.15)!important}
+.node-inner{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid var(--line-strong);transition:all 0.3s;margin:0 auto}
+.graph-node:hover .node-inner{box-shadow:0 0 24px var(--glow-cyan);border-color:var(--accent-cyan)}
+.graph-center-node .node-inner{width:72px;height:72px;border:none;font-size:28px;box-shadow:0 0 40px var(--glow-cyan)}
+.node-label{font-size:11px;color:var(--text-dim);margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em}
+.node-status{font-family:var(--font-mono);font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block}
+.node-pass{background:rgba(52,211,153,0.12);color:var(--ok)}
+.node-warn{background:rgba(245,158,11,0.12);color:var(--warn)}
+.node-fail{background:rgba(251,113,133,0.12);color:var(--risk)}
+.graph-detail{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:90%;max-width:500px;padding:24px;z-index:10;animation:fadeSlideUp 0.3s}
+.graph-detail-close{position:absolute;top:12px;right:12px;background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer}
+
+/* MOSAIC TESTIMONIALS */
+.mosaic-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(180px,auto);gap:20px}
+.mosaic-card{padding:28px;border-radius:var(--radius-md);position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
+.mosaic-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(99,217,255,0.03),rgba(129,140,248,0.03));opacity:0;transition:opacity 0.3s}
+.mosaic-card:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 12px 40px rgba(0,0,0,0.3)}.mosaic-card:hover::before{opacity:1}
+.mosaic-quote{font-size:15px;line-height:1.7;color:var(--text-strong);margin-bottom:20px;font-style:italic;position:relative;padding-left:16px;border-left:2px solid var(--accent-cyan)}
+.mosaic-meta{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.mosaic-avatar{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.mosaic-name{font-size:14px;font-weight:600;color:var(--text-strong)}.mosaic-company{font-size:12px;color:var(--text-dim)}
+.mosaic-chips{display:flex;gap:6px;flex-wrap:wrap}
+.mosaic-chip{padding:3px 10px;border-radius:100px;background:rgba(99,217,255,0.08);border:1px solid rgba(99,217,255,0.15);font-size:11px;color:var(--accent-cyan)}
+.mosaic-badge{position:absolute;top:16px;right:16px;font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,0.04);border:1px solid var(--line-soft)}
+
+/* FRAUD CONSOLE */
+.fraud-console{max-width:800px;margin:0 auto;border-radius:var(--radius-lg);overflow:hidden;position:relative}
+.console-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--line-soft);background:rgba(5,9,24,0.5)}
+.console-dots{display:flex;gap:8px}.console-dots span{width:12px;height:12px;border-radius:50%}
+.console-title{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);letter-spacing:0.06em}
+.console-body{padding:24px;font-family:var(--font-mono);font-size:13px;min-height:280px;position:relative}
+.console-line{display:flex;align-items:center;gap:12px;padding:8px 0;opacity:0;transform:translateX(-10px);transition:all 0.4s}
+.console-line.visible{opacity:1;transform:translateX(0)}
+.c-time{color:var(--text-dim);font-size:11px;min-width:40px}
+.c-status{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;min-width:48px;text-align:center}
+.c-pass{background:rgba(52,211,153,0.12);color:var(--ok)}
+.c-warn{background:rgba(245,158,11,0.12);color:var(--warn)}
+.c-fail{background:rgba(251,113,133,0.12);color:var(--risk)}
+.c-msg{color:var(--text-body)}
+.console-result .c-msg{color:var(--text-strong);font-weight:600}
+.console-scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent-cyan),transparent);top:-2px;opacity:0;transition:opacity 0.3s}
+.console-scan-line.active{opacity:1;animation:scan-line 3s linear}
+.console-run{transition:all 0.3s}.console-run:hover{border-color:var(--ok);color:var(--ok)}
+
+/* ORBIT INTEGRATION MAP */
+.orbit-system{position:relative;width:480px;height:480px;margin:0 auto}
+.orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(99,217,255,0.2),rgba(99,217,255,0.05));border:2px solid var(--accent-cyan);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3;box-shadow:0 0 40px var(--glow-cyan);animation:glow-pulse 3s infinite}
+.orbit-center span{font-size:28px}.orbit-center-label{font-family:var(--font-mono);font-size:9px;color:var(--accent-cyan);letter-spacing:0.08em;margin-top:2px}
+.orbit-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid var(--line-soft)}
+.orbit-ring-1{width:260px;height:260px;margin:-130px 0 0 -130px}
+.orbit-ring-2{width:420px;height:420px;margin:-210px 0 0 -210px}
+.orbit-sat{position:absolute;top:50%;left:50%;margin:-24px 0 0 -24px;animation:orbit var(--orbit-speed) linear infinite;animation-delay:var(--orbit-delay)}
+.orbit-sat-inner{width:48px;height:48px;border-radius:50%;background:var(--surface-glass-strong);border:1px solid var(--line-strong);display:flex;align-items:center;justify-content:center;font-size:20px;backdrop-filter:blur(8px);transition:all 0.3s;cursor:pointer}
+.orbit-sat:hover .orbit-sat-inner{border-color:var(--accent-cyan);box-shadow:0 0 20px var(--glow-cyan);transform:scale(1.15)}
+.orbit-sat-label{font-size:10px;color:var(--text-dim);text-align:center;margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;white-space:nowrap}
+
+/* METRICS WALL */
+.metrics-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.metric-card{padding:32px;border-radius:var(--radius-md);position:relative;overflow:hidden;text-align:center;transition:all 0.4s}
+.metric-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.metric-spark{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--spark-color),transparent);background-size:200% 100%;animation:shimmer 3s linear infinite}
+.metric-val{font-family:var(--font-mono);font-size:48px;font-weight:700;color:var(--text-strong);line-height:1}
+.metric-label{font-size:14px;color:var(--text-dim);margin-top:8px;text-transform:uppercase;letter-spacing:0.04em}
+.metric-delta{font-size:13px;margin-top:8px;font-weight:600}
+
+/* PRICING */
+.pricing-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto}
+.price-card{padding:36px;border-radius:var(--radius-lg);text-align:left;position:relative;transition:all 0.4s;overflow:hidden}
+.price-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
+.price-featured{border-color:var(--accent-cyan);box-shadow:0 0 40px rgba(99,217,255,0.08)}
+.price-featured::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent-cyan),var(--accent-indigo))}
+.price-popular{position:absolute;top:16px;right:16px;font-family:var(--font-mono);font-size:10px;color:var(--accent-cyan);padding:4px 12px;border-radius:100px;background:rgba(99,217,255,0.1);border:1px solid rgba(99,217,255,0.2);text-transform:uppercase;letter-spacing:0.06em}
+.price-tier-badge{font-family:var(--font-mono);font-size:12px;color:var(--accent-indigo);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px}
+.price-card h3{font-size:22px;margin-bottom:8px}
+.price-card p{font-size:14px;color:var(--text-dim);margin-bottom:20px}
+.price-card ul{list-style:none;margin-bottom:24px;display:flex;flex-direction:column;gap:10px}
+.price-card li{font-size:14px;display:flex;align-items:center;gap:8px;color:var(--text-body)}
+.price-card li::before{content:'✓';color:var(--accent-teal);font-weight:700;font-size:12px}
+
+/* COMPACT FAQ */
+.faq-search-wrap{margin-bottom:24px}
+.faq-search{width:100%;padding:14px 20px;border-radius:var(--radius-md);background:var(--surface-glass);border:1px solid var(--line-soft);color:var(--text-strong);font-family:var(--font-body);font-size:14px;outline:none;transition:border-color 0.3s}
+.faq-search:focus{border-color:var(--accent-cyan);box-shadow:0 0 20px rgba(99,217,255,0.08)}
+.faq-search::placeholder{color:var(--text-dim)}
+.faq-compact{display:flex;flex-direction:column;gap:4px}
+.faq-row{border-radius:var(--radius-sm);overflow:hidden;transition:all 0.3s}
+.faq-row.hidden{display:none}
+.faq-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--surface-glass);border:1px solid var(--line-soft);border-radius:var(--radius-sm);color:var(--text-strong);font-size:15px;font-weight:500;cursor:pointer;transition:all 0.3s;font-family:var(--font-body)}
+.faq-trigger:hover{border-color:var(--accent-cyan);background:rgba(99,217,255,0.03)}
+.faq-arrow{color:var(--accent-cyan);font-size:16px;transition:transform 0.3s}
+.faq-row.open .faq-arrow{transform:rotate(90deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(0.16,1,0.3,1)}
+.faq-row.open .faq-answer{max-height:200px}
+.faq-answer p{padding:4px 20px 16px;font-size:14px;color:var(--text-dim);line-height:1.6}
+
+/* TUNNEL CTA */
+.cta-tunnel{position:relative;padding:120px 40px;border-radius:var(--radius-xl);text-align:center;overflow:hidden;background:linear-gradient(180deg,rgba(5,9,24,0.3),rgba(5,9,24,0.8))}
+.tunnel-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.tunnel-ring{position:absolute;width:var(--ring-size);height:var(--ring-size);border-radius:50%;border:1px solid rgba(99,217,255,0.08);animation:pulse-ring 4s ease-out infinite;animation-delay:var(--ring-delay)}
+.cta-content{position:relative;z-index:2}
+
+/* FOOTER */
+.site-footer{background:rgba(5,9,24,0.72);border-top:1px solid var(--line-soft);padding:64px 0 32px}
+.footer-grid{display:grid;grid-template-columns:1.5fr repeat(5,1fr);gap:32px}
+.footer-col h4{font-size:13px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:16px;font-weight:600}
+.footer-col a{display:block;font-size:14px;color:var(--text-body);margin-bottom:10px;transition:color 0.2s}.footer-col a:hover{color:var(--accent-cyan)}
+.footer-bottom{border-top:1px solid var(--line-soft);margin-top:40px;padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-dim)}
+
+@media(max-width:900px){
+  .mosaic-grid{grid-template-columns:1fr}
+  .pricing-row{grid-template-columns:1fr}
+  .orbit-system{width:320px;height:320px}
+  .orbit-ring-1{width:180px;height:180px;margin:-90px 0 0 -90px}
+  .orbit-ring-2{width:280px;height:280px;margin:-140px 0 0 -140px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .evidence-graph{height:400px}
+}
+</style>
+
+<!-- ═══════ ALL JAVASCRIPT ═══════ -->
+<script>
+(function(){
+'use strict';
+
+/* ── Navbar scroll ── */
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>60)},{passive:true});
+
+/* ── Scroll reveal ── */
+const revealObs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);revealObs.unobserve(e.target)}})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+/* ── Magnetic buttons ── */
+document.querySelectorAll('.btn-magnetic').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();const x=(e.clientX-r.left-r.width/2)*0.15;const y=(e.clientY-r.top-r.height/2)*0.15;btn.style.transform=`translate(${x}px,${y}px) translateY(-2px)`});
+  btn.addEventListener('mouseleave',()=>{btn.style.transform=''});
+});
+
+/* ── Narrative Reactor (scroll-driven) ── */
+const narrativeSection=document.querySelector('.narrative-section');
+const checkpoints=document.querySelectorAll('.narrative-checkpoint');
+const scenes=document.querySelectorAll('.narrative-scene');
+if(narrativeSection){
+  const updateNarrative=(idx)=>{
+    checkpoints.forEach((c,i)=>c.classList.toggle('active',i===idx));
+    scenes.forEach((s,i)=>s.classList.toggle('active',i===idx));
+  };
+  checkpoints.forEach(c=>c.addEventListener('click',()=>updateNarrative(+c.dataset.scene)));
+  window.addEventListener('scroll',()=>{
+    const rect=narrativeSection.getBoundingClientRect();
+    const progress=Math.max(0,Math.min(1,-rect.top/(rect.height-window.innerHeight)));
+    const idx=Math.min(5,Math.floor(progress*6));
+    updateNarrative(idx);
+  },{passive:true});
+}
+
+/* ── Signal Comparator ── */
+const slider=document.getElementById('thresholdSlider');
+const thVal=document.getElementById('thresholdVal');
+const compOutcome=document.getElementById('compOutcome');
+if(slider){
+  slider.addEventListener('input',()=>{
+    const v=+slider.value;
+    thVal.textContent=v+'%';
+    const noiseItems=document.querySelectorAll('.noise-panel .comp-item');
+    const signalItems=document.querySelectorAll('.signal-panel .comp-item');
+    let nDissolved=0,sRemain=0;
+    noiseItems.forEach(item=>{const s=+item.dataset.score;item.classList.toggle('dissolved',s<v);if(s<v)nDissolved++});
+    signalItems.forEach(item=>{const s=+item.dataset.score;item.classList.toggle('dissolved',s<v);if(s>=v)sRemain++});
+    document.getElementById('noiseCount').textContent=`(${5-nDissolved} visible)`;
+    document.getElementById('signalCount').textContent=`(${sRemain} verified)`;
+    compOutcome.innerHTML=`<span>At threshold <strong>${v}%</strong> — <strong>${nDissolved}</strong> noise dissolved, <strong>${sRemain}</strong> signal remain</span>`;
+  });
+}
+
+/* ── Radial Pillars ── */
+const radialNodes=document.querySelectorAll('.radial-node');
+const radialCards=document.querySelectorAll('.radial-detail-card');
+radialNodes.forEach(n=>{
+  n.addEventListener('click',()=>{
+    const p=n.dataset.pillar;
+    radialNodes.forEach(rn=>rn.classList.toggle('active',rn.dataset.pillar===p));
+    radialCards.forEach(rc=>rc.classList.toggle('active',rc.dataset.pillar===p));
+  });
+});
+
+/* ── Pipeline activation on scroll ── */
+const pipelinePhases=document.querySelectorAll('.pipeline-phase');
+const pipelineBeam=document.getElementById('pipelineBeam');
+const pipelineObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){
+    pipelinePhases.forEach((p,i)=>setTimeout(()=>{p.classList.add('active')},i*300));
+    if(pipelineBeam)setTimeout(()=>{pipelineBeam.style.width='100%'},200);
+    pipelineObs.unobserve(e.target);
+  }});
+},{threshold:0.3});
+const pipelineSection=document.querySelector('.pipeline-section');
+if(pipelineSection)pipelineObs.observe(pipelineSection);
+
+/* ── Filmstrip progress ── */
+const filmstrip=document.getElementById('filmstrip');
+const filmProgress=document.getElementById('filmProgress');
+if(filmstrip&&filmProgress){
+  filmstrip.addEventListener('scroll',()=>{
+    const pct=filmstrip.scrollLeft/(filmstrip.scrollWidth-filmstrip.clientWidth)*100;
+    filmProgress.style.width=Math.max(16,pct)+'%';
+  },{passive:true});
+}
+
+/* ── Evidence Graph click ── */
+const graphDetail=document.getElementById('graphDetail');
+const graphDetailContent=document.getElementById('graphDetailContent');
+const graphDetailClose=document.getElementById('graphDetailClose');
+const graphData={
+  identity:{title:'Identity & Consistency',status:'PASS',desc:'5 identity signals verified: name match, photo consistency, location history, LinkedIn profile validation, employment overlap check.',color:'var(--ok)'},
+  skills:{title:'Skill Evidence Mapping',status:'PASS',desc:'Cross-referenced 8 skill claims against role spec. 7/8 confirmed with portfolio evidence.',color:'var(--ok)'},
+  risk:{title:'Risk Signals & Anomalies',status:'2 FLAGS',desc:'Education credential gap (2019-2020) and behavioral pattern anomaly detected in interview scheduling responses.',color:'var(--warn)'},
+  confidence:{title:'Confidence Scoring',status:'74%',desc:'Composite confidence score based on identity (92%), skills (78%), risk factor adjustment (-15%), and decision trail completeness (100%).',color:'var(--accent-violet)'},
+  trail:{title:'Decision Trail',status:'LOGGED',desc:'All 12 decision points logged with evidence artifacts. Full audit trail available for compliance review.',color:'var(--ok)'},
+  history:{title:'Employment History',status:'RISK',desc:'Gap detected between March 2019 and January 2020. No verifiable activity during this period. Flagged for manual review.',color:'var(--risk)'}
+};
+document.querySelectorAll('.graph-node:not(.graph-center-node)').forEach(node=>{
+  node.addEventListener('click',()=>{
+    const d=graphData[node.dataset.node];
+    if(!d||!graphDetail)return;
+    graphDetailContent.innerHTML=`<h4 style="font-size:16px;margin-bottom:8px;color:${d.color}">${d.title} — ${d.status}</h4><p style="font-size:14px;color:var(--text-body);line-height:1.6">${d.desc}</p>`;
+    graphDetail.style.display='block';
+  });
+});
+if(graphDetailClose)graphDetailClose.addEventListener('click',()=>{graphDetail.style.display='none'});
+
+/* ── Fraud Console Simulation ── */
+const fraudRunBtn=document.getElementById('fraudRunBtn');
+const consoleBody=document.getElementById('consoleBody');
+const consoleScan=document.getElementById('consoleScan');
+if(fraudRunBtn){
+  fraudRunBtn.addEventListener('click',()=>{
+    const lines=consoleBody.querySelectorAll('.console-line');
+    lines.forEach(l=>l.classList.remove('visible'));
+    if(consoleScan)consoleScan.classList.add('active');
+    lines.forEach(l=>{
+      setTimeout(()=>l.classList.add('visible'),+l.dataset.delay);
+    });
+    setTimeout(()=>{if(consoleScan)consoleScan.classList.remove('active')},3500);
+  });
+  // Auto-run on scroll
+  const fraudObs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){fraudRunBtn.click();fraudObs.unobserve(e.target)}});
+  },{threshold:0.3});
+  const fraudSection=document.getElementById('fraud');
+  if(fraudSection)fraudObs.observe(fraudSection);
+}
+
+/* ── Compact FAQ ── */
+document.querySelectorAll('.faq-trigger').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const row=btn.parentElement;
+    const wasOpen=row.classList.contains('open');
+    document.querySelectorAll('.faq-row').forEach(r=>r.classList.remove('open'));
+    if(!wasOpen)row.classList.add('open');
+  });
+});
+const faqSearch=document.getElementById('faqSearch');
+if(faqSearch){
+  faqSearch.addEventListener('input',()=>{
+    const q=faqSearch.value.toLowerCase();
+    document.querySelectorAll('.faq-row').forEach(row=>{
+      row.classList.toggle('hidden',q&&!row.dataset.q.includes(q));
+    });
+  });
+}
+
+/* ── Counter Animation ── */
+const counterObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target;
+      const target=+el.dataset.count;
+      const suffix=el.dataset.suffix||'';
+      const duration=1500;
+      const start=performance.now();
+      const animate=(now)=>{
+        const p=Math.min((now-start)/duration,1);
+        const eased=1-Math.pow(1-p,3);
+        el.textContent=Math.floor(target*eased)+suffix;
+        if(p<1)requestAnimationFrame(animate);
+      };
+      requestAnimationFrame(animate);
+      counterObs.unobserve(el);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('.metric-val[data-count],.ticker-counter[data-count]').forEach(el=>counterObs.observe(el));
+
+/* ── Smooth scroll ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
+
+/* ── Particles ── */
+if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const canvas=document.createElement('canvas');
+  canvas.style.cssText='position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0.4';
+  document.body.appendChild(canvas);
+  const ctx=canvas.getContext('2d');
+  let W,H;const resize=()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight};
+  resize();window.addEventListener('resize',resize);
+  const pts=Array.from({length:50},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,r:Math.random()*1.5+0.5}));
+  const draw=()=>{
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(99,217,255,0.3)';ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  };
+  draw();
+}
+
+})();
+</script>
+</body>
+</html>

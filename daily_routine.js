@@ -1,102 +1,168 @@
 require('dotenv').config();
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-const path = require('path');
-const fs = require('fs-extra');
 const { getUserContext } = require('./src/utils/brainReader');
 const { scrapeJobCards, saveResults, checkFilters } = require('./src/scraper');
 const { generateReport } = require('./src/analysis');
 const { updateMemory } = require('./src/utils/brainWriter');
+const { fetchLinkedInAlerts } = require('./src/gmail_monitor');
+const { parseLinkedInAlerts } = require('./src/linkedin_alert_parser');
+const { scrapeNotificationJobs } = require('./src/notifications_scraper');
+const { resolveBrowserConfig, launchBrowserWithSingleProfile } = require('./src/utils/browserSession');
 
 puppeteer.use(StealthPlugin());
 
 const AGENT_ID = (process.env.AGENT_ID || 'codex').toLowerCase();
-const SESSION_METHOD = (process.env.SESSION_METHOD || 'isolated_profile').toLowerCase();
-const USER_DATA_DIR = process.env.USER_DATA_DIR
-    ? path.resolve(process.env.USER_DATA_DIR)
-    : path.join(process.cwd(), `user_data_${AGENT_ID}`);
-const BROWSER_CHANNEL = process.env.BROWSER_CHANNEL;
-const BROWSER_EXECUTABLE_PATH = process.env.BROWSER_EXECUTABLE_PATH;
+const BROWSER_CONFIG = resolveBrowserConfig(AGENT_ID);
 
 async function main() {
-    console.log('🤖 ACTIVATING AGENT: OpenClaw Daily Routine...');
+    console.log('');
+    console.log('╔════════════════════════════════════════════════════════════╗');
+    console.log('║         NorthStar Agency — Daily Intelligence Routine       ║');
+    console.log('╚════════════════════════════════════════════════════════════╝');
+    console.log('');
 
-    // 1. BOOT PHASE: Load Brain
+    // ── BOOT: Load Brain ─────────────────────────────────────────────────────
     const userContext = await getUserContext();
     if (!userContext) {
         console.error('CRITICAL: Failed to load CLIENT_BRIEF.md context.');
         return;
     }
-    console.log(`🧠 Brain Loaded. User: ${userContext.profile.roles[0] || 'Maestro'}`);
-    console.log(`🎯 Active Skills: ${userContext.skills.high.length} High, ${userContext.skills.medium.length} Medium.`);
+    console.log(`🧠 Brain Loaded   : ${userContext.profile.name || 'José'}`);
+    console.log(`🎯 High Skills    : ${userContext.skills.high.join(', ') || '—'}`);
+    console.log(`❌ Exclusions     : ${userContext.exclusions.roles.slice(0, 3).join(', ') || '—'}`);
+    console.log('');
 
-    // 2. PLANNING PHASE: Define Target
-    // In a real agent, this would be an LLM choice. For now, we take the user's request.
-    const targetKeyword = "Suporte Informática"; // Local variant
-    const linkId = "DAILY-002";
-    console.log(`📌 Target Acquired: ${targetKeyword}`);
+    const dateStr = new Date().toISOString().split('T')[0];
+    let totalJobs = 0;
 
-    // 3. EXECUTION PHASE
-    console.log('🚀 Launching Browser...');
-    console.log(`🔐 Agent Session: agent=${AGENT_ID}, method=${SESSION_METHOD}, profile=${USER_DATA_DIR}`);
-    const launchOptions = {
-        headless: false,
-        userDataDir: USER_DATA_DIR,
-        defaultViewport: null,
-        args: ['--start-maximized']
-    };
-    if (BROWSER_CHANNEL) launchOptions.channel = BROWSER_CHANNEL;
-    if (BROWSER_EXECUTABLE_PATH) launchOptions.executablePath = BROWSER_EXECUTABLE_PATH;
-    const browser = await puppeteer.launch(launchOptions);
+    // ── PHASE 1 (PRIMARY): LinkedIn Notifications Tab — Browser ──────────────
+    // Best source: full job details, real-time, unique set not in email alerts
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🔔 PHASE 1 — LinkedIn Notifications Scrape (PRIMARY SOURCE)');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
+    console.log(`🌐 Browser profile : ${BROWSER_CONFIG.userDataDir}`);
+    if (BROWSER_CONFIG.executablePath) {
+        console.log(`🧭 Browser binary  : ${BROWSER_CONFIG.executablePath}`);
+    }
+    const browser = await launchBrowserWithSingleProfile(puppeteer, BROWSER_CONFIG);
+
+    let notifJobs = [];
     try {
-        const page = await browser.newPage();
-
-        // Session Check
-        await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'domcontentloaded' });
-        if (page.url().includes('login') || page.url().includes('signup')) {
-            console.error('❌ Not logged in. Please login manually and retry.');
+        // Session check
+        const checkPage = await browser.newPage();
+        await checkPage.goto('https://www.linkedin.com/feed/', { waitUntil: 'domcontentloaded', timeout: 60000 });
+        if (checkPage.url().includes('login') || checkPage.url().includes('signup')) {
+            console.error('❌ Not logged in. Please login manually then restart.');
+            await browser.close();
             return;
         }
+        console.log('✅ LinkedIn session verified.');
+        await checkPage.close();
 
-        // URL Construction (Search URL)
-        // Heuristic: Construct search URL for Portugal + Date Posted
-        // f_TPR=r86400 (Past 24 hours), but let's do Past Week (r604800) for better yield in test
-        const searchUrl = `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(targetKeyword)}&location=Portugal&f_TPR=r604800&sortBy=DD`;
+        notifJobs = await scrapeNotificationJobs(browser, userContext, {
+            maxNotifications: 8,
+            jobsPerAlert: 6
+        });
 
-        console.log(`🔗 Navigating to: ${searchUrl}`);
-        await page.goto(searchUrl, { waitUntil: 'domcontentloaded' });
+        totalJobs += notifJobs.length;
+        console.log(`\n📊 Phase 1 result: ${notifJobs.length} job(s) from Notifications.`);
 
-        // Drift Check (Simple)
+    } catch (err) {
+        console.error(`⚠️  Phase 1 error (non-fatal): ${err.message}`);
+    }
+
+    // ── PHASE 2 (SECONDARY): Gmail Email Alerts — No Browser ─────────────────
+    // Catches alerts that don't appear in the Notifications tab
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('📬 PHASE 2 — Gmail Email Alert Ingestion (SECONDARY SOURCE)');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+    let emailJobs = [];
+    try {
+        const { ids, rawContent } = await fetchLinkedInAlerts({ query: 'newer_than:1d' });
+        if (ids.length) {
+            emailJobs = parseLinkedInAlerts(rawContent);
+            if (emailJobs.length) {
+                await saveResults(emailJobs, dateStr);
+                console.log(`✅ Saved ${emailJobs.length} job(s) from email alerts.`);
+                totalJobs += emailJobs.length;
+            }
+        } else {
+            console.log('📭 No new LinkedIn alert emails today.');
+        }
+    } catch (emailErr) {
+        console.warn(`⚠️  Gmail monitor error (non-fatal): ${emailErr.message}`);
+    }
+
+    // ── PHASE 3 (SUPPLEMENTARY): Quick Links Browser Scrape ──────────────────
+    // Manual keyword search — catches anything missed by alerts/notifications
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🌐 PHASE 3 — Keyword Search Scrape (SUPPLEMENTARY)');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+    let searchJobs = [];
+    try {
+        const page = await browser.newPage();
+        const targetKeyword = 'IT Support';
+        const linkId = 'DAILY-SEARCH';
+        const searchUrl = `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(targetKeyword)}&location=Portugal&f_TPR=r86400&sortBy=DD`;
+
+        console.log(`🔗 Searching: "${targetKeyword}" — Portugal — Past 24h`);
+        await page.goto(searchUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
         await checkFilters(page, ['Portugal']);
 
-        // Scrape with Context!
-        console.log('🕵️‍♀️ Starting analysis with CLIENT_BRIEF.md context...');
-        const results = await scrapeJobCards(page, linkId, targetKeyword, 5, userContext);
-
-        if (results.length > 0) {
-            const dateStr = new Date().toISOString().split('T')[0];
-            await saveResults(results, dateStr);
-
-            // 4. REPORT PHASE
-            console.log('📊 Generating Intelligence Report...');
-            const reportPaths = await generateReport(dateStr);
-            console.log(`✅ Routine Complete. Report saved to: ${reportPaths[0]}`);
-
-            // Update CASE_LOG.md (Writeback)
-            await updateMemory({ jobsScraped: results.length }, `Scraped ${results.length} jobs for '${targetKeyword}'.`);
-
-        } else {
-            console.log('⚠️ No results found to analyze.');
-            await updateMemory({ jobsScraped: 0 }, `Attempted scrape for '${targetKeyword}' but found no results.`);
+        searchJobs = await scrapeJobCards(page, linkId, targetKeyword, 5, userContext);
+        if (searchJobs.length) {
+            await saveResults(searchJobs, dateStr);
+            totalJobs += searchJobs.length;
+            console.log(`✅ Saved ${searchJobs.length} job(s) from keyword search.`);
         }
-
-    } catch (error) {
-        console.error('🔥 Routine Error:', error);
-    } finally {
-        await browser.close();
-        console.log('😴 Agent Sleeping.');
+        await page.close();
+    } catch (err) {
+        console.error(`⚠️  Phase 3 error (non-fatal): ${err.message}`);
     }
+
+    // ── PHASE 4: Report ───────────────────────────────────────────────────────
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('📊 PHASE 4 — Intelligence Report Generation');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+    if (totalJobs > 0) {
+        try {
+            const reportPaths = await generateReport(dateStr);
+            console.log(`✅ Report saved: ${reportPaths[0]}`);
+        } catch (rErr) {
+            console.warn(`⚠️  Report generation error: ${rErr.message}`);
+        }
+    } else {
+        console.log('⚠️  No jobs captured — skipping report generation.');
+    }
+
+    // ── Memory Update ─────────────────────────────────────────────────────────
+    await updateMemory(
+        { jobsScraped: totalJobs },
+        `Daily routine complete. Sources: Notifications(${notifJobs.length}) + Email(${emailJobs.length}) + Search(${searchJobs.length}) = ${totalJobs} total jobs for ${dateStr}.`
+    );
+
+    console.log('');
+    console.log('╔════════════════════════════════════════════════════════════╗');
+    console.log(`║  ✅ Daily Routine Complete — ${totalJobs} total job(s) captured`.padEnd(61) + '║');
+    console.log('║     Source breakdown:'.padEnd(62) + '║');
+    console.log(`║       🔔 Notifications (primary)  : ${notifJobs.length}`.padEnd(62) + '║');
+    console.log(`║       📬 Email alerts (secondary) : ${emailJobs.length}`.padEnd(62) + '║');
+    console.log(`║       🌐 Keyword search (extra)   : ${searchJobs.length}`.padEnd(62) + '║');
+    console.log('╚════════════════════════════════════════════════════════════╝');
+    console.log('');
+
+    await browser.close();
 }
 
-main();
+main().catch(err => {
+    console.error('🔥 Fatal Routine Error:', err);
+    process.exit(1);
+});

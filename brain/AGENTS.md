@@ -2,19 +2,33 @@
 
 > **Authority level:** MANDATORY. Every agent MUST read this file before taking any action.
 > **Purpose:** Single source of truth for agent identities, capabilities, delegation rules, and self-check protocol.
-> **Last updated:** 17 February 2026 (Mode System v2.0)
+> **Last updated:** 20 February 2026 (Model Hierarchy v4.0 — Gemini 3.1 Pro added, Antigravity elevated to Orchestrator role)
 
 ---
 
 ## 1 · Agent Roster
 
-Northstar operates with **three specialized agents**, each running in a separate IDE environment. They are **not connected** to each other — coordination happens through this manifest and the shared `brain/` folder.
+Northstar operates with **five specialized agents** across multiple platforms. They are **not directly connected** — coordination happens through this manifest and the shared `brain/` folder.
+
+> **🪞 CROSS-SYSTEM MIRROR PROTOCOL (NON-NEGOTIABLE):**
+> Codex and Antigravity are two separate systems that must stay perfectly mirrored.
+> - Any change in one system must be replicated in the other in the same turn.
+> - Mirror scope is mandatory for MCP server config, Agent instruction files (like MARK and workflows), and operational prompts.
 
 | Agent ID | Model | IDE / Platform | Role Title | Specialty |
 |:---:|:---|:---|:---|:---|
-| **OPUS** | Claude Opus 4.6 | Cursor AI | 🎨 **Creative Director & Humanizer** | Formatting, design, copywriting, UI, document quality, client-facing polish |
-| **CODEX** | Codex 5.3 (GPT) | Antigravity Extension | ⚙️ **Execution Engineer** | Scraping, data processing, heavy token tasks, browser automation, reliability-critical operations |
-| **GEMINI** | Gemini 3 Flash | Antigravity (default) | ⚡ **Fast Utility Runner** | Quick tasks, simple edits, file operations, low-complexity queries, routine maintenance |
+| **ANTIGRAVITY** | Gemini (default / Flash) | Antigravity IDE | 🧠 **Orchestrator & Planner** | Planning, coordination, brain file edits, PM reports, Mark persona activation, quick file ops |
+| **MARK** | Gemini (persona layer) | Antigravity IDE | 🕵️ **Case Agent** | Client-facing case briefs, offer analysis reports, OFFER_ANALYSIS_REPORT_TEMPLATE runs |
+| **OPUS** | Claude Opus 4.6 | Cursor AI | 🎨 **Creative Director** | Premium formatting, humanized writing, client-facing document polish, style enforcement |
+| **CODEX** | GPT-5.3 Codex | Antigravity Extension | ⚙️ **Execution Engineer** | Scraping, browser automation, JS development, data pipelines, heavy token tasks |
+| **GEMINI PRO** | Gemini 3.1 Pro High/Low | Google Developer API | 🔥 **Heavy Lifter** | Large-scale token work, bulk file analysis, long document processing, scale tasks that exceed Gemini Flash limits |
+
+> **⚠️ TOKEN LIMIT ADVISORY:** Exact token limits for each model are unknown. ANTIGRAVITY (Orchestrator) must coordinate carefully:
+> - Do NOT send the same large file to multiple agents in the same session redundantly
+> - Break large tasks into scoped subtasks before delegating
+> - Prefer CODEX for scraping (no Gemini quota consumed)
+> - Use GEMINI PRO only when ANTIGRAVITY/Flash hits context limits
+> - Never run OPUS and GEMINI PRO on the same document simultaneously
 
 ---
 
@@ -37,6 +51,7 @@ This is the definitive reference for **who should do what**. Every agent must co
 | **Heavy token tasks** (large file analysis, bulk processing) | **CODEX** | Best token efficiency for large-scale operations | — |
 | **JavaScript development** (scraper code, scoring logic, etc.) | **CODEX** | Reliable code generation, debugging, test execution | OPUS |
 | **Market mapping & analysis** | **CODEX** | Reproducible execution, audit trail, data quality controls | OPUS (for report writing) |
+| **Company legitimacy / scam-risk verification** | **CODEX + MARK** | CODEX gathers auditable evidence; MARK delivers client-facing decision report | OPUS (format polish only) |
 | **Fit dossier generation** | **OPUS** | Final quality and client-ready fit proof | CODEX (data extraction + scoring) |
 | **Application packet creation** | **OPUS** | Tailored messaging and CV adaptation quality | CODEX |
 | **Interview prep pack creation** | **OPUS** | Behavioral and role-specific prep quality | CODEX |
@@ -127,11 +142,30 @@ These are situations where an agent **MUST** recommend delegation — no excepti
 |:---|:---|:---|
 | **GEMINI** | Writing a client-facing report or brain file | → **OPUS** (quality requirement) |
 | **GEMINI** | Running a scraping job or browser automation | → **CODEX** (reliability requirement) |
+| **GEMINI** | Issuing company legitimacy/scam verdicts | → **CODEX + MARK** (evidence-gated requirement) |
 | **CODEX** | Rewriting a report for formatting/polish quality | → **OPUS** (creative direction) |
 | **CODEX** | Creating or updating `STYLE_GUIDE.md` | → **OPUS** (owns the quality standard) |
 | **OPUS** | Executing a multi-keyword scraping batch | → **CODEX** (proven execution reliability) |
 | **OPUS** | Running bulk data pipeline (CSV/JSON processing at scale) | → **CODEX** (token efficiency) |
 | Any agent | A task clearly outside their capability matrix | → The appropriate agent per Section 2.1 |
+
+### 3.6 · Anti-Drift Execution Rules (Non-Negotiable)
+
+When the user requests execution (for example: "execute the plan", "run it", "apply now"):
+
+1. Locate the named artifact and extract concrete steps.
+2. Execute concrete steps in order; log completion evidence.
+3. Do not switch task type (execution -> ideation, concept art, storytelling) unless asked.
+4. If ambiguity blocks execution, ask exactly one blocking question.
+
+Failure pattern to avoid:
+- Returning creative concepts while execution was requested.
+- Claiming "completed" without artifacts, file diffs, or verifiable logs.
+
+Minimum evidence for completion:
+- changed file list,
+- what was changed,
+- what remains blocked (if anything).
 
 ### 3.5 · What "Self-Check" Looks Like in Practice
 
@@ -167,9 +201,13 @@ These are situations where an agent **MUST** recommend delegation — no excepti
 
 | Agent | Model | IDE | Status | Current Focus | Last Update |
 |:---:|:---|:---|:---|:---|:---|
+| **ANTIGRAVITY** | Gemini Flash | Antigravity IDE | `ACTIVE` | Orchestrating — PM report compiled, AGENTS.md updated | 2026-02-20 |
+| **MARK** | Gemini (persona) | Antigravity IDE | `STANDBY` | ⚠️ On next greeting: report EMPTY PIPELINE, not old stale results. Say: "All your info is loaded. We're ready to start sourcing." | 2026-02-20 |
 | **OPUS** | Claude Opus 4.6 | Cursor AI | `IDLE` | Quality enforcement & document standards | 2026-02-17 |
-| **CODEX** | Codex 5.3 | Antigravity Ext. | `IDLE` | Runtime sync complete; ready for Phase 3 (Consulting Firms) | 2026-02-17 |
-| **GEMINI** | Gemini 3 Flash | Antigravity | `IDLE` | Available for utility tasks | 2026-02-17 |
+| **CODEX** | GPT-5.3 Codex | Antigravity Ext. | `IDLE` | Hard block corrected — ready to run CLEAN scraping cycle | 2026-02-20 |
+| **GEMINI PRO** | Gemini 3.1 Pro High/Low | Google Dev API | `AVAILABLE` | Standby for heavy token tasks when Flash quota is insufficient | 2026-02-20 |
+
+> **🗃️ OLD SCRAPING DATA ARCHIVED:** All A-Tier dossiers generated before 2026-02-20 are `[INVALIDATED]` due to Portuguese hard-block failure. The pipeline is intentionally EMPTY. The next valid A-Tier list requires a fresh Codex scraping cycle.
 
 ---
 
@@ -287,7 +325,9 @@ Evidence-based results from real tasks. This informs future delegation decisions
 | 2026-02-17 | CODEX | Added A-tier Fit Dossier protocol + deep research instruction pack to transform Northstar from sourcing engine into end-to-end job sourcing agency operations |
 | 2026-02-18 | CODEX | Integrated `claude_luxury_format_universal.md` as mandatory formatting baseline — wired into ENFORCEMENT.md, STYLE_GUIDE.md, all prompt blocks, and created reusable snippets |
 | 2026-02-18 | OPUS | Verified luxury formatting integration. Added missing Brain File Map entries for `claude_luxury_format_universal.md` and `CLIENT_OUTPUT_FORMAT_REFERENCE.md` |
+| 2026-02-19 | GEMINI | **Protocol fix:** Added 6 missing critical files to Mark's mandatory reading list across all three agent entry points (`AGENT_MARK_PERSONA.md` Section 7, `CODEX_MARK_SKILL_UPGRADED.md`, `.agent/workflows/nsmark.md`). All Mark instances now load 14 files in three tiers: Persona/Formatting, Client Context, and Agency Protocol. `CLIENT_SUCCESS_SOP.md` and `A_TIER_FIT_DOSSIER_TEMPLATE.md` now mandatory — Phase 3 gate is explicitly enforced before any "apply now" recommendation. |
+| 2026-02-20 | ANTIGRAVITY | **Model Hierarchy v4.0:** AGENTS.md updated with full 5-agent roster. ANTIGRAVITY elevated from "utility runner" to **Orchestrator & Planner** role. **Gemini 3.1 Pro** added as Heavy Lifter agent (Google Developer API). **Mark** formalized as a Case Agent persona layer. Token safety advisory added. All old A-Tier scraping data officially archived as `[INVALIDATED]`. Mark's greeting state set to: "Pipeline is empty — ready to start sourcing fresh." PM Master Report compiled at `brain/pm_analysis.md`. |
 
 ---
 
-<sub>Northstar Job Sourcing Desk · Agent Orchestration Manifest v3.0 · 2026-02-17</sub>
+<sub>Northstar Job Sourcing Desk · Agent Orchestration Manifest v4.0 · 2026-02-20</sub>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NorthStar Executive &amp; Client Dual-View</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#13c8ec",
+              "background-light": "#f6f8f8",
+              "background-dark": "#111f22",
+              "surface-dark": "#1a2c30",
+              "surface-darker": "#162629",
+              "border-dark": "#234248",
+              "text-primary": "#e2e8f0",
+              "text-secondary": "#94a3b8",
+            },
+            fontFamily: {
+              display: ["Space Grotesk", "sans-serif"],
+              sans: ["Noto Sans", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              "2xl": "1rem",
+              full: "9999px",
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(26, 44, 48, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(35, 66, 72, 0.5);
+        }
+        .glass-card {
+            background: linear-gradient(180deg, rgba(35, 66, 72, 0.4) 0%, rgba(17, 31, 34, 0.4) 100%);
+            border: 1px solid rgba(19, 200, 236, 0.1);
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111f22; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #234248; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2c5056; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="h-16 border-b border-border-dark bg-surface-darker flex items-center justify-between px-6 shrink-0 z-20 relative">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined">north_east</span>
+</div>
+<h2 class="text-white text-xl font-bold tracking-tight">NorthStar <span class="text-primary font-light">Agency</span></h2>
+</div>
+<nav class="hidden md:flex items-center gap-1 ml-4 bg-surface-dark/50 p-1 rounded-lg border border-border-dark">
+<a class="px-4 py-1.5 text-sm font-medium text-white bg-primary/20 rounded shadow-sm border border-primary/20 transition-all" href="#">Dashboard</a>
+<a class="px-4 py-1.5 text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 rounded transition-all" href="#">Career Strategy</a>
+<a class="px-4 py-1.5 text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 rounded transition-all" href="#">Market Insights</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center relative w-64">
+<span class="material-symbols-outlined absolute left-3 text-slate-500 text-[20px]">search</span>
+<input class="w-full bg-surface-dark border border-border-dark rounded-full py-1.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search case files..." type="text"/>
+</div>
+<div class="h-6 w-px bg-border-dark"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-medium text-white leading-none">Alex Morgan</p>
+<p class="text-xs text-primary mt-1 leading-none">Premium Client</p>
+</div>
+<div class="relative size-9 rounded-full overflow-hidden border border-border-dark">
+<img alt="Profile of Alex Morgan" class="object-cover size-full" data-alt="Professional headshot of a man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcHknbTnlu9kNkGKPWbwJR4p932YYxwsHbBpsRfkPzdfd8IXty-S__id7sMoIB-BOdnaphFA5uMR0jn47025ZKqfzBHksBiAV8y4k6WH-RSVuHDB9V4rlHt8gH2csvmegx_WoECYTzrqWlLEyrFj0VAUrO5Qu-KxDlMQBZn99eUAOV0EY640y_jcpH08Xdbl5dNdcaH7A6q10RGzEs59ztUgN4e_cYKgrMVlZkmJfTe1-6Xage-nQCK1dApzCjjolZ6zi-dUdjwds"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto relative z-10 scroll-smooth pb-10">
+<!-- Header Section with Toggle -->
+<div class="sticky top-0 z-10 bg-background-dark/95 backdrop-blur-md border-b border-border-dark px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="text-3xl font-bold text-white tracking-tight">Executive Dashboard</h1>
+<p class="text-slate-400 mt-1">Real-time oversight of your career transition campaign.</p>
+</div>
+<!-- View Toggle Switch -->
+<div class="flex items-center bg-surface-dark p-1 rounded-lg border border-border-dark shadow-inner">
+<button class="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-background-dark font-bold text-sm shadow-lg transition-all transform hover:scale-[1.02]">
+<span class="material-symbols-outlined text-[18px]">engineering</span>
+                        Client View
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-md text-slate-400 font-medium text-sm hover:text-white transition-all">
+<span class="material-symbols-outlined text-[18px]">query_stats</span>
+                        Executive View
+                    </button>
+</div>
+</div>
+<div class="px-8 py-6 max-w-7xl mx-auto space-y-6">
+<!-- KPI Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Metric 1 -->
+<div class="glass-card p-5 rounded-xl flex flex-col gap-2 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-40 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary">speed</span>
+</div>
+<p class="text-slate-400 text-sm font-medium">Throughput Velocity</p>
+<div class="flex items-end gap-3">
+<p class="text-3xl font-bold text-white">85%</p>
+<span class="text-emerald-400 text-xs font-bold mb-1 bg-emerald-400/10 px-1.5 py-0.5 rounded flex items-center">
+<span class="material-symbols-outlined text-[12px] mr-0.5">trending_up</span> 12%
+                            </span>
+</div>
+<div class="w-full bg-surface-darker h-1.5 rounded-full mt-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="glass-card p-5 rounded-xl flex flex-col gap-2 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-40 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-orange-400">warning</span>
+</div>
+<p class="text-slate-400 text-sm font-medium">Weekly Blockers</p>
+<div class="flex items-end gap-3">
+<p class="text-3xl font-bold text-white">2</p>
+<span class="text-emerald-400 text-xs font-bold mb-1 bg-emerald-400/10 px-1.5 py-0.5 rounded flex items-center">
+<span class="material-symbols-outlined text-[12px] mr-0.5">arrow_downward</span> 1
+                            </span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Needs attention: Resume v3, LinkedIn Bio</p>
+</div>
+<!-- Metric 3 -->
+<div class="glass-card p-5 rounded-xl flex flex-col gap-2 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-40 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-purple-400">visibility</span>
+</div>
+<p class="text-slate-400 text-sm font-medium">Profile Views</p>
+<div class="flex items-end gap-3">
+<p class="text-3xl font-bold text-white">142</p>
+<span class="text-emerald-400 text-xs font-bold mb-1 bg-emerald-400/10 px-1.5 py-0.5 rounded flex items-center">
+<span class="material-symbols-outlined text-[12px] mr-0.5">trending_up</span> 34%
+                            </span>
+</div>
+<div class="h-8 flex items-end gap-1 mt-1 opacity-60">
+<div class="w-1 bg-purple-400 h-[40%] rounded-t"></div>
+<div class="w-1 bg-purple-400 h-[60%] rounded-t"></div>
+<div class="w-1 bg-purple-400 h-[30%] rounded-t"></div>
+<div class="w-1 bg-purple-400 h-[80%] rounded-t"></div>
+<div class="w-1 bg-purple-400 h-[100%] rounded-t"></div>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="glass-card p-5 rounded-xl flex flex-col gap-2 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-40 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-blue-400">conversion_path</span>
+</div>
+<p class="text-slate-400 text-sm font-medium">Interview Conversion</p>
+<div class="flex items-end gap-3">
+<p class="text-3xl font-bold text-white">18%</p>
+<span class="text-emerald-400 text-xs font-bold mb-1 bg-emerald-400/10 px-1.5 py-0.5 rounded flex items-center">
+<span class="material-symbols-outlined text-[12px] mr-0.5">trending_up</span> 2.5%
+                            </span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Based on 24 applications sent.</p>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Case Log Explorer -->
+<div class="lg:col-span-2 space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">folder_open</span> Case Log Explorer
+                            </h3>
+<div class="flex gap-2">
+<button class="text-xs font-medium text-slate-400 hover:text-primary transition-colors">View All</button>
+<button class="text-xs font-medium bg-primary/10 text-primary px-3 py-1 rounded hover:bg-primary hover:text-background-dark transition-all">
+                                    + New Entry
+                                </button>
+</div>
+</div>
+<div class="glass-panel rounded-xl border border-border-dark overflow-hidden">
+<!-- Table Header -->
+<div class="grid grid-cols-12 bg-surface-darker/50 px-6 py-3 border-b border-border-dark text-xs font-semibold text-slate-400 uppercase tracking-wider">
+<div class="col-span-5">Activity</div>
+<div class="col-span-3">Status</div>
+<div class="col-span-2">Date</div>
+<div class="col-span-2 text-right">Action</div>
+</div>
+<!-- Rows -->
+<div class="divide-y divide-border-dark">
+<div class="grid grid-cols-12 px-6 py-4 items-center hover:bg-white/5 transition-colors group cursor-pointer">
+<div class="col-span-5 flex items-center gap-3">
+<div class="size-8 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-lg">corporate_fare</span>
+</div>
+<div>
+<p class="text-sm font-medium text-white group-hover:text-primary transition-colors">TechFlow Systems - Senior Lead</p>
+<p class="text-xs text-slate-500">Application #4092</p>
+</div>
+</div>
+<div class="col-span-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
+<span class="size-1.5 rounded-full bg-yellow-500"></span> In Progress
+                                        </span>
+</div>
+<div class="col-span-2 text-sm text-slate-400">Today, 10:00 AM</div>
+<div class="col-span-2 text-right">
+<button class="text-slate-400 hover:text-white p-1 rounded hover:bg-white/10">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-12 px-6 py-4 items-center hover:bg-white/5 transition-colors group cursor-pointer">
+<div class="col-span-5 flex items-center gap-3">
+<div class="size-8 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-lg">contact_mail</span>
+</div>
+<div>
+<p class="text-sm font-medium text-white group-hover:text-primary transition-colors">Mock Interview: System Design</p>
+<p class="text-xs text-slate-500">Preparation Module</p>
+</div>
+</div>
+<div class="col-span-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+<span class="size-1.5 rounded-full bg-emerald-500"></span> Completed
+                                        </span>
+</div>
+<div class="col-span-2 text-sm text-slate-400">Yesterday</div>
+<div class="col-span-2 text-right">
+<button class="text-slate-400 hover:text-white p-1 rounded hover:bg-white/10">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-12 px-6 py-4 items-center hover:bg-white/5 transition-colors group cursor-pointer">
+<div class="col-span-5 flex items-center gap-3">
+<div class="size-8 rounded bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-lg">description</span>
+</div>
+<div>
+<p class="text-sm font-medium text-white group-hover:text-primary transition-colors">Resume Optimization v3</p>
+<p class="text-xs text-slate-500">Document Review</p>
+</div>
+</div>
+<div class="col-span-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-500 border border-red-500/20">
+<span class="size-1.5 rounded-full bg-red-500"></span> Blocked
+                                        </span>
+</div>
+<div class="col-span-2 text-sm text-slate-400">Oct 24, 2023</div>
+<div class="col-span-2 text-right">
+<button class="text-slate-400 hover:text-white p-1 rounded hover:bg-white/10">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Decision Brief Generator -->
+<div class="glass-panel p-6 rounded-xl border border-border-dark mt-6 bg-gradient-to-r from-surface-dark to-surface-darker">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-lg font-bold text-white mb-1">Decision Brief Generator</h3>
+<p class="text-sm text-slate-400 mb-4 max-w-lg">Generate a concise strategic brief for your next career move based on current market insights and your profile strength.</p>
+</div>
+<div class="bg-primary/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary text-2xl">auto_awesome</span>
+</div>
+</div>
+<div class="flex gap-3 mt-2">
+<button class="bg-primary hover:bg-cyan-400 text-background-dark font-bold py-2.5 px-5 rounded-lg transition-colors flex items-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">play_circle</span>
+                                    Generate Brief
+                                </button>
+<button class="bg-surface-dark hover:bg-surface-darker border border-border-dark text-slate-300 font-medium py-2.5 px-5 rounded-lg transition-colors">
+                                    View Past Briefs
+                                </button>
+</div>
+</div>
+</div>
+<!-- Right Panel: Strategic Calendar -->
+<div class="lg:col-span-1">
+<div class="glass-panel rounded-xl border border-border-dark h-full flex flex-col">
+<div class="p-5 border-b border-border-dark flex items-center justify-between bg-surface-darker/30">
+<div>
+<h3 class="text-base font-bold text-white">Upcoming Schedule</h3>
+<p class="text-xs text-primary mt-0.5">Strategic Focus: High</p>
+</div>
+<button class="text-xs bg-surface-dark hover:bg-border-dark text-slate-300 px-3 py-1.5 rounded border border-border-dark transition-colors">
+                                    Sync Calendar
+                                </button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto space-y-4">
+<div class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Next 7 Days Plan</div>
+<!-- Timeline Item 1 -->
+<div class="relative pl-6 border-l-2 border-border-dark pb-2 last:border-0 last:pb-0">
+<div class="absolute -left-[9px] top-0 size-4 rounded-full bg-primary border-4 border-background-dark"></div>
+<div class="bg-surface-dark border border-border-dark p-3 rounded-lg hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<p class="text-sm font-semibold text-white group-hover:text-primary">Prep TechFlow</p>
+<span class="text-[10px] text-slate-400 bg-surface-darker px-1.5 py-0.5 rounded">Mon, 9:00 AM</span>
+</div>
+<p class="text-xs text-slate-400 line-clamp-2">Review company financials and recent press releases for the interview.</p>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative pl-6 border-l-2 border-border-dark pb-2 last:border-0 last:pb-0">
+<div class="absolute -left-[9px] top-0 size-4 rounded-full bg-slate-600 border-4 border-background-dark"></div>
+<div class="bg-surface-dark border border-border-dark p-3 rounded-lg hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<p class="text-sm font-semibold text-white group-hover:text-primary">Mock Interview</p>
+<span class="text-[10px] text-slate-400 bg-surface-darker px-1.5 py-0.5 rounded">Tue, 2:00 PM</span>
+</div>
+<p class="text-xs text-slate-400">With Senior Advisor. Topic: Behavioral questions.</p>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="relative pl-6 border-l-2 border-border-dark pb-2 last:border-0 last:pb-0">
+<div class="absolute -left-[9px] top-0 size-4 rounded-full bg-slate-600 border-4 border-background-dark"></div>
+<div class="bg-surface-dark border border-border-dark p-3 rounded-lg hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<p class="text-sm font-semibold text-white group-hover:text-primary">Networking Event</p>
+<span class="text-[10px] text-slate-400 bg-surface-darker px-1.5 py-0.5 rounded">Wed, 6:30 PM</span>
+</div>
+<p class="text-xs text-slate-400">Tech Leaders Meetup at Downtown Hub.</p>
+</div>
+</div>
+<!-- Timeline Item 4 -->
+<div class="relative pl-6 border-l-2 border-border-dark pb-2 last:border-0 last:pb-0">
+<div class="absolute -left-[9px] top-0 size-4 rounded-full bg-slate-600 border-4 border-background-dark"></div>
+<div class="bg-surface-dark border border-border-dark p-3 rounded-lg hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<p class="text-sm font-semibold text-white group-hover:text-primary">Follow-ups</p>
+<span class="text-[10px] text-slate-400 bg-surface-darker px-1.5 py-0.5 rounded">Thu, 11:00 AM</span>
+</div>
+<p class="text-xs text-slate-400">Send thank you notes to contacts from Wednesday.</p>
+</div>
+</div>
+<div class="pt-4 border-t border-border-dark mt-2">
+<div class="bg-gradient-to-r from-primary/10 to-transparent p-3 rounded border-l-2 border-primary">
+<p class="text-xs text-primary font-bold mb-1">Weekly Goal</p>
+<p class="text-xs text-slate-300">Complete 3 mock interviews and submit 5 tailored applications.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Section: Quick Actions / Resources -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+<div class="p-4 rounded-xl border border-border-dark bg-surface-dark hover:bg-surface-darker transition-colors group cursor-pointer">
+<div class="flex items-center gap-3 mb-2">
+<div class="p-2 rounded bg-blue-500/10 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">school</span>
+</div>
+<h4 class="font-bold text-white text-sm">Learning Center</h4>
+</div>
+<p class="text-xs text-slate-400">Access premium courses on system design and leadership.</p>
+</div>
+<div class="p-4 rounded-xl border border-border-dark bg-surface-dark hover:bg-surface-darker transition-colors group cursor-pointer">
+<div class="flex items-center gap-3 mb-2">
+<div class="p-2 rounded bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">query_stats</span>
+</div>
+<h4 class="font-bold text-white text-sm">Market Insights</h4>
+</div>
+<p class="text-xs text-slate-400">Real-time salary data and hiring trends for Q4.</p>
+</div>
+<div class="p-4 rounded-xl border border-border-dark bg-surface-dark hover:bg-surface-darker transition-colors group cursor-pointer">
+<div class="flex items-center gap-3 mb-2">
+<div class="p-2 rounded bg-purple-500/10 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">group</span>
+</div>
+<h4 class="font-bold text-white text-sm">Mentor Connect</h4>
+</div>
+<p class="text-xs text-slate-400">Schedule 1:1 sessions with industry veterans.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Decoration / Background Texture (Optional if needed for visual depth) -->
+<div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute top-[40%] -left-[10%] w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl"></div>
+</div>
+</div>
+</body></html>
