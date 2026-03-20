@@ -37,7 +37,9 @@ jobs:
         run: echo '${{ secrets.LINKEDIN_STORAGE_STATE }}' > linkedin-storage-state.json
 
       - name: Run LinkedIn scraper
-        run: node linkedin-jobs-scraper.js
+        run: node scrapers/linkedin/linkedin-jobs-scraper.js
+        env:
+          LINKEDIN_STORAGE_STATE: ${{ secrets.LINKEDIN_STORAGE_STATE }}
 
       - name: Upload scrape artifacts
         if: always()
