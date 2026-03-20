@@ -1,0 +1,12 @@
+{
+  "cookies": [
+    /* paste your LinkedIn cookies here exactly like before */
+  ],
+  "origins": [
+    {
+      "origin": "https://www.linkedin.com",
+      "localStorage": [],
+      "sessionStorage": []
+    }
+  ]
+}
