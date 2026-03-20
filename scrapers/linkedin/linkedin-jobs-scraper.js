@@ -10,8 +10,19 @@ const CONFIG = {
 
 (async () => {
   const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  const fs = require('fs');
+  const path = require('path');
+
+  let storageStatePath = './linkedin-storage-state.json';
+
+  if (process.env.LINKEDIN_STORAGE_STATE) {
+    storageStatePath = path.join(__dirname, 'temp-state.json');
+    fs.writeFileSync(storageStatePath, process.env.LINKEDIN_STORAGE_STATE);
+    console.log('Loaded storage state from GitHub secret');
+  }
+
   const context = await browser.newContext({
-    storageState: './linkedin-storage-state.json',
+    storageState: storageStatePath,
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36',
     viewport: { width: 1280, height: 800 }
   });
