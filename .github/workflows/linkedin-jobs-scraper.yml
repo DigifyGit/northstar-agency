@@ -1,0 +1,51 @@
+name: LinkedIn Jobs Scraper
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * *'
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install playwright --save-dev
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Validate LinkedIn session secret
+        run: |
+          if [ -z '${{ secrets.LINKEDIN_STORAGE_STATE }}' ]; then
+            echo "ERROR: LINKEDIN_STORAGE_STATE secret is not configured."
+            echo "Go to repo Settings > Secrets > Actions and add it."
+            exit 1
+          fi
+
+      - name: Reconstruct LinkedIn storage state from secret
+        run: echo '${{ secrets.LINKEDIN_STORAGE_STATE }}' > linkedin-storage-state.json
+
+      - name: Run LinkedIn scraper
+        run: node src/ops/linkedin/linkedin-jobs-scraper.js
+
+      - name: Upload scrape artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linkedin-scrape-results
+          path: |
+            linkedin-jobs.json
+            linkedin-report.html
+            linkedin-screenshot.png
+          if-no-files-found: warn

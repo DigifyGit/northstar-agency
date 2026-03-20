@@ -1,0 +1,11 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "https://www.linkedin.com",
+      "localStorage": [],
+      "sessionStorage": []
+    }
+  ],
+  "_note": "Placeholder only. Real storage state is injected at runtime via LINKEDIN_STORAGE_STATE GitHub Actions secret. Never commit real cookies here."
+}
